@@ -1,0 +1,243 @@
+
+
+
+
+
+
+<div id="page-wrapper">
+<div class="widget-box">
+    <div class="widget-header widget-header-blue widget-header-flat">
+        <h4 class="widget-title lighter">Ingresar Trabajador</h4>
+
+    </div>
+
+<div class="widget-body">
+<div class="widget-main">
+<div id="fuelux-wizard-container">
+
+        <ul class="steps">
+            <li data-step="1"  class="complete">
+                <span class="step">1</span>
+                <span class="title">Datos Personales</span>
+            </li>
+
+            <li data-step="2" class="complete">
+                <span class="step">2</span>
+                <span class="title">Contratación</span>
+            </li>
+
+            <li data-step="3" class="active">
+                <span class="step">3</span>
+                <span class="title">Datos Financieros</span>
+            </li>
+
+            <li data-step="4">
+                <span class="step">4</span>
+                <span class="title">Datos Profesionales</span>
+            </li>
+    </ul>
+    <hr>
+
+<div class="step-content pos-rel">
+    
+    <div class="step-pane" data-step="1">
+
+   <h3 class="lighter block green">Datos Personales</h3>
+
+
+    {{ content() }}
+
+
+    </div>  
+
+    <div class="step-pane active" data-step="2">
+ 
+         <h3 class="lighter block green">Datos Contratación</h3>
+
+        
+    
+    </div> 
+    <div class="step-pane" data-step="3">
+
+
+    </div> 
+    <div class="step-pane" data-step="4"> 
+   </div> 
+
+    
+</div>
+</div>
+<div class="wizard-actions">
+    
+    <button class="btn btn-prev">
+        <i class="ace-icon fa fa-arrow-left"></i>
+        Atras
+    </button>
+
+    <button class="btn btn-success btn-next" data-last="Finish">
+        Siguiente
+        <i class="ace-icon fa fa-arrow-right icon-on-right"></i>
+    </button>
+
+ 
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+
+<script type="text/javascript">
+            jQuery(function($) {
+
+                // ------------------CALENDARIO PARA FECHAS --------------------
+
+                //datepicker plugin
+                //link
+                $('.date-picker').datepicker({
+                    autoclose: true,
+                    todayHighlight: true,
+                    changeYear: true
+                })
+                //show datepicker when clicking on the icon
+                .next().on(ace.click_event, function(){
+                    $(this).prev().focus();
+                });
+            
+                //or change it into a date range picker
+                $('.input-daterange').datepicker({autoclose:true});
+            
+            
+                //to translate the daterange picker, please copy the "examples/daterange-fr.js" contents here before initialization
+                $('input[name=date-range-picker]').daterangepicker({
+                    'applyClass' : 'btn-sm btn-success',
+                    'cancelClass' : 'btn-sm btn-default',
+                    locale: {
+                        applyLabel: 'Apply',
+                        cancelLabel: 'Cancel',
+                    }
+                })
+                .prev().on(ace.click_event, function(){
+                    $(this).next().focus();
+                });
+            
+            
+                $('#timepicker1').timepicker({
+                    minuteStep: 1,
+                    showSeconds: true,
+                    showMeridian: false
+                }).next().on(ace.click_event, function(){
+                    $(this).prev().focus();
+                });
+                
+                $('#date-timepicker1').datetimepicker().next().on(ace.click_event, function(){
+                    $(this).prev().focus();
+                });
+
+
+                           
+
+             // -----------------ESTILOS DE TOOLTIP Y DE SELECT BOX --------------------
+                $('[data-rel=tooltip]').tooltip();
+            
+                $(".select2").css('width','200px').select2({allowClear:true})
+                .on('change', function(){
+                    $(this).closest('form').validate().element($(this));
+                }); 
+            
+             // ------------------FORMATO DE TELEFONOS --------------------
+               
+                $.mask.definitions['~']='[+-]';
+                $('#telf_hab').mask('(9999) 999-9999');
+                $.mask.definitions['~']='[+-]';
+                $('#telf_cel').mask('(9999) 999-9999');
+          
+                jQuery.validator.addMethod("phone", function (value, element) {
+                    return this.optional(element) || /^\(\d{4}\) \d{3}\-\d{4}( x\d{1,6})?$/.test(value);
+                }, "Enter a valid phone number.");
+            
+        // ------------------VALIDACION DEL FORMULARIO --------------------
+                $("#validation-form").validate({
+                    errorElement: 'div',
+                    errorClass: 'help-block',
+                    focusInvalid: false,
+                    ignore: "",
+                    
+                rules: {
+
+                    nu_cedula: {
+                    remote: {
+                    url : "/sistenomialc/trabajadores/getCedula1",
+                    type : "get"
+                    }
+                    
+                    },
+                    correo_e: {
+                        required: true,
+                        email:true
+                    },
+                    nombre1: {
+                        required: true
+                    },
+                    apellido1: {
+                        required: true
+                    },
+                    genero: {
+                        required: true
+                    },
+                    f_nac: {
+                        required: true
+                    },
+                    lugar_nac: {
+                        required: true
+                    },
+                    telf_cel: {
+                        required: true,
+                        phone: 'required'
+                    },
+                    dir_hab: {
+                        required: true
+                    },
+                    edo_civil: {
+                        required: true
+                    },
+                    id_discapacidad: {
+                        required: true
+                    },
+                    estatus: {
+                        required: true
+                    }
+                },
+                
+                messages: {
+                        correo_e: {
+                            required: "Ingrese un email valido.",
+                            email: "Ingrese un email valido."
+                        }
+                        
+                    },
+            
+            
+                    highlight: function (e) {
+                        $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+                    },
+                    success: function (e) {
+                        $(e).closest('.form-group').removeClass('has-error');//.addClass('has-info');
+                        $(e).remove();
+                    }
+            });
+                
+                
+                           
+              // ------------------NO ESTOY SEGURA CREO QUE ES ALGO DEL SELECT BOX --------------------   
+                          
+                
+                $(document).one('ajaxloadstart.page', function(e) {
+                    //in ajax mode, remove remaining elements before leaving page
+                    $('[class*=select2]').remove();
+                });
+            })
+</script>
+
+
