@@ -13,7 +13,7 @@
 									
 													
 												
-						{{ form("tiponomina/editado", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
+						{{ form("tiposnominas/editado", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
 						<fieldset>
 						{{ content() }}
 						{{ hidden_field("id") }}

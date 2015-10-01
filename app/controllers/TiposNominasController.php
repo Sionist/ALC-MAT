@@ -1,6 +1,6 @@
 <?php
 
-class TiponominaController extends \Phalcon\Mvc\Controller
+class TiposNominasController extends \Phalcon\Mvc\Controller
 {
 
 	public function initialize()
@@ -41,7 +41,7 @@ class TiponominaController extends \Phalcon\Mvc\Controller
                     $this->flash->error($message);
                 }
                 return $this->dispatcher->forward(array(
-                    "controller" => "tiponomina",
+                    "controller" => "TiposNominas",
                     "action" => "index"
                 ));
             }
@@ -51,7 +51,7 @@ class TiponominaController extends \Phalcon\Mvc\Controller
 		
 		$this->flash->success("<div class='alert alert-block alert-success'>Guardado con exito</div>");
         return $this->dispatcher->forward(array(
-            "controller" => "tiponomina",
+            "controller" => "TiposNominas",
             "action" => "index"
         ));
 		
@@ -66,7 +66,7 @@ class TiponominaController extends \Phalcon\Mvc\Controller
                 $this->flash->error("Tipo de Nómina No Fue Encontrado");
 
                 return $this->dispatcher->forward(array(
-                    "controller" => "tiponomina",
+                    "controller" => "TiposNominas",
                     "action" => "index"
                 ));
             }
@@ -115,7 +115,7 @@ class TiponominaController extends \Phalcon\Mvc\Controller
             $this->flash->error("Tipo de Nómina No Existe " . $id);
 
             return $this->dispatcher->forward(array(
-                "controller" => "tiponomina",
+                "controller" => "TiposNominas",
                 "action" => "index"
             ));
         }
@@ -130,7 +130,7 @@ class TiponominaController extends \Phalcon\Mvc\Controller
             }
 
             return $this->dispatcher->forward(array(
-                "controller" => "tiponomina",
+                "controller" => "TiposNominas",
                 "action" => "editar",
                 "params" => array($tiponomi->id_nomina)
             ));
@@ -138,7 +138,7 @@ class TiponominaController extends \Phalcon\Mvc\Controller
 
         $this->flash->success("Tipo de Nómina Actualizado");
 
-       return $this->response->redirect('tiponomina/index');
+       return $this->response->redirect('TiposNominas/index');
 
     }
 	
