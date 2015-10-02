@@ -19,7 +19,7 @@
 		<tr>
 		<td><?php echo $row->id_estado; ?></td>
 		<td><?php echo $row->estado; ?></td>
-		<td>  <a>Modificar</a></td>
+		<td> <?php echo $this->tag->linkTo(array("estados/editar/".$row->id_estado, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"))  ?></a></td>
 		</tr>
 		 <?php
 		  }

@@ -9,7 +9,7 @@
 					<div class="widget-body">
 						<div class="widget-main no-padding">									
 																									
-						{{ form("estados/editar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
+						{{ form("estados/editado", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
 						<fieldset>
 						{{ content() }}
 						{{ hidden_field("id") }}
