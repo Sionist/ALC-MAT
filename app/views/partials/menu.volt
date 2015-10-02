@@ -201,7 +201,7 @@
 								<b class="arrow"></b>
 							</li>
 							<li class="">
-								<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/fondosEmbargo">
+								<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/fondos">
 									<i class="menu-icon fa fa-caret-right"></i>
 									Fondos para Embargo
 								</a>
@@ -209,7 +209,7 @@
 								<b class="arrow"></b>
 							</li>
 							<li class="">
-								<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/frecuencias">
+								<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/frecuencia">
 									<i class="menu-icon fa fa-caret-right"></i>
 									Frecuencias
 								</a>
@@ -217,7 +217,7 @@
 								<b class="arrow"></b>
 							</li>
 							<li class="">
-								<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/nivelesCargos">
+								<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/nivelCargo">
 									<i class="menu-icon fa fa-caret-right"></i>
 									Niveles de Cargos
 								</a>
@@ -225,7 +225,7 @@
 								<b class="arrow"></b>
 							</li>
 							<li class="">
-								<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/nivelesInstruccion">
+								<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/nivelInstruccion">
 									<i class="menu-icon fa fa-caret-right"></i>
 									Niveles de Instrucción
 								</a>
@@ -233,7 +233,7 @@
 								<b class="arrow"></b>
 							</li>
 							<li class="">
-								<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/parenetesco">
+								<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/parentesco">
 									<i class="menu-icon fa fa-caret-right"></i>
 									Parenetesco
 								</a>
@@ -249,7 +249,7 @@
 								<b class="arrow"></b>
 							</li>
 							<li class="">
-								<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/tallas">
+								<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/tipoTallas">
 									<i class="menu-icon fa fa-caret-right"></i>
 									Tallas
 								</a>
@@ -273,7 +273,7 @@
 								<b class="arrow"></b>
 							</li>
 							<li class="">
-								<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/tiposCobro">
+								<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/tipoCobro">
 									<i class="menu-icon fa fa-caret-right"></i>
 									Tipos de Cobro
 								</a>
@@ -281,7 +281,7 @@
 								<b class="arrow"></b>
 							</li>
 							<li class="">
-								<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/tiposContrato">
+								<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/tipoContrato">
 									<i class="menu-icon fa fa-caret-right"></i>
 									Tipos de Contrato
 								</a>
@@ -289,7 +289,7 @@
 								<b class="arrow"></b>
 							</li>
 							<li class="">
-								<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/tiposCuenta">
+								<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/tipoCuenta">
 									<i class="menu-icon fa fa-caret-right"></i>
 									Tipos de Cuenta
 								</a>

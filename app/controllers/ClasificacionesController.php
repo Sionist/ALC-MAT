@@ -12,11 +12,14 @@ class ClasificacionesController extends \Phalcon\Mvc\Controller
     public function indexAction()
     {
 	    
-		$query  = new Phalcon\Mvc\Model\Query("SELECT Convenciones.id_convencion,Convenciones.descripcion,Clausulas.id_clausula,Clausulas.nclausula,Clausulas.clausula,Clasificaciones.id_clasi,Clasificaciones.minimo,Clasificaciones.maximo,Clasificaciones.tiempo,Clasificaciones.monto FROM Convenciones,Clausulas,Clasificaciones WHERE Convenciones.id_convencion=Clausulas.id_convension", $this->getDI());
+		/*$query  = new Phalcon\Mvc\Model\Query("SELECT Convenciones.id_convencion,Convenciones.descripcion,Clausulas.id_clausula,Clausulas.nclausula,Clausulas.clausula,Clasificaciones.id_clasi,Clasificaciones.minimo,Clasificaciones.maximo,Clasificaciones.tiempo,Clasificaciones.monto FROM Convenciones,Clausulas,Clasificaciones WHERE Convenciones.id_convencion=Clausulas.id_convension", $this->getDI());*/
 
 		$query2 = new Phalcon\Mvc\Model\Query("SELECT Convenciones.*,Clausulas.*,Clasificaciones.* FROM Convenciones,Clausulas,Clasificaciones WHERE Convenciones.id_convencion=Clausulas.id_convension and Clausulas.id_clausula=Clasificaciones.id_clausula", $this->getDI());
 		
-		$clas = $query->execute();
+		/*$query2 = "SELECT Convenciones.*,Clausulas.*,Clasificaciones.* FROM Convenciones,Clausulas,Clasificaciones WHERE Convenciones.id_convencion=Clausulas.id_convension and Clausulas.id_clausula=Clasificaciones.id_clausula";
+		
+		$query3 = new Phalcon\Mvc\Model\Query($query2,$this->getDI());*/
+
 		$clasificaciones = $query2->execute();
 
 		
