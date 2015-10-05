@@ -12,7 +12,7 @@ use Phalcon\Forms\Element\Select ?>
  
 <div class="row">
 
-<a href="nuevo" title="Agregar un Nuevo Trabajador" class="btn btn-app btn-primary btn-xs">
+<a href="./trabajadores/nuevo" title="Agregar un Nuevo Trabajador" class="btn btn-app btn-primary btn-xs">
 <i class="ace-icon fa fa-users bigger-160"></i>
 Nuevo
 </a>
