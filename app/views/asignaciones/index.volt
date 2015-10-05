@@ -19,7 +19,7 @@
                 <?php
 
                 echo Phalcon\Tag::Select(array(
-                'tipo_nomina', 
+                'nomina', 
                 TipoNomi::find(array("order" => "nomina ASC")),
                 'using' => array('id_nomina', 'nomina'),
                 'useEmpty' => true,

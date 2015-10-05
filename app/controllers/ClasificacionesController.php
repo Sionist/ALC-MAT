@@ -93,6 +93,37 @@ class ClasificacionesController extends \Phalcon\Mvc\Controller
 		
 	}
 
+
+	public function getMuestraAction()
+		
+	{
+	
+		$this->view->disable();
+	
+		$convencion = $this->request->get("clasificaciones");
+		
+		$query = new Phalcon\Mvc\Model\Query("SELECT clausulas.id_clausula, clausulas.clausula FROM convenciones,clausulas WHERE convenciones.id_convencion=clausulas.id_convension AND convenciones.id_convencion=".$convencion." ORDER BY clausulas.id_clausula ASC", $this->getDI()); 
+		/*$query = new Phalcon\Mvc\Model\Query("SELECT convenciones.id_convencion,convenciones.descripcion, clausulas.id_clausula,clausulas.clausula FROM convenciones,clausulas WHERE convenciones.id_convencion=clausulas.id_convension AND convenciones.id_convencion=".$convencion." ORDER BY clausulas.id_clasula ASC", $this->getDI()); */
+	
+		$ciudades = $query->execute();
+		
+		
+		$row = array();
+	
+		foreach($ciudades as $ciudad)
+		{
+			array_push($row,$ciudad);
+		}
+
+		$this->response->setJsonContent(array(
+			"ciud" => $row
+			));
+		$this->response->setStatusCode(200, "OK");
+		$this->response->send();
+		
+		
+	}
+
 	
 	public function editarAction($id)
 	{

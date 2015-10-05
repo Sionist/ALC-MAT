@@ -1,5 +1,4 @@
- 
-        {{ stylesheet_link("css/select2.css") }}
+  {{ stylesheet_link("css/select2.css") }}
         {{ stylesheet_link("css/jquery-ui.css") }}
         {{ javascript_include("js/jquery-ui.js") }}
         {{ stylesheet_link("css/chosen.css") }}
@@ -82,8 +81,8 @@ use Phalcon\Forms\Element\Select ?>
             <div class="col-xs-12 col-sm-9">
                 <div class="clearfix">
             {{ text_field("nu_cedula", "id":"nu_cedula", "placeholder":"Cedula") }}
-			</div>
-			
+            </div>
+            
             </div>
         </div>
     
@@ -115,7 +114,7 @@ use Phalcon\Forms\Element\Select ?>
         
         
             {{ text_field("nombre2", "size" : 30, "placeholder":"Segundo Nombre") }}
-			</div>
+            </div>
             </div>
             </div>    
     
@@ -126,7 +125,7 @@ use Phalcon\Forms\Element\Select ?>
         
         
             {{ text_field("apellido1", "size" : 30, "placeholder":"Primer Apellido") }}
-			</div>
+            </div>
             </div>
             </div>  
     
@@ -137,7 +136,7 @@ use Phalcon\Forms\Element\Select ?>
         
         
             {{ text_field("apellido2", "size" : 30, "placeholder":"Segundo Apellido") }}
-			</div>
+            </div>
             </div>
             </div>    
             <div class="space-2"></div>
@@ -150,7 +149,7 @@ use Phalcon\Forms\Element\Select ?>
         
             {{ radio_field("genero", "size" : 30, "placeholder":"Genero", "value":"1", "class":"ace") }}
             <span class="lbl"> Hombre</span>
-			</label></div>
+            </label></div>
             
              
             <div> <label class="line-height-1 blue">
@@ -171,7 +170,7 @@ use Phalcon\Forms\Element\Select ?>
                 <span class="input-group-addon">
                                                                         <i class="fa fa-calendar bigger-110"></i>
                                                                     </span>
-			</div>
+            </div>
     
             </div>
             </div>    
@@ -204,7 +203,7 @@ use Phalcon\Forms\Element\Select ?>
             <span class="input-group-addon"> <i class="ace-icon fa fa-phone"></i></span>
         
             {{ text_field("telf_hab", "size" : 30, "type":"tel") }}
-			</div>
+            </div>
             </div>
             </div>
             </div>     
@@ -229,7 +228,7 @@ use Phalcon\Forms\Element\Select ?>
         
             {{ text_field("dir_hab", "size" : 30, "placeholder":"Dirección de Habitación") }}
         
-			</div>
+            </div>
              </div>
             </div>   
         
@@ -240,7 +239,7 @@ use Phalcon\Forms\Element\Select ?>
         
             {{ text_field("edo_civil", "size" : 30, "placeholder":"Estado Civil") }}
         
-			</div>
+            </div>
              </div>
             </div>   
         
@@ -251,7 +250,7 @@ use Phalcon\Forms\Element\Select ?>
         
             {{ text_field("correo_e", "type":"email", "size" : 30, "placeholder":"correo@gmail.com") }}
         
-			</div>
+            </div>
              </div>
             </div>   
         
@@ -262,7 +261,7 @@ use Phalcon\Forms\Element\Select ?>
               {{ file_field("files[]", "id":"foto_p") }} 
         
                
-			
+            
              </div>
             </div>-->   
     
@@ -514,6 +513,8 @@ use Phalcon\Forms\Element\Select ?>
                 $('#telf_hab').mask('(9999) 999-9999');
                 $.mask.definitions['~']='[+-]';
                 $('#telf_cel').mask('(9999) 999-9999');
+                $('#nu_cedula').mask('99999999');
+
           
                 jQuery.validator.addMethod("phone", function (value, element) {
                     return this.optional(element) || /^\(\d{4}\) \d{3}\-\d{4}( x\d{1,6})?$/.test(value);
@@ -534,6 +535,9 @@ use Phalcon\Forms\Element\Select ?>
                     type : "get"
                     }
                     
+                    },
+                    nu_cedula: {
+                        required: true,
                     },
                     correo_e: {
                         required: true,

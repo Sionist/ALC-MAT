@@ -2,9 +2,10 @@
 
 class AsignacionesController extends \Phalcon\Mvc\Controller
 {
-    /*
-     * metodo que llama a la plantilla principal "blank"
-     */
+    //msj para metodos guardado
+    private $mensaje = "Guardado con Exito";
+
+    //metodo que llama a la plantilla principal "blank"
     public function initialize()
     {
         $this->view->setTemplateAfter('blank');
@@ -27,29 +28,87 @@ class AsignacionesController extends \Phalcon\Mvc\Controller
             //se asignan los valores recibidos del form a los campos de la BD
             $asignacion->setAsignacion($this->request->getPost("asignacion"));
             $asignacion->setFormula($this->request->getPost("formula"));
-            $asignacion->setTipoNomi($this->request->getPost("tipo_nomina"));
+            $asignacion->setTipoNomi($this->request->getPost("nomina"));
             $asignacion->setFrecuencia($this->request->getPost("frecuencia"));
             $asignacion->setPartiPresuspuest($this->request->getPost("parti_presupuesto"));
             $asignacion->setDenominacion($this->request->getPost("denominacion"));
-
-            //almacena vista index
-            $vista = $this->dispatcher->forward(array(
-                "controller" => "asignaciones",
-                "action" => "index"
-            ));
 
             if (!$asignacion->save()) {
                 foreach ($asignacion->getMessages() as $message) {
                     $this->flash->error($message);
                 }
-
-                return $vista;
+                return $this->dispatcher->forward(array(
+                    "controller" => "asignaciones",
+                    "action" => "index"
+                ));
             }else{
                 $this->flash->success("<div class='alert alert-block alert-success'>Guardado con exito</div>");
-                return $vista;
+                return $this->dispatcher->forward(array(
+                    "controller" => "asignaciones",
+                    "action" => "index"
+                ));
             }
         }
 
     }
+
+    public function editarAction($id)
+    {
+        if (!$this->request->isPost()) {
+
+            $asignacion = NbAsignaciones::findFirstByIdAsignac($id);
+            if (!$asignacion) {
+                $this->flash->error("Asignación No Encontrada");
+
+                return $this->dispatcher->forward(array(
+                    "controller" => "asignaciones",
+                    "action" => "index"
+                ));
+            }
+
+            //$this->view->id = $asignacion->id_asignac;
+
+            $this->tag->setDefault("id", $asignacion->getIdAsignac());
+            $this->tag->setDefault("asignacion", $asignacion->getAsignacion());
+            $this->tag->setDefault("formula", $asignacion->getFormula());
+            $this->tag->setDefault("nomina", $asignacion->getTipoNomi());
+            $this->tag->setDefault("frecuencia", $asignacion->getFrecuencia());
+            $this->tag->setDefault("parti_presupuesto", $asignacion->getPartiPresuspuest());
+            $this->tag->setDefault("denominacion", $asignacion->getDenominacion());
+        }
+    }
+
+    public function editadoAction(){
+        if($this->request->isPost()){
+
+            $id = $this->request->getPost("id");
+
+            $asignacion = NbAsignaciones::findFirstByIdAsignac($id);
+
+            //se asignan los valores recibidos del form a los campos de la BD
+            $asignacion->setAsignacion($this->request->getPost("asignacion"));
+            $asignacion->setFormula($this->request->getPost("formula"));
+            $asignacion->setTipoNomi($this->request->getPost("nomina"));
+            $asignacion->setFrecuencia($this->request->getPost("frecuencia"));
+            $asignacion->setPartiPresuspuest($this->request->getPost("parti_presupuesto"));
+            $asignacion->setDenominacion($this->request->getPost("denominacion"));
+
+            if(!$asignacion->save()){
+                foreach ($asignacion->getMessages() as $message) {
+                    $this->flash->error($message);
+                }
+                return $this->dispatcher->forward(array(
+                    'controller'=>'asignaciones',
+                    'action' => 'index'
+                ));
+            }else{
+                return $this->dispatcher->forward(array(
+                    'controller'=>'asignaciones',
+                    'action' => 'index'
+                ));
+            }
+        }
+    }
 }
+
 
