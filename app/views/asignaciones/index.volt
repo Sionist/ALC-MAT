@@ -8,14 +8,45 @@
 
 <!-- Formulario para agregar  (insertar) -->
 
-{{ form("bancos/guardar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
+{{ form("asignaciones/guardar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
 
 {{ content() }}
 
-{{ text_field("banco", "class":"form-control", "required":"required", "placeholder":"Bancos") }}
+{{ text_field("asignacion", "class":"form-control", "required":"required", "placeholder":"Asignación") }}
+{{ text_field("formula", "class":"form-control", "required":"required", "placeholder":"Formula") }}
+
+        
+                <?php
+
+                echo Phalcon\Tag::Select(array(
+                'tipo_nomina', 
+                TipoNomi::find(array("order" => "nomina ASC")),
+                'using' => array('id_nomina', 'nomina'),
+                'useEmpty' => true,
+                'emptyText' => 'Seleccione Nomina',
+                'class' => 'select2'
+                ));
+                  ?>
+
+                  <?php
+
+                echo Phalcon\Tag::Select(array(
+                'frecuencia', 
+                frecuencia::find(array("order" => "frecuencia ASC")),
+                'using' => array('id_frecuencia', 'frecuencia'),
+                'useEmpty' => true,
+                'emptyText' => 'Seleccione Frecuencia',
+                'class' => 'select2'
+                ));
+                  ?>
+
+
+{{ text_field("parti_presupuesto", "class":"form-control", "required":"required", "placeholder":"Partida Presupuesto") }}
+{{ text_field("denominacion", "class":"form-control", "required":"required", "placeholder":"Denominación") }}
 
 {{ submit_button("Guardar", "class":"btn btn-primary") }}
 {{ endForm() }}
+<br />
 
 <!-- fin  Formulario para agregar estatus -->
 
@@ -28,7 +59,7 @@
                                             <div class="pull-right tableTools-container"></div>
                                         </div>
                                         <div class="table-header">
-                                            Resultados para "Bancos"
+                                            Resultados para "Asignaciones"
                                         </div>
 
                                       
@@ -38,7 +69,7 @@
                                                 <th class="center">
                                                 N°
                                                 </th>
-                                                <th>Bancos</th>
+                                                <th>Asignaciones</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
@@ -46,7 +77,7 @@
                                         <tbody>
                                             <?php
                                             $numerito=1;
-                                            foreach($banco as $row) {
+                                            foreach($asignaciones as $row) {
                                             ?>
                                             <tr>
                                                 <td class="center">
@@ -59,11 +90,11 @@
                                                     </label>
                                                 </td>
 
-                                                <td><span style="text-transform: capitalize;"><?php echo $row->nb_bancos; ?></span></td>
+                                                <td><span style="text-transform: capitalize;"><?php echo $row->asignacion; ?></span></td>
                                                         
                                                 <td>
                                                     <div class="hidden-sm hidden-xs action-buttons">
-                                                    <?php echo $this->tag->linkTo(array("bancos/editar/".$row->id_bancos, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"))  ?>
+                                                    <?php echo $this->tag->linkTo(array("asignaciones/editar/".$row->id_asignac, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"))  ?>
                                                     </div>
                                                 </td>
                                             </tr>
