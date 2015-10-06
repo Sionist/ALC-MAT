@@ -108,7 +108,7 @@ public function editadoAction()
             ));
         }
 
-        $this->flash->success("Banco Actualizado");
+       $this->flash->success("Banco Actualizado");
 
        return $this->response->redirect('bancos/index');
 

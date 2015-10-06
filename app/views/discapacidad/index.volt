@@ -18,7 +18,7 @@
 {{ endForm() }}
 
 <!-- fin  Formulario para agregar discapacidad -->
-
+{{ content() }}
 <!-- tabla para mostrar todos los registros de la tabla-->
  
 <div class="row">

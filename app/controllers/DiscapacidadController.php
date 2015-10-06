@@ -61,10 +61,7 @@ class DiscapacidadController extends \Phalcon\Mvc\Controller
 
             $this->tag->setDefault("id", $discapacidad->getIdDiscapacid());
             $this->tag->setDefault("discapacidad", $discapacidad->getDiscapacidad());
-           
-            
         }
-		
 	}
 
 	

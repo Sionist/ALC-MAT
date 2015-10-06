@@ -2,6 +2,10 @@
 
 {{ content() }}
 
+<a href="../nuevo/<?php echo $trabaja->nu_cedula;?>" title="Agregar Carga Familiar" class="btn btn-app btn-primary btn-xs">
+<i class="ace-icon fa fa-users bigger-160"></i>
+Nuevo
+</a>
 
 <div class="row">
 	<div class="col-xs-12">
@@ -9,15 +13,13 @@
 		<div class="clearfix">
 			<div class="pull-right tableTools-container"></div>
 		</div>
-			<div class="table-header">Carga Familiar</div>
+			<div class="table-header">Carga Familiar Trabajador:<b><?php echo $trabaja->nombre1;?> <?php echo $trabaja->apellido1;?></b>  Cédula:<b><?php echo $trabaja->nu_cedula;?></b></div>
 
 
 				<table id="dynamic-table" class="table table-striped table-bordered table-hover">
 					 <thead>
 					 <tr>
 					 <th>N°</th>
-					 <th>Ced. Titutal</th>
-					 <th>Titutal</th>
 					 <th>Ced. Pariente</th>
 					 <th>Nombre</th>
 					 <th>Fech. Nac.</th>
@@ -32,8 +34,6 @@
 					 ?>
 					<tr>
 					<td><?php echo $numerito; $numerito++; ?></td>
-					<td><?php echo $row->nu_cedula; ?></td>
-					<td><?php echo $row->nombret; ?> <?php echo $row->apellidot; ?></td>
 					<td><?php echo $row->ci_carga; ?></td>
 					<td><?php echo $row->nombre1; ?> <?php echo $row->apellido1; ?></td>
 					<td><?php echo $row->f_nac; ?></td>
@@ -102,7 +102,7 @@ $(document).ready(function()
 					bAutoWidth: false,
 					"aoColumns": [
 					  { "bSortable": false },
-					  null, null, null, null, null, null, null,
+					  null, null, null, null, null,
 					  { "bSortable": false }
 					],
 					"aaSorting": [],

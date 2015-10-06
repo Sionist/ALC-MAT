@@ -90,6 +90,7 @@ class ClasificacionesController extends \Phalcon\Mvc\Controller
 		$this->response->setStatusCode(200, "OK");
 		$this->response->send();
 		
+
 		
 	}
 
@@ -100,9 +101,9 @@ class ClasificacionesController extends \Phalcon\Mvc\Controller
 	
 		$this->view->disable();
 	
-		$convencion = $this->request->get("clasificaciones");
+		$clausula = $this->request->get("clausula");
 		
-		$query = new Phalcon\Mvc\Model\Query("SELECT clausulas.id_clausula, clausulas.clausula FROM convenciones,clausulas WHERE convenciones.id_convencion=clausulas.id_convension AND convenciones.id_convencion=".$convencion." ORDER BY clausulas.id_clausula ASC", $this->getDI()); 
+		$query = new Phalcon\Mvc\Model\Query("SELECT clasificaciones.id_clasi, clasificaciones.minimo,clasificaciones.maximo,clasificaciones.tiempo,clasificaciones.monto FROM convenciones,clausulas WHERE convenciones.id_convencion=clausulas.id_convension AND convenciones.id_convencion=".$clausula." ORDER BY clausulas.id_clausula ASC", $this->getDI()); 
 		/*$query = new Phalcon\Mvc\Model\Query("SELECT convenciones.id_convencion,convenciones.descripcion, clausulas.id_clausula,clausulas.clausula FROM convenciones,clausulas WHERE convenciones.id_convencion=clausulas.id_convension AND convenciones.id_convencion=".$convencion." ORDER BY clausulas.id_clasula ASC", $this->getDI()); */
 	
 		$ciudades = $query->execute();

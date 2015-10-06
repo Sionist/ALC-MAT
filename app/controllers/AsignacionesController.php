@@ -20,6 +20,10 @@ class AsignacionesController extends \Phalcon\Mvc\Controller
         $this->view->setParamToView('asignaciones', $asignaciones);
     }
 
+    public function nuevaAction(){
+        //llamara a la vista para crear nueva asignacion
+    }
+
     public function guardarAction()
     {
         if ($this->request->isPost()) {
@@ -43,12 +47,12 @@ class AsignacionesController extends \Phalcon\Mvc\Controller
                 ));
             }else{
                 $this->flash->success("<div class='alert alert-block alert-success'>Guardado con exito</div>");
-                return $this->dispatcher->forward(array(
-                    "controller" => "asignaciones",
-                    "action" => "index"
-                ));
             }
         }
+        return $this->dispatcher->forward(array(
+            "controller" => "asignaciones",
+            "action" => "index"
+        ));
 
     }
 
@@ -79,6 +83,7 @@ class AsignacionesController extends \Phalcon\Mvc\Controller
     }
 
     public function editadoAction(){
+
         if($this->request->isPost()){
 
             $id = $this->request->getPost("id");

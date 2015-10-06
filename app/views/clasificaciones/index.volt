@@ -16,7 +16,7 @@
    "class" => "form-control",
    "required" => "required"
    ))
-   
+ 
 ?>
 
 <select name="clausula" id="cargar_ciudad" class="form-control" required>
@@ -36,7 +36,6 @@
 {{ submit_button("Guardar", "class":"btn btn-primary") }}
 
 
-
 <div class="row">
 	<div class="col-xs-12">
 										
@@ -46,7 +45,7 @@
 			<div class="table-header">Resultados por "Tabuladores para Cláusulas de Convenciones Colectivas"</div>
 
 
-				<table id="dynamic-table" class="table table-striped table-bordered table-hover">
+				<!--<table id="dynamic-table" class="table table-striped table-bordered table-hover">
 					<thead>
 						<tr>
 							<th>N°</th>
@@ -84,7 +83,10 @@
 							}
 						?>
 					</tbody>
-				</table>
+				</table>-->
+
+
+
 </div>
 	</div>
 </div>
@@ -132,6 +134,34 @@ $(document).ready(function()
 		});
 		
 		});
+
+
+  $("#clausula").on("change", function()
+   {
+    var id_clausula = $("#clausula option:selected").attr("value");
+	
+	$.get("<?php echo $this->url->get('clasificaciones/getMuestra') ?>", {"clausula":id_clausula}, function(data)
+	  {
+	  
+	   var ciud ="";
+	   
+	   var ciuda = JSON.parse(data);
+	   
+	   ciud += "<option value='0'>Seleccione Cláusula</option>";
+	   
+	   for(datos in ciuda.ciud)
+	    {
+		ciud += '<option value="'+ciuda.ciud[datos].id_clausula+'">'+
+		ciuda.ciud[datos].clausula.
+		toUpperCase()+'</option>';
+		}
+		
+		$('#cargar_ciudad').html(ciud);
+		});
+		
+		});
+
+
 		
 		//initiate dataTables plugin
 				var oTable1 = 

@@ -8,45 +8,12 @@
 
 <!-- Formulario para agregar  (insertar) -->
 
-{{ form("asignaciones/guardar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
+<a href="./asignaciones/nueva" title="Nueva Asignación" class="btn btn-app btn-primary btn-xs">
+<i class="ace-icon fa fa-folder bigger-160"></i>
+Nueva
+</a>
 
 {{ content() }}
-
-{{ text_field("asignacion", "class":"form-control", "required":"required", "placeholder":"Asignación") }}
-{{ text_field("formula", "class":"form-control", "required":"required", "placeholder":"Formula") }}
-
-        
-                <?php
-
-                echo Phalcon\Tag::Select(array(
-                'nomina', 
-                TipoNomi::find(array("order" => "nomina ASC")),
-                'using' => array('id_nomina', 'nomina'),
-                'useEmpty' => true,
-                'emptyText' => 'Seleccione Nomina',
-                'class' => 'select2'
-                ));
-                  ?>
-
-                  <?php
-
-                echo Phalcon\Tag::Select(array(
-                'frecuencia', 
-                frecuencia::find(array("order" => "frecuencia ASC")),
-                'using' => array('id_frecuencia', 'frecuencia'),
-                'useEmpty' => true,
-                'emptyText' => 'Seleccione Frecuencia',
-                'class' => 'select2'
-                ));
-                  ?>
-
-
-{{ text_field("parti_presupuesto", "class":"form-control", "required":"required", "placeholder":"Partida Presupuesto") }}
-{{ text_field("denominacion", "class":"form-control", "required":"required", "placeholder":"Denominación") }}
-
-{{ submit_button("Guardar", "class":"btn btn-primary") }}
-{{ endForm() }}
-<br />
 
 <!-- fin  Formulario para agregar estatus -->
 

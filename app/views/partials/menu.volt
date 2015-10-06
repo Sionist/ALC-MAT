@@ -129,6 +129,15 @@
 							</li>
 
 							<li class="">
+								<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/clasificaciones">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Clasificaciones
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+								
+							<li class="">
 								<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/ConvencionColectiva">
 									<i class="menu-icon fa fa-caret-right"></i>
 									Convención Colectiva
