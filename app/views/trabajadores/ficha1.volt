@@ -96,8 +96,7 @@
                                                     <br />
                                                     <span class="line-height-1 smaller-90"> Reposos </span>
                                                 </span>
-
-                                            
+                                                <a href="./asigsdeducstrabajador/index">Asignaciones y Deducciones</a>                                            
                                             </div>
                                     
                                             

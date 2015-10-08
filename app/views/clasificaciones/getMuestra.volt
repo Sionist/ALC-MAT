@@ -1,5 +1,6 @@
  
 <div id="page-wrapper">
+
 {{ content() }}
 
 
@@ -16,7 +17,6 @@
 					<thead>
 						<tr>
 							<th>N°</th>
-							<!--<th>Convención Colectiva</th>-->
 							<th>N° de Cláusula</th>
 							<th>Cláusula</th>
 							<th>Mínimo</th>
@@ -32,7 +32,6 @@
 						?>
 						<tr>
 							<td><?php echo $numerito; $numerito++; ?></td>
-							<!--<td><?php echo $row->descripcion; ?></td>-->
 							<td><?php echo $row->nclausula; ?></td>
 							<td><?php echo $row->clausula; ?></td>
 							<td><?php echo $row->minimo; ?></td>

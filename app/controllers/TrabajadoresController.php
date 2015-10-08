@@ -332,6 +332,5 @@ class TrabajadoresController extends \Phalcon\Mvc\Controller
         
     }
 
-
 }
 

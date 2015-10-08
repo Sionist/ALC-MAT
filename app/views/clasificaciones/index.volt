@@ -1,8 +1,8 @@
 
   
 <div id="page-wrapper">
-{{ form("clasificaciones/guardar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
-{{ content() }}
+	{{ form("clasificaciones/guardar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
+	{{ content() }}
 
 <?php
 
@@ -45,11 +45,10 @@
 
 
 
-				<!--<table id="dynamic-table" class="table table-striped table-bordered table-hover">
+				<table id="dynamic-table" class="table table-striped table-bordered table-hover">
 					<thead>
 						<tr>
 							<th>N°</th>
-							<th>Convención Colectiva</th>
 							<th>N° de Cláusula</th>
 							<th>Cláusula</th>
 							<th>Mínimo</th>
@@ -65,7 +64,6 @@
 						?>
 						<tr>
 							<td><?php echo $numerito; $numerito++; ?></td>
-							<td><?php echo $row->descripcion; ?></td>
 							<td><?php echo $row->nclausula; ?></td>
 							<td><?php echo $row->clausula; ?></td>
 							<td><?php echo $row->minimo; ?></td>
@@ -83,9 +81,7 @@
 							}
 						?>
 					</tbody>
-				</table>-->
-
-
+				</table>
 
 
 	</div>
@@ -138,30 +134,24 @@ $(document).ready(function()
 
   $("#cargar_ciudad").on("change", function()
    {
-    var id_clasi = $("#cargar_ciudad option:selected").attr("value");
+    	var id_clasi = $("#cargar_ciudad option:selected").attr("value");
 	
-	$.get("<?php echo $this->url->get('clasificaciones/getMuestra') ?>", {"clasi":id_clasi}, function(data)
-	  {
+		$.get("<?php echo $this->url->get('clasificaciones/getMuestra') ?>", {"clasi":id_clasi}, function(data)
+		{
 	  
-	   var ciud ="";
+	   		var ciud ="";
 	   
-	   var ciuda = JSON.parse(data);
+	   		var ciuda = JSON.parse(data);
+   
+	   		for(datos in ciuda.ciud)
+	    	{
 
-	      
-	   //ciud += "<option value='0'>Seleccione Cláusula</option>";
-	   
+			}
 
-	   for(datos in ciuda.ciud)
-	    {
-		//ciud += '<option value="'+ciuda.ciud[datos].id_clausula+'">'+
-		//ciuda.ciud[datos].clausula.
-		//toUpperCase()+'</option>';
-		}
-		
-		//$('#cargar_ciudad').html(ciud);
 		});
 		
-		});
+
+	});
 
 
 		

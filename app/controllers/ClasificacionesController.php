@@ -103,15 +103,12 @@ class ClasificacionesController extends \Phalcon\Mvc\Controller
 		
 	{
 	
-		//$this->view->disable();
-		
-
 
 		$clasi = $this->request->get("clasi");
 
 		echo "ESTE ES EL ID DE LA CLASIFICACION ".$clasi;
 		
-		$query = new Phalcon\Mvc\Model\Query("SELECT clasificaciones.id_clasi, clasificaciones.minimo,clasificaciones.maximo,clasificaciones.tiempo,clasificaciones.monto FROM clausulas,clasificaciones WHERE clausulas.id_clausula=clasificaciones.id_clausula AND clausulas.id_clausula=".$clasi, $this->getDI()); 
+		$query = new Phalcon\Mvc\Model\Query("SELECT clasificaciones.id_clasi,clasificaciones.minimo,clasificaciones.maximo,clasificaciones.tiempo,clasificaciones.monto,clausulas.nclausula,clausulas.clausula FROM clausulas,clasificaciones WHERE clausulas.id_clausula=clasificaciones.id_clausula AND clausulas.id_clausula=".$clasi, $this->getDI()); 
 	
 		$clasificaciones = $query->execute();
 
@@ -120,22 +117,7 @@ class ClasificacionesController extends \Phalcon\Mvc\Controller
 
 
 		$this->view->setParamToView("clasificaciones",$clasificaciones);
-		
 
-
-		/*$row = array();
-	
-		foreach($clasificaciones as $ciudad)
-		{
-			array_push($row,$ciudad);
-		}
-
-		$this->response->setJsonContent(array(
-			"ciud" => $row
-			));
-		$this->response->setStatusCode(200, "OK");
-		$this->response->send();*/
-		
 		
 	}
 
