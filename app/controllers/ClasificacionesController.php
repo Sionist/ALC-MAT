@@ -28,6 +28,10 @@ class ClasificacionesController extends \Phalcon\Mvc\Controller
 
 		$this->view->setParamToView("clasificaciones", $clasificaciones);
 
+		//$bandera=0;
+		
+		$this->view->bandera="0";
+
     }
 
 	public function guardarAction()
@@ -99,19 +103,29 @@ class ClasificacionesController extends \Phalcon\Mvc\Controller
 		
 	{
 	
-		$this->view->disable();
-	
-		$clausula = $this->request->get("clausula");
+		//$this->view->disable();
 		
-		$query = new Phalcon\Mvc\Model\Query("SELECT clasificaciones.id_clasi, clasificaciones.minimo,clasificaciones.maximo,clasificaciones.tiempo,clasificaciones.monto FROM convenciones,clausulas WHERE convenciones.id_convencion=clausulas.id_convension AND convenciones.id_convencion=".$clausula." ORDER BY clausulas.id_clausula ASC", $this->getDI()); 
-		/*$query = new Phalcon\Mvc\Model\Query("SELECT convenciones.id_convencion,convenciones.descripcion, clausulas.id_clausula,clausulas.clausula FROM convenciones,clausulas WHERE convenciones.id_convencion=clausulas.id_convension AND convenciones.id_convencion=".$convencion." ORDER BY clausulas.id_clasula ASC", $this->getDI()); */
-	
-		$ciudades = $query->execute();
+
+
+		$clasi = $this->request->get("clasi");
+
+		echo "ESTE ES EL ID DE LA CLASIFICACION ".$clasi;
 		
-		
-		$row = array();
+		$query = new Phalcon\Mvc\Model\Query("SELECT clasificaciones.id_clasi, clasificaciones.minimo,clasificaciones.maximo,clasificaciones.tiempo,clasificaciones.monto FROM clausulas,clasificaciones WHERE clausulas.id_clausula=clasificaciones.id_clausula AND clausulas.id_clausula=".$clasi, $this->getDI()); 
 	
-		foreach($ciudades as $ciudad)
+		$clasificaciones = $query->execute();
+
+
+        //$this->view->setVar("clasificaciones",$clasificaciones);
+
+
+		$this->view->setParamToView("clasificaciones",$clasificaciones);
+		
+
+
+		/*$row = array();
+	
+		foreach($clasificaciones as $ciudad)
 		{
 			array_push($row,$ciudad);
 		}
@@ -120,7 +134,7 @@ class ClasificacionesController extends \Phalcon\Mvc\Controller
 			"ciud" => $row
 			));
 		$this->response->setStatusCode(200, "OK");
-		$this->response->send();
+		$this->response->send();*/
 		
 		
 	}

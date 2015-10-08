@@ -313,9 +313,16 @@
 
 								<b class="arrow"></b>
 							</li>
+							<li class="">
+								<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/variaciones">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Variaciones
+								</a>
+
+								<b class="arrow"></b>
+							</li>
 						</ul>
 					</li>
-					
 					
 					
 					

@@ -2,9 +2,6 @@
 
 class AsignacionesController extends \Phalcon\Mvc\Controller
 {
-    //msj para metodos guardado
-    private $mensaje = "Guardado con Exito";
-
     //metodo que llama a la plantilla principal "blank"
     public function initialize()
     {
@@ -56,6 +53,10 @@ class AsignacionesController extends \Phalcon\Mvc\Controller
 
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function editarAction($id)
     {
         if (!$this->request->isPost()) {
@@ -84,6 +85,11 @@ class AsignacionesController extends \Phalcon\Mvc\Controller
 
     public function editadoAction(){
 
+        //almacena la vista
+        $vista = $this->dispatcher->forward(array(
+            'controller'=>'asignaciones',
+            'action' => 'index'));
+
         if($this->request->isPost()){
 
             $id = $this->request->getPost("id");
@@ -102,15 +108,9 @@ class AsignacionesController extends \Phalcon\Mvc\Controller
                 foreach ($asignacion->getMessages() as $message) {
                     $this->flash->error($message);
                 }
-                return $this->dispatcher->forward(array(
-                    'controller'=>'asignaciones',
-                    'action' => 'index'
-                ));
+                return $vista;
             }else{
-                return $this->dispatcher->forward(array(
-                    'controller'=>'asignaciones',
-                    'action' => 'index'
-                ));
+                return $vista;
             }
         }
     }

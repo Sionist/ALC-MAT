@@ -1,98 +1,27 @@
-
-  
 <div id="page-wrapper">
-{{ form("clasificaciones/guardar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
+
 {{ content() }}
 
-<?php
-
-  
-	echo $this->tag->select(array(
-   'convenciones',
-   Convenciones::find(array('order' => 'id_convencion ASC')),
-   'using' => array('id_convencion', "descripcion"),
-   'useEmpty' => true,
-   'emptyText' => 'Seleccione Convención...',
-   "class" => "form-control",
-   "required" => "required"
-   ))
- 
-?>
-
-<select name="clausula" id="cargar_ciudad" class="form-control" required>
-	<option value="">Seleccione...</option>
-</select>
-
-
-
-{{ text_field("minimo", "class":"form-control", "required":"required", "placeholder":"Mínimo")}}
-
-{{ text_field("maximo", "class":"form-control", "required":"required", "placeholder":"Máximo")}}
-
-{{ text_field("tiempo", "class":"form-control", "required":"required", "placeholder":"Tiempo")}}
-
-{{ text_field("monto", "class":"form-control", "placeholder":"Monto")}}
-
-{{ submit_button("Guardar", "class":"btn btn-primary") }}
 
 
 <div class="row">
 	<div class="col-xs-12">
 										
-		<div class="clearfix">
-			<div class="pull-right tableTools-container"></div>
-		</div>
+	
+			<div class="table-header">Carga Familiar Trabajador:<b><?php echo $trabaja->nombre1;?> <?php echo $trabaja->apellido1;?></b>  Cédula:<b><?php echo $trabaja->nu_cedula;?></b></div>
 
 
-
-				<!--<table id="dynamic-table" class="table table-striped table-bordered table-hover">
-					<thead>
-						<tr>
-							<th>N°</th>
-							<th>Convención Colectiva</th>
-							<th>N° de Cláusula</th>
-							<th>Cláusula</th>
-							<th>Mínimo</th>
-							<th>Máximo</th>
-							<th>Tiempo</th>
-							<th>Monto</th>
-							<th>Acción</th>
-						</tr>
-					</thead>
-					<tbody>
-						<?php $numerito=1;
-							foreach($clasificaciones as $row) {
-						?>
-						<tr>
-							<td><?php echo $numerito; $numerito++; ?></td>
-							<td><?php echo $row->descripcion; ?></td>
-							<td><?php echo $row->nclausula; ?></td>
-							<td><?php echo $row->clausula; ?></td>
-							<td><?php echo $row->minimo; ?></td>
-							<td><?php echo $row->maximo; ?></td>
-							<td><?php echo $row->tiempo; ?></td>
-							<td><?php echo $row->monto; ?></td>
-							<td>
-								<div class="hidden-sm hidden-xs action-buttons">
-									<?php echo $this->tag->linkTo(array("clasificaciones/editar/".$row->id_clasi, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"))  ?>
-								</div>
-							</td>					
-
-						</tr>
-						<?php
-							}
-						?>
-					</tbody>
-				</table>-->
-
-
-
-
+				<table class="table table-striped table-bordered table-hover">
+				<tr>
+				<td>Campos Aqui</td>
+				</tr>
+				</table>
+</div>
 	</div>
 </div>
-
+		 
 		{{ javascript_include("js/bootstrap.js") }}
-		{{ javascript_include("js/dataTables/jquery.dataTables.js") }}
+		 {{ javascript_include("js/dataTables/jquery.dataTables.js") }}
 		{{ javascript_include("js/dataTables/jquery.dataTables.bootstrap.js") }}
 		{{ javascript_include("js/dataTables/extensions/TableTools/js/dataTables.tableTools.js") }}
 		{{ javascript_include("js/dataTables/extensions/ColVis/js/dataTables.colVis.js") }}
@@ -110,23 +39,23 @@ $(document).ready(function()
        );
     });
 
-  $("#convenciones").on("change", function()
+  $("#estado").on("change", function()
    {
-    var id_convencion = $("#convenciones option:selected").attr("value");
+    var id_estado = $("#estado option:selected").attr("value");
 	
-	$.get("<?php echo $this->url->get('clasificaciones/getClasifica') ?>", {"convenciones":id_convencion}, function(data)
+	$.get("<?php echo $this->url->get('ciudades/getCiudades') ?>", {"estado":id_estado}, function(data)
 	  {
 	  
 	   var ciud ="";
 	   
 	   var ciuda = JSON.parse(data);
 	   
-	   ciud += "<option value='0'>Seleccione Cláusula</option>";
+	   ciud += "<option value='0'>Seleccione Ciudad</option>";
 	   
 	   for(datos in ciuda.ciud)
 	    {
-		ciud += '<option value="'+ciuda.ciud[datos].id_clausula+'">'+
-		ciuda.ciud[datos].clausula.
+		ciud += '<option value="'+ciuda.ciud[datos].id_ciudad+'">'+
+		ciuda.ciud[datos].ciudad.
 		toUpperCase()+'</option>';
 		}
 		
@@ -134,36 +63,6 @@ $(document).ready(function()
 		});
 		
 		});
-
-
-  $("#cargar_ciudad").on("change", function()
-   {
-    var id_clasi = $("#cargar_ciudad option:selected").attr("value");
-	
-	$.get("<?php echo $this->url->get('clasificaciones/getMuestra') ?>", {"clasi":id_clasi}, function(data)
-	  {
-	  
-	   var ciud ="";
-	   
-	   var ciuda = JSON.parse(data);
-
-	      
-	   //ciud += "<option value='0'>Seleccione Cláusula</option>";
-	   
-
-	   for(datos in ciuda.ciud)
-	    {
-		//ciud += '<option value="'+ciuda.ciud[datos].id_clausula+'">'+
-		//ciuda.ciud[datos].clausula.
-		//toUpperCase()+'</option>';
-		}
-		
-		//$('#cargar_ciudad').html(ciud);
-		});
-		
-		});
-
-
 		
 		//initiate dataTables plugin
 				var oTable1 = 
@@ -173,7 +72,7 @@ $(document).ready(function()
 					bAutoWidth: false,
 					"aoColumns": [
 					  { "bSortable": false },
-					  null, null,
+					  null, null, null, null, null,
 					  { "bSortable": false }
 					],
 					"aaSorting": [],
@@ -342,4 +241,8 @@ $(document).ready(function()
 		});
 		
 		</script>		 
+		
+		
+	
+		
 		

@@ -19,7 +19,7 @@
  
 ?>
 
-<select name="clausula" id="cargar_ciudad" class="form-control" required>
+<select name="clausula" id="clausula" class="form-control" required>
 	<option value="">Seleccione...</option>
 </select>
 
@@ -42,7 +42,7 @@
 		<div class="clearfix">
 			<div class="pull-right tableTools-container"></div>
 		</div>
-
+			<div class="table-header">Resultados por "Tabuladores para Cláusulas de Convenciones Colectivas"</div>
 
 
 				<!--<table id="dynamic-table" class="table table-striped table-bordered table-hover">
@@ -87,7 +87,7 @@
 
 
 
-
+</div>
 	</div>
 </div>
 
@@ -97,7 +97,49 @@
 		{{ javascript_include("js/dataTables/extensions/TableTools/js/dataTables.tableTools.js") }}
 		{{ javascript_include("js/dataTables/extensions/ColVis/js/dataTables.colVis.js") }}
 
-		<script type="text/javascript">
+<script type="text/javascript">
+
+//metodo para pasar por ajax un JSON con la seleccion del control select(convencion)
+$('select#convenciones').change(function(){
+		//almacena en una variable el valor del select 
+		var valor = $(this).val();
+
+		alert(valor);
+	
+		//envia por ajax el valor en un JSON al controlador
+		/*$.ajax({
+			data: { "valor" : valor},
+			type: "POST",
+			datatype: "JSON",
+			url: "./XPRueba/recibeJ" //url del controlador y la accion que recibe el JSON
+		}).done(function(data, textStatus, jqXHR){
+			if ( console && console.log ) {
+         		   console.log( "La solicitud se ha completado correctamente." );
+     		   }
+		}).fail(function( jqXHR, textStatus, errorThrown ) {
+     		if ( console && console.log ) {
+         		   console.log( "La solicitud a fallado: " +  textStatus);
+     		   }	
+		})*/
+		/*var solicitud = $(function(valor){
+			return  solicitud = $.post("./Xprueba/recibeJ", {"valor" : valor}, null, JSON);
+		})*/
+
+			/*var k = "1";
+			var v = "algo";*/
+
+			//$('#clausula').append("<option value=\"" + k + "\">" + v + "</option>");
+		$.post("./Xprueba/recibeJ", {"valor" : valor}, null, JSON),
+			function(data){
+				console.log(JSON.stringify(data));
+				$.each(data, function(k,v){
+					$('select#clausula').append("<option value=\"" + k + "\">" + v + "</option>");
+				});
+			};   
+	});
+
+
+
 $(document).ready(function()
 {
 
@@ -109,60 +151,6 @@ $(document).ready(function()
         }
        );
     });
-
-  $("#convenciones").on("change", function()
-   {
-    var id_convencion = $("#convenciones option:selected").attr("value");
-	
-	$.get("<?php echo $this->url->get('clasificaciones/getClasifica') ?>", {"convenciones":id_convencion}, function(data)
-	  {
-	  
-	   var ciud ="";
-	   
-	   var ciuda = JSON.parse(data);
-	   
-	   ciud += "<option value='0'>Seleccione Cláusula</option>";
-	   
-	   for(datos in ciuda.ciud)
-	    {
-		ciud += '<option value="'+ciuda.ciud[datos].id_clausula+'">'+
-		ciuda.ciud[datos].clausula.
-		toUpperCase()+'</option>';
-		}
-		
-		$('#cargar_ciudad').html(ciud);
-		});
-		
-		});
-
-
-  $("#cargar_ciudad").on("change", function()
-   {
-    var id_clasi = $("#cargar_ciudad option:selected").attr("value");
-	
-	$.get("<?php echo $this->url->get('clasificaciones/getMuestra') ?>", {"clasi":id_clasi}, function(data)
-	  {
-	  
-	   var ciud ="";
-	   
-	   var ciuda = JSON.parse(data);
-
-	      
-	   //ciud += "<option value='0'>Seleccione Cláusula</option>";
-	   
-
-	   for(datos in ciuda.ciud)
-	    {
-		//ciud += '<option value="'+ciuda.ciud[datos].id_clausula+'">'+
-		//ciuda.ciud[datos].clausula.
-		//toUpperCase()+'</option>';
-		}
-		
-		//$('#cargar_ciudad').html(ciud);
-		});
-		
-		});
-
 
 		
 		//initiate dataTables plugin
