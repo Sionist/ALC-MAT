@@ -9,28 +9,25 @@ use Phalcon\Forms\Element\Select ?>
 
 
 <!-- tabla para mostrar todos los registros de la tabla-->
- 
+ {{ content() }}
 <div class="row">
-
-<a href="./trabajadores/nuevo" title="Agregar un Nuevo Trabajador" class="btn btn-app btn-primary btn-xs">
-<i class="ace-icon fa fa-users bigger-160"></i>
-Nuevo
-</a>
-
-
-                                    <div class="col-xs-12">
-
-
-                                        
-                                            <div class="clearfix">
+    <div class="col-xs-12">  
+        <div class="clearfix">
             <div class="pull-right tableTools-container"></div>
         </div>
                                         <div class="table-header">
-                                            Asignaciones y Deducciones
+                                            <?php foreach($dt as $dts){ ?>
+                                            
+                                            Asignaciones y Deducciones Para:<?php echo " ".$dts->nombre1." ".$dts->apellido1.". Cedula: ".$dts->nu_cedula; ?> 
+                                            
+                                            <?php } ?>
                                         </div>
                                         <!-- div.table-responsive -->
 
                                         <!-- div.dataTables_borderWrap -->
+                                        
+                                        {{ form("Asigsdeducstrabajador/guardarModificar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
+                                        {{ hidden_field("cedula") }}
                                         
                                          <table id="dynamic-table" class="table table-striped table-bordered table-hover">
                                         <thead>
@@ -48,16 +45,29 @@ Nuevo
                                             <tr>
                                                 <td>
                                                     <label class="pos-rel">
-                                                        <?php 
-                                                            foreach ($asignaciones as $asig) {
-                                                        ?>                                                                                                                     
-
+                                                        
+                                                        <?php if(isset($asignacionesExist)){
+                                                            foreach ($asignacionesExist as $asigE) {
+                                                        ?>                                                                                                                   
                                                         <label class="block">
-                                                        <input name="asignacion" type="checkbox" class="ace input-lg" value= <?php echo "\"".$asig->id_asignac."\""; ?>>
-                                                        <span class="lbl bigger-120"><?php echo $asig->asignacion; }?></span>
+                                                        <input name="asignaciones[]" type="checkbox" class="ace input-lg" value="<?php echo $asigE->id_asignac; ?>" checked>
+                                                        <span class="lbl bigger-120" style="text-transform: capitalize"><?php echo $asigE->asignacion; ?></span>
                                                     </label>
-
-
+                                                     <?php 
+                                                        }}
+                                                     ?>   
+                                                        
+                                                        <?php if(isset($asignacionesNOExist)){
+                                                            foreach ($asignacionesNOExist as $asigN) {
+                                                        ?>                                                                                                                   
+                                                        <label class="block">
+                                                        <input name="asignaciones[]" type="checkbox" class="ace input-lg" value="<?php echo $asigN->id_asignac; ?>" >
+                                                        <span class="lbl bigger-120" style="text-transform: capitalize"><?php echo $asigN->asignacion; ?></span>
+                                                    </label>
+                                                     <?php 
+                                                        }}
+                                                     ?>   
+                                                             
                                                     <span class="lbl"></span>
                                                     </label>
                                                     <br />
@@ -65,25 +75,42 @@ Nuevo
 
                                                 <td>
                                                     <span>
-                                                        <?php 
-                                                            foreach ($deducciones as $deducs) {
+                                                        <?php if(isset($deduccionesExist)){
+                                                            foreach ($deduccionesExist as $deducsE) {
                                                         ?>                                                                                                                     
 
                                                         <label class="block">
-                                                        <input name="deduccion" type="checkbox" class="ace input-lg" value= <?php echo "\"".$deducs->id_deduccion."\""; ?>>
-                                                        <span class="lbl bigger-120"><?php echo $deducs->nb_deduccion; }?></span>
+                                                        <input name="deducciones[]" type="checkbox" class="ace input-lg" value= "<?php echo $deducsE->id_deduccion; ?>" checked>
+                                                        <span class="lbl bigger-120"  style="text-transform: capitalize"><?php echo $deducsE->nb_deduccion; ?></span>
                                                     </label>
+                                                        
+                                                        <?php 
+                                                          }}
+                                                        ?>
+                                                        
+                                                        <?php if(isset($deduccionesNOExist)){
+                                                            foreach ($deduccionesNOExist as $deducsN) {
+                                                        ?>                                                                                                                     
+
+                                                        <label class="block">
+                                                        <input name="deducciones[]" type="checkbox" class="ace input-lg" value= "<?php echo $deducsN->id_deduccion; ?>" >
+                                                        <span class="lbl bigger-120"  style="text-transform: capitalize"><?php echo $deducsN->nb_deduccion; ?></span>
+                                                    </label>
+                                                        
+                                                        <?php 
+                                                          }}
+                                                        ?>
                                                     </span>
                                                 </td>
-
+                                                    
                                                         
 
                                             </tr>
-                                                <?php
-                                                 // }
-                                                 ?>
                                             </tbody>
                                             </table>
+                                        {{ submit_button("Guardar / Modificar", "class":"btn btn-primary") }}
+                                        {{ EndForm() }}
+                                        
                                         </div>
                                     </div>
                                 </div>

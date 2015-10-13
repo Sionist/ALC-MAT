@@ -13,7 +13,103 @@
 
 				<table class="table table-striped table-bordered table-hover">
 				<tr>
-				<td>Campos Aqui</td>
+				<td>
+				
+	 {{ form("cargafamiliar/guardanuevo", "method":"post", "class":"form-horizontal", "id":"validation-form", "enctype":"multipart/form-data" ) }}	  
+				
+			
+		{{ hidden_field("nu_cedula", "value":"<?php echo $trabaja->nu_cedula;?>") }}		
+				
+				<div align="center">
+	<table border="0" width="700" cellspacing="5" cellpadding="0">
+		<tr>
+			<td colspan="2" bgcolor="#5CBECF" align="center">
+			<p align="center"><h4>Datos de Carga Familiar</h4></td>
+		</tr>
+		<tr>
+			<td width="50%">Primer Nombre:</td>
+			<td width="50%">Segundo Nombre:</td>
+		</tr>
+		<tr>
+			<td width="50%">{{ text_field("nombre1", "size" : 30, "required":"required", "placeholder":"Primer Nombre") }}</td>
+			<td width="50%">{{ text_field("nombre2", "size" : 30, "placeholder":"Segundo Nombre") }}</td>
+		</tr>
+		<tr>
+			<td width="50%">Primer Apellido:</td>
+			<td width="50%">Segundo Apellido</td>
+		</tr>
+		<tr>
+			<td width="50%">{{ text_field("apellido1", "size" : 30, "required":"required", "placeholder":"Primer Apellido") }}</td>
+			<td width="50%">{{ text_field("apellido2", "size" : 30, "placeholder":"Segundo Apellido") }}</td>
+		</tr>
+		<tr>
+			<td width="50%">Fecha de Nacimiento:</td>
+			<td width="50%">Ocupación:</td>
+		</tr>
+		<tr>
+			<td width="50%">
+			<div class="col-xs-8"> <div class="input-group">
+        
+        
+                {{ text_field("f_nac", "type" : "date", "required":"required", "class":"form-control date-picker", "data-date-format":"yyyy-mm-dd") }}
+                <span class="input-group-addon">
+                                                                        <i class="fa fa-calendar bigger-110"></i>
+                                                                    </span>
+            </div>
+    
+            </div>
+			
+			</td>
+			<td width="50%">{{ text_field("ocupacion", "size" : 30, "placeholder":"Ocupación") }}</td>
+		</tr>
+		<tr>
+			<td width="50%">Género:</td>
+			<td width="50%">Parentesco:</td>
+		</tr>
+		<tr>
+			<td width="50%">
+			<div class="col-xs-12 col-sm-9"> 
+
+            <div><label class="line-height-1 blue">
+        
+            {{ radio_field("genero", "size" : 30, "placeholder":"Genero", "value":"1", "class":"ace") }}
+            <span class="lbl"> Hombre</span>
+            </label></div>
+            
+             
+            <div> <label class="line-height-1 blue">
+        
+            {{ radio_field("genero", "size" : 30, "placeholder":"Genero", "value":"2", "class":"ace") }}
+            <span class="lbl"> Mujer</span>
+           </label></div>
+            </div>
+            </div>
+			
+			</td>
+			<td width="50%">
+			<?php
+
+        echo Phalcon\Tag::Select(array(
+        'id_parentesco', 
+        Parentesco::find(array("order" => "id_parentesco ASC")),
+        'using' => array('id_parentesco', 'parentesco'),
+        'useEmpty' => true,
+        'emptyText' => 'Ingrese un valor',
+        'emptyValue' => '',
+        'class' => 'select2'
+        ));
+          ?>
+			
+			</td>
+		</tr>
+	</table>
+</div>
+
+		<br><div align="center">		
+		{{ submit_button('Guardar Datos', "class" :"btn btn-primary") }}		
+				
+		</div>		
+				</td>
 				</tr>
 				</table>
 </div>
@@ -26,222 +122,283 @@
 		{{ javascript_include("js/dataTables/extensions/TableTools/js/dataTables.tableTools.js") }}
 		{{ javascript_include("js/dataTables/extensions/ColVis/js/dataTables.colVis.js") }}
 
-		<script type="text/javascript">
-$(document).ready(function()
-{
+<script type="text/javascript">
+            jQuery(function($) {
 
-	$(document).ready(function() {
-        $('#stream_table').dataTable({
-            "bJQueryUI": true,
-            "sPaginationType": "full_numbers",
-            "aaSorting": [[ 0, "asc" ]]
-        }
-       );
-    });
+                // ------------------CALENDARIO PARA FECHAS --------------------
 
-  $("#estado").on("change", function()
-   {
-    var id_estado = $("#estado option:selected").attr("value");
-	
-	$.get("<?php echo $this->url->get('ciudades/getCiudades') ?>", {"estado":id_estado}, function(data)
-	  {
-	  
-	   var ciud ="";
-	   
-	   var ciuda = JSON.parse(data);
-	   
-	   ciud += "<option value='0'>Seleccione Ciudad</option>";
-	   
-	   for(datos in ciuda.ciud)
-	    {
-		ciud += '<option value="'+ciuda.ciud[datos].id_ciudad+'">'+
-		ciuda.ciud[datos].ciudad.
-		toUpperCase()+'</option>';
-		}
-		
-		$('#cargar_ciudad').html(ciud);
-		});
-		
-		});
-		
-		//initiate dataTables plugin
-				var oTable1 = 
-				$('#dynamic-table')
-				//.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
-				.dataTable( {
-					bAutoWidth: false,
-					"aoColumns": [
-					  { "bSortable": false },
-					  null, null, null, null, null,
-					  { "bSortable": false }
-					],
-					"aaSorting": [],
-			
-					//,
-					//"sScrollY": "200px",
-					//"bPaginate": false,
-			
-					//"sScrollX": "100%",
-					//"sScrollXInner": "120%",
-					//"bScrollCollapse": true,
-					//Note: if you are applying horizontal scrolling (sScrollX) on a ".table-bordered"
-					//you may want to wrap the table inside a "div.dataTables_borderWrap" element
-			
-					//"iDisplayLength": 50
-			    } );
-				//oTable1.fnAdjustColumnSizing();
-			
-			
-				//TableTools settings
-				TableTools.classes.container = "btn-group btn-overlap";
-				TableTools.classes.print = {
-					"body": "DTTT_Print",
-					"info": "tableTools-alert gritter-item-wrapper gritter-info gritter-center white",
-					"message": "tableTools-print-navbar"
-				}
-			
-				//initiate TableTools extension
-				var tableTools_obj = new $.fn.dataTable.TableTools( oTable1, {
-					"sSwfPath": "js/dataTables/extensions/TableTools/swf/copy_csv_xls_pdf.swf", //in Ace demo ../assets will be replaced by correct assets path
-					
-					"sRowSelector": "td:not(:last-child)",
-					"sRowSelect": "multi",
-					"fnRowSelected": function(row) {
-						//check checkbox when row is selected
-						try { $(row).find('input[type=checkbox]').get(0).checked = true }
-						catch(e) {}
-					},
-					"fnRowDeselected": function(row) {
-						//uncheck checkbox
-						try { $(row).find('input[type=checkbox]').get(0).checked = false }
-						catch(e) {}
-					},
-			
-					"sSelectedClass": "success",
-			        "aButtons": [
-						{
-							"sExtends": "copy",
-							"sToolTip": "Copy to clipboard",
-							"sButtonClass": "btn btn-white btn-primary btn-bold",
-							"sButtonText": "<i class='fa fa-copy bigger-110 pink'></i>",
-							"fnComplete": function() {
-								this.fnInfo( '<h3 class="no-margin-top smaller">Table copied</h3>\
-									<p>Copied '+(oTable1.fnSettings().fnRecordsTotal())+' row(s) to the clipboard.</p>',
-									1500
-								);
-							}
-						},
-						
-						{
-							"sExtends": "csv",
-							"sToolTip": "Export to CSV",
-							"sButtonClass": "btn btn-white btn-primary  btn-bold",
-							"sButtonText": "<i class='fa fa-file-excel-o bigger-110 green'></i>"
-						},
-						
-						{
-							"sExtends": "pdf",
-							"sToolTip": "Export to PDF",
-							"sButtonClass": "btn btn-white btn-primary  btn-bold",
-							"sButtonText": "<i class='fa fa-file-pdf-o bigger-110 red'></i>"
-						},
-						
-						{
-							"sExtends": "print",
-							"sToolTip": "Print view",
-							"sButtonClass": "btn btn-white btn-primary  btn-bold",
-							"sButtonText": "<i class='fa fa-print bigger-110 grey'></i>",
-							
-							"sMessage": "<div class='navbar navbar-default'><div class='navbar-header pull-left'><a class='navbar-brand' href='#'><small>Optional Navbar &amp; Text</small></a></div></div>",
-							
-							"sInfo": "<h3 class='no-margin-top'>Print view</h3>\
-									  <p>Please use your browser's print function to\
-									  print this table.\
-									  <br />Press <b>escape</b> when finished.</p>",
-						}
-			        ]
-			    } );
-				//we put a container before our table and append TableTools element to it
-			    $(tableTools_obj.fnContainer()).appendTo($('.tableTools-container'));
-				
-				//also add tooltips to table tools buttons
-				//addding tooltips directly to "A" buttons results in buttons disappearing (weired! don't know why!)
-				//so we add tooltips to the "DIV" child after it becomes inserted
-				//flash objects inside table tools buttons are inserted with some delay (100ms) (for some reason)
-				setTimeout(function() {
-					$(tableTools_obj.fnContainer()).find('a.DTTT_button').each(function() {
-						var div = $(this).find('> div');
-						if(div.length > 0) div.tooltip({container: 'body'});
-						else $(this).tooltip({container: 'body'});
-					});
-				}, 200);
-				
-				
-				
-				//ColVis extension
-				var colvis = new $.fn.dataTable.ColVis( oTable1, {
-					"buttonText": "<i class='fa fa-search'></i>",
-					"aiExclude": [0, 6],
-					"bShowAll": true,
-					//"bRestore": true,
-					"sAlign": "right",
-					"fnLabel": function(i, title, th) {
-						return $(th).text();//remove icons, etc
-					}
-					
-				}); 
-				
-				//style it
-				$(colvis.button()).addClass('btn-group').find('button').addClass('btn btn-white btn-info btn-bold')
-				
-				//and append it to our table tools btn-group, also add tooltip
-				$(colvis.button())
-				.prependTo('.tableTools-container .btn-group')
-				.attr('title', 'Show/hide columns').tooltip({container: 'body'});
-				
-				//and make the list, buttons and checkboxed Ace-like
-				$(colvis.dom.collection)
-				.addClass('dropdown-menu dropdown-light dropdown-caret dropdown-caret-right')
-				.find('li').wrapInner('<a href="javascript:void(0)" />') //'A' tag is required for better styling
-				.find('input[type=checkbox]').addClass('ace').next().addClass('lbl padding-8');
-			
-			
-				
-				/////////////////////////////////
-				//table checkboxes
-				$('th input[type=checkbox], td input[type=checkbox]').prop('checked', false);
-				
-				//select/deselect all rows according to table header checkbox
-				$('#dynamic-table > thead > tr > th input[type=checkbox]').eq(0).on('click', function(){
-					var th_checked = this.checked;//checkbox inside "TH" table header
-					
-					$(this).closest('table').find('tbody > tr').each(function(){
-						var row = this;
-						if(th_checked) tableTools_obj.fnSelect(row);
-						else tableTools_obj.fnDeselect(row);
-					});
-				});
-				
-				//select/deselect a row when the checkbox is checked/unchecked
-				$('#dynamic-table').on('click', 'td input[type=checkbox]' , function(){
-					var row = $(this).closest('tr').get(0);
-					if(!this.checked) tableTools_obj.fnSelect(row);
-					else tableTools_obj.fnDeselect($(this).closest('tr').get(0));
-				});
-				
-			
-				
-				
-					$(document).on('click', '#dynamic-table .dropdown-toggle', function(e) {
-					e.stopImmediatePropagation();
-					e.stopPropagation();
-					e.preventDefault();
-				});
-		
-		});
-		
-		</script>		 
-		
+                //datepicker plugin
+                //link
+                $('.date-picker').datepicker({
+                    changeMonth: true,
+                    changeYear: true
+                })
+                //show datepicker when clicking on the icon
+                .next().on(ace.click_event, function(){
+                    $(this).prev().focus();
+                });
+            
+                //or change it into a date range picker
+                $('.input-daterange').datepicker({autoclose:true});
+            
+            
+                //to translate the daterange picker, please copy the "examples/daterange-fr.js" contents here before initialization
+                $('input[name=date-range-picker]').daterangepicker({
+                    'applyClass' : 'btn-sm btn-success',
+                    'cancelClass' : 'btn-sm btn-default',
+                    locale: {
+                        applyLabel: 'Apply',
+                        cancelLabel: 'Cancel',
+                    }
+                })
+                .prev().on(ace.click_event, function(){
+                    $(this).next().focus();
+                });
+            
+            
+                $('#timepicker1').timepicker({
+                    minuteStep: 1,
+                    showSeconds: true,
+                    showMeridian: false
+                }).next().on(ace.click_event, function(){
+                    $(this).prev().focus();
+                });
+                
+                $('#date-timepicker1').datetimepicker().next().on(ace.click_event, function(){
+                    $(this).prev().focus();
+                });
+
+
+                 // ------------------ESTILO PARA CARGA DE ARCHIVO/IMAGENES --------------------
+
+                $('#id-input-file-1 , #foto_p').ace_file_input({
+                    no_file:'Vacio ...',
+                    btn_choose:'Elije',
+                    btn_change:'Cambia',
+                    droppable:false,
+                    onchange:null,
+                    thumbnail:false //| true | large
+                    //whitelist:'gif|png|jpg|jpeg'
+                    //blacklist:'exe|php'
+                    //onchange:''
+                    //
+                });
+                //pre-show a file name, for example a previously selected file
+                //$('#id-input-file-1').ace_file_input('show_file_list', ['myfile.txt'])
+            
+            
+                $('#id-input-file-3').ace_file_input({
+                    style:'well',
+                    btn_choose:'Seleccione la imagen aqui',
+                    btn_change:null,
+                    no_icon:'ace-icon fa fa-cloud-upload',
+                    droppable:true,
+                    thumbnail:'small'//large | fit
+                    //,icon_remove:null//set null, to hide remove/reset button
+                    /**,before_change:function(files, dropped) {
+                        //Check an example below
+                        //or examples/file-upload.html
+                        return true;
+                    }*/
+                    /**,before_remove : function() {
+                        return true;
+                    }*/
+                    ,
+                    preview_error : function(filename, error_code) {
+                        //name of the file that failed
+                        //error_code values
+                        //1 = 'FILE_LOAD_FAILED',
+                        //2 = 'IMAGE_LOAD_FAILED',
+                        //3 = 'THUMBNAIL_FAILED'
+                        //alert(error_code);
+                    }
+            
+                }).on('change', function(){
+                    //console.log($(this).data('ace_input_files'));
+                    //console.log($(this).data('ace_input_method'));
+                });
+                
+                
+                //$('#id-input-file-3')
+                //.ace_file_input('show_file_list', [
+                    //{type: 'image', name: 'name of image', path: 'http://path/to/image/for/preview'},
+                    //{type: 'file', name: 'hello.txt'}
+                //]);
+            
+                
+                
+            
+                //dynamically change allowed formats by changing allowExt && allowMime function
+                $('#id-file-format').removeAttr('checked').on('change', function() {
+                    var whitelist_ext, whitelist_mime;
+                    var btn_choose
+                    var no_icon
+                    if(this.checked) {
+                        btn_choose = "Seleccione la imagen";
+                        no_icon = "ace-icon fa fa-picture-o";
+            
+                        whitelist_ext = ["jpeg", "jpg", "png", "gif" , "bmp"];
+                        whitelist_mime = ["image/jpg", "image/jpeg", "image/png", "image/gif", "image/bmp"];
+                    }
+                    else {
+                        btn_choose = "Drop files here or click to choose";
+                        no_icon = "ace-icon fa fa-cloud-upload";
+                        
+                        whitelist_ext = null;//all extensions are acceptable
+                        whitelist_mime = null;//all mimes are acceptable
+                    }
+                    var file_input = $('#id-input-file-3');
+                    file_input
+                    .ace_file_input('update_settings',
+                    {
+                        'btn_choose': btn_choose,
+                        'no_icon': no_icon,
+                        'allowExt': whitelist_ext,
+                        'allowMime': whitelist_mime
+                    })
+                    file_input.ace_file_input('reset_input');
+                    
+                    file_input
+                    .off('file.error.ace')
+                    .on('file.error.ace', function(e, info) {
+                        //console.log(info.file_count);//number of selected files
+                        //console.log(info.invalid_count);//number of invalid files
+                        //console.log(info.error_list);//a list of errors in the following format
+                        
+                        //info.error_count['ext']
+                        //info.error_count['mime']
+                        //info.error_count['size']
+                        
+                        //info.error_list['ext']  = [list of file names with invalid extension]
+                        //info.error_list['mime'] = [list of file names with invalid mimetype]
+                        //info.error_list['size'] = [list of file names with invalid size]
+                        
+                        
+                        /**
+                        if( !info.dropped ) {
+                            //perhapse reset file field if files have been selected, and there are invalid files among them
+                            //when files are dropped, only valid files will be added to our file array
+                            e.preventDefault();//it will rest input
+                        }
+                        */
+                        
+                        
+                        //if files have been selected (not dropped), you can choose to reset input
+                        //because browser keeps all selected files anyway and this cannot be changed
+                        //we can only reset file field to become empty again
+                        //on any case you still should check files with your server side script
+                        //because any arbitrary file can be uploaded by user and it's not safe to rely on browser-side measures
+                    });
+                
+                });
+            
+
+             // -----------------ESTILOS DE TOOLTIP Y DE SELECT BOX --------------------
+                $('[data-rel=tooltip]').tooltip();
+            
+                $(".select2").css('width','200px').select2({allowClear:true})
+                .on('change', function(){
+                    $(this).closest('form').validate().element($(this));
+                }); 
+            
+             // ------------------FORMATO DE TELEFONOS --------------------
+               
+                $.mask.definitions['~']='[+-]';
+                $('#telf_hab').mask('(9999) 999-9999');
+                $.mask.definitions['~']='[+-]';
+                $('#telf_cel').mask('(9999) 999-9999');
+                $('#nu_cedula').mask('99999999');
+
+          
+                jQuery.validator.addMethod("phone", function (value, element) {
+                    return this.optional(element) || /^\(\d{4}\) \d{3}\-\d{4}( x\d{1,6})?$/.test(value);
+                }, "Enter a valid phone number.");
+            
+        // ------------------VALIDACION DEL FORMULARIO --------------------
+                $("#validation-form").validate({
+                    errorElement: 'div',
+                    errorClass: 'help-block',
+                    focusInvalid: false,
+                    ignore: "",
+                    
+                rules: {
+
+                    nu_cedula: {
+                    remote: {
+                    url : "/sistenomialc/cargafamiliar/getCedula1",
+                    type : "get"
+                    }
+                    
+                    },
+                    nu_cedula: {
+                        required: true,
+                    },
+                    correo_e: {
+                        required: true,
+                        email:true
+                    },
+                    nombre1: {
+                        required: true
+                    },
+                    apellido1: {
+                        required: true
+                    },
+                    genero: {
+                        required: true
+                    },
+                    f_nac: {
+                        required: true
+                    },
+                    lugar_nac: {
+                        required: true
+                    },
+                    telf_cel: {
+                        required: true,
+                        phone: 'required'
+                    },
+                    dir_hab: {
+                        required: true
+                    },
+                    edo_civil: {
+                        required: true
+                    },
+                    id_discapacidad: {
+                        required: true
+                    },
+                    estatus: {
+                        required: true
+                    }
+                },
+                
+                messages: {
+                        correo_e: {
+                            required: "Ingrese un email valido.",
+                            email: "Ingrese un email valido."
+                        }
+                        
+                    },
+            
+            
+                    highlight: function (e) {
+                        $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+                    },
+                    success: function (e) {
+                        $(e).closest('.form-group').removeClass('has-error');//.addClass('has-info');
+                        $(e).remove();
+                    }
+            });
+                
+                
+                           
+              // ------------------NO ESTOY SEGURA CREO QUE ES ALGO DEL SELECT BOX --------------------   
+                          
+                
+                $(document).one('ajaxloadstart.page', function(e) {
+                    //in ajax mode, remove remaining elements before leaving page
+                    $('[class*=select2]').remove();
+                });
+            })
+</script>
 		
 	
 		

@@ -103,6 +103,7 @@ class ClasificacionesController extends \Phalcon\Mvc\Controller
 		
 	{
 	
+		$this->view->disable();
 
 		$clasi = $this->request->get("clasi");
 
@@ -116,7 +117,9 @@ class ClasificacionesController extends \Phalcon\Mvc\Controller
         //$this->view->setVar("clasificaciones",$clasificaciones);
 
 
-		$this->view->setParamToView("clasificaciones",$clasificaciones);
+		//$this->view->setParamToView("clasificaciones",$clasificaciones);
+
+		
 
 		
 	}
