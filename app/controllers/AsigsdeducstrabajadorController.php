@@ -14,7 +14,7 @@ class AsigsdeducstrabajadorController extends \Phalcon\Mvc\Controller
     {
         $query = new Phalcon\Mvc\Model\Query("SELECT datospersonales.nombre1, datospersonales.apellido1, datospersonales.nu_cedula FROM datospersonales where datospersonales.nu_cedula = $cedula", $this->getDI());
 
-        $dt = $query->execute();
+        $deducsNOexist = $query->execute();
         //recupera id y nombre de asignaciones relacionada con la cedula
        $asig_query_exist = new Phalcon\Mvc\Model\Query("SELECT
                                                     NbAsignaciones.id_asignac,
@@ -25,19 +25,27 @@ class AsigsdeducstrabajadorController extends \Phalcon\Mvc\Controller
                                                     WHERE
                                                     TrabajoAsi.nu_cedula = $cedula ", $this->getDI());
 
-        $asignacionesExist = $asig_query_exist->execute();
+        $asignacionesT = $asig_query_exist->execute()->toArray();
 
-        //recupera id y nombre de asignaciones NO relacionada con la cedula
-        $asig_query_NOexist = new Phalcon\Mvc\Model\Query("SELECT
-                                                    NbAsignaciones.id_asignac,
-                                                    NbAsignaciones.asignacion
-                                                    FROM
-                                                    TrabajoAsi
-                                                    INNER JOIN NbAsignaciones ON TrabajoAsi.id_trabajo_asi != NbAsignaciones.id_asignac
-                                                    WHERE
-                                                    TrabajoAsi.nu_cedula = $cedula ", $this->getDI());
+        $asig_all = new Phalcon\Mvc\Model\Query("SELECT id_asignac, asignacion FROM NbAsignaciones",$this->getDI());
 
-        $asignacionesNOExist = $asig_query_NOexist->execute();
+        $asignaciones = $asig_all->execute()->toArray();
+
+
+        $a= array();
+
+        foreach ($asignaciones as $x => $v) {
+            if(!isset($asignacionesT[$x])){
+                $a[$x]=$v;
+            }
+        }
+        //reincia el indice del array con el primero en 0
+        $aTemp = array_values($a);
+
+        //transforma el array bidimensional en un array undimimensional
+        for($i=0;$i<count($aTemp); $i++){
+            $asigsNOexist[$aTemp[$i]["id_asignac"]] = $aTemp[$i]["asignacion"];
+        }
 
         //recupera id y nombre de deducciones relacionada con la cedula
         $deduc_query_exist = new Phalcon\Mvc\Model\Query("SELECT
@@ -49,26 +57,42 @@ class AsigsdeducstrabajadorController extends \Phalcon\Mvc\Controller
                                                     WHERE
                                                     TrabajoDedu.nu_cedula = $cedula ", $this->getDI());
 
-        $deduccionesExist = $deduc_query_exist->execute();
+        $deducT = $deduc_query_exist->execute();
 
-        $deduc_query_NOexist = new Phalcon\Mvc\Model\Query("SELECT DISTINCT
-                                                    NbDeducciones.id_deduccion,
-                                                    NbDeducciones.nb_deduccion
-                                                    FROM
-                                                    TrabajoDedu
-                                                    INNER JOIN NbDeducciones ON TrabajoDedu.id_trabajo_dedu != NbDeducciones.id_deduccion
-                                                    WHERE
-                                                    TrabajoDedu.nu_cedula = $cedula ", $this->getDI());
+        $deduccionesT = $deducT->toArray();
 
-        $deduccionesNOExist = $deduc_query_NOexist->execute();
+        $deduc_all = new Phalcon\Mvc\Model\Query("SELECT id_deduccion, nb_deduccion FROM NbDeducciones",$this->getDI());
 
-        $this->tag->setDefault("cedula", $cedula);
+        $deducciones = $deduc_all->execute()->toArray();
+
+        $d = array();
+        $deducsNOexist = array();
+
+        foreach ($deducciones as $x => $v) {
+            if(!isset($deduccionesT[$x])){
+                $d[$x]=$v;
+            }
+        }
+
+        //reincia el indice del array con el primero en 0
+        $dTemp = array_values($d);
+
+        //transforma el array bidimensional en un array undimimensional
+        for($i=0;$i<count($dTemp); $i++){
+            $deducsNOexist[$dTemp[$i]["id_deduccion"]] = $dTemp[$i]["nb_deduccion"];
+        }
+
+        var_dump($asigsNOexist);
+        var_dump($d);
+        var_dump($deducsNOexist);
+        var_dump($dTemp);
+
+        /*$this->tag->setDefault("cedula", $cedula);
         $this->view->setParamToView("dt", $dt);
-        $this->view->setParamToView("asignacionesExist", $asignacionesExist);
-        $this->view->setParamToView("asignacionesNOExist", $asignacionesNOExist);
-        $this->view->setParamToView("deduccionesExist", $deduccionesExist);
-        $this->view->setParamToView("deduccionesNOExist", $deduccionesNOExist);
-
+        $this->view->setParamToView("asignacionesTRAB", $asignacionesTRAB);
+        $this->view->setParamToView("asignaciones", $asignaciones);
+        $this->view->setParamToView("deduccionesTRAB", $deduccionesTRAB);
+        $this->view->setParamToView("deducciones", $deducciones);*/
     }
 
     public function guardarModificarAction(){
@@ -160,6 +184,7 @@ class AsigsdeducstrabajadorController extends \Phalcon\Mvc\Controller
 
                 }
                 $this->flash->success("<div class='alert alert-block alert-success'>Se han guardado / modificado con exito</div>");
+                return $vista;
             }else{
                 $this->flash->error("<div class='alert alert-block alert-danger'>Debe seleccionar al menos una (1) Asignación y una (1) Deducción</div>");
             }
