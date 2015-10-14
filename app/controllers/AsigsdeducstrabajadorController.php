@@ -14,9 +14,10 @@ class AsigsdeducstrabajadorController extends \Phalcon\Mvc\Controller
     {
         $query = new Phalcon\Mvc\Model\Query("SELECT datospersonales.nombre1, datospersonales.apellido1, datospersonales.nu_cedula FROM datospersonales where datospersonales.nu_cedula = $cedula", $this->getDI());
 
-        $deducsNOexist = $query->execute();
+        $datosTrabajador = $query->execute();
+
         //recupera id y nombre de asignaciones relacionada con la cedula
-       $asig_query_exist = new Phalcon\Mvc\Model\Query("SELECT
+        $asig_query_exist = new Phalcon\Mvc\Model\Query("SELECT
                                                     NbAsignaciones.id_asignac,
                                                     NbAsignaciones.asignacion
                                                     FROM
@@ -25,27 +26,38 @@ class AsigsdeducstrabajadorController extends \Phalcon\Mvc\Controller
                                                     WHERE
                                                     TrabajoAsi.nu_cedula = $cedula ", $this->getDI());
 
-        $asignacionesT = $asig_query_exist->execute()->toArray();
+        $asigT = $asig_query_exist->execute()->toArray();
 
         $asig_all = new Phalcon\Mvc\Model\Query("SELECT id_asignac, asignacion FROM NbAsignaciones",$this->getDI());
 
-        $asignaciones = $asig_all->execute()->toArray();
+        $asigs = $asig_all->execute()->toArray();
 
 
-        $a= array();
+        $asignacionesT= array();
 
-        foreach ($asignaciones as $x => $v) {
-            if(!isset($asignacionesT[$x])){
-                $a[$x]=$v;
-            }
-        }
         //reincia el indice del array con el primero en 0
-        $aTemp = array_values($a);
+        $aTTemp = array_values($asigT);
 
         //transforma el array bidimensional en un array undimimensional
-        for($i=0;$i<count($aTemp); $i++){
-            $asigsNOexist[$aTemp[$i]["id_asignac"]] = $aTemp[$i]["asignacion"];
+        //almacena el recultado de la consulta asignaciones del trabajador
+        for($i=0;$i<count($aTTemp); $i++){
+            $asignacionesT[$aTTemp[$i]["id_asignac"]] = $aTTemp[$i]["asignacion"];
         }
+
+        $asignaciones= array();
+
+        //reincia el indice del array con el primero en 0
+        $aTemp = array_values($asigs);
+
+        //transforma el array bidimensional en un array
+        //almacena las asignaciones globales
+        for($i=0;$i<count($aTemp); $i++){
+            $asignaciones[$aTemp[$i]["id_asignac"]] = $aTemp[$i]["asignacion"];
+        }
+
+        //array resultante con las asignaciones no relacionadas con el trabajador
+        $asigsResult = array_diff_assoc($asignaciones,$asignacionesT);
+
 
         //recupera id y nombre de deducciones relacionada con la cedula
         $deduc_query_exist = new Phalcon\Mvc\Model\Query("SELECT
@@ -57,42 +69,45 @@ class AsigsdeducstrabajadorController extends \Phalcon\Mvc\Controller
                                                     WHERE
                                                     TrabajoDedu.nu_cedula = $cedula ", $this->getDI());
 
-        $deducT = $deduc_query_exist->execute();
-
-        $deduccionesT = $deducT->toArray();
+        $deducsT = $deduc_query_exist->execute()->toArray();
 
         $deduc_all = new Phalcon\Mvc\Model\Query("SELECT id_deduccion, nb_deduccion FROM NbDeducciones",$this->getDI());
 
-        $deducciones = $deduc_all->execute()->toArray();
+        $deducs = $deduc_all->execute()->toArray();
 
-        $d = array();
-        $deducsNOexist = array();
+        //reincia el indice del array con el primero en 0
+        $dTTemp = array_values($deducsT);
+        $deduccionesT = array();
 
-        foreach ($deducciones as $x => $v) {
-            if(!isset($deduccionesT[$x])){
-                $d[$x]=$v;
-            }
+        //transforma el array bidimensional en un array undimimensional
+        for($i=0;$i<count($dTTemp); $i++){
+            $deduccionesT[$dTTemp[$i]["id_deduccion"]] = $dTTemp[$i]["nb_deduccion"];
         }
 
         //reincia el indice del array con el primero en 0
-        $dTemp = array_values($d);
+        $dTemp = array_values($deducs);
+        $deducciones = array();
 
         //transforma el array bidimensional en un array undimimensional
         for($i=0;$i<count($dTemp); $i++){
-            $deducsNOexist[$dTemp[$i]["id_deduccion"]] = $dTemp[$i]["nb_deduccion"];
+            $deducciones[$dTemp[$i]["id_deduccion"]] = $dTemp[$i]["nb_deduccion"];
         }
 
-        var_dump($asigsNOexist);
-        var_dump($d);
-        var_dump($deducsNOexist);
-        var_dump($dTemp);
+        $deducsResult = array_diff_assoc($deducciones,$deduccionesT);
+       /* var_dump($asignaciones);
+        var_dump($asignacionesT);
+        var_dump($asigsResult);
+        var_dump($deducciones);
+        var_dump($deduccionesT);
+        var_dump($deducsResult);*/
 
-        /*$this->tag->setDefault("cedula", $cedula);
-        $this->view->setParamToView("dt", $dt);
-        $this->view->setParamToView("asignacionesTRAB", $asignacionesTRAB);
-        $this->view->setParamToView("asignaciones", $asignaciones);
-        $this->view->setParamToView("deduccionesTRAB", $deduccionesTRAB);
-        $this->view->setParamToView("deducciones", $deducciones);*/
+
+        $this->tag->setDefault("cedula", $cedula);
+        $this->view->setParamToView("datosTrabajador", $datosTrabajador);
+        $this->view->setParamToView("asignacionesT", $asignacionesT);
+        $this->view->setParamToView("asigsResult", $asigsResult);
+        $this->view->setParamToView("deduccionesT", $deduccionesT);
+        $this->view->setParamToView("deducsResult", $deducsResult);
     }
 
     public function guardarModificarAction(){
@@ -111,7 +126,7 @@ class AsigsdeducstrabajadorController extends \Phalcon\Mvc\Controller
             $deducciones = $this->request->getPost("deducciones");
 
 
-            if (!$asignaciones == null || !$deducciones == null) {
+            if ($asignaciones != null && $deducciones != null) {
 
                 $trabajoAsi = TrabajoAsi::findFirstByNuCedula($cedula);
 

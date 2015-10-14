@@ -16,7 +16,7 @@ use Phalcon\Forms\Element\Select ?>
             <div class="pull-right tableTools-container"></div>
         </div>
                                         <div class="table-header">
-                                            <?php foreach($dt as $dts){ ?>
+                                            <?php foreach($datosTrabajador as $dts){ ?>
                                             
                                             Asignaciones y Deducciones Para:<?php echo " ".$dts->nombre1." ".$dts->apellido1.". Cedula: ".$dts->nu_cedula; ?> 
                                             
@@ -46,23 +46,23 @@ use Phalcon\Forms\Element\Select ?>
                                                 <td>
                                                     <label class="pos-rel">
                                                         
-                                                        <?php if(isset($asignacionesTRAB)){
-                                                            foreach ($asignacionesTRAB as $asigT) {
+                                                        <?php if(isset($asignacionesT)){
+                                                            foreach ($asignacionesT as $k => $v) {
                                                         ?>                                                                                                                   
                                                         <label class="block">
-                                                        <input name="asignaciones[]" type="checkbox" class="ace input-lg" value="<?php echo $asigT->id_asignac; ?>" checked>
-                                                        <span class="lbl bigger-120" style="text-transform: capitalize"><?php echo $asigT->asignacion; ?></span>
+                                                        <input name="asignaciones[]" type="checkbox" class="ace input-lg" value="<?php echo $k; ?>" checked>
+                                                        <span class="lbl bigger-120" style="text-transform: capitalize"><?php echo $v; ?></span>
                                                     </label>
                                                      <?php 
                                                         }}
                                                      ?>   
                                                         
-                                                        <?php if(isset($asignaciones)){
-                                                            foreach ($asignaciones as $asigs) {
+                                                        <?php if(isset($asigsResult)){
+                                                            foreach ($asigsResult as $k => $v) {
                                                         ?>                                                                                                                   
                                                         <label class="block">
-                                                        <input name="asignaciones[]" type="checkbox" class="ace input-lg" value="<?php echo $asigs->id_asignac; ?>" >
-                                                        <span class="lbl bigger-120" style="text-transform: capitalize"><?php echo $asigs->asignacion; ?></span>
+                                                        <input name="asignaciones[]" type="checkbox" class="ace input-lg" value="<?php echo $k; ?>" >
+                                                        <span class="lbl bigger-120" style="text-transform: capitalize"><?php echo $v; ?></span>
                                                     </label>
                                                      <?php 
                                                         }}
@@ -75,27 +75,27 @@ use Phalcon\Forms\Element\Select ?>
 
                                                 <td>
                                                     <span>
-                                                        <?php if(isset($deduccionesTRAB)){
+                                                        <?php if(isset($deduccionesT)){
                                                             
-                                                            foreach ($deduccionesTRAB as $deducsT) {
+                                                            foreach ($deduccionesT as $k => $v) {
                                                         ?>                                                                                                                     
 
                                                         <label class="block">
-                                                        <input name="deducciones[]" type="checkbox" class="ace input-lg" value= "<?php echo $deducsT->id_deduccion; ?>" checked>
-                                                        <span class="lbl bigger-120"  style="text-transform: capitalize"><?php echo $deducsT->nb_deduccion; ?></span>
+                                                        <input name="deducciones[]" type="checkbox" class="ace input-lg" value= "<?php echo $k; ?>" checked>
+                                                        <span class="lbl bigger-120"  style="text-transform: capitalize"><?php echo $v; ?></span>
                                                     </label>
                                                         
                                                         <?php 
                                                           }}
                                                         ?>
                                                         
-                                                        <?php if(isset($deducciones)){                                                            
-                                                            foreach ($deducDif as $deducs) {
+                                                        <?php if(isset($deducsResult)){                                                            
+                                                            foreach ($deducsResult as $k => $v) {
                                                         ?>                                                                                                                     
 
                                                         <label class="block">
-                                                        <input name="deducciones[]" type="checkbox" class="ace input-lg" value= "<?php echo $deducs->id_deduccion; ?>" >
-                                                        <span class="lbl bigger-120"  style="text-transform: capitalize"><?php echo $deducs->nb_deduccion; ?></span>
+                                                        <input name="deducciones[]" type="checkbox" class="ace input-lg" value= "<?php echo $k; ?>" >
+                                                        <span class="lbl bigger-120"  style="text-transform: capitalize"><?php echo $v; ?></span>
                                                     </label>
                                                         
                                                         <?php 

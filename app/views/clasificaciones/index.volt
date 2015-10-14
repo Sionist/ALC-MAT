@@ -43,6 +43,7 @@
 			<div class="pull-right tableTools-container"></div>
 		</div>
 
+		{{ text_field("todo", "class":"form-control")}}	
 
 
 	</div>
@@ -114,9 +115,11 @@ $(document).ready(function()
    
 	   		for(datos in ciuda.ciud)
 	    	{
-
+	    		ciud += ciuda.ciud[datos].id_clasi+ciuda.ciud[datos].maximo;
 			}
 			
+			$('#todo').val(ciud);
+			//$('#postal').val(postal.postal);
 		});
 	});
 

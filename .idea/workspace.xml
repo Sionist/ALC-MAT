@@ -31,15 +31,15 @@
       <file leaf-file-name="AsigsdeducstrabajadorController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/AsigsdeducstrabajadorController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4364896">
-              <caret line="36" column="8" selection-start-line="36" selection-start-column="8" selection-end-line="40" selection-end-column="9" />
+            <state vertical-scroll-proportion="0.4896074">
+              <caret line="203" column="0" selection-start-line="203" selection-start-column="0" selection-end-line="203" selection-end-column="0" />
               <folding>
-                <marker date="1444852580095" expanded="true" signature="300:440" placeholder="SELECT datos..datospersonales..." />
-                <marker date="1444852580095" expanded="false" signature="641:696" placeholder="SELECT nb_as..trabajo_asi..." />
-                <marker date="1444852580095" expanded="false" signature="641:1193" placeholder="SELECT nb_as..trabajo_asi..." />
-                <marker date="1444852580095" expanded="true" signature="1338:1387" placeholder="SELECT id_as..NbAsignaciones..." />
-                <marker date="1444852580095" expanded="false" signature="2058:2616" placeholder="SELECT NbDed..TrabajoDedu..." />
-                <marker date="1444852580095" expanded="true" signature="2790:2842" placeholder="SELECT id_de..NbDeducciones..." />
+                <marker date="1444855252421" expanded="true" signature="300:440" placeholder="SELECT datos..datospersonales..." />
+                <marker date="1444855252421" expanded="false" signature="645:700" placeholder="SELECT nb_as..trabajo_asi..." />
+                <marker date="1444855252421" expanded="false" signature="645:1197" placeholder="SELECT nb_as..trabajo_asi..." />
+                <marker date="1444855252421" expanded="true" signature="1334:1383" placeholder="SELECT id_as..NbAsignaciones..." />
+                <marker date="1444855252421" expanded="false" signature="2522:3080" placeholder="SELECT NbDed..TrabajoDedu..." />
+                <marker date="1444855252421" expanded="true" signature="3221:3273" placeholder="SELECT id_de..NbDeducciones..." />
               </folding>
             </state>
           </provider>
@@ -326,8 +326,8 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1456" height="876" extended-state="7" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1456" height="876" extended-state="6" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2320917" sideWeight="0.49530202" order="1" side_tool="true" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32885906" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -339,7 +339,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.24928367" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" x="22" y="337" width="1396" height="186" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.23853868" sideWeight="0.504698" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.347185" sideWeight="0.49713466" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.347185" sideWeight="0.49713466" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -378,11 +378,26 @@
           <line>9</line>
           <option name="timeStamp" value="104" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/app/controllers/AsigsdeducstrabajadorController.php</url>
+          <line>153</line>
+          <option name="timeStamp" value="175" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/app/controllers/AsigsdeducstrabajadorController.php</url>
+          <line>124</line>
+          <option name="timeStamp" value="176" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/app/controllers/AsigsdeducstrabajadorController.php</url>
+          <line>125</line>
+          <option name="timeStamp" value="177" />
+        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="174" />
+      <option name="time" value="178" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -741,7 +756,7 @@
         <state vertical-scroll-proportion="0.33256352">
           <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
           <folding>
-            <marker date="1444852107329" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1444854755064" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -764,15 +779,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/AsigsdeducstrabajadorController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4364896">
-          <caret line="36" column="8" selection-start-line="36" selection-start-column="8" selection-end-line="40" selection-end-column="9" />
+        <state vertical-scroll-proportion="0.4896074">
+          <caret line="203" column="0" selection-start-line="203" selection-start-column="0" selection-end-line="203" selection-end-column="0" />
           <folding>
-            <marker date="1444852580095" expanded="true" signature="300:440" placeholder="SELECT datos..datospersonales..." />
-            <marker date="1444852580095" expanded="false" signature="641:696" placeholder="SELECT nb_as..trabajo_asi..." />
-            <marker date="1444852580095" expanded="false" signature="641:1193" placeholder="SELECT nb_as..trabajo_asi..." />
-            <marker date="1444852580095" expanded="true" signature="1338:1387" placeholder="SELECT id_as..NbAsignaciones..." />
-            <marker date="1444852580095" expanded="false" signature="2058:2616" placeholder="SELECT NbDed..TrabajoDedu..." />
-            <marker date="1444852580095" expanded="true" signature="2790:2842" placeholder="SELECT id_de..NbDeducciones..." />
+            <marker date="1444855252421" expanded="true" signature="300:440" placeholder="SELECT datos..datospersonales..." />
+            <marker date="1444855252421" expanded="false" signature="645:700" placeholder="SELECT nb_as..trabajo_asi..." />
+            <marker date="1444855252421" expanded="false" signature="645:1197" placeholder="SELECT nb_as..trabajo_asi..." />
+            <marker date="1444855252421" expanded="true" signature="1334:1383" placeholder="SELECT id_as..NbAsignaciones..." />
+            <marker date="1444855252421" expanded="false" signature="2522:3080" placeholder="SELECT NbDed..TrabajoDedu..." />
+            <marker date="1444855252421" expanded="true" signature="3221:3273" placeholder="SELECT id_de..NbDeducciones..." />
           </folding>
         </state>
       </provider>
