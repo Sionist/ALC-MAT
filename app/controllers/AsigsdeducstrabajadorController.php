@@ -28,36 +28,18 @@ class AsigsdeducstrabajadorController extends \Phalcon\Mvc\Controller
 
         $asigT = $asig_query_exist->execute()->toArray();
 
+        //recupera las asignaciones globales
         $asig_all = new Phalcon\Mvc\Model\Query("SELECT id_asignac, asignacion FROM NbAsignaciones",$this->getDI());
 
         $asigs = $asig_all->execute()->toArray();
 
+        //llama a funcion para convertir los arrays
+        $asignacionesT= $this->asigsArrays($asigT);
 
-        $asignacionesT= array();
-
-        //reincia el indice del array con el primero en 0
-        $aTTemp = array_values($asigT);
-
-        //transforma el array bidimensional en un array undimimensional
-        //almacena el recultado de la consulta asignaciones del trabajador
-        for($i=0;$i<count($aTTemp); $i++){
-            $asignacionesT[$aTTemp[$i]["id_asignac"]] = $aTTemp[$i]["asignacion"];
-        }
-
-        $asignaciones= array();
-
-        //reincia el indice del array con el primero en 0
-        $aTemp = array_values($asigs);
-
-        //transforma el array bidimensional en un array
-        //almacena las asignaciones globales
-        for($i=0;$i<count($aTemp); $i++){
-            $asignaciones[$aTemp[$i]["id_asignac"]] = $aTemp[$i]["asignacion"];
-        }
+        $asignaciones= $this->asigsArrays($asigs);
 
         //array resultante con las asignaciones no relacionadas con el trabajador
         $asigsResult = array_diff_assoc($asignaciones,$asignacionesT);
-
 
         //recupera id y nombre de deducciones relacionada con la cedula
         $deduc_query_exist = new Phalcon\Mvc\Model\Query("SELECT
@@ -75,32 +57,13 @@ class AsigsdeducstrabajadorController extends \Phalcon\Mvc\Controller
 
         $deducs = $deduc_all->execute()->toArray();
 
-        //reincia el indice del array con el primero en 0
-        $dTTemp = array_values($deducsT);
-        $deduccionesT = array();
+        //llama a funcion a funcion para convertir los arrays
+        $deduccionesT = $this->deducssArrays($deducsT);
 
-        //transforma el array bidimensional en un array undimimensional
-        for($i=0;$i<count($dTTemp); $i++){
-            $deduccionesT[$dTTemp[$i]["id_deduccion"]] = $dTTemp[$i]["nb_deduccion"];
-        }
+        $deducciones = $this->deducssArrays($deducs);
 
-        //reincia el indice del array con el primero en 0
-        $dTemp = array_values($deducs);
-        $deducciones = array();
-
-        //transforma el array bidimensional en un array undimimensional
-        for($i=0;$i<count($dTemp); $i++){
-            $deducciones[$dTemp[$i]["id_deduccion"]] = $dTemp[$i]["nb_deduccion"];
-        }
 
         $deducsResult = array_diff_assoc($deducciones,$deduccionesT);
-       /* var_dump($asignaciones);
-        var_dump($asignacionesT);
-        var_dump($asigsResult);
-        var_dump($deducciones);
-        var_dump($deduccionesT);
-        var_dump($deducsResult);*/
-
 
         $this->tag->setDefault("cedula", $cedula);
         $this->view->setParamToView("datosTrabajador", $datosTrabajador);
@@ -204,6 +167,32 @@ class AsigsdeducstrabajadorController extends \Phalcon\Mvc\Controller
                 $this->flash->error("<div class='alert alert-block alert-danger'>Debe seleccionar al menos una (1) Asignación y una (1) Deducción</div>");
             }
         }
+    }
+
+    private function asigsArrays($array1 = array()){
+
+        //reincia el indice del array con el primero en 0
+        $aTemp = array_values($array1);
+        $array2= array();
+        //transforma el array bidimensional en un array undimimensional
+        //almacena el recultado de la consulta asignaciones del trabajador
+        for($i=0;$i<count($aTemp); $i++){
+            $array2[$aTemp[$i]["id_asignac"]] = $aTemp[$i]["asignacion"];
+        }
+        return $array2;
+    }
+
+    private function deducssArrays($array1 = array()){
+
+        //reincia el indice del array con el primero en 0
+        $aTemp = array_values($array1);
+        $array2= array();
+        //transforma el array bidimensional en un array undimimensional
+        //almacena el recultado de la consulta asignaciones del trabajador
+        for($i=0;$i<count($aTemp); $i++){
+            $array2[$aTemp[$i]["id_deduccion"]] = $aTemp[$i]["nb_deduccion"];
+        }
+        return $array2;
     }
 
 }
