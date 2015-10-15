@@ -6,11 +6,14 @@ class AsigsdeducstrabajadorController extends \Phalcon\Mvc\Controller
     public function initialize(){
         $this->view->setTemplateAfter('blank');
     }
+    public function indexAction(){
+        $this->response->redirect('trabajadores/index');
+    }
 
     /**
      * @param $cedula
      */
-    public function indexAction($cedula)
+    public function cargarAction($cedula)
     {
         $query = new Phalcon\Mvc\Model\Query("SELECT datospersonales.nombre1, datospersonales.apellido1, datospersonales.nu_cedula FROM datospersonales where datospersonales.nu_cedula = $cedula", $this->getDI());
 

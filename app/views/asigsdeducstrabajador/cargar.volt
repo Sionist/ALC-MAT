@@ -26,6 +26,7 @@ use Phalcon\Forms\Element\Select ?>
 
                                         <!-- div.dataTables_borderWrap -->
                                         
+                                        <!-- inicio formulario -->
                                         {{ form("Asigsdeducstrabajador/guardarModificar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
                                         {{ hidden_field("cedula") }}
                                         
@@ -45,7 +46,7 @@ use Phalcon\Forms\Element\Select ?>
                                             <tr>
                                                 <td>
                                                     <label class="pos-rel">
-                                                        
+                                                        <!-- aqui se cargan las asignaciones relacionadas al trabajador (checked)-->
                                                         <?php if(isset($asignacionesT)){
                                                             foreach ($asignacionesT as $k => $v) {
                                                         ?>                                                                                                                   
@@ -53,10 +54,11 @@ use Phalcon\Forms\Element\Select ?>
                                                         <input name="asignaciones[]" type="checkbox" class="ace input-lg" value="<?php echo $k; ?>" checked>
                                                         <span class="lbl bigger-120" style="text-transform: capitalize"><?php echo $v; ?></span>
                                                     </label>
+                                                        
                                                      <?php 
                                                         }}
                                                      ?>   
-                                                        
+                                                        <!-- aqui se cargan las asignaciones no relacionadas al trabajador (unchecked)-->
                                                         <?php if(isset($asigsResult)){
                                                             foreach ($asigsResult as $k => $v) {
                                                         ?>                                                                                                                   
@@ -64,6 +66,7 @@ use Phalcon\Forms\Element\Select ?>
                                                         <input name="asignaciones[]" type="checkbox" class="ace input-lg" value="<?php echo $k; ?>" >
                                                         <span class="lbl bigger-120" style="text-transform: capitalize"><?php echo $v; ?></span>
                                                     </label>
+                                                        
                                                      <?php 
                                                         }}
                                                      ?>   
@@ -75,6 +78,7 @@ use Phalcon\Forms\Element\Select ?>
 
                                                 <td>
                                                     <span>
+                                                        <!-- aqui se cargan las deducciones relacionadas al trabajador (checked)-->
                                                         <?php if(isset($deduccionesT)){
                                                             
                                                             foreach ($deduccionesT as $k => $v) {
@@ -89,6 +93,7 @@ use Phalcon\Forms\Element\Select ?>
                                                           }}
                                                         ?>
                                                         
+                                                        <!-- aqui se cargan las deducciones no relacionadas al trabajador (unchecked)-->
                                                         <?php if(isset($deducsResult)){                                                            
                                                             foreach ($deducsResult as $k => $v) {
                                                         ?>                                                                                                                     
@@ -111,6 +116,7 @@ use Phalcon\Forms\Element\Select ?>
                                             </table>
                                         {{ submit_button("Guardar / Modificar", "class":"btn btn-primary") }}
                                         {{ EndForm() }}
+                                        <!-- fin formulario -->
                                         
                                         </div>
                                     </div>

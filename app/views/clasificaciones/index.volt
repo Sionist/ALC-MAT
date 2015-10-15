@@ -78,7 +78,8 @@ $(document).ready(function()
 	   var ciud ="";
 	   
 	   var ciuda = JSON.parse(data);
-
+    
+        alert(ciuda);
 
 	   
 	   ciud += "<option value='0'>Seleccione Cláusula</option>";

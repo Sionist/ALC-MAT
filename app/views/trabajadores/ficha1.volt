@@ -96,7 +96,7 @@
                                                     <br />
                                                     <span class="line-height-1 smaller-90"> Reposos </span>
                                                 </span>
-                                                <a href="./asigsdeducstrabajador/index">Asignaciones y Deducciones</a>                                            
+                                                <?php echo $this->tag->linkTo("./asigsdeducstrabajador/cargar/$dtrabajador->nu_cedula","Asignaciones y Deducciones");?>                                         
                                             </div>
                                     
                                             

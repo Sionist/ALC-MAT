@@ -22,7 +22,46 @@ class VariacionesController extends \Phalcon\Mvc\Controller
                                             datospersonales.nu_cedula ASC", $this->getDI());
         $variaciones = $query->execute();
 
+
         $this->view->setParamToView("variaciones",$variaciones);
+    }
+
+    public function buscarAction(){
+        $cedula = $this->request->getPost("cedula");
+
+        if($cedula){
+            $Tcedula = Datospersonales::findFirstByNuCedula($cedula);
+            if($Tcedula){
+                $query = new Phalcon\Mvc\Model\Query("SELECT
+                                                        NbAsignaciones.asignacion,
+                                                        NbAsignaciones.id_asignac
+                                                        FROM
+                                                        NbAsignaciones
+                                                        INNER JOIN TrabajoAsi ON TrabajoAsi.id_trabajo_asi = NbAsignaciones.id_asignac
+                                                        WHERE
+                                                        TrabajoAsi.nu_cedula = $cedula",$this->getDI());
+                $asigsT = $query->execute()->toArray();
+
+
+                if($asigsT){
+
+                    $this->view->disable();
+                    $this->response->setJsonContent(array(
+                        "asignaciones" => $asigsT
+                    ));
+
+                    $this->response->setStatusCode(200, "OK");
+                    $this->response->send();
+
+                }else{
+                    echo "error";
+                }
+            }else{
+                $this->flash->error("<div class='alert alert-block alert-danger'>La cedula introducida no existe</div>");
+            }
+        }else{
+            $this->flash->error("<div class='alert alert-block alert-danger'>Error en el envío de Dato Cedula</div>");
+        }
     }
 
 }
