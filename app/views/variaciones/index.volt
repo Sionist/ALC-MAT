@@ -1,6 +1,6 @@
 
         {{ javascript_include("js/bootstrap.js") }}
-        {{ javascript_include("js/dataTables/jquery.dataTables.bootstrap.js") }}
+        <!--{{ javascript_include("js/dataTables/jquery.dataTables.bootstrap.js") }}-->
 <div id="page-wrapper">
 
 <!-- Formulario para agregar  (insertar) -->
@@ -19,25 +19,28 @@
 <!-- fin  Formulario para agregar estatus -->
 
 <!-- tabla para mostrar todos los registros de la tabla-->
- 
-				<div class="row">
+                                         <div id="msj">
+    </div>
+
+				<div class="row" id="tprins" style="display: none;">
                                     <div class="col-xs-5">
-                                        
+                                        <div id="msj"></div>
                                         <div class="clearfix">
                                             <div class="pull-right tableTools-container"></div>
                                         </div>
                                         <div class="table-header">
-                                            Asignaciones relacionadas con "NOMBRE APELLIDO Y CEDULA"
+                                            Asignaciones relacionadas con "<strong><span class="" id="nombre"></span></strong>" - Cedula: <strong><span class="" id="Tcedula"></span></strong> 
                                         </div>
 
-                                      
+                                      {{ form("variaciones/procesar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
+                                        {{ hidden_field("ttcedula") }}
                                         <table id="dynamic-table" class="table table-striped table-bordered table-hover">
                                         <thead>
                                                 <th class="center">Asignación</th>
-                                                <th class="center">Campo</th>
+                                                <th class="center">Horas / Dias</th>
+                                                <th class="center">Semana</th>
                                             </tr>
                                         </thead>
-                                        {{ form("variaciones/cargar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
                                         <tbody  id="asignacion"> 
                                             <tr>                                                                            
                                                 <td class="center" >
@@ -54,8 +57,9 @@
                                                 </td>
                                             </tr>
                                             </tbody>
-                                        {{ endForm() }}
                                             </table>
+                                        {{ submit_button("Enviar","id":"enviar", "class":"btn btn-primary") }}
+                                        {{ endForm() }}
                                         </div>
                                     </div>
                                 </div>
@@ -73,29 +77,61 @@
             jQuery(function($) {
                 
                 $("#buscar").click(function(e){
+                    
                     e.preventDefault();
+                    
                     var cedula = $("#cedula").val();
-                    if(cedula != null){
-                       $.post("./variaciones/buscar/", {"cedula": cedula},function(data){
+                    
+                    if(cedula !=""){
+                        
+                        //alert(cedula);
+                       $.post("./buscar", { "cedula" : cedula },function(data){              
                            
-                           var asigs =JSON.parse(data);
-                           
-                           //alert(asigs);
+                       if(data != ""){
+                           var asigs = JSON.parse(data);   
                            
                            var tr = ""; 
                            
-                           var formI = "<input type=\"text\" id=\"cedula\" name=\"cedula\" class=\"col-xs-4 center\" required=\"required\">";
-                           alert(formI);
-                           $("#asignacion").html(formI);
-                           for(datos in asigs["asignaciones"]){
-                                tr += "<tr><td style=\"text-transform: capitalize;\">"+asigs.asignaciones[datos].asignacion+"</td><td class=\"col-xs-3\">"+formI+"</td></tr>";
-                           }
+                           var nombre = "";
                            
-                           $("#asignacion").html(tr);
+                           nombre += asigs.trabajador.nombre1 +" "+ asigs.trabajador.apellido1;
+                           
+                           var cedula = "";
+                           
+                           cedula += asigs.trabajador.nu_cedula;
+
+                           $("#Tcedula").html(cedula);
+                           
+                           $("#nombre").html(nombre);
+                           
+                           $("#ttcedula").val(asigs.trabajador.nu_cedula);
+                           
+                           for(datos in asigs["asignaciones"]){                              
+                               
+                                tr += "<tr><td style=\"text-transform: capitalize;\">"+asigs.asignaciones[datos].asignacion+
+                                    "</td><td class=\"col-xs-3\">"+
+                                    "<input type=\"text\" name=\"asigss["+asigs.asignaciones[datos].id_asignac +"]\" class=\"col-xs-12 center\" required=\"required\">"
+                                    +"</td>"
+                                    +"<td class=\"col-xs-3\">"+
+                                    "<input type=\"text\" name=\"semana[]\" class=\"col-xs-12 center\" required=\"required\">"
+                                    +"</td></tr>";
+                           }
+                                $("#tprins").css("display","none"); 
+                                $("#msj").html("");
+                                $("#asignacion").html(tr);
+                                $("#tprins").slideDown(100);
                        
-                       });
-                    }
+                       }else{   
+                           $("#tprins").css("display","none");                        
+                           $("#msj").html("<div class='alert alert-block alert-danger'>La cedula introducida no existe o no es valida</div>");
+                       }           
                     
+                })}
+                 
+                 if(cedula ==""){   
+                    $("#tprins").css("display","none"); 
+                    $("#msj").html("<div class='alert alert-block alert-danger'>Debe introducir una cedula valida</div>");
+                 }            
                 });
             
             /*  jquery del modal de edicion */

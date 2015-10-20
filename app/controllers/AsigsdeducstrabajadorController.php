@@ -83,7 +83,7 @@ class AsigsdeducstrabajadorController extends \Phalcon\Mvc\Controller
 
             $vista = $this->dispatcher->forward(array(
                     'controller' => 'asigsdeducstrabajador',
-                    'action' => 'index',
+                    'action' => 'cargar',
                     'params' => array('cedula' => $cedula))
             );
 
@@ -109,9 +109,7 @@ class AsigsdeducstrabajadorController extends \Phalcon\Mvc\Controller
                                 $this->flash->error($message);
                             }
                         }
-
                     }
-
                 } else {
                     //si existe la cedula en la tabla se
                     //borran todos los registros asociados a la cedula
@@ -146,7 +144,6 @@ class AsigsdeducstrabajadorController extends \Phalcon\Mvc\Controller
                             }
                         }
                     }
-
                 } else {
                     //si existe la cedula en la tabla se
                     //borran todos los registros asociados a la cedula
@@ -162,9 +159,8 @@ class AsigsdeducstrabajadorController extends \Phalcon\Mvc\Controller
                             }
                         }
                     }
-
                 }
-                $this->flash->success("<div class='alert alert-block alert-success'>Se han guardado / modificado con exito</div>");
+                //$this->flash->success("<div class='alert alert-block alert-success'>Se han guardado / modificado con exito</div>");
                 return $vista;
             }else{
                 $this->flash->error("<div class='alert alert-block alert-danger'>Debe seleccionar al menos una (1) Asignación y una (1) Deducción</div>");

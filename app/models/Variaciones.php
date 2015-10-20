@@ -25,6 +25,18 @@ class Variaciones extends \Phalcon\Mvc\Model
      *
      * @var integer
      */
+    protected $horas_dias;
+
+    /**
+     *
+     * @var integer
+     */
+    protected $semana;
+
+    /**
+     *
+     * @var double
+     */
     protected $monto;
 
     /**
@@ -67,9 +79,35 @@ class Variaciones extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Method to set the value of field horas_dias
+     *
+     * @param integer $horas_dias
+     * @return $this
+     */
+    public function setHorasDias($horas_dias)
+    {
+        $this->horas_dias = $horas_dias;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field semana
+     *
+     * @param integer $semana
+     * @return $this
+     */
+    public function setSemana($semana)
+    {
+        $this->semana = $semana;
+
+        return $this;
+    }
+
+    /**
      * Method to set the value of field monto
      *
-     * @param integer $monto
+     * @param double $monto
      * @return $this
      */
     public function setMonto($monto)
@@ -110,9 +148,29 @@ class Variaciones extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Returns the value of field monto
+     * Returns the value of field horas_dias
      *
      * @return integer
+     */
+    public function getHorasDias()
+    {
+        return $this->horas_dias;
+    }
+
+    /**
+     * Returns the value of field semana
+     *
+     * @return integer
+     */
+    public function getSemana()
+    {
+        return $this->semana;
+    }
+
+    /**
+     * Returns the value of field monto
+     *
+     * @return double
      */
     public function getMonto()
     {
@@ -125,7 +183,7 @@ class Variaciones extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->belongsTo('id_asignac', 'NbAsignaciones', 'id_asignac', array('alias' => 'NbAsignaciones'));
-        $this->belongsTo('id_asignac', 'Nbasignaciones', 'id_asignac', array('foreignKey' => true));
+        $this->belongsTo('nu_cedula', 'Datospersonales', 'nu_cedula', array('alias' => 'Datospersonales'));
     }
 
     /**

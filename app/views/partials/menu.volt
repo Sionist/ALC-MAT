@@ -314,7 +314,7 @@
 								<b class="arrow"></b>
 							</li>
 							<li class="">
-								<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/variaciones">
+								<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/variaciones/index">
 									<i class="menu-icon fa fa-caret-right"></i>
 									Variaciones
 								</a>
