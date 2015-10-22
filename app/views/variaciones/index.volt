@@ -1,5 +1,5 @@
 
-        {{ javascript_include("js/bootstrap.js") }}
+{{ javascript_include("js/bootstrap.js") }}
         <!--{{ javascript_include("js/dataTables/jquery.dataTables.bootstrap.js") }}-->
 <div id="page-wrapper">
 
@@ -29,7 +29,8 @@
                                             <div class="pull-right tableTools-container"></div>
                                         </div>
                                         <div class="table-header">
-                                            Asignaciones relacionadas con "<strong><span class="" id="nombre"></span></strong>" - Cedula: <strong><span class="" id="Tcedula"></span></strong> 
+                                            Trabajador: "<strong><span class="" id="nombre"></span></strong>"   - Cedula: <strong><span class="" id="Tcedula"></span></strong> <br />
+                                            Ubicación Funcional: "<strong><span class="" id="ubi_f"></span></strong>"   - Cargo: <strong><span class="" id="cargo"></span></strong>
                                         </div>
 
                                       {{ form("variaciones/procesar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
@@ -39,26 +40,13 @@
                                                 <th class="center">Asignación</th>
                                                 <th class="center">Horas / Dias</th>
                                                 <th class="center">Semana</th>
+                                                <th class="center">Habilitar</th>
                                             </tr>
                                         </thead>
                                         <tbody  id="asignacion"> 
-                                            <tr>                                                                            
-                                                <td class="center" >
-                                                    <label class="pos-rel">
-                                                   
-                                                    <span class="lbl"></span>
-                                                    </label>
-                                                </td>
-                                                <td class="center" id="campo">
-                                                    <label class="pos-rel">
-       
-                                                    <span class="lbl"></span>
-                                                    </label>
-                                                </td>
-                                            </tr>
-                                            </tbody>
+                                        </tbody>
                                             </table>
-                                        {{ submit_button("Enviar","id":"enviar", "class":"btn btn-primary") }}
+                                        {{ submit_button("Enviar","id":"enviar", "class":"btn btn-primary" ,"disabled":"disabled") }}
                                         {{ endForm() }}
                                         </div>
                                     </div>
@@ -80,130 +68,105 @@
                     
                     e.preventDefault();
                     
+                    //alamacena la cedula introducida
                     var cedula = $("#cedula").val();
-                    
-                    if(cedula !=""){
-                        
-                        //alert(cedula);
-                       $.post("./buscar", { "cedula" : cedula },function(data){              
+                                       
+                    if(cedula !=""){                  
+                    //solicitud ajax por POST a action : procesar
+                    $.post("./buscar", { "cedula" : cedula },function(data){              
                            
+                        //data contiene la respuesta JSON del controlador
                        if(data != ""){
+                           //convierte la data en un objeto
                            var asigs = JSON.parse(data);   
                            
                            var tr = ""; 
                            
                            var nombre = "";
                            
-                           nombre += asigs.trabajador.nombre1 +" "+ asigs.trabajador.apellido1;
-                           
                            var cedula = "";
                            
-                           cedula += asigs.trabajador.nu_cedula;
+                           var ubi_f = "";
+                           
+                           var cargo = "";
+                           
+                           //almacena nombre y apellido del trabajador
+                           nombre += asigs.trabajador[0].nombre1 +" "+ asigs.trabajador[0].apellido1;
+                           
+                           //almacena cedula del trabajador
+                           cedula += asigs.trabajador[0].nu_cedula;
+                           
+                           ubi_f += asigs.trabajador[0].denominacion;
+                           
+                           cargo += asigs.trabajador[0].cargo;
 
                            $("#Tcedula").html(cedula);
                            
                            $("#nombre").html(nombre);
                            
-                           $("#ttcedula").val(asigs.trabajador.nu_cedula);
+                           $("#ubi_f").html(ubi_f);
                            
-                           for(datos in asigs["asignaciones"]){                              
+                           $("#cargo").html(cargo);
+                           
+                           $("#ttcedula").val(asigs.trabajador[0].nu_cedula);
+                           
+                           //contador para diferenciar id´s de los checkbox
+                           var cont = 1;
+                           
+                           var select = '<select name="semana[]" disabled><option value="15">15</option><option value="30">30</option></select>';
+                           //recorre los datos del JSON recibido 
+                           for(datos in asigs.asignaciones){                              
                                
-                                tr += "<tr><td style=\"text-transform: capitalize;\">"+asigs.asignaciones[datos].asignacion+
+                               //genera todas las asignaciones variables tabuladas con sus campos 
+                                tr += "<tr id=\"f"+cont+"\"><td style=\"text-transform: capitalize;\">"+asigs.asignaciones[datos].asignacion+
                                     "</td><td class=\"col-xs-3\">"+
-                                    "<input type=\"text\" name=\"asigss["+asigs.asignaciones[datos].id_asignac +"]\" class=\"col-xs-12 center\" required=\"required\">"
+                                    "<input type=\"text\" id=\"tf\" name=\"asigss["+asigs.asignaciones[datos].id_asignac +"]\" class=\"col-xs-12 center\" required=\"required\" disabled>"
                                     +"</td>"
                                     +"<td class=\"col-xs-3\">"+
-                                    "<input type=\"text\" name=\"semana[]\" class=\"col-xs-12 center\" required=\"required\">"
+                                    select
+                                    +"</td>"+"<td class=\"col-xs-1\">"+
+                                    "<input id=\"c"+cont+"\" type=\"checkbox\" class=\"ace input-lg ch\" >"
+                                    +"<span class=\"lbl bigger-120\" style=\"text-transform: capitalize\"></span>"
                                     +"</td></tr>";
-                           }
-                                $("#tprins").css("display","none"); 
-                                $("#msj").html("");
-                                $("#asignacion").html(tr);
-                                $("#tprins").slideDown(100);
-                       
+                                cont++;
+                            }
+                            //oculta el div que contiene la tabla
+                            $("#tprins").css("display","none"); 
+                            //mensaje de error si no existe la cedula o no se introdujo una valida o campo vacio
+                            $("#msj").html("");
+                            //agrega la info generada dentro de tbody : asignacion
+                            $("#asignacion").html(tr);
+                            //efecto slide para la tabla
+                            $("#tprins").slideDown(100);
+                        
+                           //habilita o deshabilita los campos de texto segun estado de los checkbox
+                           $("input[type=checkbox]").click(function(){
+                               var hijo = $(this).attr("id");
+                               var padre = $(this).parent().parent().attr("id");
+                               
+                               if($('#'+hijo).is(":checked")){
+                                    $('#'+padre).find("input[type=text]").attr("disabled",false);
+                                    $('#'+padre).find("select").attr("disabled",false);
+                                }else{
+                                    $('#'+padre).find("input[type=text]").attr("disabled",true);
+                                    $('#'+padre).find("select").attr("disabled",true);
+                                }
+                                //habilita o deshabilita el boton enviar
+                                if($('#asignacion').find("input[type=checkbox]").is(":checked")){
+                                    $("#enviar").attr("disabled",false)
+                                }else{
+                                    $("#enviar").attr("disabled",true) 
+                                }
+
+                            });                       
                        }else{   
                            $("#tprins").css("display","none");                        
-                           $("#msj").html("<div class='alert alert-block alert-danger'>La cedula introducida no existe o no es valida</div>");
-                       }           
-                    
-                })}
-                 
-                 if(cedula ==""){   
-                    $("#tprins").css("display","none"); 
-                    $("#msj").html("<div class='alert alert-block alert-danger'>Debe introducir una cedula valida</div>");
-                 }            
+                           $("#msj").html("<div class='alert alert-block alert-danger'>La cedula introducida no existe o no es valida</div>");                          }           
+                })}                 
+                    if(cedula == ""){   
+                        $("#tprins").css("display","none"); 
+                        $("#msj").html("<div class='alert alert-block alert-danger'>Debe introducir una cedula valida</div>");
+                    }            
                 });
-            
-            /*  jquery del modal de edicion */
-                /*$( ".id-btn-dialog1" ).on('click', function(e) {
-                    e.preventDefault();
-            
-                    var dialog = $( "#dialog-message" ).removeClass('hide').dialog({
-                        modal: true,
-                        title: "Editar ",
-                        title_html: true,
-                        buttons: [ 
-                        {
-                                text: "OK",
-                                "class" : "btn btn-primary btn-minier",
-                                click: function() {
-                                    $( this ).dialog( "close" ); 
-                                } 
-                            }
-                        ]
-                    });
-            
-                    /**
-                    dialog.data( "uiDialog" )._title = function(title) {
-                        title.html( this.options.title );
-                    };
-                    **/
-                /*});*/
-            
-            
-            
-            
-                
-                
-                //And for the first simple table, which doesn't have TableTools or dataTables
-                //select/deselect all rows according to table header checkbox
-               /* var active_class = 'active';
-                $('#simple-table > thead > tr > th input[type=checkbox]').eq(0).on('click', function(){
-                    var th_checked = this.checked;//checkbox inside "TH" table header
-                    
-                    $(this).closest('table').find('tbody > tr').each(function(){
-                        var row = this;
-                        if(th_checked) $(row).addClass(active_class).find('input[type=checkbox]').eq(0).prop('checked', true);
-                        else $(row).removeClass(active_class).find('input[type=checkbox]').eq(0).prop('checked', false);
-                    });
-                });
-                
-                //select/deselect a row when the checkbox is checked/unchecked
-                $('#simple-table').on('click', 'td input[type=checkbox]' , function(){
-                    var $row = $(this).closest('tr');
-                    if(this.checked) $row.addClass(active_class);
-                    else $row.removeClass(active_class);
-                });*/
-            
-                
-            
-                /********************************/
-                //add tooltip for small view action buttons in dropdown menu
-               /* $('[data-rel="tooltip"]').tooltip({placement: tooltip_placement});
-                
-                //tooltip placement on right or left
-                function tooltip_placement(context, source) {
-                    var $source = $(source);
-                    var $parent = $source.closest('table')
-                    var off1 = $parent.offset();
-                    var w1 = $parent.width();
-            
-                    var off2 = $source.offset();
-                    //var w2 = $source.width();
-            
-                    if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) return 'right';
-                    return 'left';
-                }*/
-            
-            })
+            });
         </script>

@@ -46,6 +46,12 @@ class NbAsignaciones extends \Phalcon\Mvc\Model
     protected $denominacion;
 
     /**
+     *
+     * @var integer
+     */
+    protected $tipo;
+
+    /**
      * Method to set the value of field id_asignac
      *
      * @param integer $id_asignac
@@ -137,6 +143,19 @@ class NbAsignaciones extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Method to set the value of field tipo
+     *
+     * @param integer $tipo
+     * @return $this
+     */
+    public function setTipo($tipo)
+    {
+        $this->tipo = $tipo;
+
+        return $this;
+    }
+
+    /**
      * Returns the value of field id_asignac
      *
      * @return integer
@@ -207,13 +226,25 @@ class NbAsignaciones extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Returns the value of field tipo
+     *
+     * @return integer
+     */
+    public function getTipo()
+    {
+        return $this->tipo;
+    }
+
+    /**
      * Initialize method for model.
      */
     public function initialize()
     {
+        $this->hasMany('id_asignac', 'TrabajoAsi', 'id_trabajo_asi', array('alias' => 'TrabajoAsi'));
         $this->hasMany('id_asignac', 'Variaciones', 'id_asignac', array('alias' => 'Variaciones'));
         $this->belongsTo('tipo_nomi', 'TipoNomi', 'id_nomina', array('alias' => 'TipoNomi'));
         $this->belongsTo('frecuencia', 'Frecuencia', 'id_frecuencia', array('alias' => 'Frecuencia'));
+        $this->belongsTo('tipo', 'AsigsTipo', 'id_tipo', array('alias' => 'AsigsTipo'));
     }
 
     /**
@@ -246,25 +277,6 @@ class NbAsignaciones extends \Phalcon\Mvc\Model
     public static function findFirst($parameters = null)
     {
         return parent::findFirst($parameters);
-    }
-
-    /**
-     * Independent Column Mapping.
-     * Keys are the real names in the table and the values their names in the application
-     *
-     * @return array
-     */
-    public function columnMap()
-    {
-        return array(
-            'id_asignac' => 'id_asignac',
-            'asignacion' => 'asignacion',
-            'formula' => 'formula',
-            'tipo_nomi' => 'tipo_nomi',
-            'frecuencia' => 'frecuencia',
-            'parti_presuspuest' => 'parti_presuspuest',
-            'denominacion' => 'denominacion'
-        );
     }
 
 }

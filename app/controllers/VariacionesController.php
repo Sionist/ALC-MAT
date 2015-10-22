@@ -17,7 +17,20 @@ class VariacionesController extends \Phalcon\Mvc\Controller
         $cedula = $this->request->getPost("cedula");
 
         if ($cedula) {
-            $Tcedula = Datospersonales::findFirstByNuCedula($cedula);
+            //$Tcedula = Datospersonales::findFirstByNuCedula($cedula);
+            $Tcedula = new Phalcon\Mvc\Model\Query("SELECT
+                                                    Datospersonales.nu_cedula,
+                                                    Datospersonales.nombre1,
+                                                    Datospersonales.apellido1,
+                                                    NbDireciones.denominacion,
+                                                    Cargos.cargo
+                                                    FROM
+                                                    Datospersonales
+                                                    INNER JOIN Datoscontratacion ON Datoscontratacion.nu_cedula = Datospersonales.nu_cedula
+                                                    INNER JOIN Cargos ON Datoscontratacion.t_cargo = Cargos.id_cargo
+                                                    INNER JOIN NbDireciones ON Datoscontratacion.ubi_nom = NbDireciones.id_direcciones AND Datoscontratacion.ubi_fun = NbDireciones.id_direcciones
+                                                    WHERE
+                                                    Datospersonales.nu_cedula = $cedula",$this->getDI());
             if ($Tcedula) {
                 $query = new Phalcon\Mvc\Model\Query("SELECT
                                                         NbAsignaciones.asignacion,
@@ -29,9 +42,9 @@ class VariacionesController extends \Phalcon\Mvc\Controller
                                                         TrabajoAsi.nu_cedula = $cedula", $this->getDI());
                 $asigsT = $query->execute()->toArray();
 
-                $trabajador = $Tcedula->toArray();
+                $trabajador = $Tcedula->execute()->toArray();
 
-                if ($asigsT) {
+                if (count($asigsT)>0) {
                     //deshabilita la vista para enviar JSON limpio
                     $this->view->disable();
                     //envia un JSON con los datos de las consultas en forma de array
@@ -44,7 +57,8 @@ class VariacionesController extends \Phalcon\Mvc\Controller
                     $this->response->send();
 
                 } else {
-                    $this->flash->error("<div class='alert alert-block alert-danger'>Error en la ejecución de la consulta</div>");
+                    $this->view->disable();
+                    return null;
                 }
             } else {
                 $this->view->disable();
@@ -58,6 +72,7 @@ class VariacionesController extends \Phalcon\Mvc\Controller
     public function procesarAction()
     {
         if ($this->request->isPost()) {
+
             //recupera cedula de la vista
             $cedula = $this->request->getPost("ttcedula");
             //recibe los ids de las asignaciones y el valor de los campos, de la vista (array)
@@ -67,7 +82,9 @@ class VariacionesController extends \Phalcon\Mvc\Controller
 
             //array que almacenara los valores horas/dias de las asignaciones para hacer sustitucion en fomurla
             $param = array("v" => "");
-            $cont = "0";
+
+            $cont = 0;
+            $asigs_correctas = 0;
 
             foreach ($asigs as $k => $v) {
                 $variacion = new Variaciones();
@@ -81,9 +98,10 @@ class VariacionesController extends \Phalcon\Mvc\Controller
                 //indice dado por el contador "cont"
                 $variacion->setSemana($semana[$cont]);
                 $cont++;
-                $asigs_correctas = 0;
-                $monto = $this->calcular($param,$formula);
-                if(is_numeric($monto)){
+
+
+                $monto = $this->calcular($param, $formula);
+                if (is_numeric($monto)) {
                     $variacion->setMonto($monto);
 
                     if (!$variacion->save()) {
@@ -91,9 +109,19 @@ class VariacionesController extends \Phalcon\Mvc\Controller
                             $this->flash->error($message);
                         }
                     }
-                }else{
-                    $this->flash->error("<div class='alert alert-block alert-danger'>Variaciones procesadas: $asigs_correctas  procesadas</div>");
-                    $this->flash->error("<div class='alert alert-block alert-danger'>La Asignación con id=$k contiene una formula que no puede ser procesada: <strong>". $formula[0]["formula"]."</strong></div>");
+                    $asigs_correctas++;
+
+                    if ($asigs_correctas == count($asigs)) {
+                        $this->flash->success("<div class='alert alert-block alert-success'>Variaciones procesadas: <strong>$asigs_correctas</strong></div>");
+                        $this->flash->success("<a href='./index' class='btn btn-lg btn-success'><i class='ace-icon fa fa-reply'></i>Volver</a>");
+                    }
+
+                } else {
+                    if ($asigs_correctas > 0) {
+                        $this->flash->success("<div class='alert alert-block alert-success'>Variaciones procesadas: <strong>$asigs_correctas</strong></div>");
+                    }
+                    $this->flash->error("<div class='alert alert-block alert-danger'>La Asignación con id=$k contiene una formula que no puede ser procesada: <strong>(" . $formula["formula"] . ")</strong></div>");
+                    $this->flash->success("<a href='./index' class='btn btn-lg btn-success'><i class='ace-icon fa fa-reply'></i>Volver</a>");
                 }
             }
         }
@@ -153,8 +181,9 @@ class VariacionesController extends \Phalcon\Mvc\Controller
         $query = new Phalcon\Mvc\Model\Query("select formula from NbAsignaciones where id_asignac=$id", $this->getDI());
 
         $query_result = $query->execute()->toArray();
-
-        return $query_result[0];
+        foreach($query_result as $r) {
+            return $r;
+        }
     }
 
 }

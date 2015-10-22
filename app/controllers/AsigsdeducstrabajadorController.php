@@ -32,7 +32,7 @@ class AsigsdeducstrabajadorController extends \Phalcon\Mvc\Controller
         $asigT = $asig_query_exist->execute()->toArray();
 
         //recupera las asignaciones globales
-        $asig_all = new Phalcon\Mvc\Model\Query("SELECT id_asignac, asignacion FROM NbAsignaciones",$this->getDI());
+        $asig_all = new Phalcon\Mvc\Model\Query("SELECT id_asignac, asignacion FROM NbAsignaciones WHERE tipo = 1",$this->getDI());
 
         $asigs = $asig_all->execute()->toArray();
 
@@ -160,7 +160,7 @@ class AsigsdeducstrabajadorController extends \Phalcon\Mvc\Controller
                         }
                     }
                 }
-                //$this->flash->success("<div class='alert alert-block alert-success'>Se han guardado / modificado con exito</div>");
+                $this->flash->success("<div class='alert alert-block alert-success'>Se han guardado / modificado con exito</div>");
                 return $vista;
             }else{
                 $this->flash->error("<div class='alert alert-block alert-danger'>Debe seleccionar al menos una (1) Asignación y una (1) Deducción</div>");
