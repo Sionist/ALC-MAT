@@ -4,6 +4,8 @@
         {{ javascript_include("js/dataTables/jquery.dataTables.bootstrap.js") }}
         {{ javascript_include("js/dataTables/extensions/TableTools/js/dataTables.tableTools.js") }}
         {{ javascript_include("js/dataTables/extensions/ColVis/js/dataTables.colVis.js") }}
+
+        {{ javascript_include("js/jquery.maskedinput.js") }}
 <div id="page-wrapper">
 
 <!-- Formulario para agregar  (insertar) -->
@@ -11,10 +13,33 @@
 {{ form("diasbonificacion/guardar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
 
 {{ content() }}
-
-{{ text_field("desde", "class":"form-control", "required":"required", "placeholder":"Mes Desde") }}
-{{ text_field("hasta", "class":"form-control", "required":"required", "placeholder":"Mes Hasta") }}
-{{ text_field("diasb", "class":"form-control", "required":"required", "placeholder":"Dias de Bonificación") }}
+    
+<label for="desde">Mes Desde:  </label>     
+<select id="desde" name="desde">
+<?php
+    for($i=1; $i <= 12; $i++){
+        echo "<option value=".$i.">".$i."</option>";
+    }
+    ?>    
+</select>
+    
+<label for="hasta">Mes Hasta:  </label>    
+<select id="hasta" name="hasta">
+<?php
+    for($i=1; $i <= 12; $i++){
+        echo "<option value=".$i.">".$i."</option>";
+    }
+    ?>    
+</select>
+ 
+<label for="dias">Dias:  </label>  
+<select id="dias" name="dias">
+<?php
+    for($i=1; $i <= 100; $i++){
+        echo "<option value=".$i.">".$i."</option>";
+    }
+    ?>    
+</select>
 
 {{ submit_button("Guardar", "class":"btn btn-primary") }}
 {{ endForm() }}
@@ -93,9 +118,15 @@
         
         
         
-        <script type="text/javascript">
-             var discapacidad = {};
+    <script type="text/javascript">
+    var discapacidad = {};
     $(document).ready(function() { 
+        
+        
+
+        $('.mes').mask('99');
+        $('.dias').mask('999');
+        
         discapacidad.editar = function(row) {
             var json = eval('('+ row +')'), html = "";
             html += '<?php echo $this->tag->form(array("clientes_seguros/editCliente", "method" => "post", "id" => "form")); ?>';

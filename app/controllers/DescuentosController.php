@@ -38,7 +38,7 @@ class DescuentosController extends \Phalcon\Mvc\Controller
 		}
 		
 		
-		$this->flash->success("<div class='alert alert-block alert-success'>Guardado con exito</div>");
+		$this->flash->success("<div id='msj_success' class='alert alert-block alert-success'>Guardado con exito</div>");
         return $this->dispatcher->forward(array(
             "controller" => "descuentos",
             "action" => "index"

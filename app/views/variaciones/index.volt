@@ -1,5 +1,7 @@
 
 {{ javascript_include("js/bootstrap.js") }}
+{{ javascript_include("js/jquery.maskedinput.js") }}
+
         <!--{{ javascript_include("js/dataTables/jquery.dataTables.bootstrap.js") }}-->
 <div id="page-wrapper">
 
@@ -9,7 +11,7 @@
 
 {{ content() }}
 
-{{ text_field("cedula", "class":"form-control", "required":"required", "placeholder":"Cedula") }}
+{{ text_field("cedula", "class":"form-control input-mask-cedula", "required":"required", "placeholder":"Cedula") }}
 
 {{ submit_button("Buscar","id":"buscar", "class":"btn btn-primary") }}
 {{ endForm() }}
@@ -30,11 +32,12 @@
                                         </div>
                                         <div class="table-header">
                                             Trabajador: "<strong><span class="" id="nombre"></span></strong>"   - Cedula: <strong><span class="" id="Tcedula"></span></strong> <br />
-                                            Ubicación Funcional: "<strong><span class="" id="ubi_f"></span></strong>"   - Cargo: <strong><span class="" id="cargo"></span></strong>
+                                            Ubicación Funcional: "<strong><span class="" id="ubi_f"></span></strong>"   - Cargo: "<strong><span class="" id="cargo"></span></strong>"
                                         </div>
 
                                       {{ form("variaciones/procesar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
                                         {{ hidden_field("ttcedula") }}
+                                        {{ hidden_field("sd") }}
                                         <table id="dynamic-table" class="table table-striped table-bordered table-hover">
                                         <thead>
                                                 <th class="center">Asignación</th>
@@ -63,7 +66,7 @@
         <script type="text/javascript">
         
             jQuery(function($) {
-                
+                $("#cedula").focus();
                 $("#buscar").click(function(e){
                     
                     e.preventDefault();
@@ -90,6 +93,9 @@
                            
                            var cargo = "";
                            
+                           var sueldo = asigs.sd;
+                           
+                           $("#sd").val(sueldo);                           
                            //almacena nombre y apellido del trabajador
                            nombre += asigs.trabajador[0].nombre1 +" "+ asigs.trabajador[0].apellido1;
                            
@@ -120,15 +126,16 @@
                                //genera todas las asignaciones variables tabuladas con sus campos 
                                 tr += "<tr id=\"f"+cont+"\"><td style=\"text-transform: capitalize;\">"+asigs.asignaciones[datos].asignacion+
                                     "</td><td class=\"col-xs-3\">"+
-                                    "<input type=\"text\" id=\"tf\" name=\"asigss["+asigs.asignaciones[datos].id_asignac +"]\" class=\"col-xs-12 center\" required=\"required\" disabled>"
+                                    "<input type=\"text\" id=\"tf\" name=\"asigss["+asigs.asignaciones[datos].id_asignac +"]\" class=\"input-mask-numeric col-xs-12 center\" required=\"required\" disabled>"
                                     +"</td>"
                                     +"<td class=\"col-xs-3\">"+
                                     select
                                     +"</td>"+"<td class=\"col-xs-1\">"+
-                                    "<input id=\"c"+cont+"\" type=\"checkbox\" class=\"ace input-lg ch\" >"
-                                    +"<span class=\"lbl bigger-120\" style=\"text-transform: capitalize\"></span>"
+                                    "<input name=\"switch-field-1\" id=\"c"+cont+"\" class=\"ace ace-switch ace-switch-6\"                                                       type=\"checkbox\">"+"<span class=\"lbl\"></span>"
                                     +"</td></tr>";
                                 cont++;
+                               
+                               
                             }
                             //oculta el div que contiene la tabla
                             $("#tprins").css("display","none"); 
@@ -141,8 +148,11 @@
                         
                            //habilita o deshabilita los campos de texto segun estado de los checkbox
                            $("input[type=checkbox]").click(function(){
-                               var hijo = $(this).attr("id");
-                               var padre = $(this).parent().parent().attr("id");
+                                var hijo = $(this).attr("id");
+                                var padre = $(this).parent().parent().attr("id");
+                               
+                                $.mask.definitions['~']='[+-]';
+                                $('.input-mask-numeric').mask('99');
                                
                                if($('#'+hijo).is(":checked")){
                                     $('#'+padre).find("input[type=text]").attr("disabled",false);
@@ -161,12 +171,16 @@
                             });                       
                        }else{   
                            $("#tprins").css("display","none");                        
-                           $("#msj").html("<div class='alert alert-block alert-danger'>La cedula introducida no existe o no es valida</div>");                          }           
+                           $("#msj").html("<div class='alert alert-block alert-danger'>La cedula introducida no existe, no es valida o no tiene asignaciones relacionadas</div>");                          }           
                 })}                 
                     if(cedula == ""){   
                         $("#tprins").css("display","none"); 
                         $("#msj").html("<div class='alert alert-block alert-danger'>Debe introducir una cedula valida</div>");
                     }            
                 });
+            
+                $('.input-mask-cedula').mask('99999999');
+                $('.input-mask-numeric').mask('9999');
             });
+            
         </script>

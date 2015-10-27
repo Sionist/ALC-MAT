@@ -1,29 +1,23 @@
-     {{ javascript_include("js/bootstrap.js") }}
-        {{ javascript_include("js/dataTables/jquery.dataTables.js") }}
-        {{ javascript_include("js/dataTables/jquery.dataTables.bootstrap.js") }}
-        {{ javascript_include("js/dataTables/extensions/TableTools/js/dataTables.tableTools.js") }}
-        {{ javascript_include("js/dataTables/extensions/ColVis/js/dataTables.colVis.js") }}
+    {{ javascript_include("js/bootstrap.js") }}
+    {{ javascript_include("js/dataTables/jquery.dataTables.js") }}
+    {{ javascript_include("js/dataTables/jquery.dataTables.bootstrap.js") }}
+    {{ javascript_include("js/dataTables/extensions/TableTools/js/dataTables.tableTools.js") }}
+    {{ javascript_include("js/dataTables/extensions/ColVis/js/dataTables.colVis.js") }}
+	{{ javascript_include("js/jquery.maskMoney.js") }}
   
 <div id="page-wrapper">
 {{ form("cargos/guardar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
 {{ content() }}
 
-
-
-
-
 {{ text_field("cargo", "class":"form-control", "required":"required", "placeholder":"Cargo") }}
-{{ text_field("sueldo", "class":"form-control", "required":"required", "placeholder":"Sueldo") }}
-
+{{ text_field("sueldo", "class":"form-control sueldo-decimal", "required":"required", "placeholder":"Sueldo") }}
 <select name="combonivel" id="cargar_nivel" class="form-control" required>	
 
 <?php
 	foreach($combonivel as $nive)
 		{
 				echo "<option value=".$nive->id_nivelcargo.">".$nive->nivel_cargo."</option>";
-		}
-	
-	
+		}		
 ?>
 </select>
 {{ submit_button("Guardar", "class":"btn btn-primary") }} 
@@ -71,8 +65,9 @@
 		 
 		
 <script type="text/javascript">
-$(document).ready(function()
+$(document).ready(function($)
 {
+	$(".sueldo-decimal").maskMoney({thousands:'', decimal:'.', allowZero:true, suffix: ''});
 
 	$(document).ready(function() {
         $('#stream_table').dataTable({
@@ -82,31 +77,6 @@ $(document).ready(function()
         }
        );
     });
-
-  $("#estado").on("change", function()
-   {
-    var id_estado = $("#estado option:selected").attr("value");
-	
-	$.get("<?php echo $this->url->get('ciudades/getCiudades') ?>", {"estado":id_estado}, function(data)
-	  {
-	  
-	   var ciud ="";
-	   
-	   var ciuda = JSON.parse(data);
-	   
-	   ciud += "<option value='0'>Seleccione Ciudad</option>";
-	   
-	   for(datos in ciuda.ciud)
-	    {
-		ciud += '<option value="'+ciuda.ciud[datos].id_ciudad+'">'+
-		ciuda.ciud[datos].ciudad.
-		toUpperCase()+'</option>';
-		}
-		
-		$('#cargar_ciudad').html(ciud);
-		});
-		
-		});
 		
 		//initiate dataTables plugin
 				var oTable1 = 
@@ -273,15 +243,11 @@ $(document).ready(function()
 					else tableTools_obj.fnDeselect($(this).closest('tr').get(0));
 				});
 				
-			
-				
-				
 					$(document).on('click', '#dynamic-table .dropdown-toggle', function(e) {
 					e.stopImmediatePropagation();
 					e.stopPropagation();
 					e.preventDefault();
 				});
-		
 		});
 		
 		</script>		 

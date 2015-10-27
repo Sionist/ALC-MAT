@@ -31,6 +31,20 @@ class VariacionesController extends \Phalcon\Mvc\Controller
                                                     INNER JOIN NbDireciones ON Datoscontratacion.ubi_nom = NbDireciones.id_direcciones AND Datoscontratacion.ubi_fun = NbDireciones.id_direcciones
                                                     WHERE
                                                     Datospersonales.nu_cedula = $cedula",$this->getDI());
+
+            $SD = $this->modelsManager->createBuilder()
+                ->from("Datoscontratacion")
+                ->join("Cargos")
+                ->columns("sueldo")
+                ->where("nu_cedula=:cedula:",array("cedula"=>$cedula))
+                ->getQuery()
+                ->execute();
+
+            $sd = "";
+            foreach($SD as $ssd){
+                 $sd = ($ssd->sueldo)/30;
+            }
+
             if ($Tcedula) {
                 $query = new Phalcon\Mvc\Model\Query("SELECT
                                                         NbAsignaciones.asignacion,
@@ -50,7 +64,8 @@ class VariacionesController extends \Phalcon\Mvc\Controller
                     //envia un JSON con los datos de las consultas en forma de array
                     $this->response->setJsonContent(array(
                         "asignaciones" => $asigsT,
-                        "trabajador" => $trabajador
+                        "trabajador" => $trabajador,
+                        "sd" => $sd
                     ));
 
                     $this->response->setStatusCode(200, "OK");
@@ -79,6 +94,10 @@ class VariacionesController extends \Phalcon\Mvc\Controller
             $asigs = $this->request->getPost("asigss");
             //recibe las semanas de la vista (array)
             $semana = $this->request->getPost("semana");
+            //recibe suelod diario
+            $sueldo = $this->request->getPost("sd");
+
+            $date = date("d/m/y");
 
             //array que almacenara los valores horas/dias de las asignaciones para hacer sustitucion en fomurla
             $param = array("v" => "");
@@ -89,10 +108,12 @@ class VariacionesController extends \Phalcon\Mvc\Controller
             foreach ($asigs as $k => $v) {
                 $variacion = new Variaciones();
                 $param["v"] = $v;
+                $param["sd"] = $sueldo;
                 $formula = $this->formula($k);
                 $variacion->setNuCedula($cedula);
                 $variacion->setIdAsignac($k);
                 $variacion->setHorasDias($v);
+                $variacion->setFecha(date("y/m/d"));
 
                 //almacena el valor del campo semana de acuerdo a su indice en el array semana
                 //indice dado por el contador "cont"

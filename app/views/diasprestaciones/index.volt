@@ -4,6 +4,7 @@
         {{ javascript_include("js/dataTables/jquery.dataTables.bootstrap.js") }}
         {{ javascript_include("js/dataTables/extensions/TableTools/js/dataTables.tableTools.js") }}
         {{ javascript_include("js/dataTables/extensions/ColVis/js/dataTables.colVis.js") }}
+        {{ javascript_include("js/jquery.maskedinput.js") }}
 <div id="page-wrapper">
 
 <!-- Formulario para agregar  (insertar) -->
@@ -13,7 +14,7 @@
 {{ content() }}
 
 {{ text_field("concepto", "class":"form-control", "required":"required", "placeholder":"Concepto") }}
-{{ text_field("dias", "class":"form-control", "required":"required", "placeholder":"Dias") }}
+{{ text_field("dias", "class":"form-control input-mask-numeric", "required":"required", "placeholder":"Dias") }}
 
 {{ submit_button("Guardar", "class":"btn btn-primary") }}
 {{ endForm() }}
@@ -95,6 +96,8 @@
         <script type="text/javascript">
              var discapacidad = {};
     $(document).ready(function() { 
+        $('.input-mask-numeric').mask('999');
+        
         discapacidad.editar = function(row) {
             var json = eval('('+ row +')'), html = "";
             html += '<?php echo $this->tag->form(array("clientes_seguros/editCliente", "method" => "post", "id" => "form")); ?>';

@@ -4,6 +4,7 @@
         {{ javascript_include("js/dataTables/jquery.dataTables.bootstrap.js") }}
         {{ javascript_include("js/dataTables/extensions/TableTools/js/dataTables.tableTools.js") }}
         {{ javascript_include("js/dataTables/extensions/ColVis/js/dataTables.colVis.js") }}
+        {{ javascript_include("js/jquery.maskedinput.js") }}
 <div id="page-wrapper">
 
 <!-- Formulario para agregar  (insertar) -->
@@ -12,9 +13,9 @@
 
 {{ content() }}
 
-{{ text_field("tasa", "class":"form-control", "required":"required", "placeholder":"Tasa") }}
-{{ text_field("mes", "class":"form-control", "required":"required", "placeholder":"Mes") }}
-{{ text_field("yeartasa", "class":"form-control", "required":"required", "placeholder":"Año") }}
+{{ text_field("tasa", "class":"form-control tasa", "required":"required", "placeholder":"Tasa") }}
+{{ text_field("mes", "class":"form-control tasa", "required":"required", "placeholder":"Mes") }}
+{{ text_field("yeartasa", "class":"form-control año", "required":"required", "placeholder":"Año") }}
 
 {{ submit_button("Guardar", "class":"btn btn-primary") }}
 {{ endForm() }}
@@ -95,6 +96,9 @@
         <script type="text/javascript">
         
             jQuery(function($) {
+                
+                $('.tasa').mask('99');
+                $('.año').mask('9999');
             
             /*  jquery del modal de edicion */
                 $( ".id-btn-dialog1" ).on('click', function(e) {

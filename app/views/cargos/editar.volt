@@ -1,4 +1,4 @@
-	
+	{{ javascript_include("js/jquery.maskMoney.js") }}
 	
 		<div class="col-sm-4">
 	</div>
@@ -19,7 +19,7 @@
 						{{ hidden_field("id") }}
 						
 						{{ text_field("cargo", "class":"form-control", "required":"required", "style":"text-transform:capitalize") }}
-						{{ text_field("sueldo", "class":"form-control", "required":"required", "style":"text-transform:capitalize") }}
+						{{ text_field("sueldo", "class":"form-control sueldo-decimal", "required":"required", "style":"text-transform:capitalize") }}
 
 						<?php
 
@@ -45,3 +45,9 @@
 	</div>
 	<div class="col-sm-4">
 	</div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$(".sueldo-decimal").maskMoney({thousands:'', decimal:'.', allowZero:true, suffix: ''});
+	});
+</script>

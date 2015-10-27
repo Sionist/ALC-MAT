@@ -17,7 +17,7 @@
 
 					<li class="">
 						<a href="#" class="dropdown-toggle">
-							<i class="menu-icon fa fa-desktop"></i>
+							<i class="menu-icon fa fa-users"></i>
 							<span class="menu-text">
 								Trabajadores
 							</span>
@@ -244,7 +244,7 @@
 							<li class="">
 								<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/parentesco">
 									<i class="menu-icon fa fa-caret-right"></i>
-									Parenetesco
+									Parentesco
 								</a>
 
 								<b class="arrow"></b>

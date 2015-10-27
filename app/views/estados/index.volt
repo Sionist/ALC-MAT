@@ -1,8 +1,10 @@
+{{ javascript_include("js/jquery.maskedinput.js") }}
+
 <div id="page-wrapper">
 {{ form("estados/guardar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
 {{ content() }}
 
-{{ text_field("estado", "class":"form-control", "required":"required", "placeholder":"Estados") }}
+{{ text_field("estado", "class":"form-control input-mask-string", "required":"required", "placeholder":"Estados") }}
 
 {{ submit_button("Guardar", "class":"btn btn-primary") }}
  
@@ -37,7 +39,8 @@ fgdhdhdfh				</div>
 <script type="text/javascript">
 			jQuery(function($) {
 			
-	
+				$.mask.definitions['~']='[+-]';
+				$('.input-mask-string').mask('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa*');
 			
 				$( "#id-btn-dialog1" ).on('click', function(e) {
 					e.preventDefault();

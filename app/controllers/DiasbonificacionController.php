@@ -27,7 +27,7 @@ class DiasbonificacionController extends \Phalcon\Mvc\Controller
 			
 			$diasb->setMesDesde($this->request->getPost("desde"));
 			$diasb->setMesHasta($this->request->getPost("hasta"));
-			$diasb->setDiasBonificacion($this->request->getPost("diasb"));
+			$diasb->setDiasBonificacion($this->request->getPost("dias"));
 			
 			if (!$diasb->save())
 			{
@@ -40,7 +40,7 @@ class DiasbonificacionController extends \Phalcon\Mvc\Controller
                 ));
 			}
 			
-			$this->flash->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Guardado con Exito</strong></p></div>");
+			$this->flash->success("<div class='alert alert-block alert-success'>Guardado con Exito</div>");
 			return $this->dispatcher->forward(array(
 				"controller" => "diasbonificacion",
 				"action" => "index"

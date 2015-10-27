@@ -1,4 +1,4 @@
-	
+{{ javascript_include("js/jquery.maskedinput.js") }}	
 	
 		<div class="col-sm-4">
 	</div>
@@ -28,7 +28,7 @@
 							</tr>
 							<tr>
 								<td>{{ text_field("concepto", "class":"form-control", "required":"required", "style":"text-transform:capitalize") }}</td>
-								<td>{{ text_field("dias", "class":"form-control", "required":"required", "style":"text-transform:capitalize") }}</td>
+								<td>{{ text_field("dias", "class":"form-control input-mask-numeric", "required":"required", "style":"text-transform:capitalize") }}</td>
 							</tr>
 						</table>
 						
@@ -45,3 +45,10 @@
 	</div>
 	<div class="col-sm-4">
 	</div>
+
+<script type="text/javascript">
+    $(document).ready(function() { 
+        $('.input-mask-numeric').mask('999');
+	});
+</script>
+        

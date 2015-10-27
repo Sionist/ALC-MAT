@@ -40,6 +40,12 @@ class Variaciones extends \Phalcon\Mvc\Model
     protected $monto;
 
     /**
+     *
+     * @var string
+     */
+    protected $fecha;
+
+    /**
      * Method to set the value of field id_variacion
      *
      * @param integer $id_variacion
@@ -118,6 +124,19 @@ class Variaciones extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Method to set the value of field fecha
+     *
+     * @param string $fecha
+     * @return $this
+     */
+    public function setFecha($fecha)
+    {
+        $this->fecha = $fecha;
+
+        return $this;
+    }
+
+    /**
      * Returns the value of field id_variacion
      *
      * @return integer
@@ -175,6 +194,16 @@ class Variaciones extends \Phalcon\Mvc\Model
     public function getMonto()
     {
         return $this->monto;
+    }
+
+    /**
+     * Returns the value of field fecha
+     *
+     * @return string
+     */
+    public function getFecha()
+    {
+        return $this->fecha;
     }
 
     /**
