@@ -22,7 +22,7 @@ class CargafamiliarController extends \Phalcon\Mvc\Controller
 	public function individualAction($cedula)
     {
 	//$ciudades = Ciudades::find();
-    $query = new Phalcon\Mvc\Model\Query("SELECT datospersonales.nu_cedula as tra_cedula, datospersonales.nombre1 as nombret, datospersonales.apellido1 as apellidot, cargafamiliar.ci_carga, cargafamiliar.nombre1, cargafamiliar.apellido1, cargafamiliar.f_nac, cargafamiliar.ocupacion, cargafamiliar.genero, cargafamiliar.id_parentesco, parentesco.parentesco as parent FROM cargafamiliar INNER JOIN datospersonales ON datospersonales.nu_cedula=cargafamiliar.nu_cedula INNER JOIN parentesco ON cargafamiliar.id_parentesco=parentesco.id_parentesco WHERE cargafamiliar.nu_cedula=$cedula", $this->getDI()); 
+    $query = new Phalcon\Mvc\Model\Query("SELECT datospersonales.nu_cedula as tra_cedula, datospersonales.nombre1 as nombret, datospersonales.apellido1 as apellidot, cargafamiliar.id_carga, cargafamiliar.ci_carga, cargafamiliar.nombre1, cargafamiliar.apellido1, cargafamiliar.f_nac, cargafamiliar.ocupacion, cargafamiliar.genero, cargafamiliar.id_parentesco, parentesco.parentesco as parent FROM cargafamiliar INNER JOIN datospersonales ON datospersonales.nu_cedula=cargafamiliar.nu_cedula INNER JOIN parentesco ON cargafamiliar.id_parentesco=parentesco.id_parentesco WHERE cargafamiliar.nu_cedula=$cedula", $this->getDI()); 
 	
 	$cargafamiliar = $query->execute();
 	
@@ -32,6 +32,32 @@ class CargafamiliarController extends \Phalcon\Mvc\Controller
 		
     $this->view->setParamToView("carga", $cargafamiliar);
 	$this->view->setParamToView("trabaja", $dtrabajador);
+    }
+	
+    public function detalleAction($idcarga)
+    {
+	//$ciudades = Ciudades::find();
+   // $query = new Phalcon\Mvc\Model\Query("SELECT datospersonales.nu_cedula as tra_cedula, datospersonales.nombre1 as nombret, datospersonales.apellido1 as apellidot, cargafamiliar.ci_carga, cargafamiliar.nombre1, cargafamiliar.apellido1, cargafamiliar.f_nac, cargafamiliar.ocupacion, cargafamiliar.genero, cargafamiliar.id_parentesco, parentesco.parentesco as parent FROM cargafamiliar INNER JOIN datospersonales ON datospersonales.nu_cedula=cargafamiliar.nu_cedula INNER JOIN parentesco ON cargafamiliar.id_parentesco=parentesco.id_parentesco WHERE cargafamiliar.id_carga=$idcarga", $this->getDI()); 
+	
+	//$cargafamiliar = $query->execute();
+	
+	//$cedula=$cargafamiliar->tra_cedula;	
+		
+		
+		
+	$dcarga = Cargafamiliar::findFirstByIdCarga($idcarga);	
+	$cedutra=$dcarga->nu_cedula;
+    $ceducarga=$dcarga->ci_carga;   
+	$nombre=$dcarga->nombre1;
+	$parent=$dcarga->id_parentesco;
+		
+		
+		
+	$dparent = Parentesco::findFirstByIdParentesco($parent);	
+	
+		
+    $this->view->setParamToView("carga", $dcarga);
+	$this->view->setParamToView("parentesco", $dparent);
     }
 	
 	public function nuevoAction($cedula)

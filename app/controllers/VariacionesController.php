@@ -22,6 +22,7 @@ class VariacionesController extends \Phalcon\Mvc\Controller
                                                     Datospersonales.nu_cedula,
                                                     Datospersonales.nombre1,
                                                     Datospersonales.apellido1,
+                                                    Datospersonales.foto_p,
                                                     NbDireciones.denominacion,
                                                     Cargos.cargo
                                                     FROM
@@ -58,7 +59,7 @@ class VariacionesController extends \Phalcon\Mvc\Controller
 
                 $trabajador = $Tcedula->execute()->toArray();
 
-                if (count($asigsT)>0) {
+                if (count($asigsT) > 0) {
                     //deshabilita la vista para enviar JSON limpio
                     $this->view->disable();
                     //envia un JSON con los datos de las consultas en forma de array
@@ -206,6 +207,8 @@ class VariacionesController extends \Phalcon\Mvc\Controller
             return $r;
         }
     }
+
+
 
 }
 

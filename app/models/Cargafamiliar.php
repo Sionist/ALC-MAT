@@ -68,6 +68,12 @@ class Cargafamiliar extends \Phalcon\Mvc\Model
      * @var integer
      */
     protected $id_parentesco;
+	
+	 /**
+     *
+     * @var integer
+     */
+    protected $foto_carga;
 
     /**
      * Method to set the value of field id_carga
@@ -211,6 +217,13 @@ class Cargafamiliar extends \Phalcon\Mvc\Model
 
         return $this;
     }
+	
+	public function setFotoCarga($foto_carga)
+    {
+        $this->foto_carga = $foto_carga;
+
+        return $this;
+    }
 
     /**
      * Returns the value of field id_carga
@@ -322,6 +335,11 @@ class Cargafamiliar extends \Phalcon\Mvc\Model
         return $this->id_parentesco;
     }
 
+	
+	public function getFotoCarga()
+    {
+       return $this->foto_carga;
+    }
     /**
      * Initialize method for model.
      */

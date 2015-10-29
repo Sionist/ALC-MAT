@@ -33,6 +33,8 @@ class AsignacionesController extends \Phalcon\Mvc\Controller
             $asignacion->setFrecuencia($this->request->getPost("frecuencia"));
             $asignacion->setPartiPresuspuest($this->request->getPost("parti_presupuesto"));
             $asignacion->setDenominacion($this->request->getPost("denominacion"));
+            $asignacion->setTipo($this->request->getPost("tipo"));
+
 
             if (!$asignacion->save()) {
                 foreach ($asignacion->getMessages() as $message) {
@@ -80,6 +82,7 @@ class AsignacionesController extends \Phalcon\Mvc\Controller
             $this->tag->setDefault("frecuencia", $asignacion->getFrecuencia());
             $this->tag->setDefault("parti_presupuesto", $asignacion->getPartiPresuspuest());
             $this->tag->setDefault("denominacion", $asignacion->getDenominacion());
+            $this->tag->setDefault("tipo", $asignacion->getTipo());
         }
     }
 
@@ -103,6 +106,7 @@ class AsignacionesController extends \Phalcon\Mvc\Controller
             $asignacion->setFrecuencia($this->request->getPost("frecuencia"));
             $asignacion->setPartiPresuspuest($this->request->getPost("parti_presupuesto"));
             $asignacion->setDenominacion($this->request->getPost("denominacion"));
+            $asignacion->setTipo($this->request->getPost("tipo"));
 
             if(!$asignacion->save()){
                 foreach ($asignacion->getMessages() as $message) {

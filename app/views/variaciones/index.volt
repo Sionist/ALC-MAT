@@ -3,11 +3,50 @@
 {{ javascript_include("js/jquery.maskedinput.js") }}
 
         <!--{{ javascript_include("js/dataTables/jquery.dataTables.bootstrap.js") }}-->
-<div id="page-wrapper">
+<div id="page-wrapper" >
 
 <!-- Formulario para agregar  (insertar) -->
-
 {{ form("variaciones/cargar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
+    <div class="page-header">
+        <div class="form-actions">
+            <div class="form-group">
+                <label for="nomina" class=""><span>Nomina: &nbsp;</span> </label>
+                <?php
+                    echo Phalcon\Tag::Select(array(
+                    'nomina', 
+                    TipoNomi::find(array("order" => "id_nomina ASC")),
+                    'using' => array('id_nomina', 'nomina'),
+                    'useEmpty' => true,
+                    'class' => 'select2'
+                    ));
+                ?>    
+            </div> 
+            <div class="form-group">
+                <label for="año" class="">&nbsp; Año: &nbsp;</label>
+                {{ text_field("año","id":"year", "class":"input-small center", "required":"required", "placeholder":"", "disabled":"disabled") }}     
+            </div>    
+            <div class="form-group">
+                    <label for="sem_quin" class=""> &nbsp; Semana / Quincena / Mes: &nbsp;</label>  
+                    <select id="sem_quin" name="sem_quin"></select>
+            </div>
+           &nbsp; ¿Esta De Acuerdo? &nbsp;
+            <div  class="form-group">
+            <label style="margin-top: 10px; display: block">
+                <input name="switch-field-1" class="ace ace-switch ace-switch-4 btn-rotate" type="checkbox" >
+                <span class="lbl" data-lbl="SI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NO"></span>
+            </label>
+            </div>
+          &nbsp; {{ submit_button("Aceptar","id":"buscar", "class":"btn btn-sm btn-primary") }}  
+        </div>
+    </div>
+{{ endForm() }} 
+    
+
+
+
+    
+<div style="display: block">
+{{ form("variaciones/buscar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
 
 {{ content() }}
 
@@ -15,6 +54,9 @@
 
 {{ submit_button("Buscar","id":"buscar", "class":"btn btn-primary") }}
 {{ endForm() }}
+
+</div>
+<br />
 
 {{ content() }}
 
@@ -24,21 +66,28 @@
                                          <div id="msj">
     </div>
 
-				<div class="row" id="tprins" style="display: none;">
-                                    <div class="col-xs-5">
+                <div id="img" class="col-xs-12 col-sm-2" style="display: none;">
+                    <span class="profile-picture">                                                                     
+                        <img id="foto" class="img-responsive" title="" src="" style=""></img>
+                    <div class="center">FOTO</div>
+                    </span>
+                </div>
+				<div class="col-sm-10 col-xs-12" id="tprins" style="display: none;">
+                                    
+                                    <div class="col-sm-6">
                                         <div id="msj"></div>
-                                        <div class="clearfix">
-                                            <div class="pull-right tableTools-container"></div>
-                                        </div>
+                                        
                                         <div class="table-header">
+                                            
                                             Trabajador: "<strong><span class="" id="nombre"></span></strong>"   - Cedula: <strong><span class="" id="Tcedula"></span></strong> <br />
                                             Ubicación Funcional: "<strong><span class="" id="ubi_f"></span></strong>"   - Cargo: "<strong><span class="" id="cargo"></span></strong>"
+                                            
                                         </div>
-
+                                        
                                       {{ form("variaciones/procesar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
                                         {{ hidden_field("ttcedula") }}
                                         {{ hidden_field("sd") }}
-                                        <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                                        <table id="dynamic-table" class="table table-striped table-bordered">
                                         <thead>
                                                 <th class="center">Asignación</th>
                                                 <th class="center">Horas / Dias</th>
@@ -66,7 +115,37 @@
         <script type="text/javascript">
         
             jQuery(function($) {
+                
+                $("#nomina").change(function(){
+                    
+                    var nomina = $("#nomina").val()
+                    
+                    $.post("./nomina", { "nomina" : nomina },function(data){
+                       var nomina = JSON.parse(data);
+                        alert("hola");
+                       
+                    });
+                });
+                
+                var f = new Date();
+                //establece el año actual
+                $("#year").val(f.getFullYear())
+                
+                var mes = f.getMonth()+1;
+                
+                var quincena = mes * 2;
+                
+                //alert(f.getDate()+" " +quincena);
+                
+                //calcula la quincena actual
+                if(f.getDate() < 15){
+                    $("#sem_quin").val(quincena-1);
+                }else{
+                    $("#sem_quin").val(quincena);
+                }                                                                         
+    
                 $("#cedula").focus();
+                
                 $("#buscar").click(function(e){
                     
                     e.preventDefault();
@@ -93,6 +172,8 @@
                            
                            var cargo = "";
                            
+                           var foto = asigs.trabajador[0].foto_p;
+                           
                            var sueldo = asigs.sd;
                            
                            $("#sd").val(sueldo);                           
@@ -116,15 +197,19 @@
                            
                            $("#ttcedula").val(asigs.trabajador[0].nu_cedula);
                            
+                           $("#foto").attr("src","../public/empleados/fotos/"+foto)
+                           
+                           $("#foto").attr("title",nombre);
+                           
                            //contador para diferenciar id´s de los checkbox
                            var cont = 1;
                            
                            var select = '<select name="semana[]" disabled><option value="15">15</option><option value="30">30</option></select>';
                            //recorre los datos del JSON recibido 
-                           for(datos in asigs.asignaciones){                              
-                               
+                           for(datos in asigs.asignaciones){ 
+                            
                                //genera todas las asignaciones variables tabuladas con sus campos 
-                                tr += "<tr id=\"f"+cont+"\"><td style=\"text-transform: capitalize;\">"+asigs.asignaciones[datos].asignacion+
+                                tr += "<tr id=\"f"+cont+"\"><td class=\"col-xs-15\" style=\"text-transform: capitalize;\">"+asigs.asignaciones[datos].asignacion+
                                     "</td><td class=\"col-xs-3\">"+
                                     "<input type=\"text\" id=\"tf\" name=\"asigss["+asigs.asignaciones[datos].id_asignac +"]\" class=\"input-mask-numeric col-xs-12 center\" required=\"required\" disabled>"
                                     +"</td>"
@@ -145,6 +230,7 @@
                             $("#asignacion").html(tr);
                             //efecto slide para la tabla
                             $("#tprins").slideDown(100);
+                            $("#img").slideDown(100);
                         
                            //habilita o deshabilita los campos de texto segun estado de los checkbox
                            $("input[type=checkbox]").click(function(){

@@ -39,7 +39,7 @@ Nuevo
 					<td><?php echo $row->f_nac; ?></td>
 					<td><?php echo $row->genero; ?></td>
 					<td><?php echo $row->parent; ?></td>
-					<td>  <a>Detalles</a></td>
+					<td>  <a href="../detalle/<?php echo $row->id_carga; ?>">Detalles</a></td>
 					</tr>
 					 <?php
 					  }
