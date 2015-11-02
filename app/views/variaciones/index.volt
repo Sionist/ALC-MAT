@@ -7,6 +7,7 @@
 
 <!-- Formulario para agregar  (insertar) -->
 {{ form("variaciones/cargar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
+    {{ hidden_field("frecuencia") }}
     <div class="page-header">
         <div class="form-actions">
             <div class="form-group">
@@ -116,33 +117,43 @@
         
             jQuery(function($) {
                 
+                var f = new Date();
+                
+                //establece el año actual
+                $("#year").val(f.getFullYear());
+                
                 $("#nomina").change(function(){
                     
                     var nomina = $("#nomina").val()
                     
                     $.post("./nomina", { "nomina" : nomina },function(data){
                        var nomina = JSON.parse(data);
-                        alert("hola");
+                        var frecuencia = nomina.tipoNomi[0].f;
+                        
+                        if(frecuencia == "quincenal"){
+                            
+                            var f = new Date();
+                            var mes = f.getMonth()+1;
+                
+                            var quincena = mes * 2;
+                            
+                            var option="";
+                            
+                            option = 
+
+                            //calcula la quincena actual
+                            if(f.getDate() < 15){
+                                option+= "<option value=\""+quincena-1+"\">"+quincena-1+"</option>";
+                            }else{
+                                $("#sem_quin").val(quincena);
+                            }   
+                        }
+                            
                        
                     });
-                });
+                });                               
                 
-                var f = new Date();
-                //establece el año actual
-                $("#year").val(f.getFullYear())
-                
-                var mes = f.getMonth()+1;
-                
-                var quincena = mes * 2;
-                
-                //alert(f.getDate()+" " +quincena);
-                
-                //calcula la quincena actual
-                if(f.getDate() < 15){
-                    $("#sem_quin").val(quincena-1);
-                }else{
-                    $("#sem_quin").val(quincena);
-                }                                                                         
+                                                                                      
     
                 $("#cedula").focus();
                 

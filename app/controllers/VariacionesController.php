@@ -208,6 +208,37 @@ class VariacionesController extends \Phalcon\Mvc\Controller
         }
     }
 
+    public function nominaAction(){
+        if($this->request->isPost()){
+            $nomi = $this->request->getPost("nomina");
+
+            $query = $this->modelsManager->createBuilder()
+                ->from("TipoNomi")
+                ->join("Frecuencia")
+                ->columns("Frecuencia.frecuencia as f")
+                ->where("TipoNomi.id_nomina = :nomi:", array("nomi"=>$nomi))
+                ->getQuery()
+                ->execute()
+                ->toArray();
+
+            if(count($query) > 0){
+                //deshabilita la vista para enviar JSON limpio
+                $this->view->disable();
+                //envia un JSON con los datos de las consultas en forma de array
+                $this->response->setJsonContent(array(
+                    "tipoNomi" => $query
+                ));
+
+                $this->response->setStatusCode(200, "OK");
+                $this->response->send();
+            }else{
+                $this->view->disable();
+                return null;
+            }
+        }else{
+            return null;
+        }
+    }
 
 
 }

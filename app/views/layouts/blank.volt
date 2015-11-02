@@ -196,7 +196,7 @@ if (!$this->session->get('auth-identity')) {
 						
 					<!--breadcrumb aqui	-->
 					
-					{% include "partials/breadcrumb.volt" %}
+					<!-- {% include "partials/breadcrumb.volt" %} -->
 					
 					<!--breadcrumb aqui fin	-->
 					</div>
