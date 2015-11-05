@@ -12,24 +12,12 @@ class ClasificacionesController extends \Phalcon\Mvc\Controller
     public function indexAction()
     {
 	    
-		/*$query  = new Phalcon\Mvc\Model\Query("SELECT Convenciones.id_convencion,Convenciones.descripcion,Clausulas.id_clausula,Clausulas.nclausula,Clausulas.clausula,Clasificaciones.id_clasi,Clasificaciones.minimo,Clasificaciones.maximo,Clasificaciones.tiempo,Clasificaciones.monto FROM Convenciones,Clausulas,Clasificaciones WHERE Convenciones.id_convencion=Clausulas.id_convension", $this->getDI());*/
-
 		$query2 = new Phalcon\Mvc\Model\Query("SELECT Convenciones.*,Clausulas.*,Clasificaciones.* FROM Convenciones,Clausulas,Clasificaciones WHERE Convenciones.id_convencion=Clausulas.id_convension and Clausulas.id_clausula=Clasificaciones.id_clausula", $this->getDI());
-		
-		/*$query2 = "SELECT Convenciones.*,Clausulas.*,Clasificaciones.* FROM Convenciones,Clausulas,Clasificaciones WHERE Convenciones.id_convencion=Clausulas.id_convension and Clausulas.id_clausula=Clasificaciones.id_clausula";
-		
-		$query3 = new Phalcon\Mvc\Model\Query($query2,$this->getDI());*/
 
 		$clasificaciones = $query2->execute();
 
-		
-		/*$phql = "SELECT Cars.*, Brands.* FROM Cars, Brands WHERE Brands.id = Cars.brands_id";
-		$rows = $manager->executeQuery($phql);*/
-
 		$this->view->setParamToView("clasificaciones", $clasificaciones);
 
-		//$bandera=0;
-		
 		$this->view->bandera="0";
 
     }
@@ -76,7 +64,6 @@ class ClasificacionesController extends \Phalcon\Mvc\Controller
 		$convencion = $this->request->get("convenciones");
 		
 		$query = new Phalcon\Mvc\Model\Query("SELECT clausulas.id_clausula, clausulas.clausula FROM convenciones,clausulas WHERE convenciones.id_convencion=clausulas.id_convension AND convenciones.id_convencion=".$convencion." ORDER BY clausulas.id_clausula ASC", $this->getDI()); 
-		/*$query = new Phalcon\Mvc\Model\Query("SELECT convenciones.id_convencion,convenciones.descripcion, clausulas.id_clausula,clausulas.clausula FROM convenciones,clausulas WHERE convenciones.id_convencion=clausulas.id_convension AND convenciones.id_convencion=".$convencion." ORDER BY clausulas.id_clasula ASC", $this->getDI()); */
 	
 		$ciudades = $query->execute();
 
@@ -119,18 +106,10 @@ class ClasificacionesController extends \Phalcon\Mvc\Controller
 		}
 
 		$this->response->setJsonContent(array(
-			"ciud" => $row
+			"clasi" => $row
 			));
 		$this->response->setStatusCode(200, "OK");
 		$this->response->send();
-
-        //$this->view->setVar("clasificaciones",$clasificaciones);
-
-
-		//$this->view->setParamToView("clasificaciones",$clasificaciones);
-
-		
-
 		
 	}
 
@@ -140,39 +119,49 @@ class ClasificacionesController extends \Phalcon\Mvc\Controller
 		
 		if (!$this->request->isPost())
 		{
-			$clausula = Clausulas::findFirstByIdClausula($id);
-			if (!$clausula) {
-                $this->flash->error("Clausula No Encontrada");
+			$clasificaciones = Clasificaciones::findFirstByIdClasi($id);
+			if (!$clasificaciones) {
+                $this->flash->error("Clasificación No Encontrada");
 
                 return $this->dispatcher->forward(array(
-                    "controller" => "clausulas",
+                    "controller" => "clasificaciones",
                     "action" => "index"
                 ));
             }
 			
 			
-			$conven = $clausula->id_convension;
-			
-					
-			$convencion = Convenciones::findFirstByIdConvencion($conven);
+			$idclausu = $clasificaciones->id_clausula;
+
+			$clausulas = Clausulas::findFirstByIdClausula($idclausu);
+			if (!$clausulas) {
+                $this->flash->error("Clausula No Encontrada Para Modificar");
+
+                return $this->dispatcher->forward(array(
+                    "controller" => "clasificaciones",
+                    "action" => "index"
+                ));
+            }			
+
+            $idcon = $clausulas->id_convension;
+			$convencion = Convenciones::findFirstByIdConvencion($idcon);
 			if (!$convencion) {
                 $this->flash->error("Convención No Encontrada Para Modificar");
 
                 return $this->dispatcher->forward(array(
-                    "controller" => "clausulas",
+                    "controller" => "clasificaciones",
                     "action" => "index"
                 ));
             }			
 			
-			$this->view->id = $clausula->id_clausula;
+			$this->view->id = $clasificaciones->id_clasi;
 
 			
 			$des = $convencion->descripcion;
 			$this->view->des = $des;			
 			
-			$this->view->id = $clausula->id_clausula;
+			//$this->view->id = $clausula->id_clausula;
 			
-			$this->tag->setDefault("id",$clausula->getIdClausula());
+			$this->tag->setDefault("id",$clasificaciones->getIdClasi());
 			$this->tag->setDefault("clausula",$clausula->getClausula());
 			$this->tag->setDefault("activa",$clausula->getActiva());			
 			$this->tag->setDefault("observa",$clausula->getObservacion());			

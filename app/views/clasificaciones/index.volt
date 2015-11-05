@@ -33,6 +33,9 @@
 
 {{ text_field("monto", "class":"form-control", "placeholder":"Monto")}}
 
+
+
+
 {{ submit_button("Guardar", "class":"btn btn-primary") }}
 
 
@@ -43,7 +46,31 @@
 			<div class="pull-right tableTools-container"></div>
 		</div>
 
-		{{ text_field("todo", "class":"form-control")}}	
+
+		<div>
+		
+			<table id="todo1" class="table table-striped table-bordered table-hover">
+  				<tr>
+                    <th>N° Escala</th>
+                    <th>N° Cláusula</th>
+					<th>Mínimo</th>
+					<th>Máximo</th>
+					<th>Tiempo</th>
+					<th>Monto</th>
+                    <th>Acciones</th>
+                </tr>
+
+                <tbody id="todo">
+
+                </tbody>
+
+			</table>
+
+
+		</div>
+
+
+		
 
 
 	</div>
@@ -106,21 +133,33 @@ $(document).ready(function()
   $("#cargar_ciudad").on("change", function()
    {
     	var id_clasi = $("#cargar_ciudad option:selected").attr("value");
-	
+
+    	  	
+
+    	
 		$.get("<?php echo $this->url->get('clasificaciones/getMuestra') ?>", {"clasi":id_clasi}, function(data)
 		{
 	  
-	   		var ciud ="";
+	   		var clasi ="";
 	   
-	   		var ciuda = JSON.parse(data);
+	   		var clasificacion = JSON.parse(data);
+
    
-	   		for(datos in ciuda.ciud)
+	   		for(datos in clasificacion.clasi)
 	    	{
-	    		ciud += ciuda.ciud[datos].id_clasi+ciuda.ciud[datos].maximo;
+	    		clasi += "<tr><td>"+clasificacion.clasi[datos].id_clasi+"</td>"+
+	    				"<td>"+clasificacion.clasi[datos].nclausula+"</td>"+
+	    				"<td>"+clasificacion.clasi[datos].minimo+"</td>"+
+	    				"<td>"+clasificacion.clasi[datos].maximo+"</td>"+
+	    				"<td>"+clasificacion.clasi[datos].tiempo+"</td>"+
+	    				"<td>"+clasificacion.clasi[datos].monto+"</td>"+
+	    				"<td>"+"<a href=\"clasificaciones/editar/"+clasificacion.clasi[datos].id_clasi+"\"><i class='ace-icon fa fa-pencil-square-o bigger-110'></i></a>"+"</tr>";
+
+
 			}
 			
-			$('#todo').val(ciud);
-			//$('#postal').val(postal.postal);
+			$('#todo').html(clasi);
+			
 		});
 	});
 

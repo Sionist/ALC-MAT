@@ -1,10 +1,13 @@
 <?php
-if (!$this->session->get('auth-identity')) {
-          
-           return $this->response->redirect('login');
-       
-       }
-	   ?>
+
+if(!$this->session->has("username"))
+    	{
+    		return $this->response->redirect('login');
+    	}
+
+
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -130,7 +133,7 @@ if (!$this->session->get('auth-identity')) {
 				
 
 				<!-- #section:basics/navbar.dropdown -->
-				<div class="navbar-buttons navbar-header pull-right" role="navigation">
+				<div class="navbar-buttons navbar-header pull-right" role="navigation" style="width=auto">
 					
 					<ul class="nav ace-nav">
 						<!-- #section:basics/navbar.user_menu -->
@@ -139,7 +142,8 @@ if (!$this->session->get('auth-identity')) {
 								{{ image("avatars/avatar2.png") }}
 								<span class="user-info">
 									<small>Bienvenido,</small>
-									<?php echo $this->session->get('auth-identity')['usu-username']; ?>
+									<?php //echo $this->session->get('auth-identity')['usu-username']; ?>
+                                                              <?php echo $this->session->get("username"); ?>
 								</span>
 
 								<i class="ace-icon fa fa-caret-down"></i>

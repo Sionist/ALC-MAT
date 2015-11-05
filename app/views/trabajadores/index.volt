@@ -12,10 +12,10 @@ use Phalcon\Forms\Element\Select ?>
  
 <div class="row">
 
-<a href="./nuevo" title="Agregar un Nuevo Trabajador" class="btn btn-app btn-primary btn-xs">
-<i class="ace-icon fa fa-users bigger-160"></i>
-Nuevo
-</a>
+
+<?php echo $this->tag->linkTo(array("trabajadores/nuevo/","<i class='ace-icon fa fa-users bigger-160'></i>nuevo","class"=>"btn btn-app btn-primary btn-xs", ""))  ?>
+
+
 
 
                                     <div class="col-xs-12">

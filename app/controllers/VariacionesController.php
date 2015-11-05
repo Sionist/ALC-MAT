@@ -47,24 +47,33 @@ class VariacionesController extends \Phalcon\Mvc\Controller
             }
 
             if ($Tcedula) {
-                $query = new Phalcon\Mvc\Model\Query("SELECT
+                /*$query = new Phalcon\Mvc\Model\Query("SELECT
                                                         NbAsignaciones.asignacion,
                                                         NbAsignaciones.id_asignac
                                                         FROM
                                                         NbAsignaciones
                                                         INNER JOIN TrabajoAsi ON TrabajoAsi.id_trabajo_asi = NbAsignaciones.id_asignac
                                                         WHERE
-                                                        TrabajoAsi.nu_cedula = $cedula", $this->getDI());
-                $asigsT = $query->execute()->toArray();
+                                                        TrabajoAsi.nu_cedula = $cedula", $this->getDI());*/
+
+                $asigsV = $this->modelsManager->createBuilder()
+                    ->from("NbAsignaciones")
+                    ->join("AsigsTipo")
+                    ->columns("NbAsignaciones.id_asignac,NbAsignaciones.asignacion")
+                    ->where("AsigsTipo.descripcion=:d:",array("d"=>"variables"))
+                    ->getQuery()
+                    ->execute()
+                    ->toArray();
+
 
                 $trabajador = $Tcedula->execute()->toArray();
 
-                if (count($asigsT) > 0) {
+                if (count($asigsV) > 0) {
                     //deshabilita la vista para enviar JSON limpio
                     $this->view->disable();
                     //envia un JSON con los datos de las consultas en forma de array
                     $this->response->setJsonContent(array(
-                        "asignaciones" => $asigsT,
+                        "asignaciones" => $asigsV,
                         "trabajador" => $trabajador,
                         "sd" => $sd
                     ));
@@ -90,11 +99,15 @@ class VariacionesController extends \Phalcon\Mvc\Controller
         if ($this->request->isPost()) {
 
             //recupera cedula de la vista
-            $cedula = $this->request->getPost("ttcedula");
+            $cedula = $this->request->getPost("cedula");
             //recibe los ids de las asignaciones y el valor de los campos, de la vista (array)
-            $asigs = $this->request->getPost("asigss");
+            $asigs = $this->request->getPost("asigs");
             //recibe las semanas de la vista (array)
-            $semana = $this->request->getPost("semana");
+            $sqm = $this->request->getPost("sqm");
+            //recibe la nomina
+            $nomina = $this->request->getPost("nomina");
+            //recibe el año
+            $ano = $this->request->getPost("ano");
             //recibe suelod diario
             $sueldo = $this->request->getPost("sd");
 
@@ -103,7 +116,6 @@ class VariacionesController extends \Phalcon\Mvc\Controller
             //array que almacenara los valores horas/dias de las asignaciones para hacer sustitucion en fomurla
             $param = array("v" => "");
 
-            $cont = 0;
             $asigs_correctas = 0;
 
             foreach ($asigs as $k => $v) {
@@ -114,12 +126,11 @@ class VariacionesController extends \Phalcon\Mvc\Controller
                 $variacion->setNuCedula($cedula);
                 $variacion->setIdAsignac($k);
                 $variacion->setHorasDias($v);
-                $variacion->setFecha(date("y/m/d"));
+                $variacion->setNomina($nomina);
+                $variacion->setSqm($sqm);
+                $variacion->setAno($ano);
 
-                //almacena el valor del campo semana de acuerdo a su indice en el array semana
-                //indice dado por el contador "cont"
-                $variacion->setSemana($semana[$cont]);
-                $cont++;
+                $variacion->setFecha(date("y/m/d"));
 
 
                 $monto = $this->calcular($param, $formula);

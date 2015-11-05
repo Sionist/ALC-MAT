@@ -96,36 +96,18 @@
 																		
 																		
 																		<?php
-
-
-$dia=date(j);
-$mes=date(n);
-$ano=date(Y);
-
-$dianaz=date('d',strtotime($carga->f_nac));
-$mesnaz=date('m',strtotime($carga->f_nac));
-$anonaz=date('Y',strtotime($carga->f_nac));
- 
-//si el mes es el mismo pero el día inferior aun no ha cumplido años, le quitaremos un año al actual
- 
-if (($mesnaz == $mes) && ($dianaz > $dia)) {
-$ano=($ano-1); }
- 
-//si el mes es superior al actual tampoco habrá cumplido años, por eso le quitamos un año al actual
- 
-if ($mesnaz > $mes) {
-$ano=($ano-1);}
- 
-//ya no habría mas condiciones, ahora simplemente restamos los años y mostramos el resultado como su edad
- 
-$edad=($ano-$anonaz);
-
-
-echo $edad; 
-
-
-
-?>
+                                                                            //almacena la fecha actual 
+                                                                            $fecha_actual = new DateTime();
+                                                                            
+                                                                            //convierte la fecha de nacimiento en un objeto DateTime
+                                                                            $f_nac = new DateTime($carga->f_nac);
+                                                                            
+                                                                            //calcula la diferencia entre ambas fechas
+                                                                            $edad = $fecha_actual->diff($f_nac);
+                                                                            
+                                                                            //imprime la edad en años
+                                                                            echo $edad->y." años";
+                                                                        ?>
 																		
 																		</span>
                                                                     </div>

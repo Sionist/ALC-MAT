@@ -29,9 +29,21 @@ class Variaciones extends \Phalcon\Mvc\Model
 
     /**
      *
+     * @var string
+     */
+    protected $ano;
+
+    /**
+     *
+     * @var string
+     */
+    protected $sqm;
+
+    /**
+     *
      * @var integer
      */
-    protected $semana;
+    protected $nomina;
 
     /**
      *
@@ -98,14 +110,40 @@ class Variaciones extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Method to set the value of field semana
+     * Method to set the value of field ano
      *
-     * @param integer $semana
+     * @param string $ano
      * @return $this
      */
-    public function setSemana($semana)
+    public function setAno($ano)
     {
-        $this->semana = $semana;
+        $this->ano = $ano;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field sqm
+     *
+     * @param string $sqm
+     * @return $this
+     */
+    public function setSqm($sqm)
+    {
+        $this->sqm = $sqm;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field nomina
+     *
+     * @param integer $nomina
+     * @return $this
+     */
+    public function setNomina($nomina)
+    {
+        $this->nomina = $nomina;
 
         return $this;
     }
@@ -177,13 +215,33 @@ class Variaciones extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Returns the value of field semana
+     * Returns the value of field ano
+     *
+     * @return string
+     */
+    public function getAno()
+    {
+        return $this->ano;
+    }
+
+    /**
+     * Returns the value of field sqm
+     *
+     * @return string
+     */
+    public function getSqm()
+    {
+        return $this->sqm;
+    }
+
+    /**
+     * Returns the value of field nomina
      *
      * @return integer
      */
-    public function getSemana()
+    public function getNomina()
     {
-        return $this->semana;
+        return $this->nomina;
     }
 
     /**

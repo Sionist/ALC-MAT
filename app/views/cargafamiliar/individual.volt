@@ -1,11 +1,8 @@
 <div id="page-wrapper">
 
 {{ content() }}
-
-<a href="../nuevo/<?php echo $trabaja->nu_cedula;?>" title="Agregar Carga Familiar" class="btn btn-app btn-primary btn-xs">
-<i class="ace-icon fa fa-users bigger-160"></i>
-Nuevo
-</a>
+	
+<?php echo $this->tag->linkTo(array("../nuevo/".$trabaja->nu_cedula,"<i class='ace-icon fa fa-users bigger-160'></i>nuevo","class"=>"btn btn-app btn-primary btn-xs", ""))  ?>
 
 <div class="row">
 	<div class="col-xs-12">

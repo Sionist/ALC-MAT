@@ -21,14 +21,17 @@ class LoginController extends \Phalcon\Mvc\Controller
 		$user = Users::findFirstByUsername($username);
 		if($user){
 			if ($this->security->checkToken() && $this->security->checkHash($password, $user->password)) {
-				$this->session->set('auth-identity', array(
-				'usu_id' => $user->id,
-				'usu-username' => $user->username
-				));	
-				
-				if($user->id == 1)
+				//$this->session->set('auth-identity', array(
+				//'usu_id' => $user->id,
+				//'usu-username' => $user->username));
+	
+				$this->session->set("username",$user->username);
+                          
+
+				if($user->username == $username)
 					{
-					return $this->response->redirect('Discapacidad');
+                                   
+					return $this->response->redirect('trabajadores');
 					}
 				
 				} else {

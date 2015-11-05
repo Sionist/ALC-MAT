@@ -31,10 +31,14 @@ class AsigsdeducstrabajadorController extends \Phalcon\Mvc\Controller
 
         $asigT = $asig_query_exist->execute()->toArray();
 
-        //recupera las asignaciones globales
-        $asig_all = new Phalcon\Mvc\Model\Query("SELECT id_asignac, asignacion FROM NbAsignaciones WHERE tipo = 1",$this->getDI());
-
-        $asigs = $asig_all->execute()->toArray();
+        $asigs = $this->modelsManager->createBuilder()
+            ->from("NbAsignaciones")
+            ->join("AsigsTipo")
+            ->columns("NbAsignaciones.id_asignac, NbAsignaciones.asignacion")
+            ->where("AsigsTipo.descripcion = :nombre:",array("nombre"=>"fijas"))
+            ->getQuery()
+            ->execute()
+            ->toArray();
 
         //llama a funcion para convertir los arrays
         $asignacionesT= $this->asigsArrays($asigT);
