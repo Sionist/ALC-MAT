@@ -5,7 +5,7 @@
 		<div class="col-sm-5">
 			<div class="widget-box">
 				<div class="widget-header">
-					<h4 class="widget-title">Editar Escalas de <?php echo $des ?></h4>
+					<h4 class="widget-title">Editar Escalas de <?php echo $des ?> de la Cláusula <?php echo $clau ?></h4>
 				</div>
 
 					<div class="widget-body">

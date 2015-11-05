@@ -31,13 +31,24 @@
       <file leaf-file-name="VariacionesController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/VariacionesController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.5101581">
-              <caret line="96" column="20" selection-start-line="96" selection-start-column="20" selection-end-line="96" selection-end-column="20" />
+            <state vertical-scroll-proportion="0.05602241">
+              <caret line="146" column="60" selection-start-line="146" selection-start-column="60" selection-end-line="146" selection-end-column="60" />
               <folding>
-                <marker date="1446743380675" expanded="true" signature="490:1667" placeholder="SELECT Datos..Datospersonales..." />
-                <marker date="1446743380675" expanded="true" signature="2190:2770" placeholder="SELECT NbAsi..NbAsignaciones..." />
-                <marker date="1446743380675" expanded="true" signature="8637:8689" placeholder="select formu..NbAsignaciones..." />
+                <marker date="1446754308600" expanded="true" signature="490:1667" placeholder="SELECT Datos..Datospersonales..." />
+                <marker date="1446754308600" expanded="true" signature="2190:2770" placeholder="SELECT NbAsi..NbAsignaciones..." />
+                <marker date="1446754308600" expanded="true" signature="7006:7403" placeholder="..." />
+                <marker date="1446754308600" expanded="true" signature="9177:9229" placeholder="select formu..NbAsignaciones..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/index.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-14.5">
+              <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -295,7 +306,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.24928367" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" x="22" y="337" width="1396" height="186" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.23853868" sideWeight="0.504698" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3528646" sideWeight="0.49713466" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3059896" sideWeight="0.49713466" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -747,7 +758,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.76975167">
+        <state vertical-scroll-proportion="-14.5">
           <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
           <folding />
         </state>
@@ -755,12 +766,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/VariacionesController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.5101581">
-          <caret line="96" column="20" selection-start-line="96" selection-start-column="20" selection-end-line="96" selection-end-column="20" />
+        <state vertical-scroll-proportion="0.05602241">
+          <caret line="146" column="60" selection-start-line="146" selection-start-column="60" selection-end-line="146" selection-end-column="60" />
           <folding>
-            <marker date="1446743380675" expanded="true" signature="490:1667" placeholder="SELECT Datos..Datospersonales..." />
-            <marker date="1446743380675" expanded="true" signature="2190:2770" placeholder="SELECT NbAsi..NbAsignaciones..." />
-            <marker date="1446743380675" expanded="true" signature="8637:8689" placeholder="select formu..NbAsignaciones..." />
+            <marker date="1446754308600" expanded="true" signature="490:1667" placeholder="SELECT Datos..Datospersonales..." />
+            <marker date="1446754308600" expanded="true" signature="2190:2770" placeholder="SELECT NbAsi..NbAsignaciones..." />
+            <marker date="1446754308600" expanded="true" signature="7006:7403" placeholder="..." />
+            <marker date="1446754308600" expanded="true" signature="9177:9229" placeholder="select formu..NbAsignaciones..." />
           </folding>
         </state>
       </provider>

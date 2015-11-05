@@ -2,6 +2,9 @@
   
 <div id="page-wrapper">
 	{{ form("clasificaciones/guardar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
+
+	
+
 	{{ content() }}
 
 <?php

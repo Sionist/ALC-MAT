@@ -132,6 +132,7 @@ class ClasificacionesController extends \Phalcon\Mvc\Controller
 			
 			$idclausu = $clasificaciones->id_clausula;
 
+
 			$clausulas = Clausulas::findFirstByIdClausula($idclausu);
 			if (!$clausulas) {
                 $this->flash->error("Clausula No Encontrada Para Modificar");
@@ -142,7 +143,9 @@ class ClasificacionesController extends \Phalcon\Mvc\Controller
                 ));
             }			
 
-            $idcon = $clausulas->id_convension;
+            $idcon    = $clausulas->id_convension;
+            $clausula = $clausulas->clausula;
+
 			$convencion = Convenciones::findFirstByIdConvencion($idcon);
 			if (!$convencion) {
                 $this->flash->error("Convención No Encontrada Para Modificar");
@@ -157,14 +160,16 @@ class ClasificacionesController extends \Phalcon\Mvc\Controller
 
 			
 			$des = $convencion->descripcion;
-			$this->view->des = $des;			
+			$this->view->des  = $des;
+			$this->view->clau = $clausula;			
 			
 			//$this->view->id = $clausula->id_clausula;
 			
 			$this->tag->setDefault("id",$clasificaciones->getIdClasi());
-			$this->tag->setDefault("clausula",$clausula->getClausula());
-			$this->tag->setDefault("activa",$clausula->getActiva());			
-			$this->tag->setDefault("observa",$clausula->getObservacion());			
+			$this->tag->setDefault("minimo",$clasificaciones->getMinimo());
+			$this->tag->setDefault("maximo",$clasificaciones->getMaximo());			
+			$this->tag->setDefault("tiempo",$clasificaciones->getTiempo());			
+			$this->tag->setDefault("monto",$clasificaciones->getMonto());			
 			
 		}
 		
@@ -177,7 +182,7 @@ class ClasificacionesController extends \Phalcon\Mvc\Controller
 		if (!$this->request->isPost())
 		{
 			return $this->dispatcher->forward(array(
-				"controller" => "clausulas",
+				"controller" => "clasificaciones",
 				"action" => "index"));
 		}		
 		
@@ -185,37 +190,38 @@ class ClasificacionesController extends \Phalcon\Mvc\Controller
 		$id = $this->request->getPost("id");
 			
 		
-		$clausula = Clausulas::findFirstByIdClausula($id);
+		$clasificaciones = Clasificaciones::findFirstByIdClasi($id);
 
 		
 		
 		
-		if (!$clausula)
+		if (!$clasificaciones)
 		{
-			echo "Clausula No Encontrada en Action Editado".$id;
+			echo "Clasificación No Encontrada en Action Editado".$id;
 			return $this->dispatcher->forward(array(
-				"controller" => "clausulas",
+				"controller" => "clasificaciones",
 				"action" => "index"));
 		}
 				
-		
-		$clausula->setClausula($this->request->getPost("clausula"));
-		$clausula->setActiva($this->request->getPost("activa"));			
-		$clausula->setObservacion($this->request->getPost("observa"));
+
+		$clasificaciones->setMinimo($this->request->getPost("minimo"));
+		$clasificaciones->setMaximo($this->request->getPost("maximo"));			
+		$clasificaciones->setTiempo($this->request->getPost("tiempo"));
+		$clasificaciones->setMonto($this->request->getPost("monto"));
 			
-		if (!$clausula->save())
+		if (!$clasificaciones->save())
 		{
-			foreach ($clausula->getMessages as $mensaje)
+			foreach ($clasificaciones->getMessages as $mensaje)
 			{
 				$this->flash->error($mensaje);
 			}
 				
 			return $this->dispatcher->forward(array(
-				"controller" => "clausulas",
+				"controller" => "clasificaciones",
 				"action" => "index"));
 		}
 			
-		$this->flash->success("Clausula Actualizada Exitosamente");
+		$this->flash->success("Escala Actualizada Exitosamente");
 		
 		/*return $this->response->redirect("clausulas","index");*/
 		

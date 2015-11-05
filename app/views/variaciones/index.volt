@@ -71,16 +71,18 @@
 <!-- tabla para mostrar todos los registros de la tabla-->
                                          <div id="msj">
     </div>
-
-                <div id="img" class="col-xs-12 col-sm-2" style="display: none;">
-                    <span class="profile-picture">                                                                     
-                        <img id="foto" class="img-responsive" title="" src="" style=""></img>
-                    <div class="center">FOTO</div>
-                    </span>
+                <div id="row">
+                    <div id="img" class="col-md-2" style="display: none;">
+                        <span class="profile-picture">                                                                     
+                            <img id="foto" class="img-responsive" title="" src="" style=""></img>
+                        <div class="center">FOTO</div>
+                        </span>
+                    </div>
                 </div>
-				<div class="col-sm-10 col-xs-12" id="tprins" style="display: none;">
+                <div class="row">
+				<div class="col-md-5" id="tprins" style="display: none;">
                                     
-                                    <div class="col-sm-6">
+                                    <div class="">
                                         <div id="msj"></div>
                                         
                                         <div class="table-header">
@@ -113,6 +115,13 @@
                                 </div>
                                 </div>
                                 <!-- fin tabla para mostrar todos los registros de la tabla-->
+<br />
+<div class="row">
+    <div id="msj_exito" class="alert alert-block alert-success hidden col-md-12">exito</div>
+</div>
+<div class="row">
+    <div id="msj_error" class="alert alert-block alert-danger col-md-12 hidden">error</div>
+</div>
 
     <!-- modal -->
 <div id="dialog-confirm" class="hide">
@@ -415,9 +424,7 @@
                             }
                             
                         });
-                        
-                        alert(asigs[7] +"="+name);
-                        
+                                               
                         $.post("./procesar", { 
                             "nomina" : nomina,
                             "ano" : ano,
@@ -426,7 +433,17 @@
                             "asigs" : asigs,
                             "sd" : sd  },function(data){
 
-                            var respuesta = JSON.parse(data);
+                            var res = JSON.parse(data);
+                            
+                            alert(res.msj_error);
+                            alert(res.msj_exito);
+                            if(res != ""){
+                                $("#msj_exito").html(res.msj_exito).removeClass("hidden");
+                                if(typeof(res.msj_error) != "undefined"){
+                                    $("#msj_error").html(res.msj_error).removeClass("hidden");
+                                }
+                            }
+                            
                         });
                        
 

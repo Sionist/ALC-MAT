@@ -145,16 +145,38 @@ class VariacionesController extends \Phalcon\Mvc\Controller
                     $asigs_correctas++;
 
                     if ($asigs_correctas == count($asigs)) {
-                        $this->flash->success("<div class='alert alert-block alert-success'>Variaciones procesadas: <strong>$asigs_correctas</strong></div>");
-                        $this->flash->success("<a href='./index' class='btn btn-lg btn-success'><i class='ace-icon fa fa-reply'></i>Volver</a>");
-                    }
 
-                } else {
-                    if ($asigs_correctas > 0) {
-                        $this->flash->success("<div class='alert alert-block alert-success'>Variaciones procesadas: <strong>$asigs_correctas</strong></div>");
+                        $msj_exito = "Se han procesado correctamente $asigs_correctas variaciones";
+
+                        //deshabilita la vista para enviar JSON limpio
+                        $this->view->disable();
+                        //envia un JSON con los datos de las consultas en forma de array
+                        $this->response->setJsonContent(array(
+                            "msj_exito" => $msj_exito
+                        ));
+
+                        $this->response->setStatusCode(200, "OK");
+                        $this->response->send();
+
                     }
-                    $this->flash->error("<div class='alert alert-block alert-danger'>La Asignación con id=$k contiene una formula que no puede ser procesada: <strong>(" . $formula["formula"] . ")</strong></div>");
-                    $this->flash->success("<a href='./index' class='btn btn-lg btn-success'><i class='ace-icon fa fa-reply'></i>Volver</a>");
+                } else {
+                    if ($asigs_correctas > 0 or $asigs_correctas == 0) {
+
+                        $msj_exito = "Se han procesado correctamente $asigs_correctas variaciones";
+                        $msj_error = "La Asignación con id=$k contiene una formula que no puede ser procesada: ". $formula["formula"];
+
+                        //deshabilita la vista para enviar JSON limpio
+                        $this->view->disable();
+
+                        //envia un JSON con los datos de las consultas en forma de array
+                        $this->response->setJsonContent(array(
+                            "msj_exito" => $msj_exito,
+                            "msj_error" => $msj_error
+                        ));
+
+                        $this->response->setStatusCode(200, "OK");
+                        $this->response->send();
+                    }
                 }
             }
         }
