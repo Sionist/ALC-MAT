@@ -3,7 +3,7 @@
 <div id="page-wrapper">
 	{{ form("clasificaciones/guardar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
 
-	
+
 
 	{{ content() }}
 
@@ -22,7 +22,7 @@
  
 ?>
 
-<select name="clausula" id="cargar_ciudad" class="form-control" required>
+<select name="clausula" id="cargar_clausula" class="form-control" required>
 	<option value="">Seleccione...</option>
 </select>
 
@@ -124,7 +124,7 @@ $(document).ready(function()
 		toUpperCase()+'</option>';
 		}
 		
-		$('#cargar_ciudad').html(ciud);
+		$('#cargar_clausula').html(ciud);
 		
 
 		});
@@ -133,9 +133,9 @@ $(document).ready(function()
 
 
 
-  $("#cargar_ciudad").on("change", function()
+  $("#cargar_clausula").on("change", function()
    {
-    	var id_clasi = $("#cargar_ciudad option:selected").attr("value");
+    	var id_clasi = $("#cargar_clausula option:selected").attr("value");
 
     	  	
 

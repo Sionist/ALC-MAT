@@ -49,13 +49,29 @@
 						<a href="#" class="dropdown-toggle">
 							<i class="menu-icon fa fa-list"></i>
 							<span class="menu-text"> Ejecucion Nomina </span>
-
+							
 							<b class="arrow fa fa-angle-down"></b>
 						</a>
 
 						<b class="arrow"></b>
+						<ul class="submenu">
+							<li class="">
+								<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/variaciones/index">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Variaciones
+								</a>
 
-						
+								<b class="arrow"></b>
+							</li>
+							<li class="">
+								<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/movimientos/index">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Movimientos
+								</a>
+
+								<b class="arrow"></b>
+							</li>
+						</ul>						
 					</li>
 
 					<li class="">
@@ -309,14 +325,6 @@
 								<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/tiposNominas">
 									<i class="menu-icon fa fa-caret-right"></i>
 									Tipos de Nóminas
-								</a>
-
-								<b class="arrow"></b>
-							</li>
-							<li class="">
-								<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/variaciones/index">
-									<i class="menu-icon fa fa-caret-right"></i>
-									Variaciones
 								</a>
 
 								<b class="arrow"></b>

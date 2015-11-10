@@ -42,9 +42,18 @@
                 <span class="lbl" data-lbl="NO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SI"></span>
             </label>
             </div>
-          &nbsp; <button id="aceptar" class="btn btn-sm btn-primary">Aceptar</button>  
+            &nbsp; Operación: &nbsp;
+            <div class="form-group">
+               <select>
+                   <option>Variaciones</option>
+                   <option>Movimientos</option>
+                </select>
+            </div>
+          &nbsp; <button id="aceptar" class="btn btn-sm btn-primary">Aceptar</button>
         </div>
-    </div>
+<div class="row">
+
+</div>
 {{ endForm() }} 
     
 
@@ -56,7 +65,7 @@
 
 {{ content() }}
 
-{{ text_field("cedula", "class":"form-control input-mask-cedula", "required":"required", "placeholder":"Cedula") }}
+{{ numeric_field("cedula", "class":"form-control", "required":"required", "placeholder":"Cedula", "max":"99999999" ) }}
 
 {{ submit_button("Buscar","id":"buscar", "class":"btn btn-sm btn-primary") }}
 {{ endForm() }}
@@ -72,7 +81,7 @@
                                          <div id="msj">
     </div>
                 <div id="row">
-                    <div id="img" class="col-md-2" style="display: none;">
+                    <div id="img" class="col-md-2 hidden">
                         <span class="profile-picture">                                                                     
                             <img id="foto" class="img-responsive" title="" src="" style=""></img>
                         <div class="center">FOTO</div>
@@ -80,7 +89,7 @@
                     </div>
                 </div>
                 <div class="row">
-				<div class="col-md-5" id="tprins" style="display: none;">
+				<div class="col-md-5 hidden" id="tprins" >
                                     
                                     <div class="">
                                         <div id="msj"></div>
@@ -102,8 +111,12 @@
                                         <thead>
                                                 <th class="center">Asignación</th>
                                                 <th class="center">Horas / Dias</th>
-                                                <th class="center">Habilitar</th>
-                                            </tr>
+                                                <th class="center">¿Habilitar Todos?
+                                                <label style="margin-top: 10px; display: block">
+                                                    <input id="t_enabled" name="switch-field-1" class="ace ace-switch ace-switch-4 btn-rotate" type="checkbox">
+                                                    <span class="lbl" data-lbl="SI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NO"></span>
+                                                </label>
+                                            </th>
                                         </thead>
                                         <tbody  id="asignacion"> 
                                         </tbody>
@@ -117,10 +130,19 @@
                                 <!-- fin tabla para mostrar todos los registros de la tabla-->
 <br />
 <div class="row">
-    <div id="msj_exito" class="alert alert-block alert-success hidden col-md-12">exito</div>
+    <div id="msj_exito" class="alert alert-block alert-success hidden col-md-12"></div>
 </div>
 <div class="row">
-    <div id="msj_error" class="alert alert-block alert-danger col-md-12 hidden">error</div>
+    <div id="msj_error" class="hidden">
+        <div class="btn btn-danger btn-block col-xs-6">Las siguiente operaciones no fueron procesadas debido a problemas con la formula de las mismas:</div>
+        <table id="t_errors" class="table table-striped table-bordered col-md-6">
+            <thead id="thead">
+                <th class="center">Asignación Variable</th>
+                <th class="center">Formula</th>
+            </thead>
+            <div id="tb"></div>
+        </table>
+    </div>
 </div>
 
     <!-- modal -->
@@ -131,9 +153,6 @@
 </div>
     <!--<div id="dialog-message" class="hide"></div>-->
 
-        
-        
-        
         <script type="text/javascript">
         
             jQuery(function($) {
@@ -143,17 +162,22 @@
                 //establece el año actual
                 $("#ano").val(f.getFullYear());
                 
+                //si select nomina cambia
                 $("#nomina").change(function(){
                     
                     var nomina = $("#nomina").val()
                     
+                    //se envia solicitud por ajax
                     $.post("./nomina", { "nomina" : nomina },function(data){
                        var nomina = JSON.parse(data);
-                        var frecuencia = nomina.tipoNomi[0].f;
                         
+                        //almacena la frecuencia del tipo de nomina 
+                        var frecuencia = nomina.tipoNomi[0].f;
+                                               
                         if(frecuencia == "quincenal"){
                             
-                             $("#sqm").html("");
+                            //limpia el valor de select sqm
+                            $("#sqm").html("");
                                                         
                             //almacena la fecha actual
                             var f = new Date(); 
@@ -166,6 +190,7 @@
                             
                             var option="";
                             
+                            //llena el select sqm con el numero de quincena de un año
                             for(var i=1 ;i<=24;i++){
                                option = "<option class='op' value=\""+i+"\">"+i+"</option>";
                                 $("#sqm").append(option); 
@@ -173,10 +198,10 @@
                             
                             //calcula la quincena actual
                         if(f.getDate() < 15){
-                            
+                                //asigna la primera quincena si dia actual menor a 15 
                                 $("#sqm").val(quincena-1);
                             }else{
-                                //alert(quincena);
+                                //asigna 2da quincena si dia mayor a 15
                                 $("#sqm").val(quincena);
                             }
                             
@@ -187,10 +212,12 @@
                             //almacena la fecha actual
                             var f = new Date();
                             
+                            //almacena el mes actual
                             var mes = f.getMonth()+1;
                             
                             var option="";
                             
+                            //llena select sqm con meses del año
                             for(var i=1 ;i<=12;i++){
                                 option = "<option class='op' value=\""+i+"\">"+i+"</option>";
                                
@@ -203,8 +230,10 @@
                             
                             $("#sqm").html("");
                             
+                            //almacena la semana actual del año
                             var sem_actual = "<?php echo Date("W");  ?>";
                             
+                            //calcula nro de semanas del año en curso
                             var sem_final = "<?php   $f = date("Y")."-12-31"; $fu = strtotime($f);  echo Date("W", $fu);  ?>"; 
                             
                             for(var i=1 ;i <= sem_final;i++){
@@ -213,159 +242,192 @@
                                 $("#sqm").append(option); 
                             }
                             
-                            $("#sqm").val(sem_actual);    
+                            //asigna semana anterior a select sqm
+                            $("#sqm").val(sem_actual-1);    
                         }                                                   
                     });
                     
+                    //si nomina = "choose", inputs disabled 
                     if($("#nomina").val() != ""){
                         $("#sel_acep").attr("disabled",false);
                         $("#aceptar").attr("disabled",false);
                     }else{
                         $("#sel_acep").attr("disabled",true);
                         $("#aceptar").attr("disabled",true);
+                        $("#tprins").addClass("hidden");
+                        $("#img").addClass("hidden");
+                        $("#div_buscar").addClass("hidden");
+                        $("#cedula").val("");
+                        $("#msj_exito").addClass("hidden");
+                        $("#msj_error").addClass("hidden");
+                        
                     }
+                    
                     $("#sel_acep").click(function(){
+                        
+                        //nomina !="" y sel_acep es "NO", habilita los controles
                         if($("#sel_acep").is(":checked") && $("#nomina").val() != ""){
                             $("#ano").attr("disabled",false);
                             $("#sqm").attr("disabled",false)
                         }else{
                             $("#ano").attr("disabled",true);
                             $("#sqm").attr("disabled",true)
+                            
                         } 
                     });
                 }); 
                 
+                //habilita el div con la caja de busqueda
                 $("#aceptar").click(function(e){
                     e.preventDefault();
                     $("#div_buscar").removeClass("hidden");
+                    $("#cedula").focus();
                 });
                 
-                                                                                      
-    
-                $("#cedula").focus();
-                
+                                                                                                     
                 $("#buscar").click(function(e){
                     
                     e.preventDefault();
                     
                     //alamacena la cedula introducida
                     var cedula = $("#cedula").val();
-                                       
-                    if(cedula !=""){                  
+                    
+                    if(cedula !=""){
+                    
+                    var nomi = $("#nomina").val();
                     //solicitud ajax por POST a action : procesar
-                    $.post("./buscar", { "cedula" : cedula },function(data){              
+                    $.post("./buscar", { "cedula" : cedula, "nomina" : nomi },function(data){              
                            
                         //data contiene la respuesta JSON del controlador
                        if(data != ""){
-                           //convierte la data en un objeto
                            
+                           //convierte la data en un objeto
                            $("#year").val($("#ano").val());
                            $("#s-q-m").val($("#sqm").val());
                            $("#nomi").val($("#nomina").val());
                            
                            var asigs = JSON.parse(data);   
                            
-                           var tr = ""; 
-                           
-                           var nombre = "";
-                           
-                           var cedula = "";
-                           
-                           var ubi_f = "";
-                           
-                           var cargo = "";
-                           
-                           var foto = asigs.trabajador[0].foto_p;
-                           
-                           var sueldo = asigs.sd;
-                           
-                           $("#sd").val(sueldo);                           
-                           //almacena nombre y apellido del trabajador
-                           nombre += asigs.trabajador[0].nombre1 +" "+ asigs.trabajador[0].apellido1;
-                           
-                           //almacena cedula del trabajador
-                           cedula += asigs.trabajador[0].nu_cedula;
-                           
-                           ubi_f += asigs.trabajador[0].denominacion;
-                           
-                           cargo += asigs.trabajador[0].cargo;
+                           if(asigs.trabajador.length > 0){
 
-                           $("#Tcedula").html(cedula);
-                           
-                           $("#nombre").html(nombre);
-                           
-                           $("#ubi_f").html(ubi_f);
-                           
-                           $("#cargo").html(cargo);
-                           
-                           $("#ttcedula").val(asigs.trabajador[0].nu_cedula);
-                           
-                           if(foto !=null){
-                                $("#foto").attr("src","../public/empleados/fotos/"+foto)
-                                $("#foto").attr("title",nombre);
-                           }else{
-                                $("#foto").attr("src","../public/img/interrogante.png")
-                           }
-                           
-                           //contador para diferenciar id´s de los checkbox
-                           var cont = 1;
-                           
-                           //recorre los datos del JSON recibido 
-                           for(datos in asigs.asignaciones){ 
-                            
-                               //genera todas las asignaciones variables tabuladas con sus campos 
-                                tr += "<tr id=\"f"+cont+"\"><td class=\"col-xs-15\" style=\"text-transform: capitalize;\">"+asigs.asignaciones[datos].asignacion+
-                                    "</td><td class=\"col-xs-3\">"+
-                                    "<input type=\"text\" id=\"tf\" name=\""+asigs.asignaciones[datos].id_asignac +"\" class=\"input-mask-numeric col-xs-12 center\" required=\"required\" disabled>"
-                                    +"</td>"
-                                    +"<td class=\"col-xs-1\">"+
-                                    "<input name=\"switch-field-1\" id=\"c"+cont+"\" class=\"ace ace-switch ace-switch-6\"                                                       type=\"checkbox\">"+"<span class=\"lbl\"></span>"
-                                    +"</td></tr>";
-                                cont++;
-                                                             
-                            }
-                            //oculta el div que contiene la tabla
-                            $("#tprins").css("display","none"); 
-                            //mensaje de error si no existe la cedula o no se introdujo una valida o campo vacio
-                            $("#msj").html("");
-                            //agrega la info generada dentro de tbody : asignacion
-                            $("#asignacion").html(tr);
-                            //efecto slide para la tabla
-                            $("#tprins").slideDown(100);
-                            $("#img").slideDown(100);
-                        
-                           //habilita o deshabilita los campos de texto segun estado de los checkbox
-                           $("input[type=checkbox]").click(function(){
-                                var hijo = $(this).attr("id");
-                                var padre = $(this).parent().parent().attr("id");
-                               
-                                $.mask.definitions['~']='[+-]';
-                                $('.input-mask-numeric').mask('99');
-                               
-                               if($('#'+hijo).is(":checked")){
-                                    $('#'+padre).find("input[type=text]").attr("disabled",false);
-                                    $('#'+padre).find("select").attr("disabled",false);
-                                }else{
-                                    $('#'+padre).find("input[type=text]").attr("disabled",true);
-                                    $('#'+padre).find("select").attr("disabled",true);
-                                }
-                                //habilita o deshabilita el boton guardar
-                                if($('#asignacion').find("input[type=checkbox]").is(":checked")){
-                                    $("#guardar").attr("disabled",false)
-                                }else{
-                                    $("#guardar").attr("disabled",true) 
-                                }
+                               var tr = ""; 
 
-                            });                       
-                       }else{   
-                           $("#tprins").css("display","none");  
-                           $("#img").css("display","none");
-                           $("#msj").html("<div class='alert alert-block alert-danger'>La cedula introducida no existe, no es valida o no tiene asignaciones relacionadas</div>");                          }           
-                })}                 
+                               var nombre = "";
+
+                               var cedula = "";
+
+                               var ubi_f = "";
+
+                               var cargo = "";
+
+                               var foto = asigs.trabajador[0].foto_p;
+
+                               var sueldo = asigs.sd;
+
+                               $("#sd").val(sueldo);                           
+                               //almacena nombre y apellido del trabajador
+                               nombre += asigs.trabajador[0].nombre1 +" "+ asigs.trabajador[0].apellido1;
+
+                               //almacena cedula del trabajador
+                               cedula += asigs.trabajador[0].nu_cedula;
+
+                               ubi_f += asigs.trabajador[0].denominacion;
+
+                               cargo += asigs.trabajador[0].cargo;
+
+                               $("#Tcedula").html(cedula);
+
+                               $("#nombre").html(nombre);
+
+                               $("#ubi_f").html(ubi_f);
+
+                               $("#cargo").html(cargo);
+
+                               $("#ttcedula").val(asigs.trabajador[0].nu_cedula);
+
+                               if(foto !=null){
+                                    $("#foto").attr("src","../public/empleados/fotos/"+foto)
+                                    $("#foto").attr("title",nombre);
+                               }else{
+                                    $("#foto").attr("src","../public/img/interrogante.png")
+                               }
+
+                               //contador para diferenciar id´s de los checkbox
+                               var cont = 1;
+
+                               //recorre los datos del JSON recibido 
+                               for(datos in asigs.asignaciones){ 
+
+                                   //genera todas las asignaciones variables tabuladas con sus campos 
+                                    tr += "<tr id=\"f"+cont+"\"><td class=\"col-xs-15\" style=\"text-transform: capitalize;\">"+asigs.asignaciones[datos].asignacion+
+                                        "</td><td class=\"col-xs-3\">"+
+                                        "<input type=\"text\" id=\"tf\" name=\""+asigs.asignaciones[datos].id_asignac +"\" class=\"input-mask-numeric col-xs-12 center\" required=\"required\" disabled>"
+                                        +"</td>"
+                                        +"<td class=\"col-xs-1\">"+ "<label style=\"margin-top: 10px; display: block\">"+
+                                        "<input name=\"switch-field-1\" id=\"c"+cont+"\" class=\"ace ace-switch ace-switch-6\" type=\"checkbox\">"+"<span class=\"lbl\"></span>"
+                                        +"</td></tr>";
+                                    cont++;
+
+                                }
+                                //oculta el div que contiene la tabla
+                                $("#tprins").addClass("hidden"); 
+                                //mensaje de error si no existe la cedula o no se introdujo una valida o campo vacio
+                                $("#msj").html("");
+                                //agrega la info generada dentro de tbody : asignacion
+                                $("#asignacion").html(tr);
+                                //efecto slide para la tabla
+                                $("#tprins").slideDown(100).removeClass("hidden");
+                                $("#img").slideDown(100).removeClass("hidden");
+
+                               //habilita o deshabilita los campos de texto segun estado de los checkbox
+                               $("input[type=checkbox]").click(function(){
+                                    var hijo = $(this).attr("id");
+                                    var padre = $(this).parent().parent().parent().attr("id");
+                                
+                                    $.mask.definitions['~']='[+-]';
+                                    $('.input-mask-numeric').mask('99');
+
+                                   if($('#'+hijo).is(":checked")){
+                                        $('#'+padre).find("input[type=text]").attr("disabled",false);
+                                        $('#'+padre).find("select").attr("disabled",false);
+                                    }else{
+                                        $('#'+padre).find("input[type=text]").attr("disabled",true).val("");
+                                        $('#'+padre).find("select").attr("disabled",true);
+                                    }
+                                    //habilita o deshabilita el boton guardar
+                                    if($('#asignacion').find("input[type=checkbox]").is(":checked")){
+                                        $("#guardar").attr("disabled",false)
+                                    }else{
+                                        $("#guardar").attr("disabled",true) 
+                                    }
+
+                                }); 
+                       }
+                       else{   
+                           $("#tprins").addClass("hidden");  
+                           $("#img").addClass("hidden");
+                           $("#msj").html("<div class='alert alert-block alert-danger'>La cedula introducida no existe, o no pertenece a la nomina seleccionada</div>"); 
+                       }           
+                }})}                 
                     if(cedula == ""){   
-                        $("#tprins").css("display","none"); 
+                        $("#tprins").addClass("hidden");
+                        $("#img").addClass("hidden");
                         $("#msj").html("<div class='alert alert-block alert-danger'>Debe introducir una cedula valida</div>");
                     }            
+                });
+                
+                $("#t_enabled").click(function(){
+                    
+                    if($(this).is(":checked")){
+
+                        $("#asignacion").find("input[type=checkbox]").prop("checked",true);  
+                        $("#asignacion").find("input[type=text]").attr("disabled",false);
+                    }else{
+
+                        $("#asignacion").find("input[type=checkbox]").prop("checked",false);  
+                        $("#asignacion").find("input[type=text]").attr("disabled",true);
+                    }
+                    
                 });
             
                 $('.input-mask-cedula').mask('99999999');
@@ -377,7 +439,7 @@
                 **              **/               
                 $( "#guardar" ).on('click', function(e) {
 					e.preventDefault();
-				
+				    
 					$( "#dialog-confirm" ).removeClass('hide').dialog({
 						resizable: false,
 						width: '320',
@@ -404,6 +466,10 @@
 						]
 					});
                     
+                    $("#msj_exito").addClass("hidden").html("");
+                    $("#t_errors tbody").html("");
+                    $("#msj_error").addClass("hidden");
+                    
                     $("#btnConfirm").click(function(){
                         
                         var nomina = $("#nomina").val();
@@ -420,7 +486,7 @@
                             if($(this).val() != ""){
                                 valor = $(this).val();
                                 asigs[name] = $(this).val();
-                                alert (name +"="+ asigs[name]);
+                               // alert (name +"="+ asigs[name]);
                             }
                             
                         });
@@ -435,26 +501,44 @@
 
                             var res = JSON.parse(data);
                             
-                            alert(res.msj_error);
-                            alert(res.msj_exito);
+                            var msj_exito = "Variaciones procesadas exitosamente: "+res.msj_exito;
+                            var msj_error = "Variaciones no procesadas por falla en la ejecucion de la formula";
+                            
+                            var tr = "";
+                            
+                            //alert(res.msj_exito);
                             if(res != ""){
-                                $("#msj_exito").html(res.msj_exito).removeClass("hidden");
-                                if(typeof(res.msj_error) != "undefined"){
-                                    $("#msj_error").html(res.msj_error).removeClass("hidden");
+                                if(res.msj_exito != ""){
+                                    $("#msj_exito").html(msj_exito).removeClass("hidden");
+                                }
+                                if(res.msj_error){
+                                    //alert("lleno");
+                                    var cont = 0;
+                                    for (datos in res.msj_error){
+                                        tr+= "<tr><td>"+datos+"</td><td>"+res.msj_error[datos]+"</td></tr>"
+                                        cont++;
+                                    }
+                                    if(cont > 0){
+                                        $("#msj_error").removeClass("hidden");
+                                    }
                                 }
                             }
                             
+                            $("#t_errors").append(tr);
+                                                        
                         });
-                       
-
+                        
+                        $("#asignacion").find("input[type=text]").attr("disabled",true).val("");   
+                        $("#asignacion").find("input[type=checkbox]").attr("checked",false);
+                        $("#guardar").attr("disabled",true)
+                        $("#t_enabled").prop("checked",false);
+                        
+                        $("#buscar").click(function(){
+                            $("#msj_exito").addClass("hidden").html("");
+                            $("#t_errors").html("");
+                            $("#msj_error").addClass("hidden");
+                        });
 				    });
-                });
-                
-            
-                    
-                    
-                    
-                    /**/
-
+                });                    
         });            
         </script>

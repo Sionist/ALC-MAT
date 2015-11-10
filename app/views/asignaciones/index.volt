@@ -37,6 +37,8 @@ Nueva
                                                 N°
                                                 </th>
                                                 <th>Asignaciones</th>
+                                                <th>Nomina</th>
+                                                <th>Tipo</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
@@ -56,9 +58,10 @@ Nueva
                                                     <span class="lbl"></span>
                                                     </label>
                                                 </td>
-
+                                                    
                                                 <td><span style="text-transform: capitalize;"><?php echo $row->asignacion; ?></span></td>
-                                                        
+                                                <td><span style="text-transform: capitalize;"><?php echo $row->nomina; ?></span></td>
+                                                <td><span style="text-transform: capitalize;"><?php echo $row->descripcion; ?></span></td>  
                                                 <td>
                                                     <div class="hidden-sm hidden-xs action-buttons">
                                                     <?php echo $this->tag->linkTo(array("asignaciones/editar/".$row->id_asignac, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"))  ?>

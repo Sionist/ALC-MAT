@@ -15,8 +15,9 @@ class VariacionesController extends \Phalcon\Mvc\Controller
     public function buscarAction()
     {
         $cedula = $this->request->getPost("cedula");
+        $nomina = $this->request->getPost("nomina");
 
-        if ($cedula) {
+        if ($cedula && is_numeric($cedula)) {
             //$Tcedula = Datospersonales::findFirstByNuCedula($cedula);
             $Tcedula = new Phalcon\Mvc\Model\Query("SELECT
                                                     Datospersonales.nu_cedula,
@@ -31,7 +32,7 @@ class VariacionesController extends \Phalcon\Mvc\Controller
                                                     INNER JOIN Cargos ON Datoscontratacion.t_cargo = Cargos.id_cargo
                                                     INNER JOIN NbDireciones ON Datoscontratacion.ubi_nom = NbDireciones.id_direcciones AND Datoscontratacion.ubi_fun = NbDireciones.id_direcciones
                                                     WHERE
-                                                    Datospersonales.nu_cedula = $cedula",$this->getDI());
+                                                    Datospersonales.nu_cedula = $cedula AND Datoscontratacion.tipo_nom = $nomina",$this->getDI());
 
             $SD = $this->modelsManager->createBuilder()
                 ->from("Datoscontratacion")
@@ -47,14 +48,6 @@ class VariacionesController extends \Phalcon\Mvc\Controller
             }
 
             if ($Tcedula) {
-                /*$query = new Phalcon\Mvc\Model\Query("SELECT
-                                                        NbAsignaciones.asignacion,
-                                                        NbAsignaciones.id_asignac
-                                                        FROM
-                                                        NbAsignaciones
-                                                        INNER JOIN TrabajoAsi ON TrabajoAsi.id_trabajo_asi = NbAsignaciones.id_asignac
-                                                        WHERE
-                                                        TrabajoAsi.nu_cedula = $cedula", $this->getDI());*/
 
                 $asigsV = $this->modelsManager->createBuilder()
                     ->from("NbAsignaciones")
@@ -118,6 +111,9 @@ class VariacionesController extends \Phalcon\Mvc\Controller
 
             $asigs_correctas = 0;
 
+            $erroneas = array();
+            $correctas="";
+
             foreach ($asigs as $k => $v) {
                 $variacion = new Variaciones();
                 $param["v"] = $v;
@@ -134,6 +130,7 @@ class VariacionesController extends \Phalcon\Mvc\Controller
 
 
                 $monto = $this->calcular($param, $formula);
+
                 if (is_numeric($monto)) {
                     $variacion->setMonto($monto);
 
@@ -143,42 +140,29 @@ class VariacionesController extends \Phalcon\Mvc\Controller
                         }
                     }
                     $asigs_correctas++;
-
-                    if ($asigs_correctas == count($asigs)) {
-
-                        $msj_exito = "Se han procesado correctamente $asigs_correctas variaciones";
-
-                        //deshabilita la vista para enviar JSON limpio
-                        $this->view->disable();
-                        //envia un JSON con los datos de las consultas en forma de array
-                        $this->response->setJsonContent(array(
-                            "msj_exito" => $msj_exito
-                        ));
-
-                        $this->response->setStatusCode(200, "OK");
-                        $this->response->send();
-
-                    }
+                    $correctas = $asigs_correctas;
                 } else {
-                    if ($asigs_correctas > 0 or $asigs_correctas == 0) {
-
-                        $msj_exito = "Se han procesado correctamente $asigs_correctas variaciones";
-                        $msj_error = "La Asignación con id=$k contiene una formula que no puede ser procesada: ". $formula["formula"];
-
-                        //deshabilita la vista para enviar JSON limpio
-                        $this->view->disable();
-
-                        //envia un JSON con los datos de las consultas en forma de array
-                        $this->response->setJsonContent(array(
-                            "msj_exito" => $msj_exito,
-                            "msj_error" => $msj_error
-                        ));
-
-                        $this->response->setStatusCode(200, "OK");
-                        $this->response->send();
-                    }
+                    $a = $this->modelsManager->createBuilder()
+                        ->from("NbAsignaciones")
+                        ->columns("asignacion")
+                        ->where("id_asignac = :id:",array("id"=>$k))
+                        ->getQuery()
+                        ->execute()
+                        ->toArray();
+                    $asg = $a[0]["asignacion"];
+                    $erroneas[$asg]= $formula["formula"];
                 }
             }
+
+            $this->view->disable();
+            //envia un JSON con los datos de las consultas en forma de array
+            $this->response->setJsonContent(array(
+                "msj_exito" => $correctas,
+                "msj_error"=> $erroneas
+            ));
+
+            $this->response->setStatusCode(200, "OK");
+            $this->response->send();
         }
     }
 

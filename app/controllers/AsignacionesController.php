@@ -11,7 +11,13 @@ class AsignacionesController extends \Phalcon\Mvc\Controller
     public function indexAction()
     {
         //recupera todos los regitros
-        $asignaciones = NbAsignaciones::find();
+        $asignaciones = $this->modelsManager->createBuilder()
+            ->from("NbAsignaciones")
+            ->join("TipoNomi")
+            ->join("AsigsTipo")
+            ->columns("NbAsignaciones.id_asignac, NbAsignaciones.asignacion, TipoNomi.nomina, AsigsTipo.descripcion")
+            ->getQuery()
+            ->execute();
 
         //envia el arreglo con los datos a la vista
         $this->view->setParamToView('asignaciones', $asignaciones);

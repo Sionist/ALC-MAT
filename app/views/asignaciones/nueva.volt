@@ -25,7 +25,7 @@
 								<td>Formula</td>
 								<td>{{ text_field("formula", "class":"form-control", "required":"required", "placeholder":"Formula") }}</td>
 							</tr>
-
+								
 							
 							<tr>
 								<td>Nomina</td>
@@ -66,6 +66,19 @@
 							<tr>
 								<td>Denominación</td>
 								<td>{{ text_field( "denominacion", "class":"form-control", "required":"required", "placeholder":"Denominación") }}</td>
+							</tr>
+							<tr>
+								<td>Tipo</td>
+								<td><?php
+										echo Phalcon\Tag::Select(array(
+										'tipo', 
+										AsigsTipo::find(array("order" => "id_tipo ASC")),
+										'using' => array('id_tipo', 'descripcion'),
+										'useEmpty' => true,
+										'class' => 'select2'
+										));
+								
+								?></td>
 							</tr>
 						</table>
 
