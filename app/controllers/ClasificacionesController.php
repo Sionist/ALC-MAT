@@ -26,13 +26,19 @@ class ClasificacionesController extends \Phalcon\Mvc\Controller
 	{
 	   	if ($this->request->isPost())
 		{
+			
+			//$clausu = $this->request->get("clausu");
+
+			//echo "Este es el Id de la Clausula ".$clausu;
+
 			$clasificaciones = new Clasificaciones();
 			
-			$clasificaciones->setIdClausula($this->request->getPost("clausu"));
+			
 			$clasificaciones->setMinimo($this->request->getPost("minimo"));
 			$clasificaciones->setMaximo($this->request->getPost("maximo"));
 			$clasificaciones->setTiempo($this->request->getPost("tiempo"));			
 			$clasificaciones->setMonto($this->request->getPost("monto"));
+			$clasificaciones->setIdClausula($this->request->getPost("clausula"));
 			
 			if (!$clasificaciones->save()) {
                 foreach ($clasificaciones->getMessages() as $message) {
@@ -92,9 +98,9 @@ class ClasificacionesController extends \Phalcon\Mvc\Controller
 	
 		$this->view->disable();
 
-		$clasi = $this->request->get("clasi");
+		$clausu = $this->request->get("clausu");
 
-		$query = new Phalcon\Mvc\Model\Query("SELECT clasificaciones.id_clasi,clasificaciones.minimo,clasificaciones.maximo,clasificaciones.tiempo,clasificaciones.monto,clausulas.nclausula,clausulas.clausula FROM clausulas,clasificaciones WHERE clausulas.id_clausula=clasificaciones.id_clausula AND clausulas.id_clausula=".$clasi, $this->getDI()); 
+		$query = new Phalcon\Mvc\Model\Query("SELECT clasificaciones.id_clasi,clasificaciones.minimo,clasificaciones.maximo,clasificaciones.tiempo,clasificaciones.monto,clausulas.nclausula,clausulas.clausula FROM clausulas,clasificaciones WHERE clausulas.id_clausula=clasificaciones.id_clausula AND clausulas.id_clausula=".$clausu, $this->getDI()); 
 	
 		$clasificaciones = $query->execute();
 

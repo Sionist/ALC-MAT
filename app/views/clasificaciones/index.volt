@@ -42,6 +42,8 @@
 {{ submit_button("Guardar", "class":"btn btn-primary") }}
 
 
+
+
 <div class="row">
 	<div class="col-xs-12">
 										
@@ -135,12 +137,12 @@ $(document).ready(function()
 
   $("#cargar_clausula").on("change", function()
    {
-    	var id_clasi = $("#cargar_clausula option:selected").attr("value");
+    	var id_clausu = $("#cargar_clausula option:selected").attr("value");
 
     	  	
 
     	
-		$.get("<?php echo $this->url->get('clasificaciones/getMuestra') ?>", {"clasi":id_clasi}, function(data)
+		$.get("<?php echo $this->url->get('clasificaciones/getMuestra') ?>", {"clausu":id_clausu}, function(data)
 		{
 	  
 	   		var clasi ="";
@@ -167,7 +169,18 @@ $(document).ready(function()
 	});
 
 
-		
+	$("#boton").click(function()
+		{
+			var id_clausu = $("#cargar_clausula option:selected").attr("value");
+
+			$.get("<?php echo $this->url->get('clasificaciones/guardar') ?>", {"clausu":id_clausu}, function(data)
+			{
+
+			});
+
+		});	
+
+
 		//initiate dataTables plugin
 				var oTable1 = 
 				$('#dynamic-table')
