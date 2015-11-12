@@ -38,10 +38,16 @@
 								<b class="arrow"></b>
 							</li>
 
-							
+							<li class="">
+								<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/reposos">
+									<i class="menu-icon fa fa-caret-right"></i>
+									Reposos Trabajadores
+								</a>
 
+								<b class="arrow"></b>
+							</li>
+						
 
-							
 						</ul>
 					</li>
 
