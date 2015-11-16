@@ -13,7 +13,10 @@ use Phalcon\Forms\Element\Select ?>
 <div class="row">
 
 
-//<?php echo $this->tag->linkTo(array("reposos/nuevo/","<i class='ace-icon fa fa-users bigger-160'></i>Nuevo","class"=>"btn btn-app btn-primary btn-xs", ""))  ?>
+<!-- /*<?php echo $this->tag->linkTo(array("reposos/nuevo/","<i class='ace-icon fa fa-users bigger-160'></i>Nuevo","class"=>"btn btn-app btn-primary btn-xs", ""))  ?>*/-->
+
+	{{ form("reposos/guardar", "method":"post", "autocomplete": "off", "class":"form-inline")}}
+	
 
 	<div class="col-xs-12">
       
@@ -22,8 +25,8 @@ use Phalcon\Forms\Element\Select ?>
 		</div>
         
         <div class="table-header">
-            Seleccionar Trabajador para Asignar Reposo
-                                        </div>
+            Reposos del Trabajador: <?php echo $nombre1."  ".$apellido1 ?> Cédula Identidad: <?php echo "  ".$nu_cedula ?>
+        </div>
 
                                         <!-- div.table-responsive -->
 
@@ -35,8 +38,9 @@ use Phalcon\Forms\Element\Select ?>
                                                 <th class="center">
                                                 N°
                                                 </th>
-                                                <th>C&eacute;dula</th>
-												<th>Nombre</th>
+                                                <th>Fecha Inicio</th>
+												<th>Fecha Fin</th>
+												<th>Diagnóstico</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
@@ -44,24 +48,27 @@ use Phalcon\Forms\Element\Select ?>
                                         <tbody>
                                             <?php
                                             $numerito=1;
-                                            foreach($trabajadores as $row) {
+                                            foreach($reposos as $row) {
                                             ?>
                                             <tr>
                                                 <td class="center">
                                                     <label class="pos-rel">
                                                     <?php 
-                                                    echo $numerito;
-                                                    $numerito++;
+                                                    	echo $numerito;
+                                                    	$numerito++;
                                                     ?>
                                                     <span class="lbl"></span>
                                                     </label>
                                                 </td>
-												<td><span><?php echo $row->nu_cedula; ?></span></td>
-                                                <td><span style="text-transform: capitalize;"><?php echo $row->nombre1." ".$row->apellido1; ?></span></td>
+												<td><span><?php echo $row->f_inicio ?></span></td>
+												<td><span><?php echo $row->f_fin ?></span></td>
+												<td><span><?php echo $row->diagnostico ?></span></td>
+
+                                                <!--<td><span style="text-transform: capitalize;"><?php echo $row->nombre1." ".$row->apellido1; ?></span></td>-->
                                                         
                                                 <td>
                                                     <div class="hidden-sm hidden-xs action-buttons">
-                                                    <?php echo $this->tag->linkTo(array("reposos/nuevo/".$row->nu_cedula, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"))  ?> <?php echo $this->tag->linkTo(array("trabajadores/ficha1/".$row->nu_cedula, "<i class='ace-icon fa fa-search-plus bigger-130'></i>"))  ?>
+                                                    <?php echo $this->tag->linkTo(array("reposos/editar/".$row->nu_cedula, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"))  ?> <?php echo $this->tag->linkTo(array("trabajadores/ficha1/".$row->nu_cedula, "<i class='ace-icon fa fa-search-plus bigger-130'></i>"))  ?>
                                                     </div>
                                                 </td>
                                             </tr>

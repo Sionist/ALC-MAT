@@ -57,7 +57,7 @@
 </div>
 {{ endForm() }}
 
-<div id="div_buscar" class="hidden" style="display: block">
+<div id="div_buscar" class="page-header hidden" style="display: block">
     {{ form("variaciones/buscar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
 
     {{ content() }}
@@ -73,12 +73,19 @@
 {{ content() }}
 
 <!-- fin  Formulario para agregar estatus -->
-
+<div class="row header smaller lighter blue hidden center" id="dt">
+<!--        <div class="center"><strong>MOVIMIENTOS</strong></div>-->
+        <h4 class="">
+            Trabajador: <strong><span class="" id="nombre"></span></strong>&nbsp;&nbsp; Cedula: <strong><span class="" id="Tcedula"></span></strong>
+            &nbsp;&nbsp;Ubicación Funcional: <strong><span class="" id="ubi_f"></span></strong>  &nbsp;&nbsp;Cargo: <strong><span class="" id="cargo"></span></strong>
+        </h4>
+    </div>
+<br />
 <!-- tabla para mostrar todos los registros de la tabla-->
                                          <div id="msj">
     </div>
                 <div id="row">
-                    <div id="img" class="col-md-2 hidden">
+                    <div id="img" class="col-md-1 hidden" style=" width: 155px; height: auto">
                         <span class="profile-picture">
 
                             <img id="foto" class="" title="" src="" style="width: 120px; height: auto "></img>
@@ -94,8 +101,7 @@
 
                                         <div class="table-header">
 
-                                            Trabajador: "<strong><span class="" id="nombre"></span></strong>"   - Cedula: <strong><span class="" id="Tcedula"></span></strong> <br />
-                                            Ubicación Funcional: "<strong><span class="" id="ubi_f"></span></strong>"   - Cargo: "<strong><span class="" id="cargo"></span></strong>"
+                                            Variaciones
 
                                         </div>
 
@@ -127,12 +133,8 @@
 
 <!-- columna de movimientos -->
 <div id="movimientos" class="col-md-6 hidden">
-    <div class="table-header">
-<!--        <div class="center"><strong>MOVIMIENTOS</strong></div>-->
-        Trabajador: "<strong><span class="" id="Mnombre"></span></strong>"   - Cedula: <strong><span class="" id="MTcedula"></span></strong> <br />
-        Ubicación Funcional: "<strong><span class="" id="Mubi_f"></span></strong>"   - Cargo: "<strong><span class="" id="Mcargo"></span></strong>"
-    </div>
-    <table class="table table-striped table-bordered">
+    <div class="table-header center">Movimientos</div>
+    <table id="t_th" class="table table-striped table-bordered">
         <tr>
             <th class="center">Movimiento</th>
             <th class="center">H / D</th>
@@ -149,13 +151,27 @@
 <!-- Fin columna movimientos-->
 
 <!--Deducciones-->
-<div class="col-md-4">
-    <table class="form-inline">
-<div class="table-header">
-<!--        <div class="center"><strong>MOVIMIENTOS</strong></div>-->
-        Trabajador: "<strong><span class="" id="Mnombre"></span></strong>"   - Cedula: <strong><span class="" id="MTcedula"></span></strong> <br />
-        Ubicación Funcional: "<strong><span class="" id="Mubi_f"></span></strong>"   - Cargo: "<strong><span class="" id="Mcargo"></span></strong>"
-    </div>
+<div class="col-md-4 hidden" id="deducciones">
+    <div class="table-header center">Deducciones</div>
+    <table class="table table-striped table-bordered">
+        <tr>
+            <th>Concepto</th>
+            <th>Monto</th>
+        </tr>
+        <tbody id="t_deducciones">
+            <tr>
+                <td>L.P.H</td>
+                <td>35</td>
+            </tr>
+            <tr>
+                <td>Seguro Social</td>
+                <td>49.52</td>
+            </tr>
+            <tr>
+                <td class="success"><strong>Total</strong></td>
+                <td class="warning"><strong>79.48</strong></td>
+            </tr>
+        </tbody> 
     </table>
 </div>
 <!--Fin Deducciones-->
@@ -293,6 +309,7 @@
                     }else{
                         $("#sel_acep").attr("disabled",true);
                         $("#aceptar").attr("disabled",true);
+                        $("#dt").addClass("hidden");
                         $("#tprins").addClass("hidden");
                         $("#img").addClass("hidden");
                         $("#div_buscar").addClass("hidden");
@@ -341,7 +358,7 @@
                     e.preventDefault();
 
                     //alamacena la cedula introducida
-                    var cedula = $("#cedula").val();
+                    var cedula = $("#cedula").val();    
 
                     if(cedula != ""){
 
@@ -357,6 +374,7 @@
                     if($("#operacion").val() == "Variaciones"){
                     //solicitud ajax por POST a action : procesar
                     $("#movimientos").addClass("hidden");
+                    $("#deducciones").addClass("hidden");
                     $.post("./buscar", { "cedula" : cedula, "nomina" : nomi },function(data){
 
                         //data contiene la respuesta JSON del controlador
@@ -418,6 +436,7 @@
                                 $("#asignacion").html(tr);
                                 //efecto slide para la tabla
                                 $("#tprins").slideDown(100).removeClass("hidden");
+                                $("#dt").slideDown(100).removeClass("hidden");
                                 $("#img").slideDown(100).removeClass("hidden");
                                //habilita o deshabilita los campos de texto segun estado de los checkbox
                                $("input[type=checkbox]").click(function(){
@@ -455,6 +474,7 @@
                        if(data != ""){
 
                            $("#movimientos").removeClass("hidden");
+                           $("#deducciones").removeClass("hidden");
                            //convierte la data en un objeto
                            $("#year").val($("#ano").val());
                            $("#s-q-m").val($("#sqm").val());
@@ -474,10 +494,10 @@
                                Mcargo = movi.datosT[0].cargo;
 
 
-                               $("#MTcedula").html(ci);
-                               $("#Mnombre").html(Mnombre);
-                               $("#Mubi_f").html(ubi_f);
-                               $("#Mcargo").html(Mcargo);
+                               $("#Tcedula").html(ci);
+                               $("#nombre").html(Mnombre);
+                               $("#ubi_f").html(ubi_f);
+                               $("#cargo").html(Mcargo);
                                //$("#cedula").val(movi.dt[0].nu_cedula);
 
                                if(foto !=null){
@@ -501,7 +521,7 @@
                                         "<a href=\"../movimientos/editar/"+movi.variaciones[datos].id_variacion+"\"><i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"+
                                         "</div></td></tr>";
                                }
-
+                                $("#dt").removeClass("hidden");
                                tr+="<tr><td class='success'><strong>TOTAL</strong>: </td><td class='warning'><strong><p class='bg-warning'>"+ total.toFixed(2) +"</p></strong></td></tr>";
                                $("#t_movimiento").html(tr);
                                $("#img").removeClass("hidden");
@@ -512,7 +532,9 @@
                        }else{
                            $("#tprins").addClass("hidden");
                            $("#movimientos").addClass("hidden");
+                           $("#deducciones").addClass("hidden");
                            $("#img").addClass("hidden");
+                            $("#dt").addClass("hidden");
                            $("#msj").html("<div class='alert alert-block alert-danger'>La cedula introducida no existe, no pertenece a la nomina seleccionada o no tiene movimientos</div>");
                     }
                 });
@@ -520,7 +542,9 @@
                     }else{
                         $("#tprins").addClass("hidden");
                         $("#movimientos").addClass("hidden")
+                        $("#deducciones").addClass("hidden")
                         $("#img").addClass("hidden");
+                        $("#dt").addClass("hidden");
                         $("#msj").html("<div class='alert alert-block alert-danger'>Debe introducir una cedula valida</div>");
                     }
                 });

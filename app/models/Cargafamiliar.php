@@ -73,6 +73,12 @@ class Cargafamiliar extends \Phalcon\Mvc\Model
      *
      * @var integer
      */
+    protected $id_discapacidad;
+	
+	 /**
+     *
+     * @var integer
+     */
     protected $foto_carga;
 
     /**
@@ -217,6 +223,14 @@ class Cargafamiliar extends \Phalcon\Mvc\Model
 
         return $this;
     }
+
+    public function setIdDiscapacidad($id_discapacidad)
+    {
+        $this->id_discapacidad = $id_discapacidad;
+
+        return $this;
+    }
+
 	
 	public function setFotoCarga($foto_carga)
     {
@@ -333,6 +347,12 @@ class Cargafamiliar extends \Phalcon\Mvc\Model
     public function getIdParentesco()
     {
         return $this->id_parentesco;
+    }
+
+
+    public function getIdDiscapacidad()
+    {
+        return $this->id_discapacidad;
     }
 
 	

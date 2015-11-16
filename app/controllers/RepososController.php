@@ -9,12 +9,21 @@ class RepososController extends \Phalcon\Mvc\Controller
     }
 
 
-    public function indexAction()
+    public function indexAction($nu_cedula)
 	{
 		
-		//$reposos = NbReposo::FindfirstByIdReposo($idreposo);
+		$dtrab = Datospersonales::findFirstByNuCedula($nu_cedula);
 
-		//$this->view->SetParamToView("reposos",$reposos);
+		$nombre1 = $dtrab->nombre1;
+		$apellido1 = $dtrab->apellido1;
+		
+		$this->view->nombre1 = $nombre1;
+		$this->view->apellido1 = $apellido1;
+		$this->view->nu_cedula = $nu_cedula;
+
+		$reposos = NbReposo::findFirstByIdReposo($nu_cedula);
+
+		$this->view->SetParamToView("reposos",$reposos);
 
     }
 

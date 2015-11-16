@@ -94,7 +94,10 @@
                                                     <span class="line-height-1 bigger-170"> <i class="ace-icon fa fa-heart "></i> </span>
 
                                                     <br />
-                                                    <span class="line-height-1 smaller-90"> Reposos </span>
+                                                    
+                                                    <?php echo $this->tag->linkTo(array("Reposos/index/".$dtrabajador->nu_cedula, "<span class=line-height-1 smaller-90\"> Reposos </span>"))  ?>
+                                                    
+                                                
                                                 </span>
                                                 <?php echo $this->tag->linkTo("./asigsdeducstrabajador/cargar/$dtrabajador->nu_cedula","Asignaciones y Deducciones");?>                                         
                                             </div>

@@ -166,6 +166,7 @@ class ClasificacionesController extends \Phalcon\Mvc\Controller
 
 			
 			$des = $convencion->descripcion;
+			
 			$this->view->des  = $des;
 			$this->view->clau = $clausula;			
 			

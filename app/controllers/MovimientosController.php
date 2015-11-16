@@ -39,11 +39,22 @@ class MovimientosController extends \Phalcon\Mvc\Controller
                 ->execute()
                 ->toArray();
 
+            /*$deducciones = $this->modelsManager->createBuilder()
+                ->from("NbDeducciones")
+                ->join("DeduTrab")
+                ->join("Datospersonales")
+                ->columns("NbDeducciones.deduccion")
+                ->where("DeduTrab.nu_cedula = :cedula: , DeduTrab.semana_quin = :sqm:", array("cedula" => $cedula, "sqm" => $sqm))
+                ->getQuery()
+                ->execute()
+                ->toArray();*/
+
             if(count($variaciones) > 0 && count($dt) > 0){
                 $this->view->disable();
 
                 $this->response->setJsonContent(array(
                     "variaciones" => $variaciones,
+                    /*"deducciones" => $deducciones,*/
                     "datosT" => $dt
                 ));
 
