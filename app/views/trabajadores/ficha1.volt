@@ -90,15 +90,22 @@
                                                     <span class="line-height-1 smaller-90">Familiar </span>
                                                 </span></a>
 
-                                                <span class="btn btn-app btn-sm btn-success no-hover">
+                                                
+                                                <button class="btn btn-app btn-sm btn-success no-hover">
                                                     <span class="line-height-1 bigger-170"> <i class="ace-icon fa fa-heart "></i> </span>
 
                                                     <br />
-                                                    
                                                     <?php echo $this->tag->linkTo(array("Reposos/index/".$dtrabajador->nu_cedula, "<span class=line-height-1 smaller-90\"> Reposos </span>"))  ?>
+
                                                     
-                                                
-                                                </span>
+                                                </button>
+
+                                                <button class="btn btn-app btn-danger btn-sm no-hover">
+                                                    <i class="ace-icon fa fa-gavel bigger-200"></i>
+                                                        <?php echo $this->tag->linkTo(array("Embargos/index/".$dtrabajador->nu_cedula)) ?>
+                                                            Embargos
+                                                </button>
+
                                                 <?php echo $this->tag->linkTo("./asigsdeducstrabajador/cargar/$dtrabajador->nu_cedula","Asignaciones y Deducciones");?>                                         
                                             </div>
                                     

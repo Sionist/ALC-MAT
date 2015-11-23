@@ -16,126 +16,96 @@
         {{ javascript_include("js/date-time/moment.js") }}
         {{ javascript_include("js/date-time/daterangepicker.js") }}
         {{ javascript_include("js/date-time/bootstrap-datetimepicker.js") }}
-        
-<?php 
-use Phalcon\Mvc\View;
-use Phalcon\Tag; 
-use Phalcon\Forms\Form;
-use Phalcon\Forms\Element\Select ?>
-
-<div id="page-wrapper">
-
-
-
-<!-- tabla para mostrar todos los registros de la tabla-->
-
-
- 
-<div class="row">
-
-
-<!-- /*<?php echo $this->tag->linkTo(array("reposos/nuevo/","<i class='ace-icon fa fa-users bigger-160'></i>Nuevo","class"=>"btn btn-app btn-primary btn-xs", ""))  ?>*/-->
-
-	{{ form("reposos/guardar", "method":"post", "autocomplete": "off", "class":"form-inline")}}
-
 
 	
+		<div class="col-sm-3">
+	</div>
+		<div class="col-sm-6">
+			<div class="widget-box">
+				<div class="widget-header">
+					<h4 class="widget-title">Editar Reposo Médico de <?php echo $nombre1." ".$apellido1." " ?>Cédula:<?php echo " ".$ncedula ?></h4>
+				</div>
 
-	<div class="col-xs-12">
-      
-   		<div class="clearfix">
-			<div class="pull-right tableTools-container"></div>
+					<div class="widget-body">
+						<div class="widget-main no-padding">
+									
+													
+												
+						{{ form("reposos/editado", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
+						<fieldset>
+						{{ content() }}
+						
+						{{ hidden_field("idreposo") }}
+						{{ hidden_field("ncedula") }}
+						
+						
+						<table align="center">
+						
+							<tr>
+								<td>
+									<th>Fecha Inicio</th>
+								</td>
+								
+								<td>
+								</td>
+								
+								<td>
+									{{ text_field("finicio", "type":"date", "class":"form-control date-picker", "data-date-format":"yyyy-mm-dd", "required":"required", "style":"text-transform:capitalize") }}<i class="fa fa-calendar bigger-110"></i>
+								</td>								
+							</tr>
+							
+							<tr>
+								<td>
+									<th>Fecha Final</th>
+								</td>
+								
+								<td>
+								
+								</td>
+								
+								<td>	
+									{{ text_field("ffinal", "type":"date", "class":"form-control date-picker", "data-date-format":"yyyy-mm-dd", "required":"required", "style":"text-transform:capitalize") }}<i class="fa fa-calendar bigger-110"></i>
+								</td>									
+							</tr>
+								
+							<tr>	
+								<td>
+									<th>Diagnóstico</th>
+								</td>
+
+								<td>
+
+								</td>
+								
+								<td>	
+									{{ text_field("diagnostico", "class":"form-control", "style":"text-transform:capitalize", "size":"70") }}
+								</td>	
+
+							</tr>
+					
+						</table>	
+						
+						</fieldset>
+						<div class="form-actions center">
+						{{ submit_button("Modificar", "class":"btn btn-primary") }}
+						{{ endForm() }}
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-        
-        <div class="table-header">
-            Reposos del Trabajador: <?php echo $nombre1."  ".$apellido1 ?> Cédula Identidad: <?php echo "  ".$nu_cedula ?>
-        </div>
-
-        	{{ content() }}
-
-        	{{ hidden_field("ncedula", "class":"form-control") }}
-
-        	{{ text_field("fechainicio", "type":"date", "class":"form-control date-picker", "data-date-format":"yyyy-mm-dd", "required":"required", "placeholder":"Fecha Inicio") }}<i class="fa fa-calendar bigger-110"></i>
-
-        	{{ text_field("fechafinal", "type":"date", "class":"form-control date-picker", "data-date-format":"yyyy-mm-dd", "required":"required", "placeholder":"Fecha Finalización" )}}<i class="fa fa-calendar bigger-110"></i>
-
-        	{{ text_field("diagnostico", "class":"form-control", "required":"required", "placeholder":"Diagnóstico") }}
-
-        	
-
-        	{{ submit_button("Guardar", "class":"btn btn-primary") }}
-        	{{ endForm() }}
-        	
-
-                                        <!-- div.table-responsive -->
-
-                                        <!-- div.dataTables_borderWrap -->
-                                        
-                                        <table id="dynamic-table" class="table table-striped table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th class="center">
-                                                N°
-                                                </th>
-                                                <th>Fecha Inicio</th>
-												<th>Fecha Fin</th>
-												<th>Diagnóstico</th>
-                                                <th>Acciones</th>
-                                            </tr>
-                                        </thead>
-
-                                        <tbody>
-                                            <?php
-                                            $numerito=1;
-                                            foreach($reposos as $row) {
-                                            ?>
-                                            <tr>
-                                                <td class="center">
-                                                    <label class="pos-rel">
-                                                    <?php 
-                                                    	echo $numerito;
-                                                    	$numerito++;
-                                                    ?>
-                                                    <span class="lbl"></span>
-                                                    </label>
-                                                </td>
-												<td><span><?php echo $row->f_inicio ?></span></td>
-												<td><span><?php echo $row->f_final ?></span></td>
-												<td><span><?php echo $row->diagnostico ?></span></td>
-
-                                                <!--<td><span style="text-transform: capitalize;"><?php echo $row->nombre1." ".$row->apellido1; ?></span></td>-->
-                                                        
-                                                <td>
-                                                    <div class="hidden-sm hidden-xs action-buttons">
-                                                    <?php echo $this->tag->linkTo(array("reposos/editar/".$row->id_reposo, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"))  ?> <?php echo $this->tag->linkTo(array("trabajadores/ficha1/".$row->nu_cedula, "<i class='ace-icon fa fa-search-plus bigger-130'></i>"))  ?>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                                <?php
-                                                  }
-                                                 ?>
-                                            </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                                </div>
-                                <!-- fin tabla para mostrar todos los registros de la tabla-->
-
-    <!-- modal -->
-
-
-
-    <div id="dialog-message" class="hide"></div>
-
-        
- 		{{ javascript_include("js/bootstrap.js") }}
+	<div class="col-sm-4">
+	</div>
+	<div class="col-sm-4">
+	</div>
+		
+		{{ javascript_include("js/bootstrap.js") }}
 		{{ javascript_include("js/dataTables/jquery.dataTables.js") }}
 		{{ javascript_include("js/dataTables/jquery.dataTables.bootstrap.js") }}
 		{{ javascript_include("js/dataTables/extensions/TableTools/js/dataTables.tableTools.js") }}
 		{{ javascript_include("js/dataTables/extensions/ColVis/js/dataTables.colVis.js") }}
-		
-<script type="text/javascript">
+
+	<script type="text/javascript">
 $(document).ready(function()
 {
 
@@ -183,9 +153,6 @@ $(document).ready(function()
                 $('#date-timepicker').datetimepicker().next().on(ace.click_event, function(){
                     $(this).prev().focus();
                 });
-
-
-
 		//initiate dataTables plugin
 				var oTable1 = 
 				$('#dynamic-table')
@@ -363,4 +330,3 @@ $(document).ready(function()
 		});
 		
 		</script>		 
-		

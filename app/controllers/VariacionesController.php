@@ -172,12 +172,8 @@ class VariacionesController extends \Phalcon\Mvc\Controller
      * @return string
      * reempleza los datos en la formula y devuelve el resultado
      */
-    private function calcular($param, $formulas)
+    public function calcular($param, $formulas)
     {
-
-        //$array = ["sd" => "266.67"];
-
-        //$formula = "(((sd*0.8)+sd)/7)";
 
         $formula = $formulas;
         //almacena la formula original
@@ -191,6 +187,7 @@ class VariacionesController extends \Phalcon\Mvc\Controller
 
             $formula = $resultado;
 
+            $tipo = gettype($formula);
            //echo $formula ;
         }
 
@@ -205,8 +202,6 @@ class VariacionesController extends \Phalcon\Mvc\Controller
                 ob_end_clean();
             }
             return $salida;
-        } else {
-            return "La formula introducida no puede ser ejecuta.";
         }
     }
 
@@ -248,6 +243,7 @@ class VariacionesController extends \Phalcon\Mvc\Controller
 
                 $this->response->setStatusCode(200, "OK");
                 $this->response->send();
+
             }else{
                 $this->view->disable();
                 return null;
