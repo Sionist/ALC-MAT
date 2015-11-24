@@ -1,4 +1,3 @@
-
 {{ javascript_include("js/bootstrap.js") }}
 {{ javascript_include("js/jquery-number.js") }}
 {{ javascript_include("js/jquery.maskedinput.js") }}
@@ -112,6 +111,7 @@
             {{ hidden_field("year") }}
             {{ hidden_field("s-q-m") }}
             {{ hidden_field("nomi") }}
+            {{ hidden_field("sb") }}
             <table id="dynamic-table" class="table table-striped table-bordered">
                 <thead>
                     <th class="center">Asignación</th>
@@ -365,6 +365,7 @@
 
                     $.post("./buscar", { "cedula" : cedula, "nomina" : nomi },function(data){
 
+
                         //data contiene la respuesta JSON del controlador
                         if(data != ""){
 
@@ -454,7 +455,7 @@
                                 $("#msj").html("<div class='alert alert-block alert-danger'>La cedula introducida no existe, o no pertenece a la nomina seleccionada</div>");
                             }
                         }
-                    })}else{
+                    });}else{
                         $("#tprins").addClass("hidden");
                         $.post("../movimientos/buscar", { "cedula" : cedula, "nomina" : nomi, "sqm" : $("#sqm").val(), "ano" : $("#ano").val() },function(data){
 
@@ -465,9 +466,9 @@
                                 $("#deducciones").removeClass("hidden");
                                 $("#t_total").removeClass("hidden");
 
-                                $("#year").val($("#ano").val());
+                                /*$("#year").val($("#ano").val());
                                 $("#s-q-m").val($("#sqm").val());
-                                $("#nomi").val($("#nomina").val());
+                                $("#nomi").val($("#nomina").val());*/
 
                                 var movi = JSON.parse(data);
 
@@ -482,7 +483,7 @@
                                     ci = movi.datosT[0].nu_cedula;
                                     ubi_f = movi.datosT[0].denominacion;
                                     Mcargo = movi.datosT[0].cargo;
-
+                                    sb = movi.sb;
 
                                     $("#Tcedula").html(ci);
                                     $("#nombre").html(Mnombre);
@@ -504,9 +505,7 @@
                                     //si el trabajador tiene movimientos segun S.Q.M, se mostraran sino, msj de "no hay movmientos"
                                     if(movi.variaciones.length > 0){
 
-                                        var total = 0;
-
-                                        var cont = movi.variaciones.length;
+                                        //var cont = movi.variaciones.length;
 
                                         th = "<th class='center'>Movimiento</th><th class='center'>H / D</th>"+
                                             "<th class='center'>S / Q / M</th><th class='center'>Año</th>"+
@@ -515,9 +514,6 @@
                                         //recorre objeto variaciones y crea las celdas de la tabla con los datos
                                         for(datos in movi.variaciones){
 
-                                            //se va samando el monto de los movmientos
-                                            total = total + Number(movi.variaciones[datos].monto);
-
                                             tr+="<tr><td>"+movi.variaciones[datos].asignacion+"</td><td class='center'>"+movi.variaciones[datos].horas_dias+"</td>"+
                                                 "<td class='center'>"+movi.variaciones[datos].sqm+"</td><td>"+movi.variaciones[datos].ano+"</td>"+
                                                 "<td class='center'>"+movi.variaciones[datos].fecha+"</td>"+"<td class='center'><div class=\"hidden-sm hidden-xs action-buttons\">"+
@@ -525,57 +521,57 @@
                                                 "<a href=\"../movimientos/eliminar/"+movi.variaciones[datos].id_variacion+"\"><i class='ace-icon glyphicon glyphicon-remove bigger-110'></i></div></td></tr>";
                                         }
 
-                                        tr+="<tr><td class='success'><strong>TOTAL</strong>: </td><td class='warning'><strong><p class='bg-warning'><span class=''>"+ total.toFixed(2) +"</span></p></strong></td></tr>";
-
-                                        mth = "<th class='center'>Concepto</th><th class='center'>Monto</th>";
-
-                                        var mtr = "";
-                                        var mtotal =0;
-
-                                        //recorre objeto deducciones y crea las celdas de la tabla con los datos
-                                        for(datos in movi.deducciones){
-
-                                            //se va sumando el monto de las deducciones
-                                            mtotal = mtotal + Number(movi.deducciones[datos].monto);
-                                            var mMonto = Number(movi.deducciones[datos].monto);
-                                            mtr+="<tr><td>"+movi.deducciones[datos].deduccion+"</td>"
-                                                +"<td class=''>"+mMonto.toFixed(2)+"</td></tr>";
-                                        }
-
-                                        mtr+="<tr><td class='success'><strong>TOTAL</strong>: </td><td class='warning'><strong><p class='bg-warning'><span class=''>"+ mtotal.toFixed(2) +"</span></p></strong></td></tr>";
-
-                                        var ttotal = 0;
-                                        ttotal = (Number(movi.sb) + total) - mtotal;
-
-                                        var ttr = "<tr><td class='danger'><strong>TOTAL A PAGAR:</strong></td><td class='warning'><strong>"+ttotal.toFixed(2)+"</strong></td></tr>" 
-
-
+                                        tr+="<tr><td class='success'><strong>TOTAL</strong>: </td><td class='warning'><strong><p class='bg-warning'><span class=''>"+ movi.vTotal.toFixed(2) +"</span></p></strong></td></tr>";
 
                                         $("#t_movimiento").html(th);
                                         $("#t_movimiento").append(tr);
-                                        $("#t_deducciones").html(mth);
-                                        $("#t_deducciones").append(mtr);
-                                        $("#t_total").html(ttr);
-
-                                        $("span.number").number(true,2,',','.');
-                                        $("#msj").html("");
-
                                     }else{
                                         $("#msj").html("");
                                         //msj si no hay movimientos
                                         $("#t_movimiento").html("<tr><td class='center'><h3><strong>NO HAY MOVIMIENTOS<strong></h3></td></tr>");
                                     }
 
+                                    //evalua si trabajador tiene deducciones 
+                                    if(movi.deducciones.length > 0){
+
+                                        mth = "<th class='center'>Concepto</th><th class='center'>Monto</th>";
+
+                                        var mtr = "";
+
+                                        //recorre objeto deducciones y crea las celdas de la tabla con los datos
+                                        for(datos in movi.deducciones){
+                                            var mMonto = Number(movi.deducciones[datos].monto);
+                                            mtr+="<tr><td>"+movi.deducciones[datos].deduccion+"</td>"
+                                                +"<td class=''>"+mMonto.toFixed(2)+"</td></tr>";
+                                        }
+
+                                        mtr+="<tr><td class='success'><strong>TOTAL</strong>: </td><td class='warning'><strong><p class='bg-warning'><span class=''>"+ movi.dTotal.toFixed(2)+"</span></p></strong></td></tr>";
+
+                                        $("#t_deducciones").html(mth);
+                                        $("#t_deducciones").append(mtr);
+                                        
+
+                                        $("span.number").number(true,2,',','.');
+                                        $("#msj").html("");
+                                    }else{
+                                        $("#msj").html("");
+                                        //msj si no hay deducciones
+                                        $("#t_deducciones").html("<tr><td class='center'><h3><strong>NO HAY DEDUCCIONES<strong></h3></td></tr>");
+                                    }
+
+                                    var total = "<tr><td class='danger'><strong>TOTAL A PAGAR:</strong></td><td class='warning'><strong>"+movi.total.toFixed(2)+"</strong></td></tr>";
+                                    $("#t_total").html(total);
                                 }
                             }else{
                                 $("#tprins").addClass("hidden");
                                 $("#movimientos").addClass("hidden");
                                 $("#deducciones").addClass("hidden");
+                                $("#t_total").addClass("hidden");
                                 $("#img").addClass("hidden");
                                 $("#dt").addClass("hidden");
 
-                                //msj si la dedula introducida no pertenece a la nomina seleccionada
-                                $("#msj").html("<div class='alert alert-block alert-danger'>La cedula introducida no existe, no pertenece a la nomina seleccionada</div>");
+                                //msj si la cedula introducida no pertenece a la nomina seleccionada
+                                $("#msj").html("<div class='alert alert-block alert-danger'>La cedula introducida no existe o no pertenece a la nomina seleccionada</div>");
                             }
                         });
                     }
@@ -585,6 +581,8 @@
                 $("#deducciones").addClass("hidden")
                 $("#img").addClass("hidden");
                 $("#dt").addClass("hidden");
+                $("#t_total").addClass("hidden");
+                
                 $("#msj").html("<div class='alert alert-block alert-danger'>Debe introducir una cedula valida</div>");
             }
         });
