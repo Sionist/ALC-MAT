@@ -1,8 +1,11 @@
 <div id="page-wrapper">
 
 {{ content() }}
-	
-<?php echo $this->tag->linkTo(array("../nuevo/".$trabaja->nu_cedula,"<i class='ace-icon fa fa-users bigger-160'></i>nuevo","class"=>"btn btn-app btn-primary btn-xs", ""))  ?>
+
+<a href="http://190.202.129.59/sistenomialc/cargafamiliar/nuevo/<?php echo $trabaja->nu_cedula;?>" title="Agregar Carga Familiar" class="btn btn-app btn-primary btn-xs">
+<i class="ace-icon fa fa-users bigger-160"></i>
+Nuevo
+</a>
 
 <div class="row">
 	<div class="col-xs-12">
@@ -33,10 +36,10 @@
 					<td><?php echo $numerito; $numerito++; ?></td>
 					<td><?php echo $row->ci_carga; ?></td>
 					<td><?php echo $row->nombre1; ?> <?php echo $row->apellido1; ?></td>
-					<td><?php echo $row->f_nac; ?></td>
+					<td><?php echo date('d-m-Y',strtotime($row->f_nac));?></td>
 					<td><?php echo $row->genero; ?></td>
 					<td><?php echo $row->parent; ?></td>
-					<td>  <a href="../detalle/<?php echo $row->id_carga; ?>">Detalles</a></td>
+					<td>  <a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/cargafamiliar/detalle/<?php echo $row->id_carga; ?>">Detalles</a></td>
 					</tr>
 					 <?php
 					  }

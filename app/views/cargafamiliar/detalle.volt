@@ -14,7 +14,7 @@
 				<tr>
 				<td>
 				
-	<a href="javascript:history.back(1)"><- Volver</a>
+	<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/cargafamiliar/individual/<?php echo $carga->nu_cedula;?>"><- Volver</a>
 				
 	
 				</td>
@@ -33,8 +33,8 @@
                                                             <span class="profile-picture">
                                                             
                                                            
-                                                            <img id="avatar" class="editable img-responsive" title="<?php echo $carga->nombre1." ".$carga->apellido1; ?>" src="../../empleados/fotos/<?php echo $carga->foto_carga; ?>" />
-                                                           <!--  {{ image("empleados/fotos/<?php echo $carga->foto_carga;?>", "id": "avatar", "class": "editable img-responsive") }} --><a href="http://<?php echo $_SERVER['HTTP_HOST']; echo dirname($_SERVER['PHP_SELF']);?>/empleados/subir_foto.php?idcarga=<?php echo $carga->id_carga; ?>" target="popup" onClick="window.open(this.href, this.target, 'width=500,height=400'); return false;">Cambiar/Actualizar Foto</a>
+                                                            <img id="avatar" class="editable img-responsive" title="<?php echo $carga->nombre1." ".$carga->apellido1; ?>" src="../../cargafamiliar/fotos/<?php echo $carga->foto_carga; ?>" />
+                                                           <!--  {{ image("cargafamiliar/fotos/<?php echo $carga->foto_carga;?>", "id": "avatar", "class": "editable img-responsive") }} --><a href="http://<?php echo $_SERVER['HTTP_HOST']; echo dirname($_SERVER['PHP_SELF']);?>/cargafamiliar/subir_foto.php?idcarga=<?php echo $carga->id_carga; ?>" target="popup" onClick="window.open(this.href, this.target, 'width=500,height=400'); return false;">Cambiar/Actualizar Foto</a>
                                                             </span>
 
                                                         </div><!-- /.col -->
@@ -64,7 +64,15 @@
 
                                                             <div class="profile-user-info">
 
-                                                               
+                                                               <div class="profile-info-row">
+                                                                    <div class="profile-info-name"> C&eacute;dula </div>
+
+                                                                    <div class="profile-info-value">
+                                                                        <span><?php echo $carga->ci_carga;?></span>
+                                                                    </div>
+                                                                </div>
+
+
 
                                                                 <div class="profile-info-row">
                                                                     <div class="profile-info-name"> Genero </div>
@@ -96,18 +104,36 @@
 																		
 																		
 																		<?php
-                                                                            //almacena la fecha actual 
-                                                                            $fecha_actual = new DateTime();
-                                                                            
-                                                                            //convierte la fecha de nacimiento en un objeto DateTime
-                                                                            $f_nac = new DateTime($carga->f_nac);
-                                                                            
-                                                                            //calcula la diferencia entre ambas fechas
-                                                                            $edad = $fecha_actual->diff($f_nac);
-                                                                            
-                                                                            //imprime la edad en años
-                                                                            echo $edad->y." años";
-                                                                        ?>
+
+
+$dia=date(j);
+$mes=date(n);
+$ano=date(Y);
+
+$dianaz=date('d',strtotime($carga->f_nac));
+$mesnaz=date('m',strtotime($carga->f_nac));
+$anonaz=date('Y',strtotime($carga->f_nac));
+ 
+//si el mes es el mismo pero el día inferior aun no ha cumplido años, le quitaremos un año al actual
+ 
+if (($mesnaz == $mes) && ($dianaz > $dia)) {
+$ano=($ano-1); }
+ 
+//si el mes es superior al actual tampoco habrá cumplido años, por eso le quitamos un año al actual
+ 
+if ($mesnaz > $mes) {
+$ano=($ano-1);}
+ 
+//ya no habría mas condiciones, ahora simplemente restamos los años y mostramos el resultado como su edad
+ 
+$edad=($ano-$anonaz);
+
+
+echo $edad; 
+
+
+
+?>
 																		
 																		</span>
                                                                     </div>

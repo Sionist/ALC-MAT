@@ -65,7 +65,7 @@
 											
 										</div><!-- /.widget-main -->
 
-										<div class="toolbar clearfix">
+										<!-- <div class="toolbar clearfix">
 											<div>
 												<a href="#" data-target="#forgot-box" class="forgot-password-link">
 													<i class="ace-icon fa fa-arrow-left"></i>
@@ -78,8 +78,8 @@
 													I want to register
 													<i class="ace-icon fa fa-arrow-right"></i>
 												</a>
-											</div>
-										</div>
+											</div> 
+										</div>  -->
 									</div><!-- /.widget-body -->
 								</div><!-- /.login-box -->
 
@@ -129,11 +129,11 @@
 										<div class="widget-main">
 											<h4 class="header green lighter bigger">
 												<i class="ace-icon fa fa-users blue"></i>
-												New User Registration
+												Reg&iacute;stro de Usuario Nuevo
 											</h4>
 
 											<div class="space-6"></div>
-											<p> Enter your details to begin: </p>
+											<p> Ingresar sus detalles: </p>
 
 											<form>
 												<fieldset>
@@ -146,7 +146,7 @@
 
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="text" class="form-control" placeholder="Username" />
+															<input type="text" class="form-control" placeholder="Usuario" />
 															<i class="ace-icon fa fa-user"></i>
 														</span>
 													</label>
@@ -160,7 +160,7 @@
 
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="password" class="form-control" placeholder="Repeat password" />
+															<input type="password" class="form-control" placeholder="Repetir password" />
 															<i class="ace-icon fa fa-retweet"></i>
 														</span>
 													</label>
@@ -168,8 +168,8 @@
 													<label class="block">
 														<input type="checkbox" class="ace" />
 														<span class="lbl">
-															I accept the
-															<a href="#">User Agreement</a>
+															Acepto los
+															<a href="#">T&eacute;rminos</a>
 														</span>
 													</label>
 
@@ -178,11 +178,11 @@
 													<div class="clearfix">
 														<button type="reset" class="width-30 pull-left btn btn-sm">
 															<i class="ace-icon fa fa-refresh"></i>
-															<span class="bigger-110">Reset</span>
+															<span class="bigger-110">Resetear</span>
 														</button>
 
 														<button type="button" class="width-65 pull-right btn btn-sm btn-success">
-															<span class="bigger-110">Register</span>
+															<span class="bigger-110">Registrar</span>
 
 															<i class="ace-icon fa fa-arrow-right icon-on-right"></i>
 														</button>
@@ -204,15 +204,15 @@
 							<div class="navbar-fixed-top align-right">
 								<br />
 								&nbsp;
-								<a id="btn-login-dark" href="#">Dark</a>
+								<a id="btn-login-dark" href="#">BG 1</a>
 								&nbsp;
 								<span class="blue">/</span>
 								&nbsp;
-								<a id="btn-login-blur" href="#">Blur</a>
+								<a id="btn-login-blur" href="#">BG 2</a>
 								&nbsp;
 								<span class="blue">/</span>
 								&nbsp;
-								<a id="btn-login-light" href="#">Light</a>
+								<a id="btn-login-light" href="#">BG 3</a>
 								&nbsp; &nbsp; &nbsp;
 							</div>
 						</div>

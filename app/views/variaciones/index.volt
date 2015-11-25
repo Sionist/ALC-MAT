@@ -92,71 +92,74 @@
         <div class="center">FOTO</div>
         </span>
 </div>
-</div>
-<div class="">
-    <div class="col-md-5 hidden" id="tprins" >
 
-        <div class="">
-            <div id="msj"></div>
+<div class="col-md-5 hidden" id="tprins" >
 
-            <div class="table-header">
+    <div class="">
+        <div id="msj"></div>
 
-                Variaciones
+        <div class="table-header">
 
-            </div>
+            Variaciones
 
-            {{ form("variaciones/procesar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
-            {{ hidden_field("ttcedula") }}
-            {{ hidden_field("sd") }}
-            {{ hidden_field("year") }}
-            {{ hidden_field("s-q-m") }}
-            {{ hidden_field("nomi") }}
-            {{ hidden_field("sb") }}
-            <table id="dynamic-table" class="table table-striped table-bordered">
-                <thead>
-                    <th class="center">Asignación</th>
-                    <th class="center">Horas / Dias</th>
-                    <th class="center">¿Habilitar Todos?
-                        <label style="margin-top: 10px; display: block">
-                            <input id="t_enabled" name="switch-field-1" class="ace ace-switch ace-switch-4 btn-rotate" type="checkbox">
-                            <span class="lbl" data-lbl="SI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NO"></span>
-                        </label>
-                    </th>
-                </thead>
-                <tbody  id="asignacion">
-                </tbody>
-            </table>
-            {{ submit_button("GUARDAR","id":"guardar", "class":"btn btn-primary btn-block" ,"disabled":"disabled") }}
-            {{ endForm() }}
         </div>
+
+        {{ form("variaciones/procesar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
+        {{ hidden_field("ttcedula") }}
+        {{ hidden_field("sd") }}
+        {{ hidden_field("year") }}
+        {{ hidden_field("s-q-m") }}
+        {{ hidden_field("nomi") }}
+        {{ hidden_field("sb") }}
+        <table id="dynamic-table" class="table table-striped table-bordered">
+            <thead>
+                <th class="center">Asignación</th>
+                <th class="center">Horas / Dias</th>
+                <th class="center">¿Habilitar Todos?
+                    <label style="margin-top: 10px; display: block">
+                        <input id="t_enabled" name="switch-field-1" class="ace ace-switch ace-switch-4 btn-rotate" type="checkbox">
+                        <span class="lbl" data-lbl="SI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NO"></span>
+                    </label>
+                </th>
+            </thead>
+            <tbody  id="asignacion">
+            </tbody>
+        </table>
+        {{ submit_button("GUARDAR","id":"guardar", "class":"btn btn-primary btn-block" ,"disabled":"disabled") }}
+        {{ endForm() }}
     </div>
+    <br />
+    <br />
 </div>
-
-<!-- columna de movimientos -->
-<div id="movimientos" class="col-md-6 hidden">
-    <div class="table-header center">Movimientos</div>
-    <table class="table table-striped table-bordered">
-        <tbody id="t_movimiento">
-
-        </tbody>
-    </table>
 </div>
-<!-- Fin columna movimientos-->
+<div class="row">
+    <!-- columna de movimientos -->
+    <div id="movimientos" class="col-md-6 hidden">
+        <div class="table-header center">Movimientos</div>
+        <table class="table table-striped table-bordered">
+            <tbody id="t_movimiento">
 
-<!--Deducciones-->
-<div class="col-md-4 hidden" id="deducciones">
-    <div class="table-header center">Deducciones</div>
-    <table class="table table-striped table-bordered">
-        <tbody id="t_deducciones">
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
+    <!-- Fin columna movimientos-->
+
+    <!--Deducciones-->
+    <div class="col-md-3 hidden" id="deducciones">
+        <div class="table-header center">Deducciones</div>
+        <table class="table table-striped table-bordered">
+            <tbody id="t_deducciones">
+            </tbody>
+        </table>
+    </div>  
+    <!--Fin Deducciones-->
 </div>
-<div class="row center col-md-6" style="margin-left: 154px">
+<div class="center col-md-6" style="margin-left: 154px">
     <table class="table table-striped table-bordered" id="t_total">
 
     </table>
-</div>
-<!--Fin Deducciones-->
+    <br />
+    <br />
 </div>
 <!-- fin tabla para mostrar todos los registros de la tabla-->
 <br />
@@ -176,10 +179,26 @@
     </div>
 </div>
 
-<!-- modal -->
+<!-- modal confirmacion de guardado de variaciones -->
 <div id="dialog-confirm" class="hide">
     <p>
     <h4>¿Esta seguro?</h4>
+    </p>
+</div>
+
+<div id="eliminar" class="hide">
+    <p>
+    <h4>¿Esta seguro?</h4>
+    </p>
+</div>
+
+<!-- modal modificacion de movimiento -->
+<div id="modificar" class="hide center">
+    <p>
+        {{ form("movimientos/modificar", "method" : "post", "autocomplete" : "off", "class" : "form-inline") }}
+        {{ numeric_field("movimiento", "class" : "form-control center", "required":"required") }}
+        
+        {{endForm()}}
     </p>
 </div>
 <!--<div id="dialog-message" class="hide"></div>-->
@@ -517,8 +536,8 @@
                                             tr+="<tr><td>"+movi.variaciones[datos].asignacion+"</td><td class='center'>"+movi.variaciones[datos].horas_dias+"</td>"+
                                                 "<td class='center'>"+movi.variaciones[datos].sqm+"</td><td>"+movi.variaciones[datos].ano+"</td>"+
                                                 "<td class='center'>"+movi.variaciones[datos].fecha+"</td>"+"<td class='center'><div class=\"hidden-sm hidden-xs action-buttons\">"+
-                                                "<a href=\"../movimientos/editar/"+movi.variaciones[datos].id_variacion+"\"><i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"+
-                                                "<a href=\"../movimientos/eliminar/"+movi.variaciones[datos].id_variacion+"\"><i class='ace-icon glyphicon glyphicon-remove bigger-110'></i></div></td></tr>";
+                                                "<a href='#' class='modificar' id='"+movi.variaciones[datos].id_variacion+"'><i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"+
+                                                "<a href='#' class='eliminar' id='"+movi.variaciones[datos].id_variacion+"'><i class='ace-icon glyphicon glyphicon-remove bigger-110'></i></div></td></tr>";
                                         }
 
                                         tr+="<tr><td class='success'><strong>TOTAL</strong>: </td><td class='warning'><strong><p class='bg-warning'><span class=''>"+ movi.vTotal.toFixed(2) +"</span></p></strong></td></tr>";
@@ -549,7 +568,7 @@
 
                                         $("#t_deducciones").html(mth);
                                         $("#t_deducciones").append(mtr);
-                                        
+
 
                                         $("span.number").number(true,2,',','.');
                                         $("#msj").html("");
@@ -582,7 +601,7 @@
                 $("#img").addClass("hidden");
                 $("#dt").addClass("hidden");
                 $("#t_total").addClass("hidden");
-                
+
                 $("#msj").html("<div class='alert alert-block alert-danger'>Debe introducir una cedula valida</div>");
             }
         });
@@ -639,85 +658,145 @@
                     }
                 ]
             });
+        });
 
-            $("#msj_exito").addClass("hidden").html("");
-            $("#t_errors tbody").html("");
-            $("#msj_error").addClass("hidden");
+        $( "body" ).on('click','.modificar', function(e) {
+            e.preventDefault();
+
+            $( "#modificar" ).removeClass('hide').dialog({
+                resizable: false,
+                width: '320',
+                modal: true,
+                title: "INTRODUZCA CANTIDAD",
+                title_html: true,
+                buttons: [
+                    {
+                        html: "<i class='ace-icon glyphicon glyphicon-remove'></i>&nbsp; Modificar",
+                        "class" : "btn btn-success btn-minier",
+                        "id":"btnModif",
+                        click: function() {
+                            $( this ).dialog( "close" );
+                        }
+                    }
+                    ,
+                    {
+                        html: "<i class='ace-icon fa fa-times bigger-110'></i>&nbsp; Cancelar",
+                        "class" : "btn btn-minier",
+                        click: function() {
+                            $( this ).dialog( "close" );
+                        }
+                    }
+                ]
+            });
+        });
+        
+        $( "body" ).on('click','.eliminar', function(e) {
+            e.preventDefault();
+
+            $( "#eliminar" ).removeClass('hide').dialog({
+                resizable: false,
+                width: '320',
+                modal: true,
+                title: "¡SE ELEMINARA EL MOVIMIENTO!",
+                title_html: true,
+                buttons: [
+                    {
+                        html: "<i class='ace-icon glyphicon glyphicon-remove'></i>&nbsp; Eliminar",
+                        "class" : "btn btn-success btn-minier",
+                        "id":"btnModif",
+                        click: function() {
+                            $( this ).dialog( "close" );
+                        }
+                    }
+                    ,
+                    {
+                        html: "<i class='ace-icon fa fa-times bigger-110'></i>&nbsp; Cancelar",
+                        "class" : "btn btn-minier",
+                        click: function() {
+                            $( this ).dialog( "close" );
+                        }
+                    }
+                ]
+            });
+        });
+        $("#msj_exito").addClass("hidden").html("");
+        $("#t_errors tbody").html("");
+        $("#msj_error").addClass("hidden");
 
 
-            /**
+        /**
                     **
                     **ACCION DEL BOTON CONFIRMAR DEL DIALOGO MODAL
                     **
                     **/
-            $("#btnConfirm").click(function(){
+        $("#btnConfirm").click(function(){
 
-                var nomina = $("#nomina").val();
-                var ano = $("#ano").val();
-                var sqm = $("#sqm").val();
-                var cedula = $("#ttcedula").val();
-                var asigs = new Object();
-                var name = "";
-                var valor = "";
-                var sd = $("#sd").val();
+            var nomina = $("#nomina").val();
+            var ano = $("#ano").val();
+            var sqm = $("#sqm").val();
+            var cedula = $("#ttcedula").val();
+            var asigs = new Object();
+            var name = "";
+            var valor = "";
+            var sd = $("#sd").val();
 
-                $("#asignacion").find("tr").find("input[type=text]").each( function(){
-                    name = $(this).attr('name');
-                    if($(this).val() != ""){
-                        valor = $(this).val();
-                        asigs[name] = $(this).val();
-                        // alert (name +"="+ asigs[name]);
+            $("#asignacion").find("tr").find("input[type=text]").each( function(){
+                name = $(this).attr('name');
+                if($(this).val() != ""){
+                    valor = $(this).val();
+                    asigs[name] = $(this).val();
+                    // alert (name +"="+ asigs[name]);
+                }
+
+            });
+
+            $.post("./procesar", {
+                "nomina" : nomina,
+                "ano" : ano,
+                "sqm" : sqm,
+                "cedula" : cedula,
+                "asigs" : asigs,
+                "sd" : sd  },function(data){
+                var res = JSON.parse(data);
+
+                var msj_exito = "Variaciones procesadas exitosamente: "+res.msj_exito;
+                var msj_error = "Variaciones no procesadas por falla en la ejecucion de la formula";
+
+                var tr = "";
+
+                //alert(res.msj_exito);
+                if(res != ""){
+                    if(res.msj_exito != ""){
+                        $("#msj_exito").html(msj_exito).removeClass("hidden");
                     }
-
-                });
-
-                $.post("./procesar", {
-                    "nomina" : nomina,
-                    "ano" : ano,
-                    "sqm" : sqm,
-                    "cedula" : cedula,
-                    "asigs" : asigs,
-                    "sd" : sd  },function(data){
-                    var res = JSON.parse(data);
-
-                    var msj_exito = "Variaciones procesadas exitosamente: "+res.msj_exito;
-                    var msj_error = "Variaciones no procesadas por falla en la ejecucion de la formula";
-
-                    var tr = "";
-
-                    //alert(res.msj_exito);
-                    if(res != ""){
-                        if(res.msj_exito != ""){
-                            $("#msj_exito").html(msj_exito).removeClass("hidden");
+                    if(res.msj_error){
+                        //alert("lleno");
+                        var cont = 0;
+                        for (datos in res.msj_error){
+                            tr+= "<tr><td>"+datos+"</td><td>"+res.msj_error[datos]+"</td></tr>"
+                            cont++;
                         }
-                        if(res.msj_error){
-                            //alert("lleno");
-                            var cont = 0;
-                            for (datos in res.msj_error){
-                                tr+= "<tr><td>"+datos+"</td><td>"+res.msj_error[datos]+"</td></tr>"
-                                cont++;
-                            }
-                            if(cont > 0){
-                                $("#msj_error").removeClass("hidden");
-                            }
+                        if(cont > 0){
+                            $("#msj_error").removeClass("hidden");
                         }
                     }
+                }
 
-                    $("#t_errors").append(tr);
+                $("#t_errors").append(tr);
 
-                });
+            });
 
-                $("#asignacion").find("input[type=text]").attr("disabled",true).val("");
-                $("#asignacion").find("input[type=checkbox]").attr("checked",false);
-                $("#guardar").attr("disabled",true)
-                $("#t_enabled").prop("checked",false);
+            $("#asignacion").find("input[type=text]").attr("disabled",true).val("");
+            $("#asignacion").find("input[type=checkbox]").attr("checked",false);
+            $("#guardar").attr("disabled",true)
+            $("#t_enabled").prop("checked",false);
 
-                $("#buscar").click(function(){
-                    $("#msj_exito").addClass("hidden").html("");
-                    $("#t_errors").html("");
-                    $("#msj_error").addClass("hidden");
-                });
+            $("#buscar").click(function(){
+                $("#msj_exito").addClass("hidden").html("");
+                $("#t_errors").html("");
+                $("#msj_error").addClass("hidden");
             });
         });
     });
+    //});
 </script>
