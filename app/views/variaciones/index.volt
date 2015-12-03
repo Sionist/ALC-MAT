@@ -144,23 +144,43 @@
     </div>
     <!-- Fin columna movimientos-->
 
-    <!--Deducciones-->
-    <div class="col-md-3 hidden" id="deducciones">
-        <div class="table-header center">Deducciones</div>
-        <table class="table table-striped table-bordered">
-            <tbody id="t_deducciones">
-            </tbody>
-        </table>
-    </div>  
-    <!--Fin Deducciones-->
-</div>
-<div class="center col-md-6" style="margin-left: 154px">
-    <table class="table table-striped table-bordered" id="t_total">
 
-    </table>
-    <br />
-    <br />
+    <div class="col-md-3">
+        <!--Deducciones-->
+        <div class="hidden"  id="deducciones">
+            <div class="table-header center">Deducciones</div>
+            <table class="table table-striped table-bordered">
+                <tbody id="t_deducciones">
+                </tbody>
+            </table>
+        </div>
+        <!--Fin Deducciones-->
+
+        <!--Sueldo-->
+        <div class="hidden" id="sueldo">
+            <table class="table table-striped table-bordered">
+                <tbody id="t_sueldo">
+                </tbody>
+            </table>
+        </div>  
+        <!--Fin Sueldo-->
+    </div>  
+
+
+
+
+    <!--TOTAL-->
+    <div class="center col-md-6" style="margin-left: 166px">
+        <table class="table table-striped table-bordered" id="t_total">
+
+        </table>
+        <br />
+        <br />
+    </div>
+    <!--TOTAL-->
+
 </div>
+
 <!-- fin tabla para mostrar todos los registros de la tabla-->
 <br />
 <div class="row">
@@ -174,11 +194,15 @@
                 <th class="center">Asignación Variable</th>
                 <th class="center">Formula</th>
             </thead>
-            <div id="tb"></div>
+            <tbody></tbody>
         </table>
     </div>
 </div>
-
+<br>
+<br>
+<br>
+<br>
+<br>
 <!-- modal confirmacion de guardado de variaciones -->
 <div id="dialog-confirm" class="hide">
     <p>
@@ -191,15 +215,17 @@
     <h4>¿Esta seguro?</h4>
     </p>
 </div>
+<div id="vacios" class="hide">
+    <p>
+    <h4>¡Debe llenar almenos un campo!</h4>
+    </p>
+</div>
 
 <!-- modal modificacion de movimiento -->
 <div id="modificar" class="hide center">
-    <p>
-        {{ form("movimientos/modificar", "method" : "post", "autocomplete" : "off", "class" : "form-inline") }}
-        {{ numeric_field("movimiento", "class" : "form-control center", "required":"required") }}
-        
-        {{endForm()}}
-    </p>
+    {{ numeric_field("movimiento", "class" : "form-control center", "required":"required") }}
+    {{ hidden_field("id_var") }}
+    <span id="dMsj"></span>
 </div>
 <!--<div id="dialog-message" class="hide"></div>-->
 
@@ -314,6 +340,7 @@
                 $("#tprins").addClass("hidden");
                 $("#movimientos").addClass("hidden");
                 $("#deducciones").addClass("hidden");
+                $("#sueldo").addClass("hidden");
                 $("#t_total").addClass("hidden");
                 $("#img").addClass("hidden");
                 $("#div_buscar").addClass("hidden");
@@ -350,6 +377,243 @@
             $("#cedula").focus();
         });
 
+        //funcion que carga las asignaciones variables con los campos de entrada
+        function variaciones(cedu, nomi){
+            $.post("./buscar", { "cedula" : cedu, "nomina" : nomi },function(data){
+
+                //data contiene la respuesta JSON del controlador
+                if(data != ""){
+
+                    //convierte la data en un objeto
+                    $("#year").val($("#ano").val());
+                    $("#s-q-m").val($("#sqm").val());
+                    $("#nomi").val($("#nomina").val());
+
+                    var asigs = JSON.parse(data);
+
+                    if(asigs.trabajador.length > 0){
+
+                        var nombre = "";
+                        var ci = "";
+                        var ubi_f = "";
+                        var cargo = "";
+
+                        var foto = "";
+                        var sueldo = "";
+
+                        foto = asigs.trabajador[0].foto_p;
+                        sueldo = asigs.sd;
+
+                        $("#sd").val(sueldo);
+
+                        //almacena nombre y apellido del trabajador
+                        nombre += asigs.trabajador[0].nombre1 +" "+ asigs.trabajador[0].apellido1;
+                        //almacena cedula del trabajador
+                        ci += asigs.trabajador[0].nu_cedula;
+                        ubi_f += asigs.trabajador[0].denominacion;
+                        cargo += asigs.trabajador[0].cargo;
+
+                        $("#Tcedula").html(ci);
+                        $("#nombre").html(nombre);
+                        $("#ubi_f").html(ubi_f);
+                        $("#cargo").html(cargo);
+                        $("#ttcedula").val(asigs.trabajador[0].nu_cedula);
+
+                        if(foto !=null){
+                            $("#foto").attr("src","../public/empleados/fotos/"+foto)
+                            $("#foto").attr("title",nombre);
+                        }else{
+                            $("#foto").attr("src","../public/img/interrogante.png")
+                        }
+
+                        var tr = "";
+                        //contador para diferenciar id´s de los checkbox
+                        var cont = 1;
+                        //recorre los datos del JSON recibido
+                        for(datos in asigs.asignaciones){
+                            //genera todas las asignaciones variables tabuladas con sus campos
+                            tr += "<tr id=\"f"+cont+"\"><td class=\"col-xs-15\" style=\"text-transform: capitalize;\">"+asigs.asignaciones[datos].asignacion+
+                                "</td><td class=\"col-xs-3\">"+
+                                "<input type=\"text\" id=\"tf\" name=\""+asigs.asignaciones[datos].id_asignac +"\" class=\"input-mask-numeric col-xs-12 center\" required=\"required\" disabled>"
+                                +"</td>"
+                                +"<td class=\"col-xs-1\">"+ "<label style=\"margin-top: 10px; display: block\">"+
+                                "<input name=\"switch-field-1\" id=\"c"+cont+"\" class=\"ace ace-switch ace-switch-6\" type=\"checkbox\">"+"<span class=\"lbl\"></span>"
+                                +"</td></tr>";
+                            cont++;
+                        }
+                        //oculta el div que contiene la tabla
+                        $("#tprins").addClass("hidden");
+                        //mensaje de error si no existe la cedula o no se introdujo una valida o campo vacio
+                        $("#msj").html("");
+                        //agrega la info generada dentro de tbody : asignacion
+                        $("#asignacion").html(tr);
+                        //efecto slide para la tabla
+                        $("#tprins").slideDown(100).removeClass("hidden");
+                        $("#dt").slideDown(100).removeClass("hidden");
+                        $("#img").slideDown(100).removeClass("hidden");
+                        //habilita o deshabilita los campos de texto segun estado de los checkbox
+                        $("input[type=checkbox]").click(function(){
+                            var hijo = $(this).attr("id");
+                            var padre = $(this).parent().parent().parent().attr("id");
+
+                            $.mask.definitions['~']='[+-]';
+                            $('.input-mask-numeric').mask('99');
+                            if($('#'+hijo).is(":checked")){
+                                $('#'+padre).find("input[type=text]").attr("disabled",false);
+                                $('#'+padre).find("select").attr("disabled",false);
+                            }else{
+                                $('#'+padre).find("input[type=text]").attr("disabled",true).val("");
+                                $('#'+padre).find("select").attr("disabled",true);
+                            }
+                            //habilita o deshabilita el boton guardar
+                            if($('#asignacion').find("input[type=checkbox]").is(":checked")){
+                                $("#guardar").attr("disabled",false)
+                            }else{
+                                $("#guardar").attr("disabled",true)
+                            }
+                        });
+                    }
+                    else{
+                        $("#tprins").addClass("hidden");
+                        $("#img").addClass("hidden");
+                        $("#msj").html("<div class='alert alert-block alert-danger'>La cedula introducida no existe, o no pertenece a la nomina seleccionada</div>");
+                    }
+                }
+            });
+        }
+
+        //funcion que muestra los movimientos en caso de existir
+        function movimientos(cedu, nomi, sqm, ano){
+            $.post("../movimientos/buscar", { "cedula" : cedu, "nomina" : nomi, "sqm" : sqm, "ano" : ano },function(data){
+
+                //data contiene la respuesta JSON del controlador
+                if(data != ""){
+
+                    $("#movimientos").removeClass("hidden");
+                    $("#deducciones").removeClass("hidden");
+                    $("#sueldo").removeClass("hidden");
+                    $("#t_total").removeClass("hidden");
+
+                    $("#year").val($("#ano").val());
+                    $("#s-q-m").val($("#sqm").val());
+                    $("#nomi").val($("#nomina").val());
+
+                    var movi = JSON.parse(data);
+
+                    //si el trabajador existe, se cargaran su datos sino, se mostrara msj de error
+                    if(movi.datosT.length > 0){
+
+                        foto = movi.datosT[0].foto_p;
+
+                        //almacena nombre y apellido del trabajador
+                        Mnombre = movi.datosT[0].nombre1 +" "+ movi.datosT[0].apellido1;
+                        //almacena cedula del trabajador
+                        ci = movi.datosT[0].nu_cedula;
+
+                        $("#ttcedula").val(ci);
+
+                        ubi_f = movi.datosT[0].denominacion;
+                        Mcargo = movi.datosT[0].cargo;
+                        sb = movi.sb;
+
+                        $("#Tcedula").html(ci);
+                        $("#nombre").html(Mnombre);
+                        $("#ubi_f").html(ubi_f);
+                        $("#cargo").html(Mcargo);
+                        //$("#cedula").val(movi.dt[0].nu_cedula);
+
+                        //si el trabajador no tiene foto, se mostrara un imagen generica
+                        if(foto !=null){
+                            $("#foto").attr("src","../public/empleados/fotos/"+foto)
+                            $("#foto").attr("title",nombre);
+                        }else{
+                            $("#foto").attr("src","../public/img/interrogante.png")
+                        }
+
+                        $("#dt").removeClass("hidden");
+                        $("#img").removeClass("hidden");
+
+                        //si el trabajador tiene movimientos segun S.Q.M, se mostraran sino, msj de "no hay movmientos"
+                        if(movi.variaciones.length > 0){
+
+                            //var cont = movi.variaciones.length;
+
+                            th = "<th class='center'>Movimiento</th><th class='center'>H / D</th>"+
+                                "<th class='center'>S / Q / M</th><th class='center'>Año</th>"+
+                                "<th class='center'>Fecha </th><th class='center'>Acción</th>";
+
+                            var tr="";
+
+                            //recorre objeto variaciones y crea las celdas de la tabla con los datos
+                            for(datos in movi.variaciones){
+
+                                tr+="<tr><td>"+movi.variaciones[datos].asignacion+"</td><td class='center'>"+movi.variaciones[datos].horas_dias+"</td>"+
+                                    "<td class='center'>"+movi.variaciones[datos].sqm+"</td><td>"+movi.variaciones[datos].ano+"</td>"+
+                                    "<td class='center'>"+movi.variaciones[datos].fecha+"</td>"+"<td class='center'><div class=\"hidden-sm hidden-xs action-buttons\">"+
+                                    "<a href='#' class='modificar' id='"+movi.variaciones[datos].id_variacion+"'><i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"+
+                                    "<a href='#' class='eliminar' id='"+movi.variaciones[datos].id_variacion+"'><i class='ace-icon glyphicon glyphicon-remove bigger-110'></i></div></td></tr>";
+                            }
+
+                            tr+="<tr><td class='success'><strong>TOTAL</strong>: </td><td class='warning'><strong><p class='bg-warning'><span class=''>"+ movi.vTotal.toFixed(2) +" Bs.</span></p></strong></td></tr>";
+
+                            $("#t_movimiento").html(th);
+                            $("#t_movimiento").append(tr);
+                        }else{
+                            $("#msj").html("");
+                            //msj si no hay movimientos
+                            $("#t_movimiento").html("<tr><td class='center'><h3><strong>NO HAY MOVIMIENTOS<strong></h3></td></tr>");
+                        }
+
+                        //evalua si trabajador tiene deducciones 
+                        if(movi.deducciones.length > 0){
+
+                            mth = "<th class='center'>Concepto</th><th class='center'>Monto</th>";
+
+                            var mtr = "";
+
+                            var sueldo = "";
+
+                            //recorre objeto deducciones y crea las celdas de la tabla con los datos
+                            for(datos in movi.deducciones){
+                                var mMonto = Number(movi.deducciones[datos].monto);
+                                mtr+="<tr><td>"+movi.deducciones[datos].deduccion+"</td>"
+                                    +"<td class=''>"+mMonto.toFixed(2)+" Bs.</td></tr>";
+                            }
+
+                            mtr+="<tr><td class='success'><strong>TOTAL</strong>: </td><td class='warning'><strong><p class='bg-warning'><span class=''>"+ movi.dTotal.toFixed(2)+" Bs.</span></p></strong></td></tr>";
+
+                            sueldo+="<tr><td class='danger'><strong>SUELDO:</strong></td><td class='warning center'><strong>"+movi.sb.toFixed(2)+" Bs.</strong></td></tr>"; 
+
+                            $("#t_deducciones").html(mth);
+                            $("#t_deducciones").append(mtr);
+                            $("#t_sueldo").html(sueldo);
+
+
+                            $("span.number").number(true,2,',','.');
+                            $("#msj").html("");
+                        }else{
+                            $("#msj").html("");
+                            //msj si no hay deducciones
+                            $("#t_deducciones").html("<tr><td class='center'><h3><strong>NO HAY DEDUCCIONES<strong></h3></td></tr>");
+                        }
+
+                        var total = "<tr><td class='danger'><strong>TOTAL A PAGAR:</strong></td><td class='warning'><strong>"+movi.total.toFixed(2)+" Bs.</strong></td></tr>";
+                        $("#t_total").html(total);
+                    }
+                }else{
+                    $("#tprins").addClass("hidden");
+                    $("#movimientos").addClass("hidden");
+                    $("#deducciones").addClass("hidden");
+                    $("#sueldo").addClass("hidden");
+                    $("#t_total").addClass("hidden");
+                    $("#img").addClass("hidden");
+                    $("#dt").addClass("hidden");
+
+                    //msj si la cedula introducida no pertenece a la nomina seleccionada
+                    $("#msj").html("<div class='alert alert-block alert-danger'>La cedula introducida no existe o no pertenece a la nomina seleccionada</div>");
+                }
+            });
+        }
 
         /**
                 **
@@ -366,238 +630,25 @@
 
             if(cedula != ""){
 
-                var tr = "";
-                var th = "";
-                var nombre = "";
-                var ci = "";
-                var ubi_f = "";
-                var cargo = "";
-                var nomi = $("#nomina").val();
-                var foto = "";
-                var sueldo = "";
-
                 if($("#operacion").val() == "Variaciones"){
-
                     $("#movimientos").addClass("hidden");
                     $("#deducciones").addClass("hidden");
+                    $("#sueldo").addClass("hidden");
                     $("#t_total").addClass("hidden");
 
-                    $.post("./buscar", { "cedula" : cedula, "nomina" : nomi },function(data){
+                    //se llama a funcion variaciones
+                    variaciones($("#cedula").val(),$("#nomina").val());
+                }else{
+                    $("#tprins").addClass("hidden");
 
-
-                        //data contiene la respuesta JSON del controlador
-                        if(data != ""){
-
-                            //convierte la data en un objeto
-                            $("#year").val($("#ano").val());
-                            $("#s-q-m").val($("#sqm").val());
-                            $("#nomi").val($("#nomina").val());
-
-                            var asigs = JSON.parse(data);
-
-                            if(asigs.trabajador.length > 0){
-
-                                foto = asigs.trabajador[0].foto_p;
-                                sueldo = asigs.sd;
-
-                                $("#sd").val(sueldo);
-
-                                //almacena nombre y apellido del trabajador
-                                nombre += asigs.trabajador[0].nombre1 +" "+ asigs.trabajador[0].apellido1;
-                                //almacena cedula del trabajador
-                                ci += asigs.trabajador[0].nu_cedula;
-                                ubi_f += asigs.trabajador[0].denominacion;
-                                cargo += asigs.trabajador[0].cargo;
-
-                                $("#Tcedula").html(ci);
-                                $("#nombre").html(nombre);
-                                $("#ubi_f").html(ubi_f);
-                                $("#cargo").html(cargo);
-                                $("#ttcedula").val(asigs.trabajador[0].nu_cedula);
-
-                                if(foto !=null){
-                                    $("#foto").attr("src","../public/empleados/fotos/"+foto)
-                                    $("#foto").attr("title",nombre);
-                                }else{
-                                    $("#foto").attr("src","../public/img/interrogante.png")
-                                }
-
-                                //contador para diferenciar id´s de los checkbox
-                                var cont = 1;
-                                //recorre los datos del JSON recibido
-                                for(datos in asigs.asignaciones){
-                                    //genera todas las asignaciones variables tabuladas con sus campos
-                                    tr += "<tr id=\"f"+cont+"\"><td class=\"col-xs-15\" style=\"text-transform: capitalize;\">"+asigs.asignaciones[datos].asignacion+
-                                        "</td><td class=\"col-xs-3\">"+
-                                        "<input type=\"text\" id=\"tf\" name=\""+asigs.asignaciones[datos].id_asignac +"\" class=\"input-mask-numeric col-xs-12 center\" required=\"required\" disabled>"
-                                        +"</td>"
-                                        +"<td class=\"col-xs-1\">"+ "<label style=\"margin-top: 10px; display: block\">"+
-                                        "<input name=\"switch-field-1\" id=\"c"+cont+"\" class=\"ace ace-switch ace-switch-6\" type=\"checkbox\">"+"<span class=\"lbl\"></span>"
-                                        +"</td></tr>";
-                                    cont++;
-                                }
-                                //oculta el div que contiene la tabla
-                                $("#tprins").addClass("hidden");
-                                //mensaje de error si no existe la cedula o no se introdujo una valida o campo vacio
-                                $("#msj").html("");
-                                //agrega la info generada dentro de tbody : asignacion
-                                $("#asignacion").html(tr);
-                                //efecto slide para la tabla
-                                $("#tprins").slideDown(100).removeClass("hidden");
-                                $("#dt").slideDown(100).removeClass("hidden");
-                                $("#img").slideDown(100).removeClass("hidden");
-                                //habilita o deshabilita los campos de texto segun estado de los checkbox
-                                $("input[type=checkbox]").click(function(){
-                                    var hijo = $(this).attr("id");
-                                    var padre = $(this).parent().parent().parent().attr("id");
-
-                                    $.mask.definitions['~']='[+-]';
-                                    $('.input-mask-numeric').mask('99');
-                                    if($('#'+hijo).is(":checked")){
-                                        $('#'+padre).find("input[type=text]").attr("disabled",false);
-                                        $('#'+padre).find("select").attr("disabled",false);
-                                    }else{
-                                        $('#'+padre).find("input[type=text]").attr("disabled",true).val("");
-                                        $('#'+padre).find("select").attr("disabled",true);
-                                    }
-                                    //habilita o deshabilita el boton guardar
-                                    if($('#asignacion').find("input[type=checkbox]").is(":checked")){
-                                        $("#guardar").attr("disabled",false)
-                                    }else{
-                                        $("#guardar").attr("disabled",true)
-                                    }
-                                });
-                            }
-                            else{
-                                $("#tprins").addClass("hidden");
-                                $("#img").addClass("hidden");
-                                $("#msj").html("<div class='alert alert-block alert-danger'>La cedula introducida no existe, o no pertenece a la nomina seleccionada</div>");
-                            }
-                        }
-                    });}else{
-                        $("#tprins").addClass("hidden");
-                        $.post("../movimientos/buscar", { "cedula" : cedula, "nomina" : nomi, "sqm" : $("#sqm").val(), "ano" : $("#ano").val() },function(data){
-
-                            //data contiene la respuesta JSON del controlador
-                            if(data != ""){
-
-                                $("#movimientos").removeClass("hidden");
-                                $("#deducciones").removeClass("hidden");
-                                $("#t_total").removeClass("hidden");
-
-                                /*$("#year").val($("#ano").val());
-                                $("#s-q-m").val($("#sqm").val());
-                                $("#nomi").val($("#nomina").val());*/
-
-                                var movi = JSON.parse(data);
-
-                                //si el trabajador existe, se cargaran su datos sino, se mostrara msj de error
-                                if(movi.datosT.length > 0){
-
-                                    foto = movi.datosT[0].foto_p;
-
-                                    //almacena nombre y apellido del trabajador
-                                    Mnombre = movi.datosT[0].nombre1 +" "+ movi.datosT[0].apellido1;
-                                    //almacena cedula del trabajador
-                                    ci = movi.datosT[0].nu_cedula;
-                                    ubi_f = movi.datosT[0].denominacion;
-                                    Mcargo = movi.datosT[0].cargo;
-                                    sb = movi.sb;
-
-                                    $("#Tcedula").html(ci);
-                                    $("#nombre").html(Mnombre);
-                                    $("#ubi_f").html(ubi_f);
-                                    $("#cargo").html(Mcargo);
-                                    //$("#cedula").val(movi.dt[0].nu_cedula);
-
-                                    //si el trabajador no tiene foto, se mostrara un imagen generica
-                                    if(foto !=null){
-                                        $("#foto").attr("src","../public/empleados/fotos/"+foto)
-                                        $("#foto").attr("title",nombre);
-                                    }else{
-                                        $("#foto").attr("src","../public/img/interrogante.png")
-                                    }
-
-                                    $("#dt").removeClass("hidden");
-                                    $("#img").removeClass("hidden");
-
-                                    //si el trabajador tiene movimientos segun S.Q.M, se mostraran sino, msj de "no hay movmientos"
-                                    if(movi.variaciones.length > 0){
-
-                                        //var cont = movi.variaciones.length;
-
-                                        th = "<th class='center'>Movimiento</th><th class='center'>H / D</th>"+
-                                            "<th class='center'>S / Q / M</th><th class='center'>Año</th>"+
-                                            "<th class='center'>Fecha </th><th class='center'>Acción</th>";
-
-                                        //recorre objeto variaciones y crea las celdas de la tabla con los datos
-                                        for(datos in movi.variaciones){
-
-                                            tr+="<tr><td>"+movi.variaciones[datos].asignacion+"</td><td class='center'>"+movi.variaciones[datos].horas_dias+"</td>"+
-                                                "<td class='center'>"+movi.variaciones[datos].sqm+"</td><td>"+movi.variaciones[datos].ano+"</td>"+
-                                                "<td class='center'>"+movi.variaciones[datos].fecha+"</td>"+"<td class='center'><div class=\"hidden-sm hidden-xs action-buttons\">"+
-                                                "<a href='#' class='modificar' id='"+movi.variaciones[datos].id_variacion+"'><i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"+
-                                                "<a href='#' class='eliminar' id='"+movi.variaciones[datos].id_variacion+"'><i class='ace-icon glyphicon glyphicon-remove bigger-110'></i></div></td></tr>";
-                                        }
-
-                                        tr+="<tr><td class='success'><strong>TOTAL</strong>: </td><td class='warning'><strong><p class='bg-warning'><span class=''>"+ movi.vTotal.toFixed(2) +"</span></p></strong></td></tr>";
-
-                                        $("#t_movimiento").html(th);
-                                        $("#t_movimiento").append(tr);
-                                    }else{
-                                        $("#msj").html("");
-                                        //msj si no hay movimientos
-                                        $("#t_movimiento").html("<tr><td class='center'><h3><strong>NO HAY MOVIMIENTOS<strong></h3></td></tr>");
-                                    }
-
-                                    //evalua si trabajador tiene deducciones 
-                                    if(movi.deducciones.length > 0){
-
-                                        mth = "<th class='center'>Concepto</th><th class='center'>Monto</th>";
-
-                                        var mtr = "";
-
-                                        //recorre objeto deducciones y crea las celdas de la tabla con los datos
-                                        for(datos in movi.deducciones){
-                                            var mMonto = Number(movi.deducciones[datos].monto);
-                                            mtr+="<tr><td>"+movi.deducciones[datos].deduccion+"</td>"
-                                                +"<td class=''>"+mMonto.toFixed(2)+"</td></tr>";
-                                        }
-
-                                        mtr+="<tr><td class='success'><strong>TOTAL</strong>: </td><td class='warning'><strong><p class='bg-warning'><span class=''>"+ movi.dTotal.toFixed(2)+"</span></p></strong></td></tr>";
-
-                                        $("#t_deducciones").html(mth);
-                                        $("#t_deducciones").append(mtr);
-
-
-                                        $("span.number").number(true,2,',','.');
-                                        $("#msj").html("");
-                                    }else{
-                                        $("#msj").html("");
-                                        //msj si no hay deducciones
-                                        $("#t_deducciones").html("<tr><td class='center'><h3><strong>NO HAY DEDUCCIONES<strong></h3></td></tr>");
-                                    }
-
-                                    var total = "<tr><td class='danger'><strong>TOTAL A PAGAR:</strong></td><td class='warning'><strong>"+movi.total.toFixed(2)+"</strong></td></tr>";
-                                    $("#t_total").html(total);
-                                }
-                            }else{
-                                $("#tprins").addClass("hidden");
-                                $("#movimientos").addClass("hidden");
-                                $("#deducciones").addClass("hidden");
-                                $("#t_total").addClass("hidden");
-                                $("#img").addClass("hidden");
-                                $("#dt").addClass("hidden");
-
-                                //msj si la cedula introducida no pertenece a la nomina seleccionada
-                                $("#msj").html("<div class='alert alert-block alert-danger'>La cedula introducida no existe o no pertenece a la nomina seleccionada</div>");
-                            }
-                        });
-                    }
+                    //se llama a funcion movimientos
+                    movimientos($("#cedula").val(), $("#nomina").val(), $("#sqm").val(), $("#ano").val());
+                }
             }else{
                 $("#tprins").addClass("hidden");
                 $("#movimientos").addClass("hidden")
                 $("#deducciones").addClass("hidden")
+                $("#sueldo").addClass("hidden");
                 $("#img").addClass("hidden");
                 $("#dt").addClass("hidden");
                 $("#t_total").addClass("hidden");
@@ -615,6 +666,7 @@
             }else{
                 $("#asignacion").find("input[type=checkbox]").prop("checked",false);
                 $("#asignacion").find("input[type=text]").attr("disabled",true);
+                $("#asignacion").find("input[type=text]").val("");
             }
         });
 
@@ -626,48 +678,85 @@
         $('.input-mask-cedula').mask('99999999');
         $('.input-mask-numeric').mask('9999');
 
-
+        var cont = 0;
         /**              **
                 * DIALOGO MODAL  *
                 **              **/
         $( "#guardar" ).on('click', function(e) {
             e.preventDefault();
 
-            $( "#dialog-confirm" ).removeClass('hide').dialog({
-                resizable: false,
-                width: '320',
-                modal: true,
-                title: "¡SE VAN A GUARDAR LOS DATOS!",
-                title_html: true,
-                buttons: [
-                    {
-                        html: "<i class='ace-icon glyphicon glyphicon-remove'></i>&nbsp; Confirmar",
-                        "class" : "btn btn-success btn-minier",
-                        "id":"btnConfirm",
-                        click: function() {
-                            $( this ).dialog( "close" );
-                        }
-                    }
-                    ,
-                    {
-                        html: "<i class='ace-icon fa fa-times bigger-110'></i>&nbsp; Cancelar",
-                        "class" : "btn btn-minier",
-                        click: function() {
-                            $( this ).dialog( "close" );
-                        }
-                    }
-                ]
+
+
+
+            $("#asignacion").find("input[type=text]").each(function(){
+
+                if( $(this).val() != ""){ 
+                    cont++; 
+                }            
             });
+
+            if(cont > 0){
+                $( "#dialog-confirm" ).removeClass('hide').dialog({
+                    resizable: false,
+                    width: '320',
+                    modal: true,
+                    title: "¡SE VAN A GUARDAR LOS DATOS!",
+                    title_html: true,
+                    buttons: [
+                        {
+                            html: "<i class='ace-icon glyphicon glyphicon-ok'></i>&nbsp; Confirmar",
+                            "class" : "btn btn-success btn-minier",
+                            "id":"btnConfirm",
+                            click: function() {
+                                $( this ).dialog( "close" );
+                            }
+                        }
+                        ,
+                        {
+                            html: "<i class='ace-icon fa fa-times bigger-110'></i>&nbsp; Cancelar",
+                            "class" : "btn btn-minier",
+                            click: function() {
+                                $( this ).dialog( "close" );
+                            }
+                        }
+                    ]
+                });
+                cont=0;
+            }else{
+                $( "#vacios" ).removeClass('hide').dialog({
+                    resizable: false,
+                    width: '320',
+                    modal: true,
+                    title: "CAMPOS VACIOS...",
+                    title_html: true,
+                    buttons: [
+                        {
+                            html: "<i class='ace-icon glyphicon glyphicon-ok'></i>&nbsp; Aceptar",
+                            "class" : "btn btn-success btn-minier",
+                            "id":"",
+                            click: function() {
+                                $( this ).dialog( "close" );
+                            }
+                        }
+                    ]
+                });
+            }
+
+
+
         });
 
         $( "body" ).on('click','.modificar', function(e) {
             e.preventDefault();
 
+            //almacena el id de la variacion a modificar
+            $("#id_var").val($(this).attr("id"));
+
             $( "#modificar" ).removeClass('hide').dialog({
                 resizable: false,
                 width: '320',
                 modal: true,
-                title: "INTRODUZCA CANTIDAD",
+                title: "¡INTRODUZCA CANTIDAD!",
                 title_html: true,
                 buttons: [
                     {
@@ -675,7 +764,13 @@
                         "class" : "btn btn-success btn-minier",
                         "id":"btnModif",
                         click: function() {
-                            $( this ).dialog( "close" );
+                            if($("#movimiento").val() != 0 && $("#movimiento").val() != ""){
+                                $("#dMsj").html("");
+                                $( this ).dialog( "close" );
+                            }else{
+                                $("#dMsj").html("<p>Debe introducir un valor diferente de  cero (0)</p>")
+                                $("#movimiento").focus();
+                            }
                         }
                     }
                     ,
@@ -683,15 +778,23 @@
                         html: "<i class='ace-icon fa fa-times bigger-110'></i>&nbsp; Cancelar",
                         "class" : "btn btn-minier",
                         click: function() {
+                            $("#dMsj").html("");
+                            $("#movimiento").val("");
                             $( this ).dialog( "close" );
+
                         }
                     }
                 ]
             });
+            var a = $("#btnModif").parent().parent().parent().children().find(".ui-dialog-titlebar-close");
+            $(a).remove();
         });
-        
+
         $( "body" ).on('click','.eliminar', function(e) {
             e.preventDefault();
+
+            //almacena el id de la variacion a eliminar
+            $("#id_var").val($(this).attr("id"));
 
             $( "#eliminar" ).removeClass('hide').dialog({
                 resizable: false,
@@ -703,7 +806,7 @@
                     {
                         html: "<i class='ace-icon glyphicon glyphicon-remove'></i>&nbsp; Eliminar",
                         "class" : "btn btn-success btn-minier",
-                        "id":"btnModif",
+                        "id":"btnElim",
                         click: function() {
                             $( this ).dialog( "close" );
                         }
@@ -729,7 +832,7 @@
                     **ACCION DEL BOTON CONFIRMAR DEL DIALOGO MODAL
                     **
                     **/
-        $("#btnConfirm").click(function(){
+        $("body").on('click','#btnConfirm',function(){
 
             var nomina = $("#nomina").val();
             var ano = $("#ano").val();
@@ -745,7 +848,7 @@
                 if($(this).val() != ""){
                     valor = $(this).val();
                     asigs[name] = $(this).val();
-                    // alert (name +"="+ asigs[name]);
+                    //alert (name +"="+ asigs[name]);
                 }
 
             });
@@ -763,26 +866,30 @@
                 var msj_error = "Variaciones no procesadas por falla en la ejecucion de la formula";
 
                 var tr = "";
-
+                
                 //alert(res.msj_exito);
                 if(res != ""){
                     if(res.msj_exito != ""){
                         $("#msj_exito").html(msj_exito).removeClass("hidden");
+                    }else{
+                        $("#msj_exito").html(msj_exito).addClass("hidden"); 
                     }
-                    if(res.msj_error){
-                        //alert("lleno");
+                    if(res.msj_error.length > 0){
                         var cont = 0;
                         for (datos in res.msj_error){
-                            tr+= "<tr><td>"+datos+"</td><td>"+res.msj_error[datos]+"</td></tr>"
+                            tr+= "<tr><td>"+res.msj_error[datos].asignacion+"</td><td>"+res.msj_error[datos].formula+"</td></tr>"
                             cont++;
                         }
-                        if(cont > 0){
+
                             $("#msj_error").removeClass("hidden");
-                        }
+ 
+                    }else{
+                        $("#msj_error").addClass("hidden");
                     }
                 }
 
-                $("#t_errors").append(tr);
+                $("#t_errors tbody").html(tr);
+                $("#cedula").val("").focus();
 
             });
 
@@ -795,6 +902,39 @@
                 $("#msj_exito").addClass("hidden").html("");
                 $("#t_errors").html("");
                 $("#msj_error").addClass("hidden");
+            });
+        });
+
+        $("body").on('click','#btnModif',function(e){
+            if($("#movimiento").val() >= 0 && $("#movimiento").val() != ""){
+                $.post("../movimientos/modificar", { "id" : $("#id_var").val(), "valor" : $("#movimiento").val(), "sd" : $("#sd").val(), "cedula" : $("#ttcedula").val() }, function(data){
+
+                    var res = JSON.parse(data);
+
+                    if(res.msj == "OK"){
+                        movimientos($("#cedula").val(), $("#nomina").val(), $("#sqm").val(), $("#ano").val());
+                        $("#movimiento").val("");
+                    }else{
+                        var error= "Se ha producido un ERROR";
+                        alert(error);
+                    }
+                });
+            }
+        });
+
+        $("body").on('click','#btnElim',function(e){
+
+            $.post("../movimientos/eliminar", { "id" : $("#id_var").val()}, function(data){
+
+                var res = JSON.parse(data);
+
+                if(res.msj == "OK"){
+                    movimientos($("#cedula").val(), $("#nomina").val(), $("#sqm").val(), $("#ano").val());
+                    $("#movimiento").val("");
+                }else{
+                    var error= "Se ha producido un ERROR";
+                    alert(error);
+                }
             });
         });
     });

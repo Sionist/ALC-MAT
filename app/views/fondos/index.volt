@@ -17,9 +17,6 @@
 {{ submit_button("Guardar", "class":"btn btn-primary") }}
 {{ endForm() }}
 
-<!-- fin  Formulario para agregar discapacidad -->
-
-<!-- tabla para mostrar todos los registros de la tabla-->
  
 <div class="row">
                                     <div class="col-xs-12">
@@ -30,10 +27,6 @@
                                         <div class="table-header">
                                             Resultados por "Fondos"
                                         </div>
-
-                                        <!-- div.table-responsive -->
-
-                                        <!-- div.dataTables_borderWrap -->
                                         
                                         <table id="dynamic-table" class="table table-striped table-bordered table-hover">
                                         <thead>

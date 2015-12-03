@@ -1,23 +1,27 @@
 <?php
 class MovimientosController extends \Phalcon\Mvc\Controller
 {
-    public function initialize(){
+    public function initialize()
+    {
         $this->view->setTemplateAfter("blank");
     }
+
     public function indexAction()
     {
         //llama la vista index
     }
+
     /**
      * @return null
      */
-    public function buscarAction(){
+    public function buscarAction()
+    {
         $cedula = $this->request->getPost("cedula");
-        $nomina= $this->request->getPost("nomina");
-        $sqm= $this->request->getPost("sqm");
-        $ano= $this->request->getPost("ano");
+        $nomina = $this->request->getPost("nomina");
+        $sqm = $this->request->getPost("sqm");
+        $ano = $this->request->getPost("ano");
 
-        if($cedula){
+        if ($cedula) {
 
             $dt = $this->modelsManager->createBuilder()
                 ->from("Datoscontratacion")
@@ -33,17 +37,17 @@ class MovimientosController extends \Phalcon\Mvc\Controller
             $variaciones = $this->modelsManager->createBuilder()
                 ->from("Variaciones")
                 ->join("NbAsignaciones")
-                ->columns("NbAsignaciones.asignacion, Variaciones.horas_dias, Variaciones.ano, Variaciones.sqm, Variaciones.fecha, Variaciones.id_variacion, Variaciones.monto")
-                ->where("Variaciones.nu_cedula = :cedula: and Variaciones.sqm = :sqm: and Variaciones.ano = :ano:" , array("cedula" => $cedula, "sqm" => $sqm, "ano" => $ano))
+                ->columns("NbAsignaciones.asignacion, Variaciones.horas_dias, Variaciones.ano, Variaciones.sqm, DATE_FORMAT(Variaciones.fecha, '%d-%m-%y') as fecha, Variaciones.id_variacion, Variaciones.monto")
+                ->where("Variaciones.nu_cedula = :cedula: and Variaciones.sqm = :sqm: and Variaciones.ano = :ano:", array("cedula" => $cedula, "sqm" => $sqm, "ano" => $ano))
                 ->getQuery()
                 ->execute()
                 ->toArray();
 
             $vTotal = 0;
 
-            for($i=0;$i<count($variaciones);$i++){
-                foreach($variaciones[$i] as $k => $v){
-                    if($k=="monto"){
+            for ($i = 0; $i < count($variaciones); $i++) {
+                foreach ($variaciones[$i] as $k => $v) {
+                    if ($k == "monto") {
                         $vTotal = $vTotal + $v;
                     }
                 }
@@ -56,7 +60,7 @@ class MovimientosController extends \Phalcon\Mvc\Controller
                                                         NbDeducciones
                                                         INNER JOIN TrabajoDedu ON TrabajoDedu.id_trabajo_dedu = NbDeducciones.id_deduccion
                                                         WHERE
-                                                        TrabajoDedu.nu_cedula = $cedula",$this->getDI());
+                                                        TrabajoDedu.nu_cedula = $cedula", $this->getDI());
 
             $sbT = $this->modelsManager->createBuilder()
                 ->from("Cargos")
@@ -79,9 +83,9 @@ class MovimientosController extends \Phalcon\Mvc\Controller
             $sb = "";
 
             //se divide el sueldo dependiendo de la frencuencia de la nomina
-            if(count($sbT)>0) {
+            if (count($sbT) > 0) {
                 if ($frecNomi[0]["frecuencia"] == "semanal") {
-                    $sb = $sbT[0]["sueldo"] / 4;
+                    $sb = ($sbT[0]["sueldo"] / 30)*7;
                 } elseif ($frecNomi[0]["frecuencia"] == "quincenal") {
                     $sb = $sbT[0]["sueldo"] / 2;
                 } else {
@@ -103,10 +107,10 @@ class MovimientosController extends \Phalcon\Mvc\Controller
 
             //variable q almacena el nombre de la deduccion
             //recorre deducciones segun indice numerico
-            for($i = 0; $i < count($deducciones); $i++) {
+            for ($i = 0; $i < count($deducciones); $i++) {
                 foreach ($deducciones[$i] as $k => $v) {
                     //se anexa array con indice numerico
-                    if($k == "nb_deduccion"){
+                    if ($k == "nb_deduccion") {
                         $deducsCal[$i]["deduccion"] = $v;
                     }
                     //se calcula el monto de deduccion con base en sueldo segun nomina
@@ -115,10 +119,10 @@ class MovimientosController extends \Phalcon\Mvc\Controller
                         $f["formula"] = $v;
                         $t = $calcular->calcular($d, $f);
                         //si monto es numerico se asigna monto a deduccion correspondiente
-                        if(is_numeric($t)) {
+                        if (is_numeric($t)) {
                             $deducsCal[$i]["monto"] = $t;
                             $dTotal = $dTotal + $t;
-                        }else{
+                        } else {
                             $deducsCal[$i]["monto"] = "Error de formula";
                         }
                     }
@@ -127,7 +131,7 @@ class MovimientosController extends \Phalcon\Mvc\Controller
 
             $total = $sb + $vTotal - $dTotal;
 
-            if(count($dt) > 0){
+            if (count($dt) > 0) {
                 $this->view->disable();
                 $this->response->setJsonContent(array(
                     "variaciones" => $variaciones,
@@ -138,15 +142,117 @@ class MovimientosController extends \Phalcon\Mvc\Controller
                     "sb" => $sb,
                     "total" => $total
                 ));
-                $this->response->setStatusCode(200,"OK");
+                $this->response->setStatusCode(200, "OK");
                 $this->response->send();
-            }else{
+            } else {
                 $this->view->disable();
                 //return null;
             }
-        }else{
+        } else {
             $this->view->disable();
             return null;
         }
+    }
+
+    public function modificarAction()
+    {
+        $id = $this->request->getPost("id");
+        $valor = $this->request->getPost("valor");
+        $cedula = $this->request->getPost("cedula");
+
+        if ($id && $valor) {
+
+            $formula = $this->modelsManager->createBuilder()
+                ->from("NbAsignaciones")
+                ->join("Variaciones")
+                ->columns("NbAsignaciones.formula")
+                ->where("Variaciones.id_variacion = :id:", array("id" => $id))
+                ->getQuery()
+                ->execute()
+                ->toArray();
+
+            $SD = $this->modelsManager->createBuilder()
+                ->from("Datoscontratacion")
+                ->join("Cargos")
+                ->columns("sueldo")
+                ->where("nu_cedula=:cedula:", array("cedula" => $cedula))
+                ->getQuery()
+                ->execute();
+
+            $sd = "";
+            foreach ($SD as $ssd) {
+                $sd = ($ssd->sueldo) / 30;
+            }
+
+            $sdd["sd"] = $sd;
+            $sdd["v"] = $valor;
+
+            $calcular = new VariacionesController();
+
+            $resultado = $calcular->calcular($sdd, $formula[0]);
+
+            $variacion = Variaciones::findFirstByIdVariacion($id);
+
+            $msj = "OK";
+
+            if ($variacion) {
+
+                if (is_numeric($resultado)) {
+                    $variacion->setHorasDias($valor);
+                    $variacion->setMonto($resultado);
+
+                    if (!$variacion->save()) {
+                        foreach ($variacion->getMessages() as $message) {
+                            $this->flash->error($message);
+                        }
+                        $msj = "NO";
+                    }else{
+                        $msj = "OK";
+                    }
+                }else{
+                    $msj = "NO";
+                }
+            }else {
+                $msj = "NO";
+            }
+
+            $this->view->disable();
+            //envia un JSON con los datos de las consultas en forma de array
+            $this->response->setJsonContent(array(
+                "msj" => $msj
+            ));
+
+            $this->response->setStatusCode(200, "OK");
+            $this->response->send();
+        }
+    }
+
+    public function eliminarAction(){
+        $id = $this->request->getPost("id");
+
+        $msj = "";
+        if($id) {
+            $variacion = Variaciones::findFirstByIdVariacion($id);
+
+            if (!$variacion->delete()) {
+                foreach ($variacion->getMessages() as $message) {
+                    $this->flash->error($message);
+                }
+                $msj = "NO";
+            }else{
+                $msj="OK";
+            }
+        }else{
+            $msj = "NO";
+        }
+
+        $this->view->disable();
+        //envia un JSON con los datos de las consultas en forma de array
+        $this->response->setJsonContent(array(
+            "msj" => $msj
+        ));
+
+        $this->response->setStatusCode(200, "OK");
+        $this->response->send();
     }
 }

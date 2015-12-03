@@ -17,13 +17,13 @@ class NbEmbargos extends \Phalcon\Mvc\Model
 
     /**
      *
-     * @var integer
+     * @var string
      */
     protected $porcentaje_emb;
 
     /**
      *
-     * @var integer
+     * @var string
      */
     protected $num_exp;
 
@@ -35,19 +35,7 @@ class NbEmbargos extends \Phalcon\Mvc\Model
 
     /**
      *
-     * @var integer
-     */
-    protected $ci_bene;
-
-    /**
-     *
      * @var string
-     */
-    protected $nombres;
-
-    /**
-     *
-     * @var integer
      */
     protected $tribunal;
 
@@ -86,7 +74,7 @@ class NbEmbargos extends \Phalcon\Mvc\Model
     /**
      * Method to set the value of field porcentaje_emb
      *
-     * @param integer $porcentaje_emb
+     * @param string $porcentaje_emb
      * @return $this
      */
     public function setPorcentajeEmb($porcentaje_emb)
@@ -99,7 +87,7 @@ class NbEmbargos extends \Phalcon\Mvc\Model
     /**
      * Method to set the value of field num_exp
      *
-     * @param integer $num_exp
+     * @param string $num_exp
      * @return $this
      */
     public function setNumExp($num_exp)
@@ -123,35 +111,9 @@ class NbEmbargos extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Method to set the value of field ci_bene
-     *
-     * @param integer $ci_bene
-     * @return $this
-     */
-    public function setCiBene($ci_bene)
-    {
-        $this->ci_bene = $ci_bene;
-
-        return $this;
-    }
-
-    /**
-     * Method to set the value of field nombres
-     *
-     * @param string $nombres
-     * @return $this
-     */
-    public function setNombres($nombres)
-    {
-        $this->nombres = $nombres;
-
-        return $this;
-    }
-
-    /**
      * Method to set the value of field tribunal
      *
-     * @param integer $tribunal
+     * @param string $tribunal
      * @return $this
      */
     public function setTribunal($tribunal)
@@ -197,7 +159,7 @@ class NbEmbargos extends \Phalcon\Mvc\Model
     /**
      * Returns the value of field porcentaje_emb
      *
-     * @return integer
+     * @return string
      */
     public function getPorcentajeEmb()
     {
@@ -207,7 +169,7 @@ class NbEmbargos extends \Phalcon\Mvc\Model
     /**
      * Returns the value of field num_exp
      *
-     * @return integer
+     * @return string
      */
     public function getNumExp()
     {
@@ -225,29 +187,9 @@ class NbEmbargos extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Returns the value of field ci_bene
-     *
-     * @return integer
-     */
-    public function getCiBene()
-    {
-        return $this->ci_bene;
-    }
-
-    /**
-     * Returns the value of field nombres
-     *
-     * @return string
-     */
-    public function getNombres()
-    {
-        return $this->nombres;
-    }
-
-    /**
      * Returns the value of field tribunal
      *
-     * @return integer
+     * @return string
      */
     public function getTribunal()
     {
@@ -271,8 +213,7 @@ class NbEmbargos extends \Phalcon\Mvc\Model
     {
         $this->hasMany('id_embargo', 'Recibos', 'id_embargo', array('alias' => 'Recibos'));
         $this->belongsTo('id_fondo', 'FondoDesc', 'id_fondo', array('alias' => 'FondoDesc'));
-        $this->hasMany('id_embargo', 'Recibos', 'id_embargo', NULL);
-        $this->belongsTo('id_fondo', 'Fondodesc', 'id_fondo', array('foreignKey' => true));
+		$this->hasMany('nu_cedula', 'Beneficiados', 'nu_cedula', array('alias' => 'Beneficiados'));
     }
 
     /**
@@ -305,6 +246,25 @@ class NbEmbargos extends \Phalcon\Mvc\Model
     public static function findFirst($parameters = null)
     {
         return parent::findFirst($parameters);
+    }
+
+    /**
+     * Independent Column Mapping.
+     * Keys are the real names in the table and the values their names in the application
+     *
+     * @return array
+     */
+    public function columnMap()
+    {
+        return array(
+            'id_embargo' => 'id_embargo',
+            'nu_cedula' => 'nu_cedula',
+            'porcentaje_emb' => 'porcentaje_emb',
+            'num_exp' => 'num_exp',
+            'id_fondo' => 'id_fondo',
+            'tribunal' => 'tribunal',
+            'f_emb' => 'f_emb'
+        );
     }
 
 }

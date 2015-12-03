@@ -10,7 +10,16 @@ class TrabajadoresController extends \Phalcon\Mvc\Controller
 	
     public function indexAction()
     {
-    	$trabajador = Datospersonales::find();
+    	/*$trabajador = Datospersonales::find();*/
+
+        $trabajador = $this->modelsManager->createBuilder()
+            ->from("Datospersonales")
+            ->join("Datoscontratacion","Datospersonales.nu_cedula = Datoscontratacion.nu_cedula")
+            ->join("TipoNomi", "Datoscontratacion.tipo_nom = TipoNomi.id_nomina")
+            ->columns("Datospersonales.nu_cedula,Datospersonales.nombre1,Datospersonales.apellido1,TipoNomi.nomina")
+            ->getQuery()
+            ->execute();
+
         $this->view->setVar("trabajadores", $trabajador);
 
     }
@@ -22,8 +31,6 @@ class TrabajadoresController extends \Phalcon\Mvc\Controller
 
     public function ficha1Action($cedula)
     {
-
-        
         //buscar todos los registro por numero de cedula
         $dtrabajador = Datospersonales::findFirstByNuCedula($cedula);
         $dcontra = Datoscontratacion::findFirstByNuCedula($cedula);

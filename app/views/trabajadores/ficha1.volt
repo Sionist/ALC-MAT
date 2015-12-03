@@ -76,7 +76,7 @@
                                                     <span class="line-height-1 smaller-90"> Variación </span>
                                                 </span>
 
-                                                <span class="btn btn-app btn-sm btn-pink no-hover">
+                                                <span class="btn btn-app btn-sm btn-warning no-hover">
                                                     <span class="line-height-1 bigger-170"> <i class="ace-icon fa fa-fighter-jet "></i> </span>
 
                                                     <br />
@@ -89,24 +89,36 @@
                                                     <br />
                                                     <span class="line-height-1 smaller-90">Familiar </span>
                                                 </span></a>
-
-                                                
-                                                <button class="btn btn-app btn-sm btn-success no-hover">
-                                                    <span class="line-height-1 bigger-170"> <i class="ace-icon fa fa-heart "></i> </span>
+												
+												
+												<a href="http://<?php echo $_SERVER['HTTP_HOST']; echo dirname($_SERVER['PHP_SELF']);?>/reposos/index/<?php echo $dtrabajador->nu_cedula;?>"><span class="btn btn-app btn-sm btn-success no-hover">
+                                                   <span class="line-height-1 bigger-170"> <i class="ace-icon fa fa-heart "></i> </span>
 
                                                     <br />
-                                                    <?php echo $this->tag->linkTo(array("Reposos/index/".$dtrabajador->nu_cedula, "<span class=line-height-1 smaller-90\"> Reposos </span>"))  ?>
+                                                    <span class="line-height-1 smaller-90">Reposos </span>
+                                                </span></a>
 
-                                                    
-                                                </button>
+                                                
+                                                <a title="Embargos" href="http://<?php echo $_SERVER['HTTP_HOST']; echo dirname($_SERVER['PHP_SELF']);?>/embargos/index/<?php echo $dtrabajador->nu_cedula;?>"><span class="btn btn-app btn-sm btn-danger no-hover">
+                                                   <span class="line-height-1 bigger-170"> <i class="ace-icon fa fa-gavel "></i> </span>
 
-                                                <button class="btn btn-app btn-danger btn-sm no-hover">
-                                                    <i class="ace-icon fa fa-gavel bigger-200"></i>
-                                                        <?php echo $this->tag->linkTo(array("Embargos/index/".$dtrabajador->nu_cedula)) ?>
-                                                            Embargos
-                                                </button>
+                                                    <br />
+                                                    <span class="line-height-1 smaller-90">Embargos </span>
+                                                </span></a>
+												
+												
+												
+												<a title="Asignaciones y Deducciones" href="http://<?php echo $_SERVER['HTTP_HOST']; echo dirname($_SERVER['PHP_SELF']);?>/asigsdeducstrabajador/cargar/<?php echo $dtrabajador->nu_cedula;?>"><span class="btn btn-app btn-sm btn-primary no-hover">
+                                                   <span class="line-height-1 bigger-170"> <i class="ace-icon fa fa-money "></i> </span>
 
-                                                <?php echo $this->tag->linkTo("./asigsdeducstrabajador/cargar/$dtrabajador->nu_cedula","Asignaciones y Deducciones");?>                                         
+                                                    <br />
+                                                    <span class="line-height-1 smaller-90">Asig./Ded. </span>
+                                                </span></a>
+												
+												
+												
+                    
+                                                                                    
                                             </div>
                                     
                                             
@@ -116,10 +128,23 @@
                                                     <div class="row">
                                                         <div class="col-xs-12 col-sm-3 center">
                                                             <span class="profile-picture">
-                                                            
+                                                            <?php
                                                            
+														   if ($dtrabajador->foto_p == null) {
+														   ?>
+														    <img id="avatar" class="editable img-responsive" title="No tiene Foto" src="../../public/img/sinfoto.png" />
+                                                          <?php														  
+														  }
+														   else{
+														   ?>
                                                             <img id="avatar" class="editable img-responsive" title="<?php echo $dtrabajador->nombre1." ".$dtrabajador->apellido1; ?>" src="../../public/empleados/fotos/<?php echo $dtrabajador->foto_p; ?>" />
-                                                           <!--  {{ image("public/empleados/fotos/<?php echo $dtrabajador->foto_p;?>", "id": "avatar", "class": "editable img-responsive") }} --><a href="http://<?php echo $_SERVER['HTTP_HOST']; echo dirname($_SERVER['PHP_SELF']);?>/empleados/subir_foto.php?ced=<?php echo $dtrabajador->nu_cedula; ?>" target="popup" onClick="window.open(this.href, this.target, 'width=500,height=400'); return false;">Cambiar/Actualizar Foto</a>
+                                                           
+														   <?php
+														   
+														   }
+														   ?>
+														   
+														    <a href="http://<?php echo $_SERVER['HTTP_HOST']; echo dirname($_SERVER['PHP_SELF']);?>/empleados/subir_foto.php?ced=<?php echo $dtrabajador->nu_cedula; ?>" target="popup" onClick="window.open(this.href, this.target, 'width=500,height=400'); return false;">Cambiar/Actualizar Foto</a>
                                                             </span>
 
                                                         </div><!-- /.col -->
@@ -154,9 +179,26 @@
                                                                     <div class="profile-info-name"> Genero </div>
 
                                                                     <div class="profile-info-value">
-                                                                        <span><?php echo $dtrabajador->genero;?></span>
+                                                                        <span><?php 
+																		
+																		
+																		if ($dtrabajador->genero == 1) {
+																		
+																		echo "Masculino <i class='ace-icon fa fa-male bigger-150 blue'></i>";
+																		
+																		}
+																		if ($dtrabajador->genero == 2) {
+																		
+																		echo "Femenino <i class='ace-icon fa fa-female bigger-150 pink'></i>";
+																		
+																		}
+																		
+			
+																		?></span>
                                                                     </div>
                                                                 </div>
+																
+																
 
                                                                 <div class="profile-info-row">
                                                                     <div class="profile-info-name"> Lugar de Nacimiento </div>
@@ -165,12 +207,55 @@
                                                                         <span><?php echo $ciudad1->ciudad;?></span>
                                                                     </div>
                                                                 </div>
+                                                            
+															
+															    <div class="profile-info-row">
+                                                                    <div class="profile-info-name"> Fecha de Nacimiento </div>
 
+                                                                    <div class="profile-info-value">
+                                                                        <span><?php echo date('d-m-Y',strtotime($dtrabajador->f_nac));?></span>
+                                                                    </div>
+                                                                </div>
                                                                 <div class="profile-info-row">
                                                                     <div class="profile-info-name"> Edad </div>
 
                                                                     <div class="profile-info-value">
-                                                                        <span><?php echo $dtrabajador->f_nac;?></span>
+                                                                        <span>
+																		
+																		<?php
+
+
+$dia=date(j);
+$mes=date(n);
+$ano=date(Y);
+
+$dianaz=date('d',strtotime($dtrabajador->f_nac));
+$mesnaz=date('m',strtotime($dtrabajador->f_nac));
+$anonaz=date('Y',strtotime($dtrabajador->f_nac));
+ 
+//si el mes es el mismo pero el día inferior aun no ha cumplido años, le quitaremos un año al actual
+ 
+if (($mesnaz == $mes) && ($dianaz > $dia)) {
+$ano=($ano-1); }
+ 
+//si el mes es superior al actual tampoco habrá cumplido años, por eso le quitamos un año al actual
+ 
+if ($mesnaz > $mes) {
+$ano=($ano-1);}
+ 
+//ya no habría mas condiciones, ahora simplemente restamos los años y mostramos el resultado como su edad
+ 
+$edad=($ano-$anonaz);
+
+
+echo $edad; 
+
+
+
+?>
+																		
+																	
+																		</span>
                                                                     </div>
                                                                 </div>
 
@@ -445,9 +530,7 @@
                 });
             
             
-                
-            
-                
+
                 
                 
                 // *** editable avatar *** //

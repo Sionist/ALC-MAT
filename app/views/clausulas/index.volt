@@ -16,7 +16,6 @@
    "required" => "required"
    ))
    
-
 ?>
 
 {{ text_field("nclausula", "class":"form-control", "required":"required", "placeholder":"N° de Cláusula")}}

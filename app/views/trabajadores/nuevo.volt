@@ -539,10 +539,6 @@ use Phalcon\Forms\Element\Select ?>
                     nu_cedula: {
                         required: true,
                     },
-                    correo_e: {
-                        required: true,
-                        email:true
-                    },
                     nombre1: {
                         required: true
                     },
@@ -557,10 +553,6 @@ use Phalcon\Forms\Element\Select ?>
                     },
                     lugar_nac: {
                         required: true
-                    },
-                    telf_cel: {
-                        required: true,
-                        phone: 'required'
                     },
                     dir_hab: {
                         required: true

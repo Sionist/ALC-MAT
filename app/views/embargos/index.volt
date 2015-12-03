@@ -1,3 +1,22 @@
+
+		{{ stylesheet_link("css/datepicker.css") }}
+        {{ stylesheet_link("css/bootstrap-timepicker.css") }}
+        {{ stylesheet_link("css/daterangepicker.css") }}
+        {{ stylesheet_link("css/bootstrap-datetimepicker.css") }}
+        {{ stylesheet_link("css/colorpicker.css") }}
+		
+        {{ javascript_include("js/bootstrap.js") }}
+        {{ javascript_include("js/dataTables/jquery.dataTables.js") }}
+        {{ javascript_include("js/dataTables/jquery.dataTables.bootstrap.js") }}
+        {{ javascript_include("js/dataTables/extensions/TableTools/js/dataTables.tableTools.js") }}
+        {{ javascript_include("js/dataTables/extensions/ColVis/js/dataTables.colVis.js") }}
+		
+        {{ javascript_include("js/date-time/bootstrap-datepicker.js") }}
+        {{ javascript_include("js/date-time/bootstrap-timepicker.js") }}
+        {{ javascript_include("js/date-time/moment.js") }}
+        {{ javascript_include("js/date-time/daterangepicker.js") }}
+        {{ javascript_include("js/date-time/bootstrap-datetimepicker.js") }}
+        
 <?php 
 use Phalcon\Mvc\View;
 use Phalcon\Tag; 
@@ -7,31 +26,55 @@ use Phalcon\Forms\Element\Select ?>
 <div id="page-wrapper">
 
 
-
-<!-- tabla para mostrar todos los registros de la tabla-->
  
 <div class="row">
 
 
-<?php echo $this->tag->linkTo(array("trabajadores/nuevo/","<i class='ace-icon fa fa-users bigger-160'></i>nuevo","class"=>"btn btn-app btn-primary btn-xs", ""))  ?>
+<!-- /*<?php echo $this->tag->linkTo(array("reposos/nuevo/","<i class='ace-icon fa fa-users bigger-160'></i>Nuevo","class"=>"btn btn-app btn-primary btn-xs", ""))  ?>*/-->
+
+	{{ form("embargos/guardar", "method":"post", "autocomplete": "off", "class":"form-inline")}}
 
 
+	
 
-
-                                    <div class="col-xs-12">
-
-
-                                        
-                                      		<div class="clearfix">
+	<div class="col-xs-12">
+      
+   		<div class="clearfix">
 			<div class="pull-right tableTools-container"></div>
 		</div>
-                                        <div class="table-header">
-                                            Listado de Trabajadores
-                                        </div>
+        
+        <div class="table-header">
+            Embargos al Trabajador: <?php echo $nombre1."  ".$apellido1 ?> Cédula Identidad: <?php echo "  ".$nu_cedula ?>
+        </div>
 
-                                        <!-- div.table-responsive -->
+        	{{ content() }}
 
-                                        <!-- div.dataTables_borderWrap -->
+        	{{ hidden_field("ncedula", "class":"form-control") }}
+
+        	{{ text_field("Tribunal", "class":"form-control", "required":"required", "placeholder":"Tribunal" )}}
+
+        	{{ text_field("nexp", "class":"form-control", "required":"required", "placeholder":"Número Expediente")}}
+
+        	{{ text_field("fdictamen", "type":"date", "class":"form-control date-picker", "data-date-format":"yyyy-mm-dd", "required":"required", "placeholder":"Fecha Dictamen") }}<i class="fa fa-calendar bigger-110"></i>
+
+        	{{ text_field("porcentaje", "class":"form-control", "required":"required", "placeholder":"Porcentaje Descuento" )}}
+
+			<?php
+				echo $this->tag->select(array(
+   				'concepto',
+   				FondoDesc::find(array('order' => 'id_fondo ASC')),
+   				'using' => array('id_fondo', "fondo"),
+   				'useEmpty' => true,
+   				'emptyText' => 'Seleccione Concepto de Embargo...',
+   				"class" => "form-control",
+   				"required" => "required"
+   				))
+   			?>
+        	
+
+        	{{ submit_button("Guardar", "class":"btn btn-primary") }}
+        	{{ endForm() }}
+        	
                                         
                                         <table id="dynamic-table" class="table table-striped table-bordered table-hover">
                                         <thead>
@@ -39,9 +82,11 @@ use Phalcon\Forms\Element\Select ?>
                                                 <th class="center">
                                                 N°
                                                 </th>
-                                                <th>C&eacute;dula</th>
-												<th>Nombre</th>
-                                                <th>Nomina</th>
+                                                <th>Tribunal</th>
+												<th>N° Expediente</th>
+												<th>Fecha Dictamen</th>
+												<th>Porcentaje a Descontar</th>
+												<th>Concepto Descuento</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
@@ -49,25 +94,29 @@ use Phalcon\Forms\Element\Select ?>
                                         <tbody>
                                             <?php
                                             $numerito=1;
-                                            foreach($trabajadores as $row) {
+                                            foreach($embargos as $row) {
                                             ?>
                                             <tr>
                                                 <td class="center">
                                                     <label class="pos-rel">
                                                     <?php 
-                                                    echo $numerito;
-                                                    $numerito++;
+                                                    	echo $numerito;
+                                                    	$numerito++;
                                                     ?>
                                                     <span class="lbl"></span>
                                                     </label>
                                                 </td>
-												<td><span><?php echo $row->nu_cedula; ?></span></td>
-                                                <td><span style="text-transform: capitalize;"><?php echo $row->nombre1." ".$row->apellido1; ?></span></td>
-                                                <td><span style="text-transform: capitalize;"><?php echo $row->nomina; ?></span></td>
-                                                        
+
+												<td><span><?php echo $row->tribunal ?></span></td>
+												<td><span><?php echo $row->num_exp ?></span></td>
+												<td><span><?php echo $row->f_emb ?></span></td>
+												<td><span><?php echo $row->porcentaje_emb ?></span></td>
+												<td><span><?php echo $row->fondo ?></span></td>
+
                                                 <td>
                                                     <div class="hidden-sm hidden-xs action-buttons">
-                                                    <?php echo $this->tag->linkTo(array("trabajadores/editar/".$row->nu_cedula, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"))  ?> <?php echo $this->tag->linkTo(array("trabajadores/ficha1/".$row->nu_cedula, "<i class='ace-icon fa fa-search-plus bigger-130'></i>"))  ?>
+                                                    <?php echo $this->tag->linkTo(array("embargos/editar/".$row->id_embargo, "<i class='ace-icon fa fa-pencil-square-o 
+                                                    	bigger-110'></i>"))  ?> <?php echo $this->tag->linkTo(array("trabajadores/ficha1/".$row->nu_cedula, "<i class='ace-icon fa fa-search-plus bigger-130'></i>"))  ?>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -83,53 +132,69 @@ use Phalcon\Forms\Element\Select ?>
                                 <!-- fin tabla para mostrar todos los registros de la tabla-->
 
     <!-- modal -->
+
+
+
     <div id="dialog-message" class="hide"></div>
 
         
- 	{{ javascript_include("js/bootstrap.js") }}
-		 {{ javascript_include("js/dataTables/jquery.dataTables.js") }}
-		{{ javascript_include("js/dataTables/jquery.dataTables.bootstrap.js") }}
-		{{ javascript_include("js/dataTables/extensions/TableTools/js/dataTables.tableTools.js") }}
-		{{ javascript_include("js/dataTables/extensions/ColVis/js/dataTables.colVis.js") }}
+ 		<!--{{ javascript_include("js/bootstrap.js") }}-->
+		<!--{{ javascript_include("js/dataTables/jquery.dataTables.js") }}-->
+		<!--{{ javascript_include("js/dataTables/jquery.dataTables.bootstrap.js") }}-->
+		<!--{{ javascript_include("js/dataTables/extensions/TableTools/js/dataTables.tableTools.js") }}-->
+		<!--{{ javascript_include("js/dataTables/extensions/ColVis/js/dataTables.colVis.js") }}-->
 		
 <script type="text/javascript">
 $(document).ready(function()
 {
 
-	$(document).ready(function() {
-        $('#stream_table').dataTable({
-            "bJQueryUI": true,
-            "sPaginationType": "full_numbers",
-            "aaSorting": [[ 0, "asc" ]]
-        }
-       );
-    });
-
-  $("#estado").on("change", function()
-   {
-    var id_estado = $("#estado option:selected").attr("value");
 	
-	$.get("<?php echo $this->url->get('ciudades/getCiudades') ?>", {"estado":id_estado}, function(data)
-	  {
-	  
-	   var ciud ="";
-	   
-	   var ciuda = JSON.parse(data);
-	   
-	   ciud += "<option value='0'>Seleccione Ciudad</option>";
-	   
-	   for(datos in ciuda.ciud)
-	    {
-		ciud += '<option value="'+ciuda.ciud[datos].id_ciudad+'">'+
-		ciuda.ciud[datos].ciudad.
-		toUpperCase()+'</option>';
-		}
-		
-		$('#cargar_ciudad').html(ciud);
-		});
-		
-		});
-		
+                // ------------------CALENDARIO PARA FECHAS --------------------
+
+                //datepicker plugin
+                //link
+                $('.date-picker').datepicker({
+                    autoclose: true,
+                    todayHighlight: true,
+                    changeYear: true
+                })
+                //show datepicker when clicking on the icon
+                .next().on(ace.click_event, function(){
+                    $(this).prev().focus();
+                });
+            
+                //or change it into a date range picker
+                $('.input-daterange').datepicker({autoclose:true});
+            
+            
+                //to translate the daterange picker, please copy the "examples/daterange-fr.js" contents here before initialization
+                $('input[name=date-range-picker]').daterangepicker({
+                    'applyClass' : 'btn-sm btn-success',
+                    'cancelClass' : 'btn-sm btn-default',
+                    locale: {
+                        applyLabel: 'Apply',
+                        cancelLabel: 'Cancel',
+                    }
+                })
+                .prev().on(ace.click_event, function(){
+                    $(this).next().focus();
+                });
+            
+            
+                $('#timepicker').timepicker({
+                    minuteStep: 1,
+                    showSeconds: true,
+                    showMeridian: false
+                }).next().on(ace.click_event, function(){
+                    $(this).prev().focus();
+                });
+                
+                $('#date-timepicker').datetimepicker().next().on(ace.click_event, function(){
+                    $(this).prev().focus();
+                });
+
+
+
 		//initiate dataTables plugin
 				var oTable1 = 
 				$('#dynamic-table')
@@ -138,7 +203,7 @@ $(document).ready(function()
 					bAutoWidth: false,
 					"aoColumns": [
 					  { "bSortable": false },
-					  null, null, null,
+					  null, null, null, null, null,
 					  { "bSortable": false }
 					],
 					"aaSorting": [],

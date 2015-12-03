@@ -17,6 +17,15 @@ class AsigsdeducstrabajadorController extends \Phalcon\Mvc\Controller
     {
         $query = new Phalcon\Mvc\Model\Query("SELECT datospersonales.nombre1, datospersonales.apellido1, datospersonales.nu_cedula FROM datospersonales where datospersonales.nu_cedula = $cedula", $this->getDI());
 
+        $nominaT = $this->modelsManager->createBuilder()
+            ->from("DatosContratacion")
+            ->join("TipoNomi")
+            ->columns("TipoNomi.id_nomina")
+            ->where("DatosContratacion.nu_cedula = :ci:", array("ci" => $cedula))
+            ->getQuery()
+            ->execute()
+            ->toArray();
+
         $datosTrabajador = $query->execute();
 
         //recupera id y nombre de asignaciones relacionada con la cedula
@@ -35,7 +44,7 @@ class AsigsdeducstrabajadorController extends \Phalcon\Mvc\Controller
             ->from("NbAsignaciones")
             ->join("AsigsTipo")
             ->columns("NbAsignaciones.id_asignac, NbAsignaciones.asignacion")
-            ->where("AsigsTipo.descripcion = :nombre:",array("nombre"=>"fijas"))
+            ->where("AsigsTipo.descripcion = :nombre: and NbAsignaciones.tipo_nomi = :id:",array("nombre"=>"fijas", "id" => $nominaT[0]["id_nomina"]))
             ->getQuery()
             ->execute()
             ->toArray();
@@ -56,7 +65,7 @@ class AsigsdeducstrabajadorController extends \Phalcon\Mvc\Controller
                                                     TrabajoDedu
                                                     INNER JOIN NbDeducciones ON TrabajoDedu.id_trabajo_dedu = NbDeducciones.id_deduccion
                                                     WHERE
-                                                    TrabajoDedu.nu_cedula = $cedula ", $this->getDI());
+                                                    TrabajoDedu.nu_cedula = $cedula", $this->getDI());
 
         $deducsT = $deduc_query_exist->execute()->toArray();
 

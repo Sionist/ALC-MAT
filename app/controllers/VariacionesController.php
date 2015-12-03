@@ -114,6 +114,8 @@ class VariacionesController extends \Phalcon\Mvc\Controller
             $erroneas = array();
             $correctas="";
 
+            $contt=0;
+
             foreach ($asigs as $k => $v) {
                 $variacion = new Variaciones();
                 $param["v"] = $v;
@@ -125,13 +127,14 @@ class VariacionesController extends \Phalcon\Mvc\Controller
                 $variacion->setNomina($nomina);
                 $variacion->setSqm($sqm);
                 $variacion->setAno($ano);
+                
 
                 $variacion->setFecha(date("y/m/d"));
 
 
                 $monto = $this->calcular($param, $formula);
 
-                if (is_numeric($monto)) {
+                if (is_numeric($monto) && $monto > 0) {
                     $variacion->setMonto($monto);
 
                     if (!$variacion->save()) {
@@ -150,7 +153,9 @@ class VariacionesController extends \Phalcon\Mvc\Controller
                         ->execute()
                         ->toArray();
                     $asg = $a[0]["asignacion"];
-                    $erroneas[$asg]= $formula["formula"];
+                    $erroneas[$contt]["asignacion"]= $asg;
+                    $erroneas[$contt]["formula"]= $formula["formula"];
+                    $contt++;
                 }
             }
 
