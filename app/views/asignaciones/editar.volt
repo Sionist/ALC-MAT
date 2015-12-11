@@ -7,10 +7,7 @@
 				</div>
 
 					<div class="widget-body">
-						<div class="widget-main no-padding">
-									
-													
-												
+						<div class="widget-main no-padding">						
 						{{ form("asignaciones/editado", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
 						<fieldset>
 						{{ content() }}
@@ -95,7 +92,3 @@
 				</div>
 			</div>
 		</div>
-	<div class="col-sm-4">
-	</div>
-	<div class="col-sm-4">
-	</div>

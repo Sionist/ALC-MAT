@@ -513,7 +513,7 @@ use Phalcon\Forms\Element\Select ?>
                 $('#telf_hab').mask('(9999) 999-9999');
                 $.mask.definitions['~']='[+-]';
                 $('#telf_cel').mask('(9999) 999-9999');
-                $('#nu_cedula').mask('99999999');
+                $('#nu_cedula').mask('999999?99', {autoclear : false, placeholder : " "});
 
           
                 jQuery.validator.addMethod("phone", function (value, element) {
@@ -595,5 +595,6 @@ use Phalcon\Forms\Element\Select ?>
                     //in ajax mode, remove remaining elements before leaving page
                     $('[class*=select2]').remove();
                 });
+
             })
 </script>

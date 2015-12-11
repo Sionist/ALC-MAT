@@ -51,6 +51,8 @@ use Phalcon\Forms\Element\Select ?>
 
         	{{ hidden_field("ncedula", "class":"form-control") }}
 
+        	{{ hidden_field("idembargo", "class":"form-control") }}
+
         	{{ text_field("Tribunal", "class":"form-control", "required":"required", "placeholder":"Tribunal" )}}
 
         	{{ text_field("nexp", "class":"form-control", "required":"required", "placeholder":"Número Expediente")}}
@@ -115,8 +117,8 @@ use Phalcon\Forms\Element\Select ?>
 
                                                 <td>
                                                     <div class="hidden-sm hidden-xs action-buttons">
-                                                    <?php echo $this->tag->linkTo(array("embargos/editar/".$row->id_embargo, "<i class='ace-icon fa fa-pencil-square-o 
-                                                    	bigger-110'></i>"))  ?> <?php echo $this->tag->linkTo(array("trabajadores/ficha1/".$row->nu_cedula, "<i class='ace-icon fa fa-search-plus bigger-130'></i>"))  ?>
+                                                        <?php echo $this->tag->linkTo(array("embargos/editar/".$row->id_embargo, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>")) ?> <?php echo $this->tag->linkTo(array("trabajadores/ficha1/".$row->nu_cedula, "<i class='ace-icon fa fa-search-plus bigger-130'></i>"))  
+                                                        ?>
                                                     </div>
                                                 </td>
                                             </tr>

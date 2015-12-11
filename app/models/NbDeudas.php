@@ -23,7 +23,7 @@ class NbDeudas extends \Phalcon\Mvc\Model
 
     /**
      *
-     * @var integer
+     * @var double
      */
     protected $monto_inicial;
 
@@ -41,7 +41,7 @@ class NbDeudas extends \Phalcon\Mvc\Model
 
     /**
      *
-     * @var integer
+     * @var double
      */
     protected $saldo;
 
@@ -50,12 +50,6 @@ class NbDeudas extends \Phalcon\Mvc\Model
      * @var string
      */
     protected $f_compromiso;
-
-    /**
-     *
-     * @var integer
-     */
-    protected $n_cuotas;
 
     /**
      * Method to set the value of field id_deuda
@@ -99,7 +93,7 @@ class NbDeudas extends \Phalcon\Mvc\Model
     /**
      * Method to set the value of field monto_inicial
      *
-     * @param integer $monto_inicial
+     * @param double $monto_inicial
      * @return $this
      */
     public function setMontoInicial($monto_inicial)
@@ -138,7 +132,7 @@ class NbDeudas extends \Phalcon\Mvc\Model
     /**
      * Method to set the value of field saldo
      *
-     * @param integer $saldo
+     * @param double $saldo
      * @return $this
      */
     public function setSaldo($saldo)
@@ -157,19 +151,6 @@ class NbDeudas extends \Phalcon\Mvc\Model
     public function setFCompromiso($f_compromiso)
     {
         $this->f_compromiso = $f_compromiso;
-
-        return $this;
-    }
-
-    /**
-     * Method to set the value of field n_cuotas
-     *
-     * @param integer $n_cuotas
-     * @return $this
-     */
-    public function setNCuotas($n_cuotas)
-    {
-        $this->n_cuotas = $n_cuotas;
 
         return $this;
     }
@@ -207,7 +188,7 @@ class NbDeudas extends \Phalcon\Mvc\Model
     /**
      * Returns the value of field monto_inicial
      *
-     * @return integer
+     * @return double
      */
     public function getMontoInicial()
     {
@@ -237,7 +218,7 @@ class NbDeudas extends \Phalcon\Mvc\Model
     /**
      * Returns the value of field saldo
      *
-     * @return integer
+     * @return double
      */
     public function getSaldo()
     {
@@ -255,24 +236,14 @@ class NbDeudas extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Returns the value of field n_cuotas
-     *
-     * @return integer
-     */
-    public function getNCuotas()
-    {
-        return $this->n_cuotas;
-    }
-
-    /**
      * Initialize method for model.
      */
     public function initialize()
     {
-        $this->hasMany('id_descuent', 'Descuentos', 'id_descuent', array('alias' => 'Descuentos'));
         $this->hasMany('id_deuda', 'MoviDeudas', 'id_deuda', array('alias' => 'MoviDeudas'));
-        $this->hasMany('id_descuent', 'Descuentos', 'id_descuent', NULL);
-        $this->hasMany('id_deuda', 'MoviDeudas', 'id_deuda', NULL);
+        $this->belongsTo('id_descuent', 'Descuentos', 'id_descuent', array('alias' => 'Descuentos'));
+        $this->belongsTo('nu_cedula', 'Datospersonales', 'nu_cedula', array('alias' => 'Datospersonales'));
+        $this->belongsTo('frecuencia', 'Frecuencia', 'id_frecuencia', array('alias' => 'Frecuencia'));
     }
 
     /**

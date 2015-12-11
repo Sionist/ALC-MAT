@@ -2,16 +2,14 @@
 
 class TrabajadoresController extends \Phalcon\Mvc\Controller
 {
-	public function initialize()
+    public function initialize()
     {
-		// aqui se llama a la plantilla
+        // aqui se llama a la plantilla
         $this->view->setTemplateAfter('blank');    
     }
-	
+
     public function indexAction()
     {
-    	/*$trabajador = Datospersonales::find();*/
-
         $trabajador = $this->modelsManager->createBuilder()
             ->from("Datospersonales")
             ->join("Datoscontratacion","Datospersonales.nu_cedula = Datoscontratacion.nu_cedula")
@@ -21,12 +19,11 @@ class TrabajadoresController extends \Phalcon\Mvc\Controller
             ->execute();
 
         $this->view->setVar("trabajadores", $trabajador);
-
     }
-	
-	public function nuevoAction()
+
+    public function nuevoAction()
     {
-	
+
     }
 
     public function ficha1Action($cedula)
@@ -51,7 +48,6 @@ class TrabajadoresController extends \Phalcon\Mvc\Controller
         $ide_ubinom=$dcontra->ubi_nom;
         $ide_ubifun=$dcontra->ubi_fun;
 
-
         //buscar el nombre segun el id del cataogo
         $discapac1 = Discapacidad::findFirstByIdDiscapacid($ide_discapa);
         $estatus1 = EstatusT::findFirstByIdEstat($ide_estatus);
@@ -65,9 +61,6 @@ class TrabajadoresController extends \Phalcon\Mvc\Controller
         $tipocontr1 = TipoContrat::findFirstByIdContrato($ide_tipocont);
         $ubinom1 = NbDireciones::findFirstByIdDirecciones($ide_ubinom);
         $ubifun1 = NbDireciones::findFirstByIdDirecciones($ide_ubifun);
-
-
-
 
         //Envio de los view
         $this->view->setVar("dtrabajador",$dtrabajador);
@@ -91,9 +84,7 @@ class TrabajadoresController extends \Phalcon\Mvc\Controller
     
     }
 
-
-	
-	public function datospersonalesAction()
+    public function datospersonalesAction()
     {	
 
         if (!$this->request->isPost()) {
@@ -102,32 +93,30 @@ class TrabajadoresController extends \Phalcon\Mvc\Controller
                 "action" => "nuevo"
             ));
         }
-    
 
-    	
-		$trabajador = new Datospersonales();
+        $trabajador = new Datospersonales();
 
-		$trabajador->setNuCedula($this->request->getPost("nu_cedula"));
-		$trabajador->setRif($this->request->getPost("rif"));
-		$trabajador->setNombre1(strtoupper($this->request->getPost("nombre1")));
-		$trabajador->setNombre2(strtoupper($this->request->getPost("nombre2")));
-		$trabajador->setApellido1(strtoupper($this->request->getPost("apellido1")));
-		$trabajador->setApellido2(strtoupper($this->request->getPost("apellido2")));
-		$trabajador->setGenero($this->request->getPost("genero"));
-		$trabajador->setFNac($this->request->getPost("f_nac"));
-		$trabajador->setLugarNac($this->request->getPost("lugar_nac"));
-		$trabajador->setTelfHab($this->request->getPost("telf_hab"));
-		$trabajador->setTelfCel($this->request->getPost("telf_cel"));
-		$trabajador->setDirHab(strtoupper($this->request->getPost("dir_hab")));
-		$trabajador->setEdoCivil(strtoupper($this->request->getPost("edo_civil")));
-		$trabajador->setCorreoE(strtoupper($this->request->getPost("correo_e")));
-		$trabajador->setIdDiscapacidad($this->request->getPost("id_discapacidad"));
-		$trabajador->setEstatus($this->request->getPost("estatus"));
-		
+        $trabajador->setNuCedula($this->request->getPost("nu_cedula"));
+        $trabajador->setRif($this->request->getPost("rif"));
+        $trabajador->setNombre1(strtoupper($this->request->getPost("nombre1")));
+        $trabajador->setNombre2(strtoupper($this->request->getPost("nombre2")));
+        $trabajador->setApellido1(strtoupper($this->request->getPost("apellido1")));
+        $trabajador->setApellido2(strtoupper($this->request->getPost("apellido2")));
+        $trabajador->setGenero($this->request->getPost("genero"));
+        $trabajador->setFNac($this->request->getPost("f_nac"));
+        $trabajador->setLugarNac($this->request->getPost("lugar_nac"));
+        $trabajador->setTelfHab($this->request->getPost("telf_hab"));
+        $trabajador->setTelfCel($this->request->getPost("telf_cel"));
+        $trabajador->setDirHab(strtoupper($this->request->getPost("dir_hab")));
+        $trabajador->setEdoCivil(strtoupper($this->request->getPost("edo_civil")));
+        $trabajador->setCorreoE(strtoupper($this->request->getPost("correo_e")));
+        $trabajador->setIdDiscapacidad($this->request->getPost("id_discapacidad"));
+        $trabajador->setEstatus($this->request->getPost("estatus"));
 
 
 
-		/*if($this->request->hasFiles() == true){ #chequea si hay algún archivo
+
+        /*if($this->request->hasFiles() == true){ #chequea si hay algún archivo
             $uploads = $this->request->getUploadedFiles();
             
             $isUploaded = false;
@@ -152,9 +141,9 @@ class TrabajadoresController extends \Phalcon\Mvc\Controller
                     }  
                 }          
          
-                	if ($isUploaded) {
-                			$trabajador->setFotoP($path);
-                			if (!$trabajador->save()) {
+                    if ($isUploaded) {
+                            $trabajador->setFotoP($path);
+                            if (!$trabajador->save()) {
                                 foreach ($trabajador->getMessages() as $message) {
                                     $this->flash->error($message);
                                 }
@@ -165,12 +154,12 @@ class TrabajadoresController extends \Phalcon\Mvc\Controller
                                 ));
                             }
 
-                			return $this->dispatcher->forward(array(
+                            return $this->dispatcher->forward(array(
                                     "controller" => "trabajadores",
                                     "action" => "dContratacion",
                                     "params" => array($this->request->getPost("nu_cedula"))
                                 ));
-                		}
+                        }
         }*/
 
             if (!$trabajador->save()) {
@@ -194,7 +183,7 @@ class TrabajadoresController extends \Phalcon\Mvc\Controller
          
 
             
-	}
+    }
 
          public function getCedula1Action()
     {
@@ -204,16 +193,16 @@ class TrabajadoresController extends \Phalcon\Mvc\Controller
         $nu_cedula1 = $this->request->get("nu_cedula");
         $cedu=Datospersonales::findFirstByNuCedula($nu_cedula1);
         if(!$cedu){
-        echo"true";
+            echo"true";
         }
         else{
-        echo "false";
+            echo "false";
         }
     }
 
-	
-	public function dcontratacionAction($cedula)
-	{
+
+    public function dcontratacionAction($cedula)
+    {
 
         $trabajador = Datospersonales::findFirstByNuCedula($cedula);
         $this->view->setVar("trabajador", $trabajador);

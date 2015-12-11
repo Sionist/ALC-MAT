@@ -118,12 +118,12 @@ class VariacionesController extends \Phalcon\Mvc\Controller
 
             foreach ($asigs as $k => $v) {
                 $variacion = new Variaciones();
-                $param["v"] = $v;
+                $param["v"] = trim($v);
                 $param["sd"] = $sueldo;
                 $formula = $this->formula($k);
                 $variacion->setNuCedula($cedula);
                 $variacion->setIdAsignac($k);
-                $variacion->setHorasDias($v);
+                $variacion->setHorasDias(trim($v));
                 $variacion->setNomina($nomina);
                 $variacion->setSqm($sqm);
                 $variacion->setAno($ano);
@@ -135,7 +135,7 @@ class VariacionesController extends \Phalcon\Mvc\Controller
                 $monto = $this->calcular($param, $formula);
 
                 if (is_numeric($monto) && $monto > 0) {
-                    $variacion->setMonto($monto);
+                    $variacion->setMonto(trim($monto));
 
                     if (!$variacion->save()) {
                         foreach ($variacion->getMessages() as $message) {

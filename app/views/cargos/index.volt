@@ -7,8 +7,6 @@
   
 <div id="page-wrapper">
 {{ form("cargos/guardar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
-{{ content() }}
-
 {{ text_field("cargo", "class":"form-control", "required":"required", "placeholder":"Cargo") }}
 {{ text_field("sueldo", "class":"form-control sueldo-decimal", "required":"required", "placeholder":"Sueldo") }}
 <select name="combonivel" id="cargar_nivel" class="form-control" required>	
@@ -21,7 +19,8 @@
 ?>
 </select>
 {{ submit_button("Guardar", "class":"btn btn-primary") }} 
-
+{{ endForm() }}
+<div class="row"><div class="col-xs-12"><?php $this->flashSession->output(); ?></div></div>
 <div class="row">
 	<div class="col-xs-12">
 										

@@ -1,0 +1,28 @@
+<div id="row">
+    <div class="widget-box">
+        <div class="widget-header widget-header-blue widget-header-flat">
+		<table border="0" width="100%" cellspacing="3" cellpadding="0">
+	<tr>
+		<td>
+		<p align="left"><h4 class="widget-title lighter">Trabajadores - Ficha de Trabajador</h4></td>
+		<td align="right">
+		<img src="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/img/btn-volver.png">&nbsp;</td>
+	</tr>
+</table>
+		
+		
+            
+        </div>
+
+        <div class="widget-body">
+            <div class="widget-main">
+
+                
+me cago en todo lo q se mueva
+
+
+            
+            </div>
+        </div>
+    </div>
+</div>

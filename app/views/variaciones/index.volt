@@ -62,8 +62,7 @@
 
     {{ content() }}
 
-    {{ numeric_field("cedula", "class":"form-control", "required":"required", "placeholder":"Cedula", "max":"99999999" ) }}
-
+    {{ text_field("cedula", "class":"form-control input-mask-cedula", "required":"required", "placeholder":"Cedula") }}
     {{ submit_button("Buscar","id":"buscar", "class":"btn btn-sm btn-primary") }}
     {{ endForm() }}
 
@@ -456,8 +455,8 @@
                             var hijo = $(this).attr("id");
                             var padre = $(this).parent().parent().parent().attr("id");
 
-                            $.mask.definitions['~']='[+-]';
-                            $('.input-mask-numeric').mask('99');
+                            
+                            $('.input-mask-numeric').mask('9?9', {autoclear : false, placeholder : " "});
                             if($('#'+hijo).is(":checked")){
                                 $('#'+padre).find("input[type=text]").attr("disabled",false);
                                 $('#'+padre).find("select").attr("disabled",false);
@@ -675,8 +674,7 @@
                 **MASCARAS PARA CAMPOS NUMERICOS
                 **
                 **/
-        $('.input-mask-cedula').mask('99999999');
-        $('.input-mask-numeric').mask('9999');
+        $('.input-mask-cedula').mask('999999?99', {autoclear : false , placeholder : " "});
 
         var cont = 0;
         /**              **
@@ -684,9 +682,6 @@
                 **              **/
         $( "#guardar" ).on('click', function(e) {
             e.preventDefault();
-
-
-
 
             $("#asignacion").find("input[type=text]").each(function(){
 

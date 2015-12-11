@@ -19,23 +19,24 @@
 
 	
 		<div class="col-sm-3">
-	</div>
+				<td align="right"><a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/embargos/index/<?php echo $ncedula; ?>" title="Volver">
+				<img src="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/img/btn-volver.png"></a>&nbsp;</td>			
+		</div>
+
 		<div class="col-sm-6">
 			<div class="widget-box">
 				<div class="widget-header">
-					<h4 class="widget-title">Editar Reposo Médico de <?php echo $nombre1." ".$apellido1." " ?>Cédula:<?php echo " ".$ncedula ?></h4>
+					<h4 class="widget-title">Editar Embargo de <?php echo $nombre1." ".$apellido1." " ?>Cédula:<?php echo " ".$ncedula ?></h4>
 				</div>
 
 					<div class="widget-body">
 						<div class="widget-main no-padding">
-									
-													
 												
-						{{ form("reposos/editado", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
+						{{ form("embargos/editado", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
 						<fieldset>
 						{{ content() }}
 						
-						{{ hidden_field("idreposo") }}
+						{{ hidden_field("idembargo") }}
 						{{ hidden_field("ncedula") }}
 						
 						
@@ -43,20 +44,20 @@
 						
 							<tr>
 								<td>
-									<th>Fecha Inicio</th>
+									<th>Tribunal</th>
 								</td>
 								
 								<td>
 								</td>
 								
 								<td>
-									{{ text_field("finicio", "type":"date", "class":"form-control date-picker", "data-date-format":"yyyy-mm-dd", "required":"required", "style":"text-transform:capitalize") }}<i class="fa fa-calendar bigger-110"></i>
+									{{ text_field("tribunal", "class":"form-control", "required":"required", "style":"text-transform:capitalize") }}
 								</td>								
 							</tr>
 							
 							<tr>
 								<td>
-									<th>Fecha Final</th>
+									<th>N° Expediente</th>
 								</td>
 								
 								<td>
@@ -64,13 +65,27 @@
 								</td>
 								
 								<td>	
-									{{ text_field("ffinal", "type":"date", "class":"form-control date-picker", "data-date-format":"yyyy-mm-dd", "required":"required", "style":"text-transform:capitalize") }}<i class="fa fa-calendar bigger-110"></i>
+									{{ text_field("nexpediente", "class":"form-control", "required":"required", "style":"text-transform:capitalize") }}
 								</td>									
 							</tr>
 								
+							<tr>
+								<td>
+									<th>Fecha Dictamen</th>
+								</td>
+								
+								<td>
+								
+								</td>
+								
+								<td>	
+									{{ text_field("fdictamen", "type":"date", "class":"form-control date-picker", "data-date-format":"yyyy-mm-dd", "required":"required", "style":"text-transform:capitalize") }}<i class="fa fa-calendar bigger-110"></i>
+								</td>									
+							</tr>
+
 							<tr>	
 								<td>
-									<th>Diagnóstico</th>
+									<th>Porcentaje a Descontar</th>
 								</td>
 
 								<td>
@@ -78,11 +93,44 @@
 								</td>
 								
 								<td>	
-									{{ text_field("diagnostico", "class":"form-control", "style":"text-transform:capitalize", "size":"70") }}
+									{{ text_field("porcentaje", "class":"form-control", "style":"text-transform:capitalize") }}
 								</td>	
 
 							</tr>
 					
+							<tr>	
+								<td>
+									<th>Concepto Descuento</th>
+								</td>
+
+								<td>
+
+								</td>
+								
+								<td>
+								
+									{{ text_field("concep", "class":"form-control", "style":"text-transform:capitalize") }}
+
+								</td>
+								
+								<td>	
+
+									<?php
+										echo $this->tag->select(array(
+   										'concepto',
+   										FondoDesc::find(array('order' => 'id_fondo ASC')),
+   										'using' => array('id_fondo', "fondo"),
+   										'useEmpty' => true,
+   										'emptyText' => "Seleccione Concepto de Embargo",
+   										"class" => "form-control",
+   										"required" => "required"
+   										))
+   									?>	
+									
+								</td>	
+
+							</tr>
+
 						</table>	
 						
 						</fieldset>
@@ -108,7 +156,18 @@
 	<script type="text/javascript">
 $(document).ready(function()
 {
-
+	$("#concepto").on("change", function()
+    {
+     var idfondo = $("#concepto option:selected").attr("value");
+	
+	 $.get("<?php echo $this->url->get('embargos/obtenerFondo') ?>", {"id":idfondo}, function(data)
+		{
+	  		var fondo = "";
+	  		fondo = data;
+	  		"#concep" = fondo;
+		});
+		
+	});
 	
                 // ------------------CALENDARIO PARA FECHAS --------------------
 
@@ -328,5 +387,5 @@ $(document).ready(function()
 				});
 		
 		});
-		
+}		
 		</script>		 

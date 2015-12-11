@@ -44,21 +44,17 @@ class AsignacionesController extends \Phalcon\Mvc\Controller
 
             if (!$asignacion->save()) {
                 foreach ($asignacion->getMessages() as $message) {
-                    $this->flash->error($message);
+                    $this->flashSession->error($message);
                 }
-                return $this->dispatcher->forward(array(
-                    "controller" => "asignaciones",
-                    "action" => "index"
-                ));
+                $this->response->redirect("asignaciones/index");
+                $this->view->disable();
             }else{
-                $this->flash->success("<div class='alert alert-block alert-success'>Guardado con exito</div>");
+                $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha guardado exitosamente</strong></p></div>");
+
+                $this->response->redirect("asignaciones/index");
+                $this->view->disable();
             }
         }
-        return $this->dispatcher->forward(array(
-            "controller" => "asignaciones",
-            "action" => "index"
-        ));
-
     }
 
     /**
@@ -68,15 +64,12 @@ class AsignacionesController extends \Phalcon\Mvc\Controller
     public function editarAction($id)
     {
         if (!$this->request->isPost()) {
-
             $asignacion = NbAsignaciones::findFirstByIdAsignac($id);
             if (!$asignacion) {
-                $this->flash->error("Asignación No Encontrada");
+                $this->flashSession->error("Asignación No Encontrada");
 
-                return $this->dispatcher->forward(array(
-                    "controller" => "asignaciones",
-                    "action" => "index"
-                ));
+                $this->response->redirect("asignaciones/index");
+                $this->view->disable();
             }
 
             //$this->view->id = $asignacion->id_asignac;
@@ -93,12 +86,6 @@ class AsignacionesController extends \Phalcon\Mvc\Controller
     }
 
     public function editadoAction(){
-
-        //almacena la vista
-        $vista = $this->dispatcher->forward(array(
-            'controller'=>'asignaciones',
-            'action' => 'index'));
-
         if($this->request->isPost()){
 
             $id = $this->request->getPost("id");
@@ -116,11 +103,15 @@ class AsignacionesController extends \Phalcon\Mvc\Controller
 
             if(!$asignacion->save()){
                 foreach ($asignacion->getMessages() as $message) {
-                    $this->flash->error($message);
+                    $this->flashSession->error($message);
                 }
-                return $vista;
+                $this->response->redirect("asignaciones/index");
+                $this->view->disable();
             }else{
-                return $vista;
+                $this->flashSession->error("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha modificado exitosamente</strong></p></div>");
+
+                $this->response->redirect("asignaciones/index");
+                $this->view->disable();
             }
         }
     }

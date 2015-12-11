@@ -11,10 +11,22 @@ use Phalcon\Forms\Element\Select ?>
 <!-- tabla para mostrar todos los registros de la tabla-->
  
 <div class="row">
-
-
-<?php echo $this->tag->linkTo(array("trabajadores/nuevo/","<i class='ace-icon fa fa-users bigger-160'></i>nuevo","class"=>"btn btn-app btn-primary btn-xs", ""))  ?>
-
+<div class="widget-box">
+        <div class="widget-header widget-header-blue widget-header-flat">
+		<table border="0" width="100%" cellspacing="3" cellpadding="0">
+	<tr>
+		<td>
+		<p align="left"><h4 class="widget-title lighter">Listado de Trabajadores</h4></td>
+		<td align="right"><a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/trabajadores/nuevo/" title="Agregar Nuevo Trabajador">
+		<img src="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/img/btn-nuevo-trabajador.png"></a>&nbsp;</td>
+	</tr>
+</table>
+		
+		
+            
+        </div>
+		</div>
+<br>
 
 
 
@@ -22,9 +34,7 @@ use Phalcon\Forms\Element\Select ?>
 
 
                                         
-                                      		<div class="clearfix">
-			<div class="pull-right tableTools-container"></div>
-		</div>
+                                      		
                                         <div class="table-header">
                                             Listado de Trabajadores
                                         </div>

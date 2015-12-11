@@ -1,3 +1,5 @@
+
+
  
         {{ stylesheet_link("css/select2.css") }}
         {{ stylesheet_link("css/jquery-ui.css") }}
@@ -6,7 +8,7 @@
         {{ stylesheet_link("css/bootstrap-timepicker.css") }}
         {{ stylesheet_link("css/bootstrap-datetimepicker.css") }}
         {{ stylesheet_link("css/colorpicker.css") }}
-          {{ stylesheet_link("css/jquery-ui.custom.css") }}
+        {{ stylesheet_link("css/jquery-ui.custom.css") }}
         {{ stylesheet_link("css/chosen.css") }}
         {{ javascript_include("js/jquery-ui.js") }}
         {{ javascript_include("js/jquery.easypiechart.js") }}
@@ -17,8 +19,6 @@
         {{ javascript_include("js/ace/elements.fileinput.js") }}
         {{ javascript_include("js/ace/elements.aside.js") }}
         {{ javascript_include("js/ace/ace.ajax-content.js") }}
-
-
         {{ javascript_include("js/jquery.validate.js") }}
         {{ javascript_include("js/additional-methods.js") }}
         {{ javascript_include("js/bootbox.js") }}
@@ -30,14 +30,21 @@
         {{ javascript_include("js/date-time/daterangepicker.js") }}
         {{ javascript_include("js/date-time/bootstrap-datetimepicker.js") }}
 
-
-
-
-
 <div id="row">
     <div class="widget-box">
         <div class="widget-header widget-header-blue widget-header-flat">
-            <h4 class="widget-title lighter">Consultar Trabajador</h4>
+		<table border="0" width="100%" cellspacing="3" cellpadding="0">
+	<tr>
+		<td>
+		<p align="left"><h4 class="widget-title lighter">Trabajadores - Ficha de Trabajador</h4></td>
+		<td align="right"><a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/trabajadores" title="Volver">
+		<img src="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/img/btn-volver.png"></a>&nbsp;</td>
+	</tr>
+</table>
+		
+		
+		
+            
         </div>
 
         <div class="widget-body">
@@ -68,13 +75,12 @@
                                     <div id="user-profile-2" class="user-profile">
 
                                                 <div class="center">
-                                                
-                                                <span class="btn btn-app btn-sm btn-primary no-hover">
-                                                    <span class="line-height-1 bigger-170"> <i class="ace-icon fa fa-refresh "></i> </span>
-
+                                                <?= $this->tag->linkTo("deudas/index/".$dtrabajador->nu_cedula."\"", "<span class='btn btn-app btn-sm btn-pink no-hover'>
+                                                    <span class='line-height-1 bigger-170'> -<i class='glyphicon glyphicon-usd'></i> </span>
                                                     <br />
-                                                    <span class="line-height-1 smaller-90"> Variación </span>
-                                                </span>
+                                                    <span class='line-height-1 smaller-90'> Deudas </span>
+                                                </span>") ?>
+                                                
 
                                                 <span class="btn btn-app btn-sm btn-warning no-hover">
                                                     <span class="line-height-1 bigger-170"> <i class="ace-icon fa fa-fighter-jet "></i> </span>
@@ -289,7 +295,7 @@ echo $edad;
 
                                                                 <div class="profile-info-row">
                                                                     <div class="profile-info-name">
-                                                                        <i class="fa fa-phone-square bigger-150 pink"></i>
+                                                                        <i class="fa fa-phone-square bigger-150 blue"></i>
                                                                     </div>
 
                                                                     <div class="profile-info-value">
@@ -311,7 +317,7 @@ echo $edad;
 
                                                                 <div class="profile-info-row">
                                                                     <div class="profile-info-name">
-                                                                        <i class="middle fa fa-map-marker light-orange bigger-150"></i>
+                                                                        <i class="middle fa fa-map-marker red bigger-150"></i>
                                                                     </div>
 
                                                                     <div class="profile-info-value">
@@ -419,7 +425,7 @@ echo $edad;
                                                             <div class="widget-box transparent">
                                                                 <div class="widget-header widget-header-small header-color-blue2">
                                                                     <h4 class="widget-title smaller">
-                                                                        <i class="ace-icon fa fa-university bigger-120"></i>
+                                                                        <i class="ace-icon fa fa-graduation-cap bigger-120"></i>
                                                                         Profesión
                                                                     </h4>
                                                                 </div>
@@ -812,3 +818,6 @@ echo $edad;
                 });
             });
         </script>
+
+
+   

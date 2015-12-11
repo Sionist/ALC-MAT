@@ -39,24 +39,16 @@ class CargosController extends \Phalcon\Mvc\Controller
 			
 			if (!$cargo->save()) {
                 foreach ($cargo->getMessages() as $message) {
-                    $this->flash->error($message);
+                    $this->flashSession->error($message);
                 }
-                return $this->dispatcher->forward(array(
-                    "controller" => "cargos",
-                    "action" => "index"
-                ));
+                $this->response->redirect("cargos/index");
+                $this->view->disable();
             }
 			
 		}
-		
-		
-		$this->flash->success("<div class='alert alert-block alert-success'>Guardado con exito</div>");
-        return $this->dispatcher->forward(array(
-            "controller" => "cargos",
-            "action" => "index"
-        ));
-		
-		
+        $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha guardado exitosamente</strong></p></div>");
+        $this->response->redirect("cargos/index");
+        $this->view->disable();
 	}	
 
 		public function editarAction($id) {
@@ -64,12 +56,9 @@ class CargosController extends \Phalcon\Mvc\Controller
 
             $cargo = Cargos::findFirstByIdCargo($id);
             if (!$cargo) {
-                $this->flash->error("Cargo No Fue Encontrado");
-
-                return $this->dispatcher->forward(array(
-                    "controller" => "cargos",
-                    "action" => "index"
-                ));
+                $this->flashSession->error("Cargo No Fue Encontrado");
+                $this->response->redirect("asignaciones/index");
+                $this->view->disable();
             }
 
             $this->view->id = $cargo->id_cargo;
@@ -89,22 +78,17 @@ class CargosController extends \Phalcon\Mvc\Controller
 		{
 
 			if (!$this->request->isPost()) {
-				return $this->dispatcher->forward(array(
-					"controller" => "cargos",
-					"action" => "index"
-				));
+                $this->response->redirect("cargos/index");
+                $this->view->disable();
         }
    
         $id = $this->request->getPost("id");
 		
         $cargo = Cargos::findFirstByIdCargo($id);
         if (!$cargo) {
-            $this->flash->error("Cargo No Existe " . $id);
-
-            return $this->dispatcher->forward(array(
-                "controller" => "cargos",
-                "action" => "index"
-            ));
+            $this->flashSession->error("Cargo No Existe " . $id);
+            $this->response->redirect("cargos/index");
+            $this->view->disable();
         }
 
         $cargo->setCargo($this->request->getPost("cargo"));
@@ -114,19 +98,15 @@ class CargosController extends \Phalcon\Mvc\Controller
         if (!$cargo->save()) {
 
             foreach ($cargo->getMessages() as $message) {
-                $this->flash->error($message);
+                $this->flashSession->error($message);
             }
-
-            return $this->dispatcher->forward(array(
-                "controller" => "cargos",
-                "action" => "editar",
-                "params" => array($cargo->id_cargo)
-            ));
+            $this->response->redirect("asignaciones/index/$cargo->id_cargo");
+            $this->view->disable();
+        }else {
+            $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha modificado exitosamente</strong></p></div>");
+            $this->response->redirect("cargos/index");
+            $this->view->disable();
         }
-
-        $this->flash->success("Cargo Actualizado");
-
-       return $this->response->redirect('cargos/index');
 
     }
 

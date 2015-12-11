@@ -18,7 +18,13 @@
 {{ endForm() }}
 
 <!-- fin  Formulario para agregar estatus -->
-
+<div class="row">
+    <div class="col-xs-12">
+        <?php 
+            $this->flashSession->output();
+        ?>
+    </div>
+</div>
 <!-- tabla para mostrar todos los registros de la tabla-->
  
 				<div class="row">
