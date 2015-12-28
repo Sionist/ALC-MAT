@@ -5,12 +5,9 @@
         {{ javascript_include("js/dataTables/extensions/ColVis/js/dataTables.colVis.js") }}
   
 <div id="page-wrapper">
-{{ form("TiposNominas/guardar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
-{{ content() }}
+{{ form("tipos-nominas/guardar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
 
-
-
-
+<?php echo $this->flashSession->output(); ?>
 
 {{ text_field("tiponomi", "class":"form-control", "required":"required", "placeholder":"Tipo de Nómina") }}
 
@@ -55,7 +52,7 @@
 						<td><?php echo $row->nomina; ?></td>
 						<td><?php echo $row->frecuenc; ?></td>
 					
-						<td>  <?php echo $this->tag->linkTo(array("TiposNominas/editar/".$row->id_nomina, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"))  ?></td>
+						<td>  <?php echo $this->tag->linkTo(array("tipos-nominas/editar/".$row->id_nomina, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"))  ?></td>
 					</tr>
 					 <?php
 					  }

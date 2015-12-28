@@ -26,24 +26,16 @@ class FrecuenciaController extends \Phalcon\Mvc\Controller
 			
 			if (!$frecuencia->save()) {
                 foreach ($frecuencia->getMessages() as $message) {
-                    $this->flash->error($message);
+                    $this->flashSession->error($message);
                 }
-                return $this->dispatcher->forward(array(
-                    "controller" => "frecuencia",
-                    "action" => "index"
-                ));
+                $this->response->redirect("frecuencias");
+                $this->view->disable();
             }
 			
 		}
-		
-		
-		$this->flash->success("<div class='alert alert-block alert-success'>Guardado con exito</div>");
-        return $this->dispatcher->forward(array(
-            "controller" => "frecuencia",
-            "action" => "index"
-        ));
-		
-		
+        $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha guardado exitosamente</strong></p></div>");
+        $this->response->redirect("frecuencias");
+        $this->view->disable();
 	}
 
 
@@ -52,67 +44,45 @@ class FrecuenciaController extends \Phalcon\Mvc\Controller
 
             $frecuencia = Frecuencia::findFirstByIdFrecuencia($id);
             if (!$frecuencia) {
-                $this->flash->error("Frecuencia No Encontrada");
-
-                return $this->dispatcher->forward(array(
-                    "controller" => "frecuencia",
-                    "action" => "index"
-                ));
+                $this->flashSession->error("Frecuencia No Encontrada");
+                $this->response->redirect("frecuencias");
+                $this->view->disable();
             }
-
             $this->view->id = $frecuencia->id_frecuencia;
-
             $this->tag->setDefault("id", $frecuencia->getIdFrecuencia());
             $this->tag->setDefault("frecuencia", $frecuencia->getFrecuencia());
-           
-            
         }
-		
 	}
 
 	
-public function editadoAction()
+    public function editadoAction()
     {
-
         if (!$this->request->isPost()) {
-            return $this->dispatcher->forward(array(
-                "controller" => "frecuencia",
-                "action" => "index"
-            ));
-        }
-   
-        $id = $this->request->getPost("id");
 
-        $frecuencia = Frecuencia::findFirstByIdFrecuencia($id);
-        if (!$frecuencia) {
-            $this->flash->error("Frecuencia No Existe " . $id);
+            $id = $this->request->getPost("id");
 
-            return $this->dispatcher->forward(array(
-                "controller" => "frecuencia",
-                "action" => "index"
-            ));
-        }
+            $frecuencia = Frecuencia::findFirstByIdFrecuencia($id);
 
-        $frecuencia->setFrecuencia($this->request->getPost("frecuencia"));
-        
-
-        if (!$frecuencia->save()) {
-
-            foreach ($frecuencia->getMessages() as $message) {
-                $this->flash->error($message);
+            if (!$frecuencia) {
+                $this->flashSession->error("Frecuencia No Existe " . $id);
+                $this->response->redirect("frecuencias");
+                $this->view->disable();
             }
 
-            return $this->dispatcher->forward(array(
-                "controller" => "frecuencia",
-                "action" => "editar",
-                "params" => array($frecuencia->id_frecuencia)
-            ));
+            $frecuencia->setFrecuencia($this->request->getPost("frecuencia"));
+
+            if (!$frecuencia->save()) {
+                foreach ($frecuencia->getMessages() as $message) {
+                    $this->flashSession->error($message);
+                }
+                $this->response->redirect("frecuencias");
+                $this->view->disable();
+            }else{
+                $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha modificado exitosamente</strong></p></div>");
+                $this->response->redirect("frecuencias");
+                $this->view->disable();
+            }
         }
-
-        $this->flash->success("Frecuencia Actualizada");
-
-       return $this->response->redirect('frecuencia/index');
-
     }
 
 }

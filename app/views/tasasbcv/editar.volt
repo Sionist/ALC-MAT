@@ -13,7 +13,7 @@
 									
 													
 												
-						{{ form("tasasbcv/editado", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
+						{{ form("tasas-bcv/editado", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
 						<fieldset>
 						{{ content() }}
 						{{ hidden_field("id") }}

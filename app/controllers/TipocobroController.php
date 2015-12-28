@@ -7,14 +7,12 @@ class TipocobroController extends \Phalcon\Mvc\Controller
 	{
 		$this->view->setTemplateAfter('blank');
 	}
-	
 
     public function indexAction()
     {
 		$cobro=TipoCobro::Find();
 		$this->view->SetParamToView("cobro",$cobro);
     }
-
 
 	public function guardarAction()
 	{
@@ -25,24 +23,16 @@ class TipocobroController extends \Phalcon\Mvc\Controller
 			
 			if (!$cobro->save()) {
                 foreach ($cobro->getMessages() as $message) {
-                    $this->flash->error($message);
+                    $this->flashSession->error($message);
                 }
-                return $this->dispatcher->forward(array(
-                    "controller" => "tipocobro",
-                    "action" => "index"
-                ));
+                $this->response->redirect("tipos-cobro");
+                $this->view->disable();
             }
 			
 		}
-		
-		
-		$this->flash->success("<div class='alert alert-block alert-success'>Guardado con exito</div>");
-        return $this->dispatcher->forward(array(
-            "controller" => "tipocobro",
-            "action" => "index"
-        ));
-		
-		
+        $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha guardado exitosamente</strong></p></div>");
+        $this->response->redirect("tipos-cobro");
+        $this->view->disable();
 	}
 
 
@@ -51,67 +41,44 @@ class TipocobroController extends \Phalcon\Mvc\Controller
 
             $cobro = TipoCobro::findFirstByIdCobro($id);
             if (!$cobro) {
-                $this->flash->error("Tipo de Cobro No Fue Encontrado");
-
-                return $this->dispatcher->forward(array(
-                    "controller" => "cobro",
-                    "action" => "index"
-                ));
+                $this->flashSession->error("Tipo de Cobro No Fue Encontrado");
+                $this->response->redirect("tipos-cobro");
+                $this->view->disable();
             }
-
             $this->view->id = $cobro->id_cobro;
-
             $this->tag->setDefault("id", $cobro->getIdCobro());
             $this->tag->setDefault("cobro", $cobro->getNbCobro());
-           
-            /*Idniveldinst*/
         }
-		
 	}
 
 	
 public function editadoAction()
     {
+        if ($this->request->isPost()) {
+            $id = $this->request->getPost("id");
+            $cobro = TipoCobro::findFirstByIdCobro($id);
 
-        if (!$this->request->isPost()) {
-            return $this->dispatcher->forward(array(
-                "controller" => "tipocobro",
-                "action" => "index"
-            ));
-        }
-   
-        $id = $this->request->getPost("id");
-
-        $cobro = TipoCobro::findFirstByIdCobro($id);
-        if (!$cobro) {
-            $this->flash->error("Tipo de Cobro No Existe " . $id);
-
-            return $this->dispatcher->forward(array(
-                "controller" => "tipocobro",
-                "action" => "index"
-            ));
-        }
-
-        $cobro->setNbCobro($this->request->getPost("cobro"));
-                
-
-        if (!$cobro->save()) {
-
-            foreach ($cobro->getMessages() as $message) {
-                $this->flash->error($message);
+            if (!$cobro) {
+                $this->flashSession->error("Tipo de Cobro No Existe " . $id);
+                $this->response->redirect("tipos-cobro");
+                $this->view->disable();
             }
 
-            return $this->dispatcher->forward(array(
-                "controller" => "tipocobro",
-                "action" => "editar",
-                "params" => array($cobro->id_cobro)
-            ));
+            $cobro->setNbCobro($this->request->getPost("cobro"));
+
+            if (!$cobro->save()) {
+
+                foreach ($cobro->getMessages() as $message) {
+                    $this->flashSession->error($message);
+                }
+                $this->response->redirect("tipos-cobro");
+                $this->view->disable();
+            }else{
+                $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha modificado exitosamente</strong></p></div>");
+                $this->response->redirect("tipos-cobro");
+                $this->view->disable();
+            }
         }
-
-        $this->flash->success("Tipo de Cobro Actualizado");
-
-       return $this->response->redirect('tipocobro/index');
-
     }  
 }
 

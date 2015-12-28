@@ -50,11 +50,9 @@ class ClasificacionesController extends \Phalcon\Mvc\Controller
                 ));
             }
 			
-			$this->flash->success("<div class='alert alert-block alert-success'>Guardado con exito</div>");
-			return $this->dispatcher->forward(array(
-				"controller" => "clasificaciones",
-				"action" => "index"
-			));
+			$this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Guardado exitosamente</strong></p></div>");
+			$this->response->redirect("clasificaciones");
+			$this->view->disable();
 		}	
 		
 		
@@ -192,16 +190,11 @@ class ClasificacionesController extends \Phalcon\Mvc\Controller
 				"controller" => "clasificaciones",
 				"action" => "index"));
 		}		
-		
 
 		$id = $this->request->getPost("id");
-			
-		
+
 		$clasificaciones = Clasificaciones::findFirstByIdClasi($id);
 
-		
-		
-		
 		if (!$clasificaciones)
 		{
 			echo "Clasificación No Encontrada en Action Editado".$id;
@@ -228,10 +221,9 @@ class ClasificacionesController extends \Phalcon\Mvc\Controller
 				"action" => "index"));
 		}
 			
-		$this->flash->success("Escala Actualizada Exitosamente");
-		
-		/*return $this->response->redirect("clausulas","index");*/
-		
+		$this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Escala actualizada exitosamente</strong></p></div>");
+        $this->response->redirect("clasificaciones");
+        $this->view->disable();
 	}
     
 

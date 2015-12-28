@@ -8,9 +8,9 @@
 
 <!-- Formulario para agregar  (insertar) -->
 
-{{ form("frecuencia/guardar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
+{{ form("frecuencias/guardar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
 
-{{ content() }}
+<?php echo $this->flashSession->output(); ?>
 
 {{ text_field("frecuencia", "class":"form-control", "required":"required", "placeholder":"Frecuencia") }}
 

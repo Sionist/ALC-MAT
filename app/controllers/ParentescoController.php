@@ -22,25 +22,18 @@ class ParentescoController extends \Phalcon\Mvc\Controller
         if ($this->request->isPost()) {
             $parentesco = new Parentesco();
             $parentesco->setParentesco($this->request->getPost("parentesco"));
-			
-			
 
             if (!$parentesco->save()) {
                 foreach ($parentesco->getMessages() as $message) {
                     $this->flash->error($message);
                 }
-                return $this->dispatcher->forward(array(
-                    "controller" => "parentesco",
-                    "action" => "index"
-                ));
+                $this->response->redirect("parentesco");
+                $this->view->disable();
             }
         }
-
-        $this->flash->success("<div class='alert alert-block alert-success'>Guardado con exito</div>");
-        return $this->dispatcher->forward(array(
-            "controller" => "parentesco",
-            "action" => "index"
-        ));
+        $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha guardado exitosamente</strong></p></div>");
+        $this->response->redirect("parentesco");
+        $this->view->disable();
     }
 	
 	public function editarAction($id) {
@@ -48,66 +41,45 @@ class ParentescoController extends \Phalcon\Mvc\Controller
 
             $parentesco = Parentesco::findFirstByIdParentesco($id);
             if (!$parentesco) {
-                $this->flash->error("Parentesco No Encontrado");
-
-                return $this->dispatcher->forward(array(
-                    "controller" => "parentesco",
-                    "action" => "index"
-                ));
+                $this->flashSession->error("Parentesco No Encontrado");
+                $this->response->redirect("parentesco");
+                $this->view->disable();
             }
-
             $this->view->id = $parentesco->id_parentesco;
-
             $this->tag->setDefault("id", $parentesco->getIdParentesco());
             $this->tag->setDefault("parentesco", $parentesco->getParentesco());
-           
-            
         }
-		
 	}
 
 	
-public function editadoAction()
+    public function editadoAction()
     {
 
-        if (!$this->request->isPost()) {
-            return $this->dispatcher->forward(array(
-                "controller" => "parentesco",
-                "action" => "index"
-            ));
-        }
-   
-        $id = $this->request->getPost("id");
+        if ($this->request->isPost()) {
+            $id = $this->request->getPost("id");
+            $parentesco = Parentesco::findFirstByIdParentesco($id);
 
-        $parentesco = Parentesco::findFirstByIdParentesco($id);
-        if (!$parentesco) {
-            $this->flash->error("Parentesco No Existe " . $id);
-
-            return $this->dispatcher->forward(array(
-                "controller" => "parentesco",
-                "action" => "index"
-            ));
-        }
-
-        $parentesco->setParentesco($this->request->getPost("parentesco"));
-        
-
-        if (!$parentesco->save()) {
-
-            foreach ($parentesco->getMessages() as $message) {
-                $this->flash->error($message);
+            if (!$parentesco) {
+                $this->flashSession->error("Parentesco No Existe " . $id);
+                $this->response->redirect("parentesco");
+                $this->view->disable();
             }
 
-            return $this->dispatcher->forward(array(
-                "controller" => "parentesco",
-                "action" => "editar",
-                "params" => array($parentesco->id_parentesco)
-            ));
+            $parentesco->setParentesco($this->request->getPost("parentesco"));
+
+            if (!$parentesco->save()) {
+
+                foreach ($parentesco->getMessages() as $message) {
+                    $this->flashSession->error($message);
+                }
+                $this->response->redirect("parentesco");
+                $this->view->disable();
+            }else{
+                $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha modificado exitosamente</strong></p></div>");
+                $this->response->redirect("parentesco");
+                $this->view->disable();
+            }
         }
-
-        $this->flash->success("Parentesco Actualizado");
-
-       return $this->response->redirect('parentesco/index');
 
     }
 

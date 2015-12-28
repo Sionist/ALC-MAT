@@ -10,9 +10,9 @@
 
 <!-- Formulario para agregar  (insertar) -->
 
-{{ form("diasbonificacion/guardar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
+{{ form("dias-bonificacion/guardar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
 
-{{ content() }}
+<?php echo $this->flashSession->output(); ?>
     
 <label for="desde">Mes Desde:  </label>     
 <select id="desde" name="desde">
@@ -97,7 +97,7 @@
                                                         
                                                 <td>
                                                     <div class="hidden-sm hidden-xs action-buttons">
-                                                    <?php echo $this->tag->linkTo(array("diasbonificacion/editar/".$row->id_diasbonificacion, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"))  ?>
+                                                    <?php echo $this->tag->linkTo(array("dias-bonificacion/editar/".$row->id_diasbonificacion, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"))  ?>
                                                     </div>
                                                 </td>
                                             </tr>

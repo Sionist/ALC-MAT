@@ -25,24 +25,16 @@ class EstatusController extends \Phalcon\Mvc\Controller
 			
 			if (!$estatus->save()) {
                 foreach ($estatus->getMessages() as $message) {
-                    $this->flash->error($message);
+                    $this->flashSession->error($message);
                 }
-                return $this->dispatcher->forward(array(
-                    "controller" => "estatus",
-                    "action" => "index"
-                ));
+                $this->response->redirect("estatus");
+                $this->view->disable();
+            }else{
+                $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha guardado exitosamente</strong></p></div>");
+                $this->response->redirect("estatus");
+                $this->view->disable();
             }
-			
 		}
-		
-		
-		$this->flash->success("<div class='alert alert-block alert-success'>Guardado con exito</div>");
-        return $this->dispatcher->forward(array(
-            "controller" => "estatus",
-            "action" => "index"
-        ));
-		
-		
 	}
 
 
@@ -51,20 +43,13 @@ class EstatusController extends \Phalcon\Mvc\Controller
 
             $estatus = EstatusT::findFirstByIdEstat($id);
             if (!$estatus) {
-                $this->flash->error("Estatus No Fue Encontrado");
-
-                return $this->dispatcher->forward(array(
-                    "controller" => "estatus",
-                    "action" => "index"
-                ));
+                $this->flashSession->error("Estatus No Fue Encontrado");
+                $this->response->redirect("estatus");
+                $this->view->disable();
             }
-
             $this->view->id = $estatus->id_estat;
-
             $this->tag->setDefault("id", $estatus->getIdEstat());
             $this->tag->setDefault("estatus", $estatus->getEstatus());
-           
-            
         }
 		
 	}
@@ -72,45 +57,34 @@ class EstatusController extends \Phalcon\Mvc\Controller
 	
 public function editadoAction()
     {
+        if ($this->request->isPost()) {
+            $id = $this->request->getPost("id");
 
-        if (!$this->request->isPost()) {
-            return $this->dispatcher->forward(array(
-                "controller" => "estatus",
-                "action" => "index"
-            ));
-        }
-   
-        $id = $this->request->getPost("id");
+            $estatus = EstatusT::findFirstByIdEstat($id);
 
-        $estatus = EstatusT::findFirstByIdEstat($id);
-        if (!$estatus) {
-            $this->flash->error("Estatus No Existe " . $id);
+            if (!$estatus) {
+                $this->flashSession->error("Estatus No Existe " . $id);
+                $this->response->redirect("estatus");
+                $this->view->disable();
+            }else {
 
-            return $this->dispatcher->forward(array(
-                "controller" => "estatus",
-                "action" => "index"
-            ));
-        }
+                $estatus->setEstatus($this->request->getPost("estatus"));
 
-        $estatus->setEstatus($this->request->getPost("estatus"));
-        
+                if (!$estatus->save()) {
 
-        if (!$estatus->save()) {
+                    foreach ($estatus->getMessages() as $message) {
+                        $this->flashSession->error($message);
+                    }
+                    $this->response->redirect("discapacidades");
+                    $this->view->disable();
+                }else {
 
-            foreach ($estatus->getMessages() as $message) {
-                $this->flash->error($message);
+                    $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha modificado exitosamente</strong></p></div>");
+                    $this->response->redirect("estatus");
+                    $this->view->disable();
+                }
             }
-
-            return $this->dispatcher->forward(array(
-                "controller" => "estatus",
-                "action" => "editar",
-                "params" => array($estatus->id_estat)
-            ));
         }
-
-        $this->flash->success("Estatus Actualizado");
-
-       return $this->response->redirect('Estatus/index');
 
     }
 	

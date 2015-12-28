@@ -11,7 +11,7 @@ class BancosController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
-		$banco=NbBancos::Find();
+		$banco = NbBancos::Find();
 		$this->view->SetParamToView("banco",$banco);
     }
 
@@ -21,17 +21,17 @@ class BancosController extends \Phalcon\Mvc\Controller
 		if ($this->request->isPost())
 		{
 			$banco = new NbBancos();
-			$banco->setNbBancos($this->request->getpost("banco"));
+			$banco->setNbBancos($this->request->getPost("banco"));
 			
 			if (!$banco->save()) {
                 foreach ($banco->getMessages() as $message) {
                     $this->flashSession->error($message);
                 }
-                $this->response->redirect("asignaciones/index");
+                $this->response->redirect("bancos");
                 $this->view->disable();
             }else{
-                $this->flashSession->success("<div class='alert alert-block alert-success'>Se ha guardado exitosamente</div>");
-                $this->response->redirect("bancos/index");
+                $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha guardado exitosamente</strong></p></div>");
+                $this->response->redirect("bancos");
                 $this->view->disable();
             }
 			
@@ -56,17 +56,16 @@ class BancosController extends \Phalcon\Mvc\Controller
 
             $this->tag->setDefault("id", $banco->getIdBancos());
             $this->tag->setDefault("banco", $banco->getNbBancos());
-           
-            /*Idniveldinst*/
+
         }
 		
 	}
 
 	
-public function editadoAction()
+    public function editadoAction()
     {
         if (!$this->request->isPost()) {
-            $this->response->redirect("bancos/index");
+            $this->response->redirect("bancos");
             $this->view->disable();
         }
    
@@ -75,7 +74,7 @@ public function editadoAction()
         $banco = NbBancos::findFirstByIdBancos($id);
         if (!$banco) {
             $this->flashSession->error("Banco No Existe " . $id);
-            $this->response->redirect("bancos/index");
+            $this->response->redirect("bancos");
             $this->view->disable();
         }
 
@@ -91,7 +90,7 @@ public function editadoAction()
             $this->view->disable();
         }
         $this->flashSession->error("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Banco Actualizado</strong></p></div>");
-        $this->response->redirect("bancos/index");
+        $this->response->redirect("bancos");
         $this->view->disable();
     }
 

@@ -13,7 +13,7 @@
 									
 													
 												
-						{{ form("discapacidad/editado", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
+						{{ form("discapacidades/editado", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
 						<fieldset>
 						{{ content() }}
 						{{ hidden_field("id") }}

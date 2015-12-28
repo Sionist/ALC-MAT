@@ -11,6 +11,8 @@
 
 {{ form("descuentos/guardar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
 
+ <?php echo $this->flashSession->output(); ?>
+ 
 {{ text_field("descuento", "id":"desc", "class":"form-control", "required":"required", "placeholder":"Descuento") }}
 {{ text_field("rif","id":"rif", "class":"form-control rif", "required":"required", "placeholder":"Rif") }}
 

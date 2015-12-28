@@ -29,24 +29,15 @@ class TasasbcvController extends \Phalcon\Mvc\Controller
 			
 			if (!$tasa->save()) {
                 foreach ($tasa->getMessages() as $message) {
-                    $this->flash->error($message);
+                    $this->flashSession->error($message);
                 }
-                return $this->dispatcher->forward(array(
-                    "controller" => "tasasbcv",
-                    "action" => "index"
-                ));
+                $this->response->redirect("tasas-bcv");
+                $this->view->disable();
             }
-			
 		}
-		
-		
-		$this->flash->success("<div class='alert alert-block alert-success'>Guardado con exito</div>");
-        return $this->dispatcher->forward(array(
-            "controller" => "tasasbcv",
-            "action" => "index"
-        ));
-		
-		
+        $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha guardado exitosamente</strong></p></div>");
+        $this->response->redirect("tasas-bcv");
+        $this->view->disable();
 	}
 
 
@@ -55,70 +46,45 @@ class TasasbcvController extends \Phalcon\Mvc\Controller
 
             $tasa = TasasBcv::findFirstByIdTasa($id);
             if (!$tasa) {
-                $this->flash->error("Tasa No Fue Encontrada");
-
-                return $this->dispatcher->forward(array(
-                    "controller" => "tasasbcv",
-                    "action" => "index"
-                ));
+                $this->flashSession->error("Tasa No Fue Encontrada");
+                $this->response->redirect("tasas-bcv");
+                $this->view->disable();
             }
-
             $this->view->id = $tasa->id_tasa;
-
             $this->tag->setDefault("id", $tasa->getIdTasa());
             $this->tag->setDefault("tasa", $tasa->getTasa());
 			$this->tag->setDefault("mes", $tasa->getMes());
 			$this->tag->setDefault("yeartasa", $tasa->getAnoTasa());
-           
-            /*Idniveldinst*/
         }
-		
 	}
 
 	
 public function editadoAction()
     {
-
-        if (!$this->request->isPost()) {
-            return $this->dispatcher->forward(array(
-                "controller" => "tasasbcv",
-                "action" => "index"
-            ));
-        }
-   
-        $id = $this->request->getPost("id");
-
-        $tasa = TasasBcv::findFirstByIdTasa($id);
-        if (!$tasa) {
-            $this->flash->error("Tasa No Existe " . $id);
-
-            return $this->dispatcher->forward(array(
-                "controller" => "tasasbcv",
-                "action" => "index"
-            ));
-        }
-
-        $tasa->setTasa($this->request->getPost("tasa"));
-		$tasa->setMes($this->request->getPost("mes"));
-		$tasa->setAnoTasa($this->request->getPost("yeartasa"));
-                
-
-        if (!$tasa->save()) {
-
-            foreach ($tasa->getMessages() as $message) {
-                $this->flash->error($message);
+        if ($this->request->isPost()) {
+            $id = $this->request->getPost("id");
+            $tasa = TasasBcv::findFirstByIdTasa($id);
+            if (!$tasa) {
+                $this->flashSession->error("Tasa No Existe " . $id);
+                $this->response->redirect("tasas-bcv");
+                $this->view->disable();
             }
+            $tasa->setTasa($this->request->getPost("tasa"));
+            $tasa->setMes($this->request->getPost("mes"));
+            $tasa->setAnoTasa($this->request->getPost("yeartasa"));
 
-            return $this->dispatcher->forward(array(
-                "controller" => "tasasbcv",
-                "action" => "editar",
-                "params" => array($tasa->id_tasa)
-            ));
+            if (!$tasa->save()) {
+                foreach ($tasa->getMessages() as $message) {
+                    $this->flashSession->error($message);
+                }
+                $this->response->redirect("tasas-bcv");
+                $this->view->disable();
+            }else{
+                $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha modificado exitosamente</strong></p></div>");
+                $this->response->redirect("tasas-bcv");
+                $this->view->disable();
+            }
         }
-
-        $this->flash->success("Tasa Actualizada");
-
-       return $this->response->redirect('tasasbcv/index');
 
     }
 

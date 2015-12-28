@@ -13,7 +13,7 @@
 									
 													
 												
-						{{ form("tipocontrato/editado", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
+						{{ form("tipos-contrato/editado", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
 						<fieldset>
 						{{ content() }}
 						{{ hidden_field("id") }}

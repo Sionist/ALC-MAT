@@ -8,7 +8,7 @@
 
 <!-- Formulario para agregar  (insertar) -->
 
-{{ form("discapacidad/guardar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
+{{ form("discapacidades/guardar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
 
 
 
@@ -18,7 +18,7 @@
 {{ endForm() }}
 
 <!-- fin  Formulario para agregar discapacidad -->
-{{ content() }}
+<?php echo $this->flashSession->output(); ?>
 <!-- tabla para mostrar todos los registros de la tabla-->
  
 <div class="row">
@@ -66,7 +66,7 @@
                                                         
                                                 <td>
                                                     <div class="hidden-sm hidden-xs action-buttons">
-                                                    <?php echo $this->tag->linkTo(array("discapacidad/editar/".$row->id_discapacid, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"))  ?>
+                                                    <?php echo $this->tag->linkTo(array("discapacidades/editar/".$row->id_discapacid, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"))  ?>
                                                     </div>
                                                 </td>
                                             </tr>

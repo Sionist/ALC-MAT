@@ -313,6 +313,7 @@ use Phalcon\Forms\Element\Select ?>
             </div>    
      <div style="text-align:right">{{ submit_button('Siguiente', "class" :"btn btn-primary") }}</div>
         </form>
+    </div>
     </div>  
 
   

@@ -10,7 +10,7 @@
 
 {{ form("profesiones/guardar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
 
-{{ content() }}
+<?php echo $this->flashSession->output(); ?>
 
 {{ text_field("profesion", "class":"form-control", "required":"required", "placeholder":"Profesiones") }}
 

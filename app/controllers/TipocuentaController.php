@@ -7,14 +7,12 @@ class TipocuentaController extends \Phalcon\Mvc\Controller
 	{
 		$this->view->setTemplateAfter('blank');
 	}
-	
 
     public function indexAction()
     {
 		$cuenta=TipoCuent::Find();
 		$this->view->SetParamToView("cuenta",$cuenta);
     }
-
 
 	public function guardarAction()
 	{
@@ -25,24 +23,16 @@ class TipocuentaController extends \Phalcon\Mvc\Controller
 			
 			if (!$cuenta->save()) {
                 foreach ($cuenta->getMessages() as $message) {
-                    $this->flash->error($message);
+                    $this->flashSession->error($message);
                 }
-                return $this->dispatcher->forward(array(
-                    "controller" => "tipocuenta",
-                    "action" => "index"
-                ));
+                $this->response->redirect("tipos-cuentas");
+                $this->view->disable();
             }
 			
 		}
-		
-		
-		$this->flash->success("<div class='alert alert-block alert-success'>Guardado con exito</div>");
-        return $this->dispatcher->forward(array(
-            "controller" => "tipocuenta",
-            "action" => "index"
-        ));
-		
-		
+        $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha guardado exitosamente</strong></p></div>");
+        $this->response->redirect("tipos-cuentas");
+        $this->view->disable();
 	}
 
 
@@ -51,68 +41,46 @@ class TipocuentaController extends \Phalcon\Mvc\Controller
 
             $cuenta = TipoCuent::findFirstByIdTipocuent($id);
             if (!$cuenta) {
-                $this->flash->error("Cuenta No Fue Encontrada");
-
-                return $this->dispatcher->forward(array(
-                    "controller" => "cuenta",
-                    "action" => "index"
-                ));
+                $this->flashSession->error("Cuenta No Fue Encontrada");
+                $this->response->redirect("tipos-cuentas");
+                $this->view->disable();
             }
-
             $this->view->id = $cuenta->id_tipocuent;
-
             $this->tag->setDefault("id", $cuenta->getIdTipocuent());
             $this->tag->setDefault("cuenta", $cuenta->getTipoCuenta());
-           
-            /*Idniveldinst*/
         }
-		
 	}
 
 	
-public function editadoAction()
+    public function editadoAction()
     {
+        if ($this->request->isPost()) {
 
-        if (!$this->request->isPost()) {
-            return $this->dispatcher->forward(array(
-                "controller" => "tipocuenta",
-                "action" => "index"
-            ));
-        }
-   
-        $id = $this->request->getPost("id");
+            $id = $this->request->getPost("id");
 
-        $cuenta = TipoCuent::findFirstByIdTipocuent($id);
-        if (!$cuenta) {
-            $this->flash->error("Cuenta No Existe " . $id);
-
-            return $this->dispatcher->forward(array(
-                "controller" => "tipocuenta",
-                "action" => "index"
-            ));
-        }
-
-        $cuenta->setTipoCuenta($this->request->getPost("cuenta"));
-                
-
-        if (!$cuenta->save()) {
-
-            foreach ($cuenta->getMessages() as $message) {
-                $this->flash->error($message);
+            $cuenta = TipoCuent::findFirstByIdTipocuent($id);
+            if (!$cuenta) {
+                $this->flashSession->error("Cuenta No Existe " . $id);
+                $this->response->redirect("tipos-cuentas");
+                $this->view->disable();
             }
 
-            return $this->dispatcher->forward(array(
-                "controller" => "cuenta",
-                "action" => "editar",
-                "params" => array($cuenta->id_tipocuent)
-            ));
+            $cuenta->setTipoCuenta($this->request->getPost("cuenta"));
+
+
+            if (!$cuenta->save()) {
+
+                foreach ($cuenta->getMessages() as $message) {
+                    $this->flashSession->error($message);
+                }
+                $this->response->redirect("tipos-cuentas");
+                $this->view->disable();
+            }else{
+                $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha modificado exitosamente</strong></p></div>");
+                $this->response->redirect("tipos-cuentas");
+                $this->view->disable();
+            }
         }
-
-        $this->flash->success("Cuenta Actualizada");
-
-       return $this->response->redirect('tipocuenta/index');
-
     }
-
 }
 

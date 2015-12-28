@@ -8,9 +8,9 @@
 
 <!-- Formulario para agregar  (insertar) -->
 
-{{ form("direcciones/guardar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
+{{ form("direcciones-alcaldia/guardar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
 
-{{ content() }}
+<?php echo $this->flashSession->output(); ?>
 
 {{ text_field("sector", "class":"form-control", "required":"required", "placeholder":"Centro Gestor") }}
 {{ text_field("direccion", "class":"form-control", "required":"required", "placeholder":"Denominación") }}
@@ -64,7 +64,7 @@
                                                         
                                                 <td>
                                                     <div class="hidden-sm hidden-xs action-buttons">
-                                                    <?php echo $this->tag->linkTo(array("direccionesAlcaldia/editar/".$row->id_direcciones, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"))  ?>
+                                                    <?php echo $this->tag->linkTo(array("direcciones-alcaldia/editar/".$row->id_direcciones, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"))  ?>
                                                     </div>
                                                 </td>
                                             </tr>

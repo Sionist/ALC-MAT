@@ -9,7 +9,6 @@ class TiposNominasController extends \Phalcon\Mvc\Controller
         $this->view->setTemplateAfter('blank');    
     }
 
-    
 	public function indexAction()
 	{
 		
@@ -27,7 +26,6 @@ class TiposNominasController extends \Phalcon\Mvc\Controller
 		$this->view->SetParamToView("frecuencia",$frecuen);
     }
 
-
 	public function guardarAction()
 	{
 		if ($this->request->isPost())
@@ -38,37 +36,24 @@ class TiposNominasController extends \Phalcon\Mvc\Controller
 			
 			if (!$tiponomi->save()) {
                 foreach ($tiponomi->getMessages() as $message) {
-                    $this->flash->error($message);
+                    $this->flashSession->error($message);
                 }
-                return $this->dispatcher->forward(array(
-                    "controller" => "TiposNominas",
-                    "action" => "index"
-                ));
+                $this->response->redirect("tipos-nominas");
+                $this->view->disable();
             }
-			
+            $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha guardado exitosamente</strong></p></div>");
+            $this->response->redirect("tipos-nominas");
+            $this->view->disable();
 		}
-		
-		
-		$this->flash->success("<div class='alert alert-block alert-success'>Guardado con exito</div>");
-        return $this->dispatcher->forward(array(
-            "controller" => "TiposNominas",
-            "action" => "index"
-        ));
-		
-		
 	}	
 
-		public function editarAction($id) {
+    public function editarAction($id) {
         if (!$this->request->isPost()) {
-
             $tiponomi = TipoNomi::findFirstByIdNomina($id);
             if (!$tiponomi) {
-                $this->flash->error("Tipo de Nómina No Fue Encontrado");
-
-                return $this->dispatcher->forward(array(
-                    "controller" => "TiposNominas",
-                    "action" => "index"
-                ));
+                $this->flashSession->error("Tipo de Nómina No Fue Encontrado");
+                $this->response->redirect("tipos-nominas");
+                $this->view->disable();
             }
 
             $this->view->id = $tiponomi->id_nomina;
@@ -77,70 +62,41 @@ class TiposNominasController extends \Phalcon\Mvc\Controller
             $this->tag->setDefault("id", $tiponomi->getIdNomina());
             $this->tag->setDefault("tiponomi", $tiponomi->getNomina());
 			$this->tag->setDefault("frecuencia", $tiponomi->getFrecuencia());
-			
-			
-			/*$vfre = Frecuencia::findFirstByIdFrecuencia($id);
-            if (!$vfre) {
-                $this->flash->error("Frecuencia No Encontrada");
-
-                return $this->dispatcher->forward(array(
-                    "controller" => "tiponomina",
-                    "action" => "index"
-                ));
-            }
-            
-			$this->view->frecuencias = $vfre->frecuencia;
-			/*$this->tag->setDefault("frecuencia", $vfre->getFrecuencia());*/
-            
         }
-		
 	}
 
-	
-		public function editadoAction()
-		{
 
-			if (!$this->request->isPost()) {
-				return $this->dispatcher->forward(array(
-					"controller" => "tiponomina",
-					"action" => "index"
-				));
-        }
-   
-        $id = $this->request->getPost("id");
-		$idf = $this->request->getPost("idf");
+    public function editadoAction()
+    {
+        if ($this->request->isPost()) {
 
-        $tiponomi = TipoNomi::findFirstByIdNomina($id);
-        if (!$tiponomi) {
-            $this->flash->error("Tipo de Nómina No Existe " . $id);
+            $id = $this->request->getPost("id");
+            $idf = $this->request->getPost("idf");
 
-            return $this->dispatcher->forward(array(
-                "controller" => "TiposNominas",
-                "action" => "index"
-            ));
-        }
-
-        $tiponomi->setNomina($this->request->getPost("tiponomi"));
-        $tiponomi->setFrecuencia($this->request->getPost("frecuencia"));
-
-        if (!$tiponomi->save()) {
-
-            foreach ($tiponomi->getMessages() as $message) {
-                $this->flash->error($message);
+            $tiponomi = TipoNomi::findFirstByIdNomina($id);
+            if (!$tiponomi) {
+                $this->flashSession->error("Tipo de Nómina No Existe " . $id);
+                $this->response->redirect("tipos-nominas");
+                $this->view->disable();
             }
 
-            return $this->dispatcher->forward(array(
-                "controller" => "TiposNominas",
-                "action" => "editar",
-                "params" => array($tiponomi->id_nomina)
-            ));
+            $tiponomi->setNomina($this->request->getPost("tiponomi"));
+            $tiponomi->setFrecuencia($this->request->getPost("frecuencia"));
+
+            if (!$tiponomi->save()) {
+
+                foreach ($tiponomi->getMessages() as $message) {
+                    $this->flashSession->error($message);
+                }
+                $this->response->redirect("tipos-nominas");
+                $this->view->disable();
+            }else{
+                $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha modificado exitosamente</strong></p></div>");
+                $this->response->redirect("tipos-nominas");
+                $this->view->disable();
+            }
         }
 
-        $this->flash->success("Tipo de Nómina Actualizado");
-
-       return $this->response->redirect('TiposNominas/index');
-
     }
-	
 }
 

@@ -28,23 +28,23 @@ class CiudadesController extends \Phalcon\Mvc\Controller
 	  
 	  /*echo "este es el id del estado ".$estado;*/
 		
-		 $query = new Phalcon\Mvc\Model\Query("SELECT ciudades.id_ciudad, ciudades.ciudad FROM ciudades INNER JOIN estados WHERE estados.id_estado=ciudades.id_estado AND estados.id_estado=".$estado." ORDER BY ciudades.ciudad ASC", $this->getDI()); 
+		$query = new Phalcon\Mvc\Model\Query("SELECT ciudades.id_ciudad, ciudades.ciudad FROM ciudades INNER JOIN estados WHERE estados.id_estado=ciudades.id_estado AND estados.id_estado=".$estado." ORDER BY ciudades.ciudad ASC", $this->getDI());
 	
-	$ciudades = $query->execute();
-		
-	$row = array();
-	
-	foreach($ciudades as $ciudad)
-	{
-	array_push($row,$ciudad);
-	}
+		$ciudades = $query->execute();
 
-		$this->response->setJsonContent(array(
-			"ciud" => $row
-			));
-		$this->response->setStatusCode(200, "OK");
-		$this->response->send();
-		
+		$row = array();
+
+		foreach($ciudades as $ciudad)
+		{
+		array_push($row,$ciudad);
+		}
+
+			$this->response->setJsonContent(array(
+				"ciud" => $row
+				));
+			$this->response->setStatusCode(200, "OK");
+			$this->response->send();
+
 		
 	}
 
@@ -54,12 +54,9 @@ class CiudadesController extends \Phalcon\Mvc\Controller
 
             $ciudad = Ciudades::findFirstByCiudad($ciudad);
             if (!$ciudad) {
-                $this->flash->error("Ciudad No Encontrada");
-
-                return $this->dispatcher->forward(array(
-                    "controller" => "Ciudades",
-                    "action" => "index"
-                ));
+                $this->flashSession->error("Ciudad No Encontrada");
+				$this->response->redirect("ciudades");
+				$this->view->disable();
             }
 
             $this->view->id = $ciudad->ciudad;

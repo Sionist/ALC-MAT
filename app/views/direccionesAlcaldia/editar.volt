@@ -12,7 +12,7 @@
 						<div class="widget-main no-padding">
 													
 												
-						{{ form("DireccionesAlcaldia/editado", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
+						{{ form("direcciones-alcaldia/editado", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
 						<fieldset>
 						{{ content() }}
 						{{ hidden_field("id") }}

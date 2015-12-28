@@ -15,8 +15,6 @@ class ProfesionesController extends \Phalcon\Mvc\Controller
 		$this->view->SetParamToView("profesion",$profesion);
     }
 
-
-
 	public function guardarAction()
 	{
 		if ($this->request->isPost())
@@ -26,46 +24,30 @@ class ProfesionesController extends \Phalcon\Mvc\Controller
 			
 			if (!$profesion->save()) {
                 foreach ($profesion->getMessages() as $message) {
-                    $this->flash->error($message);
+                    $this->flashSession->error($message);
                 }
-                return $this->dispatcher->forward(array(
-                    "controller" => "profesiones",
-                    "action" => "index"
-                ));
+                $this->response->redirect("profesiones");
+                $this->view->disable();
             }
 			
 		}
-		
-		
-		$this->flash->success("<div class='alert alert-block alert-success'>Guardado con exito</div>");
-        return $this->dispatcher->forward(array(
-            "controller" => "profesiones",
-            "action" => "index"
-        ));
-		
-		
+        $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha guardado exitosamente</strong></p></div>");
+        $this->response->redirect("profesiones");
+        $this->view->disable();
 	}
 
 
 	public function editarAction($id) {
         if (!$this->request->isPost()) {
-
             $profesion = Profesiones::findFirstByIdProfesion($id);
             if (!$profesion) {
-                $this->flash->error("Profesión No Fue Encontrada");
-
-                return $this->dispatcher->forward(array(
-                    "controller" => "profesiones",
-                    "action" => "index"
-                ));
+                $this->flashSession->error("Profesión No Fue Encontrada");
+                $this->response->redirect("profesiones");
+                $this->view->disable();
             }
-
             $this->view->id = $profesion->id_profesion;
-
             $this->tag->setDefault("id", $profesion->getIdProfesion());
             $this->tag->setDefault("profesion", $profesion->getProfesion());
-           
-            /*Idniveldinst*/
         }
 		
 	}
@@ -73,46 +55,31 @@ class ProfesionesController extends \Phalcon\Mvc\Controller
 	
 public function editadoAction()
     {
+        if ($this->request->isPost()) {
+            $id = $this->request->getPost("id");
 
-        if (!$this->request->isPost()) {
-            return $this->dispatcher->forward(array(
-                "controller" => "profesiones",
-                "action" => "index"
-            ));
-        }
-   
-        $id = $this->request->getPost("id");
-
-        $profesion = Profesiones::findFirstByIdProfesion($id);
-        if (!$profesion) {
-            $this->flash->error("Profesión No Existe " . $id);
-
-            return $this->dispatcher->forward(array(
-                "controller" => "profesiones",
-                "action" => "index"
-            ));
-        }
-
-        $profesion->setProfesion($this->request->getPost("profesion"));
-                
-
-        if (!$profesion->save()) {
-
-            foreach ($profesion->getMessages() as $message) {
-                $this->flash->error($message);
+            $profesion = Profesiones::findFirstByIdProfesion($id);
+            if (!$profesion) {
+                $this->flashSession->error("Profesión No Existe " . $id);
+                $this->response->redirect("profesiones");
+                $this->view->disable();
             }
 
-            return $this->dispatcher->forward(array(
-                "controller" => "profesiones",
-                "action" => "editar",
-                "params" => array($profesion->id_profesion)
-            ));
+            $profesion->setProfesion($this->request->getPost("profesion"));
+
+            if (!$profesion->save()) {
+
+                foreach ($profesion->getMessages() as $message) {
+                    $this->flashSession->error($message);
+                }
+                $this->response->redirect("profesiones");
+                $this->view->disable();
+            }else{
+                $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha modificado exitosamente</strong></p></div>");
+                $this->response->redirect("profesiones");
+                $this->view->disable();
+            }
         }
-
-        $this->flash->success("Profesión Actualizada");
-
-       return $this->response->redirect('profesiones/index');
-
     }
 }
 

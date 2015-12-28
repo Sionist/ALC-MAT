@@ -7,15 +7,12 @@ class NivelcargoController extends \Phalcon\Mvc\Controller
 	{
 		$this->view->setTemplateAfter('blank');
 	}
-	
 
     public function indexAction()
     {
 		$nivel=NivelCargo::Find();
 		$this->view->SetParamToView("nivel",$nivel);
     }
-
-
 
 	public function guardarAction()
 	{
@@ -26,93 +23,60 @@ class NivelcargoController extends \Phalcon\Mvc\Controller
 			
 			if (!$nivel->save()) {
                 foreach ($nivel->getMessages() as $message) {
-                    $this->flash->error($message);
+                    $this->flashSession->error($message);
                 }
-                return $this->dispatcher->forward(array(
-                    "controller" => "nivel",
-                    "action" => "index"
-                ));
+                $this->response->redirect("niveles-cargos");
+                $this->view->disable();
             }
-			
-		}
-		
-		
-		$this->flash->success("<div class='alert alert-block alert-success'>Guardado con exito</div>");
-        return $this->dispatcher->forward(array(
-            "controller" => "nivelcargo",
-            "action" => "index"
-        ));
-		
-		
-	}
 
+            $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha guardado exitosamente</strong></p></div>");
+            $this->response->redirect("niveles-cargos");
+            $this->view->disable();
+        }
+	}
 
 	public function editarAction($id) {
         if (!$this->request->isPost()) {
 
             $nivel = NivelCargo::findFirstByIdNivelcargo($id);
             if (!$nivel) {
-                $this->flash->error("Nivel de Cargo No Fue Encontrado");
-
-                return $this->dispatcher->forward(array(
-                    "controller" => "nivelcargo",
-                    "action" => "index"
-                ));
+                $this->flashSession->error("Nivel de Cargo No Fue Encontrado");
+                $this->response->redirect("niveles-cargos");
+                $this->view->disable();
             }
-
             $this->view->id = $nivel->id_nivelcargo;
-
             $this->tag->setDefault("id", $nivel->getIdNivelcargo());
             $this->tag->setDefault("nivel", $nivel->getNivelcargo());
-           
-            
         }
-		
 	}
 
-	
-public function editadoAction()
+    public function editadoAction()
     {
+        if ($this->request->isPost()) {
+            $id = $this->request->getPost("id");
+            $nivel = NivelCargo::findFirstByIdNivelcargo($id);
 
-        if (!$this->request->isPost()) {
-            return $this->dispatcher->forward(array(
-                "controller" => "nivel",
-                "action" => "index"
-            ));
-        }
-   
-        $id = $this->request->getPost("id");
+            if (!$nivel) {
+                $this->flashSession->error("Nivel de Cargo No Existe " . $id);
+                $this->response->redirect("niveles-cargos");
+                $this->view->disable();
+            } else {
 
-        $nivel = NivelCargo::findFirstByIdNivelcargo($id);
-        if (!$nivel) {
-            $this->flash->error("Nivel de Cargo No Existe " . $id);
+                $nivel->setNivelcargo($this->request->getPost("nivel"));
 
-            return $this->dispatcher->forward(array(
-                "controller" => "nivelcargo",
-                "action" => "index"
-            ));
-        }
-
-        $nivel->setNivelcargo($this->request->getPost("nivel"));
-        
-
-        if (!$nivel->save()) {
-
-            foreach ($nivel->getMessages() as $message) {
-                $this->flash->error($message);
+                if (!$nivel->save()) {
+                    foreach ($nivel->getMessages() as $message) {
+                        $this->flashSession->error($message);
+                    }
+                    $this->response->redirect("niveles-cargos");
+                    $this->view->disable();
+                } else {
+                    $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha modificado exitosamente</strong></p></div>");
+                    $this->response->redirect("niveles-cargos");
+                    $this->view->disable();
+                }
             }
-
-            return $this->dispatcher->forward(array(
-                "controller" => "nivelcargo",
-                "action" => "editar",
-                "params" => array($nivel->id_nivelcargo)
-            ));
         }
-
-        $this->flash->success("Nivel de Cargo Actualizado");
-
-       return $this->response->redirect('nivelcargo/index');
-
     }
 
 }

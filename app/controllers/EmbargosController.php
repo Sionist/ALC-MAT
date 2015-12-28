@@ -116,7 +116,7 @@ class EmbargosController extends \Phalcon\Mvc\Controller
     		$this->tag->setDefault("fdictamen",$embargo->getFEmb());
     		$this->tag->setDefault("porcentaje",$embargo->getPorcentajeEmb());
 
-    		$this->tag->setDefault("concep",$fondo->getFondo());
+    		$this->tag->setDefault("concepto",$embargo->getIdFondo());
     	}	
     }
 
@@ -166,7 +166,7 @@ class EmbargosController extends \Phalcon\Mvc\Controller
     }
 
 
-    public function obtenerFondo()
+    public function obtenerFondoAction()
     {
     	$this->view->disable();
 
@@ -176,7 +176,10 @@ class EmbargosController extends \Phalcon\Mvc\Controller
     		$fondo = FondoDesc::findFirstByIdFondo($idfondo);
 			$this->view->fondo = $fondo->fondo;
     	}
-
+    	else
+    	{
+    		echo "alguna de las dos condiciones no se cumplio";
+    	}
 
 
 

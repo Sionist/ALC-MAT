@@ -3,8 +3,6 @@
 		try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
 	</script>
 
-
-
 	<ul class="nav nav-list">
 		<li class="">
 			<a href="#">
@@ -62,11 +60,7 @@
 			<b class="arrow"></b>
 			<ul class="submenu">
 				<li class="">
-					<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/variaciones/index">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Variaciones
-					</a>
-
+					<?php echo $this->tag->linkTo("nomina/variaciones-movimientos","<i class='menu-icon fa fa-caret-right'></i>Variaciones - Movimientos") ?>
 					<b class="arrow"></b>
 				</li>
 			</ul>						
@@ -107,223 +101,140 @@
 
 			<ul class="submenu">
 				<li class="">
-					<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/asignaciones">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Asignaciones
-					</a>
+					<?php echo $this->tag->linkTo("asignaciones","<i class='menu-icon fa fa-caret-right'></i>Asignaciones") ?>
+					<b class="arrow"></b>
+				</li>
+
+				<li class="">
+					<?php echo $this->tag->linkTo("bancos","<i class='menu-icon fa fa-caret-right'></i>Bancos") ?>
+					<b class="arrow"></b>
+				</li>
+
+				<li class="">
+
+					<?php echo $this->tag->linkTo("cargos","<i class='menu-icon fa fa-caret-right'></i>Cargos") ?>
 
 					<b class="arrow"></b>
 				</li>
 
 				<li class="">
-					<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/bancos">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Bancos
-					</a>
+					<?php echo $this->tag->linkTo("ciudades","<i class='menu-icon fa fa-caret-right'></i>Ciudades") ?>
 
 					<b class="arrow"></b>
 				</li>
 
 				<li class="">
-					<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/cargos">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Cargos
-					</a>
+					<?php echo $this->tag->linkTo("clasificaciones","<i class='menu-icon fa fa-caret-right'></i>Clasificaciones") ?>
 
 					<b class="arrow"></b>
 				</li>
 
 				<li class="">
-					<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/ciudades">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Ciudades
-					</a>
-
-					<b class="arrow"></b>
-				</li>
-
-				<li class="">
-					<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/clasificaciones">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Clasificaciones
-					</a>
-
-					<b class="arrow"></b>
-				</li>
-
-				<li class="">
-					<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/ConvencionColectiva">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Convención Colectiva
-					</a>
+					<?php echo $this->tag->linkTo("convencion-colectiva","<i class='menu-icon fa fa-caret-right'></i>Convención Colectiva") ?>
 
 					<b class="arrow"></b>
 				</li>
 				<li class="">
-					<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/deducciones">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Deducciones
-					</a>
+					<?php echo $this->tag->linkTo("deducciones","<i class='menu-icon fa fa-caret-right'></i>Deducciones") ?>
 
 					<b class="arrow"></b>
 				</li>
 				<li class="">
-					<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/descuentos">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Descuentos
-					</a>
+					<?php echo $this->tag->linkTo("descuentos","<i class='menu-icon fa fa-caret-right'></i>Descuentos") ?>
 
 					<b class="arrow"></b>
 				</li>
 				<li class="">
-					<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/diasbonificacion">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Días de Bonificación Fin de Año
-					</a>
+					<?php echo $this->tag->linkTo("dias-bonificacion","<i class='menu-icon fa fa-caret-right'></i>Días de Bonificación Fin de Año") ?>
 
 					<b class="arrow"></b>
 				</li>
 				<li class="">
-					<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/diasPrestaciones">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Días Prestaciones
-					</a>
+					<?php echo $this->tag->linkTo("dias-prestaciones","<i class='menu-icon fa fa-caret-right'></i>Días Prestaciones") ?>
 
 					<b class="arrow"></b>
 				</li>
 				<li class="">
-					<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/direccionesAlcaldia">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Direcciones de Alcaldía
-					</a>
+					<?php echo $this->tag->linkTo("direcciones-alcaldia","<i class='menu-icon fa fa-caret-right'></i>Direcciones de Alcaldía") ?>
 
 					<b class="arrow"></b>
 				</li>
 				<li class="">
-					<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/discapacidad">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Discapacidades
-					</a>
+					<?php echo $this->tag->linkTo("discapacidades","<i class='menu-icon fa fa-caret-right'></i>Discapacidades") ?>
 
 					<b class="arrow"></b>
 				</li>
 				<li class="">
-					<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/estados">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Estados
-					</a>
+					<?php echo $this->tag->linkTo("estados","<i class='menu-icon fa fa-caret-right'></i>Estados") ?>
 
 					<b class="arrow"></b>
 				</li>
 				<li class="">
-					<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/estatus">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Estatus
-					</a>
+					<?php echo $this->tag->linkTo("estatus","<i class='menu-icon fa fa-caret-right'></i>Estatus") ?>
 
 					<b class="arrow"></b>
 				</li>
 				<li class="">
-					<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/fondos">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Fondos para Embargo
-					</a>
+					<?php echo $this->tag->linkTo("fondos-embargos","<i class='menu-icon fa fa-caret-right'></i>Fondos para Embargo") ?>
 
 					<b class="arrow"></b>
 				</li>
 				<li class="">
-					<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/frecuencia">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Frecuencias
-					</a>
+					<?php echo $this->tag->linkTo("frecuencias","<i class='menu-icon fa fa-caret-right'></i>Frecuencias") ?>
 
 					<b class="arrow"></b>
 				</li>
 				<li class="">
-					<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/nivelCargo">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Niveles de Cargos
-					</a>
+					<?php echo $this->tag->linkTo("niveles-cargos","<i class='menu-icon fa fa-caret-right'></i>Niveles de Cargos") ?>
 
 					<b class="arrow"></b>
 				</li>
 				<li class="">
-					<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/nivelInstruccion">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Niveles de Instrucción
-					</a>
+					<?php echo $this->tag->linkTo("nivel-instruccion","<i class='menu-icon fa fa-caret-right'></i>Niveles de Instrucción") ?>
 
 					<b class="arrow"></b>
 				</li>
 				<li class="">
-					<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/parentesco">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Parentesco
-					</a>
+					<?php echo $this->tag->linkTo("parentesco","<i class='menu-icon fa fa-caret-right'></i>Parentesco") ?>
 
 					<b class="arrow"></b>
 				</li>
 				<li class="">
-					<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/profesiones">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Profesiones
-					</a>
+					<?php echo $this->tag->linkTo("profesiones","<i class='menu-icon fa fa-caret-right'></i>Profesiones") ?>
+					<b class="arrow"></b>
+				</li>
+				<li class="">
+					<?php echo $this->tag->linkTo("tallas","<i class='menu-icon fa fa-caret-right'></i>Tallas") ?>
 
 					<b class="arrow"></b>
 				</li>
 				<li class="">
-					<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/tipoTallas">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Tallas
-					</a>
+					<?php echo $this->tag->linkTo("tasas-bcv","<i class='menu-icon fa fa-caret-right'></i>Tasas BCV") ?>
 
 					<b class="arrow"></b>
 				</li>
 				<li class="">
-					<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/tasasBCV">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Tasas BCV
-					</a>
+					<?php echo $this->tag->linkTo("tipos-beneficios","<i class='menu-icon fa fa-caret-right'></i>Tipos de Beneficios") ?>
 
 					<b class="arrow"></b>
 				</li>
 				<li class="">
-					<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/tiposBeneficios">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Tipos de Beneficios
-					</a>
+					<?php echo $this->tag->linkTo("tipos-cobro","<i class='menu-icon fa fa-caret-right'></i>Tipos de Cobro") ?>
 
 					<b class="arrow"></b>
 				</li>
 				<li class="">
-					<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/tipoCobro">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Tipos de Cobro
-					</a>
+					<?php echo $this->tag->linkTo("tipos-contrato","<i class='menu-icon fa fa-caret-right'></i>Tipos de Contratos") ?>
 
 					<b class="arrow"></b>
 				</li>
 				<li class="">
-					<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/tipoContrato">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Tipos de Contrato
-					</a>
+					<?php echo $this->tag->linkTo("tipos-cuentas","<i class='menu-icon fa fa-caret-right'></i>Tipos de Cuentas") ?>
 
 					<b class="arrow"></b>
 				</li>
 				<li class="">
-					<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/tipoCuenta">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Tipos de Cuenta
-					</a>
-
-					<b class="arrow"></b>
-				</li>
-				<li class="">
-					<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/tiposNominas">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Tipos de Nóminas
-					</a>
+				<?php echo $this->tag->linkTo("tipos-nominas","<i class='menu-icon fa fa-caret-right'></i>Tipos de Nominas") ?>
 
 					<b class="arrow"></b>
 				</li>
@@ -345,7 +256,7 @@
 		try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
 	</script>
 	<br>
-<br>
-<br>
-<br>
+	<br>
+	<br>
+	<br>
 </div>

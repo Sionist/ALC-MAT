@@ -28,9 +28,6 @@ class RepososController extends \Phalcon\Mvc\Controller
 		$this->view->apellido1 = $apellido1;
 		$this->view->nu_cedula = $nu_cedula;
 
-		
-
-
 		$query = new Phalcon\Mvc\Model\Query("Select * from NbReposo where nu_cedula=".$nu_cedula."Order by id_reposo",$this->getDI());
         
 		$reposos = $query->execute();

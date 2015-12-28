@@ -57,4 +57,4 @@
 	</div>
 </div>
 </div>
-{{ javascript_include("js/jquery.maskMoney.js") }}
+

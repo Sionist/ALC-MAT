@@ -22,25 +22,20 @@ class FondosController extends \Phalcon\Mvc\Controller
         if ($this->request->isPost()) {
             $fondo = new FondoDesc();
             $fondo->setFondo($this->request->getPost("fondo"));
-			
-			
 
             if (!$fondo->save()) {
                 foreach ($fondo->getMessages() as $message) {
-                    $this->flash->error($message);
+                    $this->flashSession->error($message);
                 }
-                return $this->dispatcher->forward(array(
-                    "controller" => "fondos",
-                    "action" => "index"
-                ));
+                $this->response->redirect("fondos-embargos");
+                $this->view->disable();
+            }else{
+                $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha guardado exitosamente</strong></p></div>");
+                $this->response->redirect("fondos-embargos");
+                $this->view->disable();
             }
         }
 
-        $this->flash->success("<div class='alert alert-block alert-success'>Guardado con exito</div>");
-        return $this->dispatcher->forward(array(
-            "controller" => "fondos",
-            "action" => "index"
-        ));
     }
 	
 	public function editarAction($id) {
@@ -48,68 +43,47 @@ class FondosController extends \Phalcon\Mvc\Controller
 
             $fondo = FondoDesc::findFirstByIdFondo($id);
             if (!$fondo) {
-                $this->flash->error("Fondo No Encontrado");
-
-                return $this->dispatcher->forward(array(
-                    "controller" => "fondos",
-                    "action" => "index"
-                ));
+                $this->flashSession->error("Fondo No Encontrado");
+                $this->response->redirect("fondos-embargos");
+                $this->view->disable();
             }
-
             $this->view->id = $fondo->id_fondo;
-
             $this->tag->setDefault("id", $fondo->getIdFondo());
             $this->tag->setDefault("fondo", $fondo->getFondo());
-           
-            
         }
 		
 	}
 
 	
-public function editadoAction()
+    public function editadoAction()
     {
+        if ($this->request->isPost()) {
 
-        if (!$this->request->isPost()) {
-            return $this->dispatcher->forward(array(
-                "controller" => "fondos",
-                "action" => "index"
-            ));
-        }
-   
-        $id = $this->request->getPost("id");
+            $id = $this->request->getPost("id");
 
-        $fondo = FondoDesc::findFirstByIdFondo($id);
-        if (!$fondo) {
-            $this->flash->error("Fondo No Existe " . $id);
+            $fondo = FondoDesc::findFirstByIdFondo($id);
 
-            return $this->dispatcher->forward(array(
-                "controller" => "fondos",
-                "action" => "index"
-            ));
-        }
-
-        $fondo->setFondo($this->request->getPost("fondo"));
-        
-
-        if (!$fondo->save()) {
-
-            foreach ($fondo->getMessages() as $message) {
-                $this->flash->error($message);
+            if (!$fondo) {
+                $this->flashSession->error("Fondo No Existe " . $id);
+                $this->response->redirect("fondos-embargos");
+                $this->view->disable();
             }
 
-            return $this->dispatcher->forward(array(
-                "controller" => "fondo",
-                "action" => "editar",
-                "params" => array($fondo->id_fondo)
-            ));
+            $fondo->setFondo($this->request->getPost("fondo"));
+
+            if (!$fondo->save()) {
+
+                foreach ($fondo->getMessages() as $message) {
+                    $this->flashSession->error($message);
+                }
+                $this->response->redirect("fondos-embargos");
+                $this->view->disable();
+            }else{
+                $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha modificado exitosamente</strong></p></div>");
+                $this->response->redirect("fondos-embargos");
+                $this->view->disable();
+            }
         }
-
-        $this->flash->success("Fondo Actualizada");
-
-       return $this->response->redirect('fondos/index');
-
     }
-
 }
 

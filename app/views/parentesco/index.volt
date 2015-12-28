@@ -10,7 +10,7 @@
 
 {{ form("parentesco/guardar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
 
-{{ content() }}
+<?php echo $this->flashSession->output(); ?>
 
 {{ text_field("parentesco", "class":"form-control", "required":"required", "placeholder":"Parentesco") }}
 

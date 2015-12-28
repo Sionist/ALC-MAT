@@ -36,11 +36,9 @@ class ConvencionColectivaController extends \Phalcon\Mvc\Controller
                 ));
 			}
 			
-			$this->flash->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Guardado con Exito</strong></p></div>");
-			return $this->dispatcher->forward(array(
-				"controller" => "convencionColectiva",
-				"action" => "index"
-        ));
+			$this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Guardado exitosamente</strong></p></div>");
+			$this->response->redirect("convencion-colectiva");
+			$this->view->disable();
 		}
 	}
 	
@@ -107,13 +105,12 @@ class ConvencionColectivaController extends \Phalcon\Mvc\Controller
 					"controller" => "convencionColectiva",
 					"action" => "index"));
 			}
-			
-			$this->flash->success("Modificación Exitosa");
+
+            $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Modificado exitosamente</strong></p></div>");
+            $this->response->redirect("convencion-colectiva");
+            $this->view->disable();
 		}
 
-		return $this->dispatcher->forward(array(
-			"controller" => "convencionColectiva",
-			"action" => "index"));
 	}    
 }
 

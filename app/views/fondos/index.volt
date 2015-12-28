@@ -8,9 +8,9 @@
 
 <!-- Formulario para agregar  (insertar) -->
 
-{{ form("fondos/guardar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
+{{ form("fondos-embargos/guardar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
 
-{{ content() }}
+<?php echo $this->flashSession->output(); ?>
 
 {{ text_field("fondo", "class":"form-control", "required":"required", "placeholder":"Fondos") }}
 
@@ -59,7 +59,7 @@
                                                         
                                                 <td>
                                                     <div class="hidden-sm hidden-xs action-buttons">
-                                                    <?php echo $this->tag->linkTo(array("fondos/editar/".$row->id_fondo, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"))  ?>
+                                                    <?php echo $this->tag->linkTo(array("fondos-embargos/editar/".$row->id_fondo, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"))  ?>
                                                     </div>
                                                 </td>
                                             </tr>

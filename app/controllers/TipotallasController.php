@@ -22,25 +22,18 @@ class TipotallasController extends \Phalcon\Mvc\Controller
         if ($this->request->isPost()) {
             $tipotalla = new TipoTallas();
             $tipotalla->setConcepto($this->request->getPost("tipotalla"));
-			
-			
 
             if (!$tipotalla->save()) {
                 foreach ($tipotalla->getMessages() as $message) {
-                    $this->flash->error($message);
+                    $this->flashSession->error($message);
                 }
-                return $this->dispatcher->forward(array(
-                    "controller" => "tipotallas",
-                    "action" => "index"
-                ));
+                $this->response->redirect("tallas");
+                $this->view->disable();
             }
+            $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha guardado exitosamente</strong></p></div>");
+            $this->response->redirect("tallas");
+            $this->view->disable();
         }
-
-        $this->flash->success("<div class='alert alert-block alert-success'>Guardado con exito</div>");
-        return $this->dispatcher->forward(array(
-            "controller" => "tipotallas",
-            "action" => "index"
-        ));
     }
 	
 	public function editarAction($id) {
@@ -48,67 +41,44 @@ class TipotallasController extends \Phalcon\Mvc\Controller
 
             $tipotalla = TipoTallas::findFirstByIdTipotalla($id);
             if (!$tipotalla) {
-                $this->flash->error("Tipo de Talla No Encontrado");
-
-                return $this->dispatcher->forward(array(
-                    "controller" => "tipotallas",
-                    "action" => "index"
-                ));
+                $this->flashSession->error("Tipo de Talla No Encontrado");
+                $this->response->redirect("tallas");
+                $this->view->disable();
             }
-
             $this->view->id = $tipotalla->id_tipotalla;
-
             $this->tag->setDefault("id", $tipotalla->getIdTipotalla());
             $this->tag->setDefault("tipotalla", $tipotalla->getConcepto());
-           
-            
         }
-		
 	}
 
 	
 public function editadoAction()
     {
+        if ($this->request->isPost()) {
+            $id = $this->request->getPost("id");
+            $tipotalla = TipoTallas::findFirstByIdTipotalla($id);
 
-        if (!$this->request->isPost()) {
-            return $this->dispatcher->forward(array(
-                "controller" => "tipotallas",
-                "action" => "index"
-            ));
-        }
-   
-        $id = $this->request->getPost("id");
-
-        $tipotalla = TipoTallas::findFirstByIdTipotalla($id);
-        if (!$tipotalla) {
-            $this->flash->error("Tipo de Talla No Existe " . $id);
-
-            return $this->dispatcher->forward(array(
-                "controller" => "tipotallas",
-                "action" => "index"
-            ));
-        }
-
-        $tipotalla->setConcepto($this->request->getPost("tipotalla"));
-        
-
-        if (!$tipotalla->save()) {
-
-            foreach ($tipotalla->getMessages() as $message) {
-                $this->flash->error($message);
+            if (!$tipotalla) {
+                $this->flashSession->error("Tipo de Talla No Existe " . $id);
+                $this->response->redirect("tallas");
+                $this->view->disable();
             }
 
-            return $this->dispatcher->forward(array(
-                "controller" => "tipotallas",
-                "action" => "editar",
-                "params" => array($tipotalla->id_tipotalla)
-            ));
+            $tipotalla->setConcepto($this->request->getPost("tipotalla"));
+
+            if (!$tipotalla->save()) {
+
+                foreach ($tipotalla->getMessages() as $message) {
+                    $this->flashSession->error($message);
+                }
+                $this->response->redirect("tallas");
+                $this->view->disable();
+            }else{
+                $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha modificado exitosamente</strong></p></div>");
+                $this->response->redirect("tallas");
+                $this->view->disable();
+            }
         }
-
-        $this->flash->success("Tipo de Talla Actualizado");
-
-       return $this->response->redirect('tipotallas/index');
-
     }
 }
 

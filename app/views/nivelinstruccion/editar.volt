@@ -13,7 +13,7 @@
 									
 													
 												
-						{{ form("nivelinstruccion/editado", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
+						{{ form("nivel-instruccion/editado", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
 						<fieldset>
 						{{ content() }}
 						{{ hidden_field("id") }}

@@ -40,11 +40,9 @@ class DiasbonificacionController extends \Phalcon\Mvc\Controller
                 ));
 			}
 			
-			$this->flash->success("<div class='alert alert-block alert-success'>Guardado con Exito</div>");
-			return $this->dispatcher->forward(array(
-				"controller" => "diasbonificacion",
-				"action" => "index"
-        ));
+			$this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha guardado exitosamente</strong></p></div>");
+			$this->response->redirect("dias-bonificacion");
+			$this->view->disable();
 		}
 	}
 	
@@ -79,11 +77,8 @@ class DiasbonificacionController extends \Phalcon\Mvc\Controller
 		if ($this->request->isPost())
 		{
 			$id = $this->request->getPost("id");
-			
-			
+
 			$diasb = Diasbonificacion::findFirstByIdDiasbonificacion($id);
-			
-			
 			
 			if (!$diasb)
 			{
@@ -106,14 +101,12 @@ class DiasbonificacionController extends \Phalcon\Mvc\Controller
 				return $this->dispatcher->forward(array(
 					"controller" => "diasbonificacion",
 					"action" => "index"));
+			}else {
+				$this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha modificado exitosamente</strong></p></div>");
+				$this->response->redirect("dias-bonificacion");
+				$this->view->disable();
 			}
-			
-			$this->flash->success("Modificación Exitosa");
 		}
-
-		return $this->dispatcher->forward(array(
-			"controller" => "diasbonificacion",
-			"action" => "index"));
 	}
 	
 }

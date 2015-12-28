@@ -328,5 +328,9 @@ class TrabajadoresController extends \Phalcon\Mvc\Controller
         
     }
 
+    public function ficha2Action(){
+
+    }
+
 }
 

@@ -13,7 +13,7 @@
 									
 													
 												
-						{{ form("tiposbeneficios/editado", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
+						{{ form("tipos-beneficios/editado", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
 						<fieldset>
 						{{ content() }}
 						{{ hidden_field("id") }}

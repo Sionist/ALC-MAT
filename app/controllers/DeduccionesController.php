@@ -16,21 +16,9 @@ class DeduccionesController extends \Phalcon\Mvc\Controller
     }
 
     public function guardarAction(){
-        //almacena la vista
-        $vista = $this->dispatcher->forward(array(
-            'controller'=>'deducciones',
-            'action'=>'index'
-        ));
 
         if($this->request->isPost()){
-            //almacena la vista
-            $vista = $this->dispatcher->forward(array(
-                'controller'=>'deducciones',
-                'action'=>'index'
-            ));
-
             $deduccion = new NbDeducciones();
-
             $deduccion->setNbDeduccion($this->request->getPost("deduccion"));
             $deduccion->setFormula($this->request->getPost("formula"));
             $deduccion->setIdFrecuencia($this->request->getPost("frecuencia"));
@@ -38,17 +26,15 @@ class DeduccionesController extends \Phalcon\Mvc\Controller
 
             if(!$deduccion->save()){
                 foreach ($deduccion->getMessages() as $message) {
-                    $this->flash->error($message);
+                    $this->flashSession->error($message);
                 }
-                return $vista;
+                $this->response->redirect("deducciones");
+                $this->view->disable();
             }else{
-                $this->flash->success("<div class='alert alert-block alert-success'>Guardado con exito</div>");
+                $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Guardado exitosamente</strong></p></div>");
+                $this->response->redirect("deducciones");
+                $this->view->disable();
             }
-        }
-        else{
-            //si la solicitud no es Post
-            $this->flash->error("<div class='alert alert-block alert-success'>Se ha Producido un Error</div>");
-            return $vista;
         }
     }
 
@@ -66,11 +52,6 @@ class DeduccionesController extends \Phalcon\Mvc\Controller
     }
 
     public function editadoAction(){
-        //almacena la vista
-        $vista = $this->dispatcher->forward(array(
-            'controller'=>'deducciones',
-            'action'=>'index'
-        ));
 
         if($this->request->isPost()){
             //almacena el valor del tag id de la vista
@@ -86,18 +67,15 @@ class DeduccionesController extends \Phalcon\Mvc\Controller
 
                 if(!$deduccion->save()){
                     foreach ($deduccion->getMessages() as $message) {
-                        $this->flash->error($message);
+                        $this->flashSession->error($message);
                     }
-                    return $vista;
                 }else{
-                    $this->flash->success("<div class='alert alert-block alert-success'>Guardado con exito</div>");
+                    $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Editado exitosamente</strong></p></div>");
+                    $this->response->redirect("deducciones");
+                    $this->view->disable();
                 }
             }
-        }else{
-            //si la solicitud no es POST
-            $this->flash->error("<div class='alert alert-block alert-danger'>Se Ha Producido Un Error</div>");
         }
-        return $vista;
     }
 
 

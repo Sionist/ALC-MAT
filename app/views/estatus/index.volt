@@ -10,8 +10,6 @@
 
 {{ form("estatus/guardar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
 
-{{ content() }}
-
 {{ text_field("estatus", "class":"form-control", "required":"required", "placeholder":"Estatus") }}
 
 {{ submit_button("Guardar", "class":"btn btn-primary") }}

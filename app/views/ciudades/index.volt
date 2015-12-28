@@ -1,8 +1,9 @@
 
   
 <div id="page-wrapper">
+<?php echo $this->flashSession->output(); ?>
 {{ form("ciudades/guardar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
-{{ content() }}
+
 
 <?php
 
@@ -93,7 +94,7 @@ $(document).ready(function()
    {
     var id_estado = $("#estado option:selected").attr("value");
 	
-	$.get("<?php echo $this->url->get('ciudades/getCiudades') ?>", {"estado":id_estado}, function(data)
+	$.get("ciudades/getciudades", {"estado":id_estado}, function(data)
 	  {
 	  
 	   var ciud ="";

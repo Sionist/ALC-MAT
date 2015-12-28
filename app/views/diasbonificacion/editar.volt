@@ -13,7 +13,7 @@
 									
 													
 												
-						{{ form("diasbonificacion/editado", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
+						{{ form("dias-bonificacion/editado", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
 						<fieldset>
 						{{ content() }}
 						{{ hidden_field("id") }}

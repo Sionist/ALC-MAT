@@ -8,9 +8,9 @@
 
 <!-- Formulario para agregar  (insertar) -->
 
-{{ form("nivelcargo/guardar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
+{{ form("niveles-cargos/guardar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
 
-{{ content() }}
+<?php echo $this->flashSession->output(); ?>
 
 {{ text_field("nivel", "class":"form-control", "required":"required", "placeholder":"Nivel del Cargo") }}
 
@@ -63,7 +63,7 @@
                                                         
                                                 <td>
                                                     <div class="hidden-sm hidden-xs action-buttons">
-                                                    <?php echo $this->tag->linkTo(array("nivelcargo/editar/".$row->id_nivelcargo, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"))  ?>
+                                                    <?php echo $this->tag->linkTo(array("niveles-cargos/editar/".$row->id_nivelcargo, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"))  ?>
                                                     </div>
                                                 </td>
                                             </tr>
