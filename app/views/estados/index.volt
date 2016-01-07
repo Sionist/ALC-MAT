@@ -44,8 +44,7 @@
 	<script type="text/javascript">
 		jQuery(function($) {
 
-			$.mask.definitions['~']='[+-]';
-			$('.input-mask-string').mask('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa*');
+			$('.input-mask-string').mask('aaaa?aaaaaaaaaaaaaaaaaaaaa', {placeholder : " ", autoclear : false});
 
 			$( "#id-btn-dialog1" ).on('click', function(e) {
 				e.preventDefault();

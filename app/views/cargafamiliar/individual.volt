@@ -1,11 +1,12 @@
 <div id="page-wrapper">
 
-{{ content() }}
+<?php echo $this->flashSession->output(); ?>
+<?php echo $this->tag->linkTo(array('trabajadores/carga-familiar/nueva-carga/'.$trabaja->nu_cedula,"<i class='ace-icon fa fa-users bigger-160'></i>Nueva",'class'=>'btn btn-app btn-primary btn-xs')) ?>
 
-<a href="http://190.202.129.59/sistenomialc/cargafamiliar/nuevo/<?php echo $trabaja->nu_cedula;?>" title="Agregar Carga Familiar" class="btn btn-app btn-primary btn-xs">
+<!-- <a href="http://190.202.129.59/sistenomialc/cargafamiliar/nuevo/<?php echo $trabaja->nu_cedula;?>" title="Agregar Carga Familiar" class="btn btn-app btn-primary btn-xs">
 <i class="ace-icon fa fa-users bigger-160"></i>
 Nuevo
-</a>
+</a> -->
 
 <div class="row">
 	<div class="col-xs-12">

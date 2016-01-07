@@ -51,13 +51,13 @@ use Phalcon\Forms\Element\Select ?>
             Reposos del Trabajador: <?php echo $nombre1."  ".$apellido1 ?> Cédula Identidad: <?php echo "  ".$nu_cedula ?>
         </div>
 
-        	{{ content() }}
+        	<?php echo $this->flashSession->output(); ?>
 
         	{{ hidden_field("ncedula", "class":"form-control") }}
 
-        	{{ text_field("fechainicio", "type":"date", "class":"form-control date-picker", "data-date-format":"yyyy-mm-dd", "required":"required", "placeholder":"Fecha Inicio") }}<i class="fa fa-calendar bigger-110"></i>
+        	{{ text_field("fechainicio", "type":"date", "class":"form-control date-picker", "data-date-format":"dd-mm-yyyy", "required":"required", "placeholder":"Fecha Inicio") }}<i class="fa fa-calendar bigger-110"></i>
 
-        	{{ text_field("fechafinal", "type":"date", "class":"form-control date-picker", "data-date-format":"yyyy-mm-dd", "required":"required", "placeholder":"Fecha Finalización" )}}<i class="fa fa-calendar bigger-110"></i>
+        	{{ text_field("fechafinal", "type":"date", "class":"form-control date-picker", "data-date-format":"dd-mm-yyyy", "required":"required", "placeholder":"Fecha Finalización" )}}<i class="fa fa-calendar bigger-110"></i>
 
         	{{ text_field("diagnostico", "class":"form-control", "required":"required", "placeholder":"Diagnóstico") }}
 
@@ -99,15 +99,15 @@ use Phalcon\Forms\Element\Select ?>
                                                     <span class="lbl"></span>
                                                     </label>
                                                 </td>
-												<td><span><?php echo $row->f_inicio ?></span></td>
-												<td><span><?php echo $row->f_final ?></span></td>
+												<td><span><?php echo date('d-m-Y', strtotime($row->f_inicio)); ?></span></td>
+												<td><span><?php echo date('d-m-Y', strtotime($row->f_final))?></span></td>
 												<td><span><?php echo $row->diagnostico ?></span></td>
 
                                                 <!--<td><span style="text-transform: capitalize;"><?php echo $row->nombre1." ".$row->apellido1; ?></span></td>-->
                                                         
                                                 <td>
-                                                    <div class="hidden-sm hidden-xs action-buttons">
-                                                    <?php echo $this->tag->linkTo(array("reposos/editar/".$row->id_reposo, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"))  ?> <?php echo $this->tag->linkTo(array("trabajadores/ficha1/".$row->nu_cedula, "<i class='ace-icon fa fa-search-plus bigger-130'></i>"))  ?>
+                                                    <div class="hidden-sm hidden-xs action-buttons center">
+                                                    <?php echo $this->tag->linkTo(array("reposos/editar/".$row->id_reposo, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"))  ?> 
                                                     </div>
                                                 </td>
                                             </tr>

@@ -11,7 +11,12 @@ $router->add("/trabajadores","trabajadores::index");
 $router->add("/trabajadores/{cedula:[0-9]+}","trabajadores::ficha1");
 $router->add("/trabajadores/nuevo-trabajador","trabajadores::nuevo");
 $router->addPost("/trabajadores/nuevo-trabajador/datos-personales","trabajadores::datospersonales");
-$router->addPost("/trabajadores/nuevo-trabajador/datos-contratacion","trabajadores::dcontratacion");
+$router->add("/trabajadores/nuevo-trabajador/datos-contratacion/{cedula:[0-9]+}","trabajadores::dcontratacion");
+$router->addPost("/trabajadores/nuevo-trabajador/datos-contratacion","trabajadores::enviarcontratacion");
+$router->add("/trabajadores/nuevo-trabajador/datos-financieros/{cedula:[0-9]+}","trabajadores::dfinanciero");
+$router->addPost("/trabajadores/nuevo-trabajador/datos-financieros","trabajadores::enviarfinanciero");
+$router->add("/trabajadores/nuevo-trabajador/datos-profesionales/{cedula:[0-9]+}","trabajadores::dprofesional");
+$router->addPost("/trabajadores/nuevo-trabajador/datos-profesionales","trabajadores::enviarprofesional");
 
 
 /* ******* CATALOGOS *** */
@@ -243,31 +248,45 @@ $router->addPost("/tipos-nominas/guardar","tiposnominas::guardar");
 /*
  *rutas para deudas
  */
-$router->add("/trabajadores/deudas/{cedula:[0-9]{8}}","deudas::index");
+$router->add("/trabajadores/deudas/{cedula:[0-9]+}","deudas::index");
 
 
 /*
  * rutas para asigsdeducstrabajador
  */
-$router->add("/trabajadores/asignaciones-deducciones/{cedula:[0-9]{8}}","asigsdeducstrabajador::cargar");
+$router->add("/trabajadores/asignaciones-deducciones/{cedula:[0-9]+}","asigsdeducstrabajador::cargar");
+$router->addPost("/asignaciones-deducciones/guardarmodificar","asigsdeducstrabajador::guardarmodificar");
+
 
 /*
  * rutas para cargafamiliar
  */
-$router->add("/trabajadores/carga-familiar/{cedula:[0-9]{8}}","cargafamiliar::individual");
+$router->add("/trabajadores/carga-familiar/{cedula:[0-9]+}","cargafamiliar::individual");
+$router->add("/trabajadores/carga-familiar/nueva-carga/{cedula:[0-9]+}","cargafamiliar::nuevo");
+$router->addPost("/trabajadores/carga-familiar/guardar-nuevo","cargafamiliar::guardanuevo");
 
 /*
  * rutas para reposos
  */
-$router->add("/trabajadores/reposos/{cedula:[0-9]{8}}","reposos::index");
+$router->add("/trabajadores/reposos/{cedula:[0-9]+}","reposos::index");
+$router->addPost("/reposos/guardar","reposos::guardar");
+$router->add("/reposos/editar/{id:[0-9]+}","reposos::editar");
+$router->addPost("/reposos/editado","reposos::editado");
 
 /*
  * rutas para embargos
  */
-$router->add("/trabajadores/embargos/{cedula:[0-9]{8}}","embargos::index");
+$router->add("/trabajadores/embargos/{cedula:[0-9]+}","embargos::index");
 
 /*
- * rutas para variaciones
+ * rutas para movimientos-variaciones
  */
 $router->add("/nomina/variaciones-movimientos","variaciones::index");
+$router->addPost("/nomina/variaciones/buscar","variaciones::buscar");
+$router->addPost("/nomina/variaciones/nomina","variaciones::nomina");
+$router->addPost("/nomina/variaciones/procesar","variaciones::procesar");
+$router->addPost("/nomina/movimientos/buscar","movimientos::buscar");
+$router->addPost("/nomina/movimientos/eliminar","movimientos::eliminar");
+$router->addPost("/nomina/movimientos/modificar","movimientos::modificar");
+
 

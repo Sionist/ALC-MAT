@@ -117,7 +117,7 @@ use Phalcon\Forms\Element\Select ?>
 
                                                 <td>
                                                     <div class="hidden-sm hidden-xs action-buttons">
-                                                        <?php echo $this->tag->linkTo(array("embargos/editar/".$row->id_embargo, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>")) ?> <?php echo $this->tag->linkTo(array("trabajadores/ficha1/".$row->nu_cedula, "<i class='ace-icon fa fa-search-plus bigger-130'></i>"))  
+                                                        <?php echo $this->tag->linkTo(array("embargos/editar/".$row->id_embargo, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>")) ?> <?php echo $this->tag->linkTo(array("trabajadores/ficha1/".$row->nu_cedula, "<i class='ace icon fa fa-coffee'></i>"))  
                                                         ?>
                                                     </div>
                                                 </td>

@@ -7,103 +7,109 @@ class Datospersonales extends \Phalcon\Mvc\Model
      *
      * @var integer
      */
-    public $nu_cedula;
+    protected $nu_cedula;
 
     /**
      *
      * @var string
      */
-    public $rif;
+    protected $rif;
 
     /**
      *
      * @var string
      */
-    public $nombre1;
+    protected $nombre1;
 
     /**
      *
      * @var string
      */
-    public $nombre2;
+    protected $nombre2;
 
     /**
      *
      * @var string
      */
-    public $apellido1;
+    protected $apellido1;
 
     /**
      *
      * @var string
      */
-    public $apellido2;
+    protected $apellido2;
 
     /**
      *
      * @var string
      */
-    public $genero;
+    protected $genero;
 
     /**
      *
      * @var string
      */
-    public $f_nac;
+    protected $f_nac;
+
+    /**
+     *
+     * @var string
+     */
+    protected $nacionalidad;
 
     /**
      *
      * @var integer
      */
-    public $lugar_nac;
+    protected $lugar_nac;
 
     /**
      *
      * @var string
      */
-    public $telf_hab;
+    protected $telf_hab;
 
     /**
      *
      * @var string
      */
-    public $telf_cel;
+    protected $telf_cel;
 
     /**
      *
      * @var string
      */
-    public $dir_hab;
+    protected $dir_hab;
 
     /**
      *
      * @var string
      */
-    public $edo_civil;
+    protected $edo_civil;
 
     /**
      *
      * @var string
      */
-    public $correo_e;
+    protected $correo_e;
 
     /**
      *
      * @var string
      */
-    public $foto_p;
+    protected $foto_p;
 
     /**
      *
      * @var integer
      */
-    public $id_discapacidad;
+    protected $id_discapacidad;
 
     /**
      *
      * @var integer
      */
-    public $estatus;
+    protected $estatus;
 
     /**
      * Method to set the value of field nu_cedula
@@ -205,6 +211,19 @@ class Datospersonales extends \Phalcon\Mvc\Model
     public function setFNac($f_nac)
     {
         $this->f_nac = $f_nac;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field nacionalidad
+     *
+     * @param string $nacionalidad
+     * @return $this
+     */
+    public function setNacionalidad($nacionalidad)
+    {
+        $this->nacionalidad = $nacionalidad;
 
         return $this;
     }
@@ -407,6 +426,16 @@ class Datospersonales extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Returns the value of field nacionalidad
+     *
+     * @return string
+     */
+    public function getNacionalidad()
+    {
+        return $this->nacionalidad;
+    }
+
+    /**
      * Returns the value of field lugar_nac
      *
      * @return integer
@@ -502,14 +531,19 @@ class Datospersonales extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->hasMany('nu_cedula', 'AsignaTrab', 'nu_cedula', array('alias' => 'AsignaTrab'));
+        $this->hasMany('nu_cedula', 'Beneficiados', 'nu_cedula', array('alias' => 'Beneficiados'));
         $this->hasMany('nu_cedula', 'Datoscontratacion', 'nu_cedula', array('alias' => 'Datoscontratacion'));
         $this->hasMany('nu_cedula', 'Datosfinancieros', 'nu_cedula', array('alias' => 'Datosfinancieros'));
         $this->hasMany('nu_cedula', 'Datosprofesiona', 'nu_cedula', array('alias' => 'Datosprofesiona'));
         $this->hasMany('nu_cedula', 'DeduTrab', 'nu_cedula', array('alias' => 'DeduTrab'));
         $this->hasMany('nu_cedula', 'DoctrabBeneficio', 'nu_cedula', array('alias' => 'DoctrabBeneficio'));
+        $this->hasMany('nu_cedula', 'NbDeudas', 'nu_cedula', array('alias' => 'NbDeudas'));
         $this->hasMany('nu_cedula', 'NbReposo', 'nu_cedula', array('alias' => 'NbReposo'));
         $this->hasMany('nu_cedula', 'NbViaticos', 'nu_cedula', array('alias' => 'NbViaticos'));
+        $this->hasMany('nu_cedula', 'TrabajoAsi', 'nu_cedula', array('alias' => 'TrabajoAsi'));
+        $this->hasMany('nu_cedula', 'TrabajoDedu', 'nu_cedula', array('alias' => 'TrabajoDedu'));
         $this->hasMany('nu_cedula', 'Vacaciones', 'nu_cedula', array('alias' => 'Vacaciones'));
+        $this->hasMany('nu_cedula', 'Variaciones', 'nu_cedula', array('alias' => 'Variaciones'));
         $this->belongsTo('lugar_nac', 'Ciudades', 'id_ciudad', array('alias' => 'Ciudades'));
         $this->belongsTo('id_discapacidad', 'Discapacidad', 'id_discapacid', array('alias' => 'Discapacidad'));
         $this->belongsTo('estatus', 'EstatusT', 'id_estat', array('alias' => 'EstatusT'));
@@ -545,35 +579,6 @@ class Datospersonales extends \Phalcon\Mvc\Model
     public static function findFirst($parameters = null)
     {
         return parent::findFirst($parameters);
-    }
-
-    /**
-     * Independent Column Mapping.
-     * Keys are the real names in the table and the values their names in the application
-     *
-     * @return array
-     */
-    public function columnMap()
-    {
-        return array(
-            'nu_cedula' => 'nu_cedula',
-            'rif' => 'rif',
-            'nombre1' => 'nombre1',
-            'nombre2' => 'nombre2',
-            'apellido1' => 'apellido1',
-            'apellido2' => 'apellido2',
-            'genero' => 'genero',
-            'f_nac' => 'f_nac',
-            'lugar_nac' => 'lugar_nac',
-            'telf_hab' => 'telf_hab',
-            'telf_cel' => 'telf_cel',
-            'dir_hab' => 'dir_hab',
-            'edo_civil' => 'edo_civil',
-            'correo_e' => 'correo_e',
-            'foto_p' => 'foto_p',
-            'id_discapacidad' => 'id_discapacidad',
-            'estatus' => 'estatus'
-        );
     }
 
 }

@@ -50,6 +50,6 @@
 
 <script type="text/javascript">
 	$(document).ready(function() { 
-		$('.input-mask-numeric').mask('999');
+		$('.input-mask-numeric').mask('9?99', {placeholder : " ", autoclear : false});
 	});
 </script>

@@ -62,27 +62,29 @@ class CargafamiliarController extends \Phalcon\Mvc\Controller
 	
 	public function nuevoAction($cedula)
     {
-	//$ciudades = Ciudades::find();
-    //$query = new Phalcon\Mvc\Model\Query("SELECT Datospersonales.nu_cedula as tra_cedula, Datospersonales.nombre1 as nombret, Datospersonales.apellido1 as apellidot, Cargafamiliar.ci_carga, Cargafamiliar.nombre1, Cargafamiliar.apellido1, Cargafamiliar.f_nac, Cargafamiliar.ocupacion, Cargafamiliar.genero, Cargafamiliar.id_parentesco, Parentesco.parentesco as parent FROM Cargafamiliar INNER JOIN Datospersonales ON Datospersonales.nu_cedula=Cargafamiliar.nu_cedula INNER JOIN Parentesco ON Cargafamiliar.id_parentesco=Parentesco.id_parentesco WHERE Cargafamiliar.nu_cedula=$cedula", $this->getDI()); 
-	
-	// $cargafamiliar = $query->execute();
-	
-	$dtrabajador = Datospersonales::findFirstByNuCedula($cedula);	
-	$cedutra=$dtrabajador->nu_cedula;
-    $nombre=$dtrabajador->nu_cedula;   
-		
-   // $this->view->setParamToView("carga", $cargafamiliar);
-	$this->view->setParamToView("trabaja", $dtrabajador);
+        //$ciudades = Ciudades::find();
+        //$query = new Phalcon\Mvc\Model\Query("SELECT Datospersonales.nu_cedula as tra_cedula, Datospersonales.nombre1 as nombret, Datospersonales.apellido1 as apellidot, Cargafamiliar.ci_carga, Cargafamiliar.nombre1, Cargafamiliar.apellido1, Cargafamiliar.f_nac, Cargafamiliar.ocupacion, Cargafamiliar.genero, Cargafamiliar.id_parentesco, Parentesco.parentesco as parent FROM Cargafamiliar INNER JOIN Datospersonales ON Datospersonales.nu_cedula=Cargafamiliar.nu_cedula INNER JOIN Parentesco ON Cargafamiliar.id_parentesco=Parentesco.id_parentesco WHERE Cargafamiliar.nu_cedula=$cedula", $this->getDI());
+
+        // $cargafamiliar = $query->execute();
+
+        $dtrabajador = Datospersonales::findFirstByNuCedula($cedula);
+        $cedutra=$dtrabajador->nu_cedula;
+        $nombre=$dtrabajador->nu_cedula;
+
+       // $this->view->setParamToView("carga", $cargafamiliar);
+        /*$this->response->redirect("trabajadores/carga-familiar/nueva-carga/$cedula");*/
+        $this->view->setParamToView("trabaja", $dtrabajador);
+        /*$this->view->disable();*/
     }
 	
 	
 
 public function guardanuevoAction()
     {
-
+        $cedula = $this->request->getPost("nu_cedula");
         $cargafam = new Cargafamiliar();
 
-        $cargafam->setNuCedula($this->request->getPost("nu_cedula"));
+        $cargafam->setNuCedula($cedula);
         $cargafam->setCiCarga($this->request->getPost("ci_carga"));
         $cargafam->setNombre1($this->request->getPost("nombre1"));
         $cargafam->setNombre2($this->request->getPost("nombre2"));
@@ -96,28 +98,17 @@ public function guardanuevoAction()
         $cargafam->setIdDiscapacidad($this->request->getPost("id_discapacidad"));
         $cargafam->setFotoCarga($this->request->getPost("foto_carga"));
 
-
-
-
         if (!$cargafam->save()) {
                 foreach ($cargafam->getMessages() as $message) {
-                    $this->flash->error($message);
+                    $this->flashSession->error($message);
                 }
-
-                return $this->dispatcher->forward(array(
-                    "controller" => "cargafamiliar",
-                    "action" => "individual",
-                    "params" => array($this->request->getPost("nu_cedula"))
-                    ));
+            $this->response->redirect("trabajadores/carga-familiar/nueva-carga/$cedula");
+            $this->tag->setDefault("nu_cedula",$cedula);
+            $this->view->disable();
             }
-
-
-            return $this->dispatcher->forward(array(
-                "controller" => "cargafamiliar",
-                "action" => "individual",
-                "params" => array($this->request->getPost("nu_cedula"))
-                ));
-        
+        $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha guardado exitosamente</strong></p></div>");
+        $this->response->redirect("trabajadores/carga-familiar/$cedula");
+        $this->view->disable();
     }
 }
 

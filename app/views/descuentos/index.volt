@@ -19,7 +19,7 @@
 {{ submit_button("Guardar", "id":"guardar", "class":"btn btn-primary") }}
 {{ endForm() }}
 {{ content() }}
-<div id="msj" class='alert alert-block alert-danger hide'>Debe introducir un Rif valido</div>
+<div id="msj" class='alert alert-block alert-danger hide'>Debe introducir un Rif valido. Letras permitidas: J,G,V</div>
 
 <!-- fin  Formulario para agregar estatus -->
 

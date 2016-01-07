@@ -15,7 +15,7 @@
 				<tr>
 				<td>
 				
-	 {{ form("cargafamiliar/guardanuevo", "method":"post", "class":"form-horizontal", "id":"validation-form", "enctype":"multipart/form-data" ) }}	  
+	 {{ form("trabajadores/carga-familiar/guardar-nuevo", "method":"post", "class":"form-horizontal", "id":"validation-form", "enctype":"multipart/form-data" ) }}	  
 				
 		<input type="hidden" name="nu_cedula" value="<?php echo $trabaja->nu_cedula; ?>" />	
 		<!-- {{ hidden_field("nu_cedula", "value":'<?php echo $trabaja->nu_cedula; ?>') }}	-->	

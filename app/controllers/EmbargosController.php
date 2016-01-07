@@ -103,7 +103,7 @@ class EmbargosController extends \Phalcon\Mvc\Controller
 
 			$idfondo = $embargo->id_fondo;
 			$fondo = FondoDesc::findFirstByIdFondo($idfondo);
-			$this->view->fondo = $fondo->fondo;
+			//$this->view->fondo = $fondo->fondo;
 
 
     		$this->view->idembargo = $embargo->id_embargo;

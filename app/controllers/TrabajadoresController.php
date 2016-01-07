@@ -87,105 +87,42 @@ class TrabajadoresController extends \Phalcon\Mvc\Controller
     public function datospersonalesAction()
     {	
 
-        if (!$this->request->isPost()) {
-            return $this->dispatcher->forward(array(
-                "controller" => "trabajador",
-                "action" => "nuevo"
-            ));
-        }
+        if ($this->request->isPost()) {
+            $cedula = $this->request->getPost("nu_cedula");
+            $trabajador = new Datospersonales();
 
-        $trabajador = new Datospersonales();
+            $trabajador->setNuCedula($cedula);
+            $trabajador->setRif($this->request->getPost("rif"));
+            $trabajador->setNombre1(strtoupper($this->request->getPost("nombre1")));
+            $trabajador->setNombre2(strtoupper($this->request->getPost("nombre2")));
+            $trabajador->setApellido1(strtoupper($this->request->getPost("apellido1")));
+            $trabajador->setApellido2(strtoupper($this->request->getPost("apellido2")));
+            $trabajador->setGenero($this->request->getPost("genero"));
+            $trabajador->setFNac($this->request->getPost("f_nac"));
+            $trabajador->setLugarNac($this->request->getPost("lugar_nac"));
+            $trabajador->setTelfHab($this->request->getPost("telf_hab"));
+            $trabajador->setTelfCel($this->request->getPost("telf_cel"));
+            $trabajador->setDirHab(strtoupper($this->request->getPost("dir_hab")));
+            $trabajador->setEdoCivil(strtoupper($this->request->getPost("edo_civil")));
+            $trabajador->setCorreoE(strtoupper($this->request->getPost("correo_e")));
+            $trabajador->setIdDiscapacidad($this->request->getPost("id_discapacidad"));
+            $trabajador->setEstatus($this->request->getPost("estatus"));
 
-        $trabajador->setNuCedula($this->request->getPost("nu_cedula"));
-        $trabajador->setRif($this->request->getPost("rif"));
-        $trabajador->setNombre1(strtoupper($this->request->getPost("nombre1")));
-        $trabajador->setNombre2(strtoupper($this->request->getPost("nombre2")));
-        $trabajador->setApellido1(strtoupper($this->request->getPost("apellido1")));
-        $trabajador->setApellido2(strtoupper($this->request->getPost("apellido2")));
-        $trabajador->setGenero($this->request->getPost("genero"));
-        $trabajador->setFNac($this->request->getPost("f_nac"));
-        $trabajador->setLugarNac($this->request->getPost("lugar_nac"));
-        $trabajador->setTelfHab($this->request->getPost("telf_hab"));
-        $trabajador->setTelfCel($this->request->getPost("telf_cel"));
-        $trabajador->setDirHab(strtoupper($this->request->getPost("dir_hab")));
-        $trabajador->setEdoCivil(strtoupper($this->request->getPost("edo_civil")));
-        $trabajador->setCorreoE(strtoupper($this->request->getPost("correo_e")));
-        $trabajador->setIdDiscapacidad($this->request->getPost("id_discapacidad"));
-        $trabajador->setEstatus($this->request->getPost("estatus"));
-
-
-
-
-        /*if($this->request->hasFiles() == true){ #chequea si hay algún archivo
-            $uploads = $this->request->getUploadedFiles();
-            
-            $isUploaded = false;
-            #Hago un bucle para manejar cada archivo presente individualmente
-                $i=0;
-                foreach($uploads as $upload){
-                    if($upload->getExtension() == "png" OR $upload->getExtension() == "jpg"){
-                            if($upload->getSize() <= 2093030){
-                                $path = "trabajadores/fotos/".md5(uniqid(rand(), true))."-".$upload->getName();
-                                #muevo el archivo y compruebo si todo esta bien
-                                ($upload->moveTo($path) == true) ? $isUploaded = true : $isUploaded = false;
-                                $i++;
-                            }
-                            else{
-                                $this->flash->success("Su archivo debe ser menor a los 2MB");
-                                return $this->dispatcher->forward(array(
-                                    "controller" => "trabajadores",
-                                    "action" => "nuevo"
-                                ));
-                            }
-                        
-                    }  
-                }          
-         
-                    if ($isUploaded) {
-                            $trabajador->setFotoP($path);
-                            if (!$trabajador->save()) {
-                                foreach ($trabajador->getMessages() as $message) {
-                                    $this->flash->error($message);
-                                }
-
-                                return $this->dispatcher->forward(array(
-                                    "controller" => "trabajadores",
-                                    "action" => "nuevo"
-                                ));
-                            }
-
-                            return $this->dispatcher->forward(array(
-                                    "controller" => "trabajadores",
-                                    "action" => "dContratacion",
-                                    "params" => array($this->request->getPost("nu_cedula"))
-                                ));
-                        }
-        }*/
 
             if (!$trabajador->save()) {
                 foreach ($trabajador->getMessages() as $message) {
-                    $this->flash->error($message);
+                    $this->flashSession->error($message);
                 }
-
-                return $this->dispatcher->forward(array(
-                    "controller" => "trabajadores",
-                    "action" => "nuevo"
-                    ));
+                $this->response->redirect("trabajadores/nuevo-trabajador");
+                $this->view->disable();
+            }else{
+                $this->response->redirect("trabajadores/nuevo-trabajador/datos-contratacion/$cedula");
+                $this->view->disable();
             }
-
-
-            return $this->dispatcher->forward(array(
-                "controller" => "trabajadores",
-                "action" => "dcontratacion",
-                "params" => array($this->request->getPost("nu_cedula"))
-                ));
-
-         
-
-            
+        }
     }
 
-         public function getCedula1Action()
+    public function getCedula1Action()
     {
 
         $this->view->disable();
@@ -205,6 +142,7 @@ class TrabajadoresController extends \Phalcon\Mvc\Controller
     {
 
         $trabajador = Datospersonales::findFirstByNuCedula($cedula);
+        $this->tag->setDefault("nu_cedula",$cedula);
         $this->view->setVar("trabajador", $trabajador);
         
     }
@@ -212,9 +150,11 @@ class TrabajadoresController extends \Phalcon\Mvc\Controller
     public function enviarcontratacionAction()
     {
 
+        $cedula = $this->request->getPost("nu_cedula");
+
         $contratacion = new Datoscontratacion();
 
-        $contratacion->setNuCedula($this->request->getPost("nu_cedula"));
+        $contratacion->setNuCedula($cedula);
         $contratacion->setFIng($this->request->getPost("f_ing"));
         $contratacion->setFEgre($this->request->getPost("f_egre"));
         $contratacion->setTipoNom($this->request->getPost("tipo_nom"));
@@ -228,103 +168,71 @@ class TrabajadoresController extends \Phalcon\Mvc\Controller
 
         if (!$contratacion->save()) {
                 foreach ($contratacion->getMessages() as $message) {
-                    $this->flash->error($message);
+                    $this->flashSession->error($message);
                 }
-
-                return $this->dispatcher->forward(array(
-                    "controller" => "trabajadores",
-                    "action" => "dcontratacion",
-                    "params" => array($this->request->getPost("nu_cedula"))
-                    ));
-            }
-
-
-            return $this->dispatcher->forward(array(
-                "controller" => "trabajadores",
-                "action" => "dfinanciero",
-                "params" => array($this->request->getPost("nu_cedula"))
-                ));
-        
+                $this->response->redirect("trabajadores/nuevo-trabajador/datos-contratacion/$cedula");
+                $this->view->disable();
+            }else{
+                $this->response->redirect("trabajadores/nuevo-trabajador/datos-financieros/$cedula");
+                $this->view->disable();
+        }
     }
 
     public function dfinancieroAction($cedula)
     {
-
         $trabajador = Datospersonales::findFirstByNuCedula($cedula);
+        $this->tag->setDefault("nu_cedula",$cedula);
         $this->view->setVar("trabajador", $trabajador);
-        
     }
 
      public function enviarfinancieroAction()
     {
 
         $financiero = new Datosfinancieros();
-
-        $financiero->setNuCedula($this->request->getPost("nu_cedula"));
+        $cedula = $this->request->getPost("nu_cedula");
+        $financiero->setNuCedula($cedula);
         $financiero->setCodBanco($this->request->getPost("cod_banco"));
         $financiero->setNCuenta($this->request->getPost("n_cuenta"));
         $financiero->setTipoCuenta($this->request->getPost("tipo_cuenta"));
-        
-
 
         if (!$financiero->save()) {
                 foreach ($financiero->getMessages() as $message) {
                     $this->flash->error($message);
                 }
-
-                return $this->dispatcher->forward(array(
-                    "controller" => "trabajadores",
-                    "action" => "dfinanciero",
-                    "params" => array($this->request->getPost("nu_cedula"))
-                    ));
+                $this->response->redirect("trabajadores/nuevo-trabajador/datos-financieros/$cedula");
+                $this->view->disable();
             }
 
-
-            return $this->dispatcher->forward(array(
-                "controller" => "trabajadores",
-                "action" => "dprofesional",
-                "params" => array($this->request->getPost("nu_cedula"))
-                ));
-        
+        $this->response->redirect("trabajadores/nuevo-trabajador/datos-profesionales/$cedula");
+        $this->view->disable();
     }
 
     public function dprofesionalAction($cedula)
     {
-
         $trabajador = Datospersonales::findFirstByNuCedula($cedula);
+        $this->tag->setDefault("nu_cedula",$cedula);
         $this->view->setVar("trabajador", $trabajador);
-        
     }
 
      public function enviarprofesionalAction()
     {
 
         $profesional = new Datosprofesiona();
-
+        $cedula = $this->request->getPost("nu_cedula");
         $profesional->setNuCedula($this->request->getPost("nu_cedula"));
         $profesional->setNiveInstr($this->request->getPost("nive_instr"));
         $profesional->setIdProfesion($this->request->getPost("id_profesion"));
-
 
 
         if (!$profesional->save()) {
                 foreach ($profesional->getMessages() as $message) {
                     $this->flash->error($message);
                 }
-
-                return $this->dispatcher->forward(array(
-                    "controller" => "trabajadores",
-                    "action" => "dprofesional",
-                    "params" => array($this->request->getPost("nu_cedula"))
-                    ));
+            $this->response->redirect("trabajadores/nuevo-trabajador/datos-profesionales/$cedula");
+            $this->view->disable();
             }
-
-
-            return $this->dispatcher->forward(array(
-                "controller" => "trabajadores",
-                "action" => "ficha1",
-                "params" => array($this->request->getPost("nu_cedula"))
-                ));
+        $this->response->redirect("trabajadores/$cedula");
+        $this->view->disable();
         
     }
 

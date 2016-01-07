@@ -68,7 +68,7 @@ use Phalcon\Forms\Element\Select ?>
    <h3 class="lighter block green">Datos Personales</h3>
 
 
-    {{ content() }}
+    echo $this->flashSession->output();
 
 
     </div>  
@@ -81,7 +81,7 @@ use Phalcon\Forms\Element\Select ?>
     
     </div> 
     <div class="step-pane active" data-step="3">
-     {{ form("trabajadores/enviarfinanciero", "method":"post", "class":"form-horizontal", "id":"validation-form2", "enctype":"multipart/form-data" ) }}
+     {{ form("trabajadores/nuevo-trabajador/datos-financieros", "method":"post", "class":"form-horizontal", "id":"validation-form2", "enctype":"multipart/form-data" ) }}
  <h3 class="lighter block green">Datos Financieros</h3>
 
             {{ hidden_field("nu_cedula") }}

@@ -50,7 +50,7 @@
 								</td>
 								
 								<td>
-									{{ text_field("finicio", "type":"date", "class":"form-control date-picker", "data-date-format":"yyyy-mm-dd", "required":"required", "style":"text-transform:capitalize") }}<i class="fa fa-calendar bigger-110"></i>
+									{{ text_field("finicio", "type":"date", "class":"form-control date-picker", "data-date-format":"dd-mm-yyyy", "required":"required", "style":"text-transform:capitalize") }}<i class="fa fa-calendar bigger-110"></i>
 								</td>								
 							</tr>
 							
@@ -64,7 +64,7 @@
 								</td>
 								
 								<td>	
-									{{ text_field("ffinal", "type":"date", "class":"form-control date-picker", "data-date-format":"yyyy-mm-dd", "required":"required", "style":"text-transform:capitalize") }}<i class="fa fa-calendar bigger-110"></i>
+									{{ text_field("ffinal", "type":"date", "class":"form-control date-picker", "data-date-format":"dd-mm-yyyy", "required":"required", "style":"text-transform:capitalize") }}<i class="fa fa-calendar bigger-110"></i>
 								</td>									
 							</tr>
 								
@@ -78,7 +78,7 @@
 								</td>
 								
 								<td>	
-									{{ text_field("diagnostico", "class":"form-control", "style":"text-transform:capitalize", "size":"70") }}
+									{{ text_field("diagnostico", "class":"form-control", "style":"text-transform:capitalize", "size":"60") }}
 								</td>	
 
 							</tr>

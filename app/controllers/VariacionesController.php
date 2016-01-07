@@ -18,72 +18,112 @@ class VariacionesController extends \Phalcon\Mvc\Controller
         $nomina = $this->request->getPost("nomina");
 
         if ($cedula && is_numeric($cedula)) {
-            //$Tcedula = Datospersonales::findFirstByNuCedula($cedula);
-            $Tcedula = new Phalcon\Mvc\Model\Query("SELECT
-                                                    Datospersonales.nu_cedula,
-                                                    Datospersonales.nombre1,
-                                                    Datospersonales.apellido1,
-                                                    Datospersonales.foto_p,
-                                                    NbDireciones.denominacion,
-                                                    Cargos.cargo
-                                                    FROM
-                                                    Datospersonales
-                                                    INNER JOIN Datoscontratacion ON Datoscontratacion.nu_cedula = Datospersonales.nu_cedula
-                                                    INNER JOIN Cargos ON Datoscontratacion.t_cargo = Cargos.id_cargo
-                                                    INNER JOIN NbDireciones ON Datoscontratacion.ubi_nom = NbDireciones.id_direcciones AND Datoscontratacion.ubi_fun = NbDireciones.id_direcciones
-                                                    WHERE
-                                                    Datospersonales.nu_cedula = $cedula AND Datoscontratacion.tipo_nom = $nomina",$this->getDI());
 
-            $SD = $this->modelsManager->createBuilder()
-                ->from("Datoscontratacion")
-                ->join("Cargos")
-                ->columns("sueldo")
-                ->where("nu_cedula=:cedula:",array("cedula"=>$cedula))
+            $enReposo = false;
+
+            //consulta la fecha de finalizacion de reposo mas alta
+            $reposo = $this->modelsManager->createBuilder()
+                ->from("NbReposo")
+                ->columns("MAX(f_final)")
+                ->where("nu_cedula= :ci:", array("ci" => $cedula))
                 ->getQuery()
-                ->execute();
+                ->execute()
+                ->toArray();
 
-            $sd = "";
-            foreach($SD as $ssd){
-                 $sd = ($ssd->sueldo)/30;
+            //almacena la fecha de reposo si existe
+            $f_rep = "";
+            //almacena la fecha actual
+            $f_actual = date('Y-m-d');
+
+            if (count($reposo) > 0) {
+                foreach ($reposo as $k => $v) {
+                    foreach ($v as $a) {
+                        $f_rep = $a;
+                    }
+                }
+
+                //si la fecha de reposo es mayor a fecha actual, esta en reposo (true)
+                if ($f_rep > $f_actual) {
+                    $enReposo = true;
+                }
             }
+            $Tcedula = new Phalcon\Mvc\Model\Query("SELECT
+                                                        Datospersonales.nu_cedula,
+                                                        Datospersonales.nombre1,
+                                                        Datospersonales.apellido1,
+                                                        Datospersonales.foto_p,
+                                                        NbDireciones.denominacion,
+                                                        Cargos.cargo
+                                                        FROM
+                                                        Datospersonales
+                                                        INNER JOIN Datoscontratacion ON Datoscontratacion.nu_cedula = Datospersonales.nu_cedula
+                                                        INNER JOIN Cargos ON Datoscontratacion.t_cargo = Cargos.id_cargo
+                                                        INNER JOIN NbDireciones ON Datoscontratacion.ubi_nom = NbDireciones.id_direcciones AND Datoscontratacion.ubi_fun = NbDireciones.id_direcciones
+                                                        WHERE
+                                                        Datospersonales.nu_cedula = $cedula AND Datoscontratacion.tipo_nom = $nomina", $this->getDI());
+
+            $trabajador = $Tcedula->execute()->toArray();
 
             if ($Tcedula) {
 
-                $asigsV = $this->modelsManager->createBuilder()
-                    ->from("NbAsignaciones")
-                    ->join("AsigsTipo")
-                    ->columns("NbAsignaciones.id_asignac,NbAsignaciones.asignacion")
-                    ->where("AsigsTipo.descripcion=:d:",array("d"=>"variables"))
+                $SD = $this->modelsManager->createBuilder()
+                    ->from("Datoscontratacion")
+                    ->join("Cargos")
+                    ->columns("sueldo")
+                    ->where("nu_cedula=:cedula:", array("cedula" => $cedula))
                     ->getQuery()
-                    ->execute()
-                    ->toArray();
+                    ->execute();
 
+                $sd = "";
+                foreach ($SD as $ssd) {
+                    $sd = ($ssd->sueldo) / 30;
+                }
 
-                $trabajador = $Tcedula->execute()->toArray();
+                if ($enReposo == false) {
 
-                if (count($asigsV) > 0) {
-                    //deshabilita la vista para enviar JSON limpio
+                    $asigsV = $this->modelsManager->createBuilder()
+                        ->from("NbAsignaciones")
+                        ->join("AsigsTipo")
+                        ->columns("NbAsignaciones.id_asignac,NbAsignaciones.asignacion")
+                        ->where("AsigsTipo.descripcion=:d:", array("d" => "variables"))
+                        ->getQuery()
+                        ->execute()
+                        ->toArray();
+
+                    if (count($asigsV) > 0) {
+                        //deshabilita la vista para enviar JSON limpio
+                        $this->view->disable();
+                        //envia un JSON con los datos de las consultas en forma de array
+                        $this->response->setJsonContent(array(
+                            "asignaciones" => $asigsV,
+                            "trabajador" => $trabajador,
+                            "sd" => $sd,
+                            "enReposo" => $enReposo
+                        ));
+
+                        $this->response->setStatusCode(200, "OK");
+                        $this->response->send();
+
+                    } else {
+                        $this->view->disable();
+                        return null;
+                    }
+                }else {
                     $this->view->disable();
                     //envia un JSON con los datos de las consultas en forma de array
                     $this->response->setJsonContent(array(
-                        "asignaciones" => $asigsV,
-                        "trabajador" => $trabajador,
-                        "sd" => $sd
+                        "enReposo" => $enReposo,
+                        "trabajador" => $trabajador
                     ));
-
                     $this->response->setStatusCode(200, "OK");
                     $this->response->send();
-
-                } else {
+                }
+            } else {
                     $this->view->disable();
-                    return null;
                 }
             } else {
                 $this->view->disable();
-            }
-        } else {
-            $this->view->disable();
-            $this->flash->error("<div class='alert alert-block alert-danger'>Error en el envío de Dato Cedula</div>");
+                $this->flash->error("<div class='alert alert-block alert-danger'>Error en el envío de Dato Cedula</div>");
         }
     }
 

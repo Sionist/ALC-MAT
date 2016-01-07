@@ -50,7 +50,6 @@ class AsignacionesController extends \Phalcon\Mvc\Controller
                 $this->view->disable();
             }else{
                 $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha guardado exitosamente</strong></p></div>");
-
                 $this->response->redirect("asignaciones");
                 $this->view->disable();
             }
@@ -66,7 +65,7 @@ class AsignacionesController extends \Phalcon\Mvc\Controller
         if (!$this->request->isPost()) {
             $asignacion = NbAsignaciones::findFirstByIdAsignac($id);
             if (!$asignacion) {
-                $this->flashSession->error("Asignación No Encontrada");
+                $this->flashSession->error("Asignaciï¿½n No Encontrada");
 
                 $this->response->redirect("asignaciones");
                 $this->view->disable();

@@ -6,11 +6,10 @@ include("conexion.php");
 $conectar=conectar();
 
 
-   
-//$id=$_GET[ced];
+ $cedu=$_GET[ced];
 
 
-$sql=mysql_query("SELECT * FROM datospersonales WHERE nu_cedula='11013515'");
+$sql=mysql_query("SELECT * FROM datospersonales WHERE nu_cedula='$cedu'");
 $filas=mysql_numrows($sql);
 
 $cedula=mysql_result($sql, 0, nu_cedula);

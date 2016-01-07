@@ -19,8 +19,6 @@
         {{ javascript_include("js/date-time/daterangepicker.js") }}
         {{ javascript_include("js/date-time/bootstrap-datetimepicker.js") }}
 
-
-
 <?php 
 use Phalcon\Mvc\View;
 use Phalcon\Tag; 
@@ -68,7 +66,7 @@ use Phalcon\Forms\Element\Select ?>
    <h3 class="lighter block green">Datos Personales</h3>
 
 
-    {{ content() }}
+    echo $this->flashSession->output();
 
 
     </div>  
@@ -80,7 +78,7 @@ use Phalcon\Forms\Element\Select ?>
  
     </div> 
      <div class="step-pane active" data-step="4">
-     {{ form("trabajadores/enviarprofesional", "method":"post", "class":"form-horizontal", "id":"validation-form3", "enctype":"multipart/form-data" ) }}
+     {{ form("trabajadores/nuevo-trabajador/datos-profesionales", "method":"post", "class":"form-horizontal", "id":"validation-form3", "enctype":"multipart/form-data" ) }}
 
            <h3 class="lighter block green">Datos Profesionales</h3>
 

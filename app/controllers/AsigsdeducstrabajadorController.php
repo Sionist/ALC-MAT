@@ -94,12 +94,6 @@ class AsigsdeducstrabajadorController extends \Phalcon\Mvc\Controller
         if($this->request->isPost()) {
             $cedula = $this->request->getPost("cedula");
 
-            $vista = $this->dispatcher->forward(array(
-                    'controller' => 'asigsdeducstrabajador',
-                    'action' => 'cargar',
-                    'params' => array('cedula' => $cedula))
-            );
-
             //recupera los valores de los checkbox (en estado checked)
             $asignaciones = $this->request->getPost("asignaciones");
             $deducciones = $this->request->getPost("deducciones");
@@ -119,8 +113,10 @@ class AsigsdeducstrabajadorController extends \Phalcon\Mvc\Controller
 
                         if (!$nTrabajoAsi->save()) {
                             foreach ($nTrabajoAsi->getMessages() as $message) {
-                                $this->flash->error($message);
+                                $this->flashSession->error($message);
                             }
+                            $this->response->redirect("/trabajadores/asignaciones-deducciones/$cedula");
+                            $this->view->disable();
                         }
                     }
                 } else {
@@ -134,8 +130,10 @@ class AsigsdeducstrabajadorController extends \Phalcon\Mvc\Controller
 
                         if (!$trabajoAsi->save()) {
                             foreach ($trabajoAsi->getMessages() as $message) {
-                                $this->flash->error($message);
+                                $this->flashSession->error($message);
                             }
+                            $this->response->redirect("/trabajadores/asignaciones-deducciones/$cedula");
+                            $this->view->disable();
                         }
                     }
 
@@ -153,8 +151,10 @@ class AsigsdeducstrabajadorController extends \Phalcon\Mvc\Controller
 
                         if (!$nTrabajoDeduc->save()) {
                             foreach ($nTrabajoDeduc->getMessages() as $message) {
-                                $this->flash->error($message);
+                                $this->flashSession->error($message);
                             }
+                            $this->response->redirect("/trabajadores/asignaciones-deducciones/$cedula");
+                            $this->view->disable();
                         }
                     }
                 } else {
@@ -168,15 +168,20 @@ class AsigsdeducstrabajadorController extends \Phalcon\Mvc\Controller
 
                         if (!$trabajoDedu->save()) {
                             foreach ($trabajoDedu->getMessages() as $message) {
-                                $this->flash->error($message);
+                                $this->flashSession->error($message);
                             }
+                            $this->response->redirect("/trabajadores/asignaciones-deducciones/$cedula");
+                            $this->view->disable();
                         }
                     }
                 }
-                $this->flash->success("<div class='alert alert-block alert-success'>Se han guardado / modificado con exito</div>");
-                return $vista;
+                $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se han guardado / modificado con exito</strong></p></div>");
+                $this->response->redirect("/trabajadores/asignaciones-deducciones/$cedula");
+                $this->view->disable();
             }else{
-                $this->flash->error("<div class='alert alert-block alert-danger'>Debe seleccionar al menos una (1) Asignación y una (1) Deducción</div>");
+                $this->flashSession->success("<div class='alert alert-block alert-warning'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-fire bigger-110'></i> Debe seleccionar al menos una (1) Asignación y una (1) Deducción</strong></p></div>");
+                $this->response->redirect("/trabajadores/asignaciones-deducciones/$cedula");
+                $this->view->disable();
             }
         }
     }

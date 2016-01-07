@@ -97,8 +97,8 @@
         
             jQuery(function($) {
                 
-                $('.tasa').mask('99');
-                $('.año').mask('9999');
+                $('.tasa').mask('9?9', {autoclear : false, placeholder : " "});
+                $('.año').mask('9999', {autoclear : false, placeholder : " "});
             
             /*  jquery del modal de edicion */
                 $( ".id-btn-dialog1" ).on('click', function(e) {

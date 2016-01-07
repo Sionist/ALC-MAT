@@ -17,7 +17,7 @@ use Phalcon\Forms\Element\Select ?>
 	<tr>
 		<td>
 		<p align="left"><h4 class="widget-title lighter">Listado de Trabajadores</h4></td>
-		<td align="right"><a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/trabajadores/nuevo/" title="Agregar Nuevo Trabajador">
+		<td align="right"><a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/trabajadores/nuevo-trabajador" title="Agregar Nuevo Trabajador">
 		<img src="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/img/btn-nuevo-trabajador.png"></a>&nbsp;</td>
 	</tr>
 </table>

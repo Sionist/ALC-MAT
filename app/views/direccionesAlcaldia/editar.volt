@@ -1,5 +1,5 @@
-	
-	
+        {{ javascript_include("js/jquery.maskedinput.js") }}    
+
 		<div class="col-sm-4">
 	</div>
 		<div class="col-sm-4">
@@ -16,7 +16,7 @@
 						<fieldset>
 						{{ content() }}
 						{{ hidden_field("id") }}
-						{{ text_field("sector", "class":"form-control", "required":"required", "style":"text-transform:capitalize") }}
+						{{ text_field("sector", "class":"form-control sector", "required":"required", "style":"text-transform:capitalize") }}
 						{{ text_field("direccion", "class":"form_control", "required":"required","style":"text-transform:capitalize")}}
 						</fieldset>
 						<div class="form-actions center">
@@ -31,3 +31,8 @@
 	</div>
 	<div class="col-sm-4">
 	</div>
+	<script type="text/javascript">
+		jQuery(function($){
+			$('.sector').mask('9?99999', {autoclear : false, placeholder : " "});
+		});
+	</script>
