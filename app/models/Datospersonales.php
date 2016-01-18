@@ -2,7 +2,7 @@
 
 class Datospersonales extends \Phalcon\Mvc\Model
 {
-
+  
     /**
      *
      * @var integer
@@ -111,6 +111,7 @@ class Datospersonales extends \Phalcon\Mvc\Model
      */
     protected $estatus;
 
+	
     /**
      * Method to set the value of field nu_cedula
      *

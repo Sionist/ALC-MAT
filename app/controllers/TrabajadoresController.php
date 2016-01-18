@@ -81,7 +81,6 @@ class TrabajadoresController extends \Phalcon\Mvc\Controller
         $this->view->setVar("tipocontr1",$tipocontr1);
         $this->view->setVar("ubinom1",$ubinom1);
         $this->view->setVar("ubifun1",$ubifun1);
-    
     }
 
     public function datospersonalesAction()
@@ -92,13 +91,14 @@ class TrabajadoresController extends \Phalcon\Mvc\Controller
             $trabajador = new Datospersonales();
 
             $trabajador->setNuCedula($cedula);
+			$trabajador->setNacionalidad($this->request->getPost("nacionalidad"));
             $trabajador->setRif($this->request->getPost("rif"));
             $trabajador->setNombre1(strtoupper($this->request->getPost("nombre1")));
             $trabajador->setNombre2(strtoupper($this->request->getPost("nombre2")));
             $trabajador->setApellido1(strtoupper($this->request->getPost("apellido1")));
             $trabajador->setApellido2(strtoupper($this->request->getPost("apellido2")));
             $trabajador->setGenero($this->request->getPost("genero"));
-            $trabajador->setFNac($this->request->getPost("f_nac"));
+            $trabajador->setFNac(date("Y-m-d", strtotime($this->request->getPost("f_nac"))));
             $trabajador->setLugarNac($this->request->getPost("lugar_nac"));
             $trabajador->setTelfHab($this->request->getPost("telf_hab"));
             $trabajador->setTelfCel($this->request->getPost("telf_cel"));
@@ -107,7 +107,6 @@ class TrabajadoresController extends \Phalcon\Mvc\Controller
             $trabajador->setCorreoE(strtoupper($this->request->getPost("correo_e")));
             $trabajador->setIdDiscapacidad($this->request->getPost("id_discapacidad"));
             $trabajador->setEstatus($this->request->getPost("estatus"));
-
 
             if (!$trabajador->save()) {
                 foreach ($trabajador->getMessages() as $message) {
@@ -155,11 +154,11 @@ class TrabajadoresController extends \Phalcon\Mvc\Controller
         $contratacion = new Datoscontratacion();
 
         $contratacion->setNuCedula($cedula);
-        $contratacion->setFIng($this->request->getPost("f_ing"));
-        $contratacion->setFEgre($this->request->getPost("f_egre"));
+        $contratacion->setFIng(date("Y-m-d",strtotime($this->request->getPost("f_ing"))));
+        $contratacion->setFEgre(date("Y-m-d",strtotime($this->request->getPost("f_egre"))));
         $contratacion->setTipoNom($this->request->getPost("tipo_nom"));
         $contratacion->setLiquidac($this->request->getPost("liquidac"));
-        $contratacion->setFPagoLiq($this->request->getPost("f_pago_liq"));
+        $contratacion->setFPagoLiq(date("Y-m-d",strtotime($this->request->getPost("f_pago_liq"))));
         $contratacion->setTCargo($this->request->getPost("t_cargo"));
         $contratacion->setTipoCont($this->request->getPost("tipo_cont"));
         $contratacion->setUbiNom($this->request->getPost("ubi_nom"));
@@ -185,9 +184,8 @@ class TrabajadoresController extends \Phalcon\Mvc\Controller
         $this->view->setVar("trabajador", $trabajador);
     }
 
-     public function enviarfinancieroAction()
+    public function enviarfinancieroAction()
     {
-
         $financiero = new Datosfinancieros();
         $cedula = $this->request->getPost("nu_cedula");
         $financiero->setNuCedula($cedula);

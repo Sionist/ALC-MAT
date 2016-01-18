@@ -7,6 +7,7 @@
         {{ javascript_include("js/jquery.maskedinput.js") }}
 <div id="page-wrapper">
 
+<?php //echo "<div id='hola'>".$_SERVER[HTTP_REFERER]."</div>"; ?>
 <!-- Formulario para agregar  (insertar) -->
 
 {{ form("descuentos/guardar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
@@ -94,29 +95,9 @@
                 $("#desc").val("");
                 
                 //mascara de validacion para campo rif
-                $('.rif').mask('a-99999999-9');
-                              
-                $("#guardar").on('click', function(e) { 
-                    
-                    var rif = $("#rif").val();
-                    var desc = $("#desc").val();
-                    
-                    //valida que el rif introducido sea correcto si descuento no esta vacio
-                    if(desc != ""){
-                        if(!rif.startsWith("j") && !rif.startsWith("g") && !rif.startsWith("v")){
-                                e.preventDefault();
-                                //muestra msj de error
-                                $("#msj").removeClass("hide");
-                                $("#msj_success").addClass("hide");
-                                $("#rif").focus();
-                            }
-                        }else{
-                            $("#msj").addClass("hide");
-                            $("#msj_success").addClass("hide");
-                        }
-                    });
-                
-            
+                $.mask.definitions['~']='[vVjJgG]';
+                $('.rif').mask('~-99999999-9');
+                            
             /*  jquery del modal de edicion */
                 $( ".id-btn-dialog1" ).on('click', function(e) {
                     e.preventDefault();

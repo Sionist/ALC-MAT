@@ -19,24 +19,24 @@
 
 	
 		<div class="col-sm-3">
-				<td align="right"><a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/trabajadores/embargos/<?php echo $ncedula; ?>" title="Volver">
+				<td align="right"><a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/beneficiados/index/<?php echo $ncedula; ?>" title="Volver">
 				<img src="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/img/btn-volver.png"></a>&nbsp;</td>			
 		</div>
 
 		<div class="col-sm-6">
 			<div class="widget-box">
 				<div class="widget-header">
-					<h4 class="widget-title">Editar Embargo de <?php echo $nombre1." ".$apellido1." " ?>Cédula:<?php echo " ".$ncedula ?></h4>
+					<h4 class="widget-title">Editar Beneficiarios de Embargo a <?php echo $nombre1." ".$apellido1." " ?>Cédula:<?php echo " ".$ncedula ?></h4>
 				</div>
 
 					<div class="widget-body">
 						<div class="widget-main no-padding">
 												
-						{{ form("embargos/editado", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
+						{{ form("beneficiados/editado", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
 						<fieldset>
 						{{ content() }}
 						
-						{{ hidden_field("idembargo") }}
+						{{ hidden_field("idbeneficiado") }}
 						{{ hidden_field("ncedula") }}
 						
 						
@@ -44,14 +44,14 @@
 						
 							<tr>
 								<td>
-									<th>Tribunal</th>
+									<th>Cédula del Beneficiario</th>
 								</td>
 								
 								<td>
 								</td>
 								
 								<td>
-									{{ text_field("tribunal", "class":"form-control", "required":"required", "style":"text-transform:capitalize") }}
+									{{ text_field("", "class":"form-control", "required":"required", "style":"text-transform:capitalize") }}
 								</td>								
 							</tr>
 							

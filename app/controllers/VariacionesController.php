@@ -19,34 +19,6 @@ class VariacionesController extends \Phalcon\Mvc\Controller
 
         if ($cedula && is_numeric($cedula)) {
 
-            $enReposo = false;
-
-            //consulta la fecha de finalizacion de reposo mas alta
-            $reposo = $this->modelsManager->createBuilder()
-                ->from("NbReposo")
-                ->columns("MAX(f_final)")
-                ->where("nu_cedula= :ci:", array("ci" => $cedula))
-                ->getQuery()
-                ->execute()
-                ->toArray();
-
-            //almacena la fecha de reposo si existe
-            $f_rep = "";
-            //almacena la fecha actual
-            $f_actual = date('Y-m-d');
-
-            if (count($reposo) > 0) {
-                foreach ($reposo as $k => $v) {
-                    foreach ($v as $a) {
-                        $f_rep = $a;
-                    }
-                }
-
-                //si la fecha de reposo es mayor a fecha actual, esta en reposo (true)
-                if ($f_rep > $f_actual) {
-                    $enReposo = true;
-                }
-            }
             $Tcedula = new Phalcon\Mvc\Model\Query("SELECT
                                                         Datospersonales.nu_cedula,
                                                         Datospersonales.nombre1,
@@ -64,7 +36,36 @@ class VariacionesController extends \Phalcon\Mvc\Controller
 
             $trabajador = $Tcedula->execute()->toArray();
 
-            if ($Tcedula) {
+            if (count($trabajador) > 0) {
+
+            $enReposo = false;
+
+            //consulta la fecha de finalizacion de reposo mas alta
+            $reposo = $this->modelsManager->createBuilder()
+                ->from("NbReposo")
+                ->columns("MAX(f_final)")
+                ->where("nu_cedula= :ci:", array("ci" => $cedula))
+                ->getQuery()
+                ->execute()
+                ->toArray();
+
+            //almacena la fecha de reposo si existe
+            $f_rep = "";
+            //almacena la fecha actual
+            $f_actual = date('Y-m-d');
+
+            foreach ($reposo as $k => $v) {
+                foreach ($v as $a) {
+                    $f_rep = $a;
+                }
+            }
+
+            //si la fecha de reposo es mayor a fecha actual, esta en reposo (true)
+            if ($f_rep > $f_actual) {
+                $enReposo = true;
+            }
+
+
 
                 $SD = $this->modelsManager->createBuilder()
                     ->from("Datoscontratacion")
@@ -113,13 +114,19 @@ class VariacionesController extends \Phalcon\Mvc\Controller
                     //envia un JSON con los datos de las consultas en forma de array
                     $this->response->setJsonContent(array(
                         "enReposo" => $enReposo,
-                        "trabajador" => $trabajador
+                        "trabajador" => $trabajador,
+                        "hasta" => date("d-m-Y",strtotime($f_rep))
                     ));
                     $this->response->setStatusCode(200, "OK");
                     $this->response->send();
                 }
             } else {
                     $this->view->disable();
+                    $this->response->setJsonContent(array(
+                        "trabajador" => $trabajador
+                    ));
+                    $this->response->setStatusCode(200, "OK");
+                    $this->response->send();
                 }
             } else {
                 $this->view->disable();

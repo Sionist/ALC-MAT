@@ -21,6 +21,7 @@ class DeudasController extends \Phalcon\Mvc\Controller
                 ->join("Descuentos","Descuentos.id_descuent = NbDeudas.id_descuent")
                 ->join("Frecuencia","Frecuencia.id_frecuencia = NbDeudas.frecuencia")
                 ->columns("Descuentos.descuento,NbDeudas.id_deuda, NbDeudas.monto_inicial,NbDeudas.cuotas,Frecuencia.frecuencia,NbDeudas.saldo,NbDeudas.f_compromiso")
+                ->where("NbDeudas.nu_cedula = :ci:", array("ci" => $cedula))
                 ->orderBy("NbDeudas.id_deuda")
                 ->getQuery()
                 ->execute();

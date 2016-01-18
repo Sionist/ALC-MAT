@@ -29,22 +29,22 @@
 
   <div id="row">
     <div class="widget-box">
-       <div class="widget-header widget-header-blue widget-header-flat">
-          <table border="0" width="100%" cellspacing="3" cellpadding="0">
-           <tr>
-              <td>
-                  <p align="left"><h4 class="widget-title lighter">Trabajadores - Ingresar Nuevo Trabajador</h4></td>
-                      <td align="right"><a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/trabajadores" title="Volver">
-                          <img src="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/img/btn-volver.png"></a>&nbsp;</td>
-                      </tr>
-                  </table>
+     <div class="widget-header widget-header-blue widget-header-flat">
+      <table border="0" width="100%" cellspacing="3" cellpadding="0">
+         <tr>
+          <td>
+              <p align="left"><h4 class="widget-title lighter">Trabajadores - Ingresar Nuevo Trabajador</h4></td>
+                  <td align="right"><a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/trabajadores" title="Volver">
+                      <img src="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/img/btn-volver.png"></a>&nbsp;</td>
+                  </tr>
+              </table>
 
 
 
 
-              </div>
+          </div>
 
-        <div class="widget-body">
+          <div class="widget-body">
             <div class="widget-main">
                 <div id="fuelux-wizard-container">
 
@@ -72,121 +72,129 @@
                     <hr>
 
                     <div class="step-content pos-rel">
-                       {{ form("trabajadores/nuevo-trabajador/datos-personales", "method":"post", "class":"form-horizontal", "id":"validation-form", "enctype":"multipart/form-data" ) }}
-                       <div class="step-pane active" data-step="1">
+                     {{ form("trabajadores/nuevo-trabajador/datos-personales", "method":"post", "class":"form-horizontal", "id":"validation-form", "enctype":"multipart/form-data" ) }}
+                     <div class="step-pane active" data-step="1">
 
-                         <h3 class="lighter block green">Datos Personales</h3>
-
-
-                         <?php $this->flashSession->output(); ?>
+                       <h3 class="lighter block green">Datos Personales</h3>
 
 
-                         <div class="form-group">
-                            
-                            <label class="control-label col-xs-12 col-sm-3 no-padding-right"  for="nu_cedula">Número Cedula</label>
-                            
-                            <div class="col-xs-12 col-sm-9">
-                                <div class="clearfix">
-                                    {{ text_field("nu_cedula", "id":"nu_cedula", "placeholder":"Cedula") }}
-                                </div>
-                                
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            
-                            <label class="control-label col-xs-12 col-sm-3 no-padding-right"  for="rif">Rif</label>
-                            <div class="col-xs-12 col-sm-9"> <div class="clearfix">
-                             
-                                {{ text_field("rif", "size" : 30, "placeholder":"RIF") }}
-                            </div>
-                        </div>
-                    </div>
-                    
-                    
-                    <div class="form-group">
-                        <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="nombre1">Primer Nombre</label>
-                        <div class="col-xs-12 col-sm-9"> <div class="clearfix">
-                            
-                            
-                            {{ text_field("nombre1", "size" : 30, "placeholder":"Primer Nombre") }}
-                        </div>
-                    </div>
-                </div>
-                
-                
-                <div class="form-group">
-                    <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="nombre2">Segundo Nombre</label>
-                    <div class="col-xs-12 col-sm-9"> <div class="clearfix">
-                        
-                        
-                        {{ text_field("nombre2", "size" : 30, "placeholder":"Segundo Nombre") }}
-                    </div>
-                </div>
-            </div>    
-            
-            
-            <div class="form-group">
-                <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="apellido1">Primer Apellido</label>
+                       <?php $this->flashSession->output(); ?>
+
+
+
+
+                       <div class="form-group">
+
+                        <label class="control-label col-xs-12 col-sm-3 no-padding-right"  for="nu_cedula">Número Cedula</label>
+
+                        <div class="col-xs-12 col-sm-9">
+                           <div class="clearfix">
+                            <select class="select1" size="1" name="nacionalidad">
+                              <option value="V">V</option>
+                              <option value="E">E</option>
+                          </select>
+
+                          {{ text_field("nu_cedula", "id":"nu_cedula", "placeholder":"Cedula") }}
+                      </div>
+
+                  </div>
+              </div>
+
+              <div class="form-group">
+
+                <label class="control-label col-xs-12 col-sm-3 no-padding-right"  for="rif">Rif</label>
                 <div class="col-xs-12 col-sm-9"> <div class="clearfix">
-                    
-                    
-                    {{ text_field("apellido1", "size" : 30, "placeholder":"Primer Apellido") }}
+
+                    {{ text_field("rif", "size" : 30, "placeholder":"RIF") }}
+                    <div id="rif-er" class="help-block hidden" style="color: #d16e6c">Debe introducir un Rif valido</div>
                 </div>
             </div>
-        </div>  
-        
-        
+        </div>
+
+
         <div class="form-group">
-            <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="apellido2">Segundo Apellido</label>
+            <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="nombre1">Primer Nombre</label>
             <div class="col-xs-12 col-sm-9"> <div class="clearfix">
-                
-                
-                {{ text_field("apellido2", "size" : 30, "placeholder":"Segundo Apellido") }}
+
+
+                {{ text_field("nombre1", "size" : 30, "placeholder":"Primer Nombre") }}
             </div>
         </div>
-    </div>    
-    <div class="space-2"></div>
-    
-    <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-3 no-padding-right">Genero</label>
-        <div class="col-xs-12 col-sm-9"> 
+    </div>
 
-            <div><label class="line-height-1 blue">
-                
-                {{ radio_field("genero", "size" : 30, "placeholder":"Genero", "value":"1", "class":"ace") }}
-                <span class="lbl"> Hombre</span>
-            </label></div>
-            
-            
-            <div> <label class="line-height-1 blue">
-                
-                {{ radio_field("genero", "size" : 30, "placeholder":"Genero", "value":"2", "class":"ace") }}
-                <span class="lbl"> Mujer</span>
-            </label></div>
-        </div>
-    </div>
-    
-    
+
     <div class="form-group">
-        <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="f_nac">Fecha de Nacimiento</label>
-        <div class="col-xs-3"> <div class="input-group">
-            
-            
-            {{ text_field("f_nac", "type" : "date", "class":"form-control date-picker", "data-date-format":"yyyy-mm-dd") }}
-            <span class="input-group-addon">
-                <i class="fa fa-calendar bigger-110"></i>
-            </span>
+        <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="nombre2">Segundo Nombre</label>
+        <div class="col-xs-12 col-sm-9"> <div class="clearfix">
+
+
+            {{ text_field("nombre2", "size" : 30, "placeholder":"Segundo Nombre") }}
         </div>
-        
     </div>
+</div>    
+
+
+<div class="form-group">
+    <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="apellido1">Primer Apellido</label>
+    <div class="col-xs-12 col-sm-9"> <div class="clearfix">
+
+
+        {{ text_field("apellido1", "size" : 30, "placeholder":"Primer Apellido") }}
+    </div>
+</div>
+</div>  
+
+
+<div class="form-group">
+    <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="apellido2">Segundo Apellido</label>
+    <div class="col-xs-12 col-sm-9"> <div class="clearfix">
+
+
+        {{ text_field("apellido2", "size" : 30, "placeholder":"Segundo Apellido") }}
+    </div>
+</div>
+</div>    
+<div class="space-2"></div>
+
+<div class="form-group">
+    <label class="control-label col-xs-12 col-sm-3 no-padding-right">Genero</label>
+    <div class="col-xs-12 col-sm-9"> 
+
+        <div><label class="line-height-1 blue">
+
+            {{ radio_field("genero", "size" : 30, "placeholder":"Genero", "value":"1", "class":"ace") }}
+            <span class="lbl"> Hombre</span>
+        </label></div>
+
+
+        <div> <label class="line-height-1 blue">
+
+            {{ radio_field("genero", "size" : 30, "placeholder":"Genero", "value":"2", "class":"ace") }}
+            <span class="lbl"> Mujer</span>
+        </label></div>
+    </div>
+</div>
+
+
+<div class="form-group">
+    <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="f_nac">Fecha de Nacimiento</label>
+    <div class="col-xs-3"> <div class="input-group">
+
+
+        {{ text_field("f_nac", "type" : "date", "class":"form-control date-picker", "data-date-format":"dd-mm-yyyy") }}
+        <span class="input-group-addon">
+            <i class="fa fa-calendar bigger-110"></i>
+        </span>
+    </div>
+
+</div>
 </div>    
 
 
 <div class="form-group">
     <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="lugar_nac">Lugar de Nacimiento</label>
     <div class="col-xs-12 col-sm-9"> <div class="clearfix">
-        
+
         <?php
 
         echo Phalcon\Tag::Select(array(
@@ -231,8 +239,8 @@
 <div class="form-group">
     <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="dir_hab">Dirección de Habitación</label>
     <div class="col-xs-12 col-sm-9"> <div class="clearfix">
-        
-        
+
+
         {{ text_field("dir_hab", "size" : 60, "placeholder":"Dirección de Habitación") }}
         
     </div>
@@ -242,30 +250,30 @@
 <div class="form-group">
     <label class="control-label col-xs-12 col-sm-3 no-padding-right " for="edo_civil">Estado Civil</label>
     <div class="col-xs-12 col-sm-9"> <div class="clearfix">
-        
-        
-       <!-- {{ text_field("edo_civil", "size" : 30, "placeholder":"Estado Civil") }} -->
-		
-		
-		
-		<select class="select2" size="1" name="edo_civil">
-	<option value="SOLTER@">SOLTER@</option>
-	<option value="CASAD@">CASAD@</option>
-	<option value="DIVORCIAD@">DIVORCIAD@</option>
-	<option value="VIUD@">VIUD@</option>
-	<option value="CONCUBINATO">CONCUBINATO</option>
-	</select>
-		
-        
-    </div>
+
+
+     <!-- {{ text_field("edo_civil", "size" : 30, "placeholder":"Estado Civil") }} -->
+
+
+
+     <select class="select2" size="1" name="edo_civil">
+       <option value="SOLTER@">SOLTER@</option>
+       <option value="CASAD@">CASAD@</option>
+       <option value="DIVORCIAD@">DIVORCIAD@</option>
+       <option value="VIUD@">VIUD@</option>
+       <option value="CONCUBINATO">CONCUBINATO</option>
+   </select>
+
+
+</div>
 </div>
 </div>   
 
 <div class="form-group">
     <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="correo_e">Correo</label>
     <div class="col-xs-12 col-sm-9"> <div class="clearfix">
-        
-        
+
+
         {{ text_field("correo_e", "type":"email", "size" : 30, "placeholder":"correo@gmail.com") }}
         
     </div>
@@ -287,9 +295,9 @@
          <div class="form-group">
             <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="id_discapacidad">Discapacidad</label>
             <div class="col-xs-12 col-sm-9"> <div class="clearfix">
-                
-                
-                
+
+
+
                 <?php
 
                 echo Phalcon\Tag::Select(array(
@@ -310,10 +318,10 @@
         <div class="form-group">
             <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="estatus">Estatus</label>
             <div class="col-xs-12 col-sm-9"> <div class="clearfix">
-                
-                
-              
-                
+
+
+
+
                 <?php
 
                 echo Phalcon\Tag::Select(array(
@@ -329,7 +337,7 @@
                 </div>
             </div>
         </div>    
-         <div style="text-align:right"><a class="btn" href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/trabajadores">Cancelar</a>&nbsp;&nbsp;&nbsp; <button class="btn btn-primary"><i class="ace-icon fa fa-floppy-o align-top bigger-125"></i>Guardar Datos</button></div>
+        <div style="text-align:right"><a class="btn" href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/trabajadores">Cancelar</a>&nbsp;&nbsp;&nbsp; <button id="guardar" class="btn btn-primary"><i class="ace-icon fa fa-floppy-o align-top bigger-125"></i>Guardar Datos</button></div>
     </form>
 </div>
 </div>  
@@ -538,7 +546,14 @@
              jQuery.validator.addMethod("phone", function (value, element) {
                 return this.optional(element) || /^\(\d{4}\) \d{3}\-\d{4}( x\d{1,6})?$/.test(value);
             }, "Enter a valid phone number.");
-             
+
+
+            // ------------------FORMATO DE RIF --------------------
+            $.mask.definitions['~']='[vVjJgG]';
+            $('#rif').mask('~-99999999-9', {autoclear : false, placeholder : " "});
+
+            
+
         // ------------------VALIDACION DEL FORMULARIO --------------------
         $("#validation-form").validate({
             errorElement: 'div',
@@ -584,12 +599,19 @@
                 },
                 estatus: {
                     required: true
+                },
+                rif: {
+                    required: true
                 }
             },
             
             messages: {
                 correo_e: {
                     required: "Ingrese un email valido.",
+                    email: "Ingrese un email valido."
+                },
+                  rif: {
+                    required: "Ingrese un rif valido.",
                     email: "Ingrese un email valido."
                 }
                 

@@ -46,7 +46,8 @@
 	</div>
 	<script type="text/javascript">
 	jQuery(function($){
-		$('.rif').mask('a-99999999-9');
+		$.mask.definitions['~']='[vVjJgG]';
+        $('.rif').mask('~-99999999-9');
 
 		$("#modificar").on('click', function(e) { 
                     

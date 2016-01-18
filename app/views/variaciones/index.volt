@@ -380,14 +380,11 @@
         function variaciones(cedu, nomi){
             $.post("variaciones/buscar", { "cedula" : cedu, "nomina" : nomi },function(data){
 
-                //data contiene la respuesta JSON del controlador
-                if(data != ""){
+                $("#year").val($("#ano").val());
+                $("#s-q-m").val($("#sqm").val());
+                $("#nomi").val($("#nomina").val());
 
                     //convierte la data en un objeto
-                    $("#year").val($("#ano").val());
-                    $("#s-q-m").val($("#sqm").val());
-                    $("#nomi").val($("#nomina").val());
-
                     var asigs = JSON.parse(data);
 
                     if(asigs.trabajador.length > 0){
@@ -409,6 +406,7 @@
                         nombre += asigs.trabajador[0].nombre1 +" "+ asigs.trabajador[0].apellido1;
                         //almacena cedula del trabajador
                         ci += asigs.trabajador[0].nu_cedula;
+
                         ubi_f += asigs.trabajador[0].denominacion;
                         cargo += asigs.trabajador[0].cargo;
 
@@ -432,12 +430,13 @@
                         if(asigs.enReposo == true){
                             $("#msj").html("");
                             $("thead").addClass("hidden");
-                            tr+= "<tr><td class=\"col-xs-15 center\" style=\"text-transform: capitalize;\">"+
-                            "<h2><strong>TRABAJADOR EN REPOSO</strong></h2> </td></tr>";
+                            tr+= "<tr><td class='col-xs-15 center' style='text-transform: capitalize;''>"+
+                            "<h2><strong>TRABAJADOR EN REPOSO</strong></h2><br />"+
+                            "<h4><strong>HASTA "+asigs.hasta+"</strong></h4></td></tr>";
                             $("#asignacion").html(tr);
-                            $("#tprins").slideDown(100).removeClass("hidden");
-                            $("#dt").slideDown(100).removeClass("hidden");
-                            $("#img").slideDown(100).removeClass("hidden");
+                            $("#tprins").slideDown(120).removeClass("hidden");
+                            $("#dt").slideDown(120).removeClass("hidden");
+                            $("#img").slideDown(120).removeClass("hidden");
                         }else{                    
 
                         //contador para diferenciar id´s de los checkbox
@@ -445,12 +444,12 @@
                         //recorre los datos del JSON recibido
                         for(datos in asigs.asignaciones){
                             //genera todas las asignaciones variables tabuladas con sus campos
-                            tr += "<tr id=\"f"+cont+"\"><td class=\"col-xs-15\" style=\"text-transform: capitalize;\">"+asigs.asignaciones[datos].asignacion+
-                            "</td><td class=\"col-xs-3\">"+
-                            "<input type=\"text\" id=\"tf\" name=\""+asigs.asignaciones[datos].id_asignac +"\" class=\"input-mask-numeric col-xs-12 center\" required=\"required\" disabled>"
+                            tr += "<tr id='f"+cont+"'><td class='col-xs-15' style='text-transform: capitalize;'>"+asigs.asignaciones[datos].asignacion+
+                            "</td><td class='col-xs-3'>"+
+                            "<input type='text' id='tf' name='"+asigs.asignaciones[datos].id_asignac +"' class='input-mask-numeric col-xs-12 center' required='required' disabled>"
                             +"</td>"
-                            +"<td class=\"col-xs-1\">"+ "<label style=\"margin-top: 10px; display: block\">"+
-                            "<input name=\"switch-field-1\" id=\"c"+cont+"\" class=\"ace ace-switch ace-switch-6\" type=\"checkbox\">"+"<span class=\"lbl\"></span>"
+                            +"<td class='col-xs-1'>"+ "<label style='margin-top: 10px; display: block'>"+
+                            "<input name='switch-field-1' id='c"+cont+"' class='ace ace-switch ace-switch-6' type='checkbox'>"+"<span class='lbl'></span>"
                             +"</td></tr>";
                             cont++;
                         }
@@ -486,13 +485,12 @@
                                 $("#guardar").attr("disabled",true)
                             }
                         });
-    }
 }
-else{
+}else{
     $("#tprins").addClass("hidden");
     $("#img").addClass("hidden");
+    $("#dt").addClass("hidden");
     $("#msj").html("<div class='alert alert-block alert-danger'>La cedula introducida no existe, o no pertenece a la nomina seleccionada</div>");
-}
 }
 });
 }
@@ -564,7 +562,7 @@ else{
 
                                 tr+="<tr><td>"+movi.variaciones[datos].asignacion+"</td><td class='center'>"+movi.variaciones[datos].horas_dias+"</td>"+
                                 "<td class='center'>"+movi.variaciones[datos].sqm+"</td><td>"+movi.variaciones[datos].ano+"</td>"+
-                                "<td class='center'>"+movi.variaciones[datos].fecha+"</td>"+"<td class='center'><div class=\"hidden-sm hidden-xs action-buttons\">"+
+                                "<td class='center'>"+movi.variaciones[datos].fecha+"</td>"+"<td class='center'><div class='hidden-sm hidden-xs action-buttons'>"+
                                 "<a href='#' class='modificar' id='"+movi.variaciones[datos].id_variacion+"'><i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"+
                                 "<a href='#' class='eliminar' id='"+movi.variaciones[datos].id_variacion+"'><i class='ace-icon glyphicon glyphicon-remove bigger-110'></i></div></td></tr>";
                             }
@@ -890,6 +888,7 @@ $("#msj_error").addClass("hidden");
                         for (datos in res.msj_error){
                             tr+= "<tr><td>"+res.msj_error[datos].asignacion+"</td><td>"+res.msj_error[datos].formula+"</td></tr>"
                             cont++;
+                            alert(res.msj_error);
                         }
 
                         $("#msj_error").removeClass("hidden");
@@ -910,7 +909,7 @@ $("#t_enabled").prop("checked",false);
 
 $("#buscar").click(function(){
     $("#msj_exito").addClass("hidden").html("");
-    $("#t_errors").html("");
+    $("#t_errors tbody").html("");
     $("#msj_error").addClass("hidden");
 });
 });

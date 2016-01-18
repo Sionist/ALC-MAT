@@ -40,7 +40,9 @@ Nuevo
 					<td><?php echo date('d-m-Y',strtotime($row->f_nac));?></td>
 					<td><?php echo $row->genero; ?></td>
 					<td><?php echo $row->parent; ?></td>
-					<td>  <a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/cargafamiliar/detalle/<?php echo $row->id_carga; ?>">Detalles</a></td>
+					<td>
+					<?php echo $this->tag->linkTo("trabajadores/carga-familiar/detalle/".$row->id_carga,"Detalles") ?>  
+					<!-- <a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/trabajadores/carga-familiar/detalle/<?php echo $row->id_carga; ?>">Detalles</a></td> -->
 					</tr>
 					 <?php
 					  }

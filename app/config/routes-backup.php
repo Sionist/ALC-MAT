@@ -8,7 +8,7 @@ $router->addPost("/login/ingreso","login::ingreso");
  *rutas para trabajadores
  */
 $router->add("/trabajadores","trabajadores::index");
-$router->add("/trabajadores/ver/{cedula:[0-9]+}","trabajadores::ficha1");
+$router->add("/trabajadores/{cedula:[0-9]+}","trabajadores::ficha1");
 $router->add("/trabajadores/nuevo-trabajador","trabajadores::nuevo");
 $router->addPost("/trabajadores/nuevo-trabajador/datos-personales","trabajadores::datospersonales");
 $router->add("/trabajadores/nuevo-trabajador/datos-contratacion/{cedula:[0-9]+}","trabajadores::dcontratacion");

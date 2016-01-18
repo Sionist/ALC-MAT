@@ -91,7 +91,7 @@ use Phalcon\Forms\Element\Select ?>
              <div class="col-xs-3"><div class="input-group">
         
         
-                {{ text_field("f_ing", "type" : "date", "class":"form-control date-picker", "data-date-format":"yyyy-mm-dd") }}
+                {{ text_field("f_ing", "type" : "date", "class":"form-control date-picker", "data-date-format":"dd-mm-yyyy") }}
                 <span class="input-group-addon"><i class="fa fa-calendar bigger-110"></i></span>
 
         
@@ -103,7 +103,7 @@ use Phalcon\Forms\Element\Select ?>
             <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="f_egre">Fecha de Egreso</label>
              <div class="col-xs-3"> <div class="input-group">
         
-                {{ text_field("f_egre", "type" : "date", "class":"form-control date-picker", "data-date-format":"yyyy-mm-dd") }}
+                {{ text_field("f_egre", "type" : "date", "class":"form-control date-picker", "data-date-format":"dd-mm-yyyy") }}
                 <span class="input-group-addon"><i class="fa fa-calendar bigger-110"></i></span>
             </div>
              </div>
@@ -148,7 +148,7 @@ use Phalcon\Forms\Element\Select ?>
             <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="f_pago_liq">Fecha de Pago de Liquidación</label>
              <div class="col-xs-3"> <div class="input-group">
         
-            {{ text_field("f_pago_liq", "type" : "date", "class":"form-control date-picker", "data-date-format":"yyyy-mm-dd") }}
+            {{ text_field("f_pago_liq", "type" : "date", "class":"form-control date-picker", "data-date-format":"dd-mm-yyyy") }}
             <span class="input-group-addon"><i class="fa fa-calendar bigger-110"></i></span>
             </div>  
              </div>

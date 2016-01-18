@@ -26,19 +26,15 @@ use Phalcon\Forms\Element\Select ?>
 <div id="page-wrapper">
 
 		<div class="col-sm-3">
-				<td align="right"><a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/trabajadores/ficha1/index/<?php echo $ncedula; ?>" title="Volver">
+				<td align="right"><a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/embargos/index/<?php echo $ncedula; ?>" title="Volver">
 				<img src="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/img/btn-volver.png"></a>&nbsp;</td>			
 		</div>
  
 <div class="row">
 
 
-<!-- /*<?php echo $this->tag->linkTo(array("reposos/nuevo/","<i class='ace-icon fa fa-users bigger-160'></i>Nuevo","class"=>"btn btn-app btn-primary btn-xs", ""))  ?>*/-->
+	{{ form("beneficiados/guardar", "method":"post", "autocomplete": "off", "class":"form-inline")}}
 
-	{{ form("embargos/guardar", "method":"post", "autocomplete": "off", "class":"form-inline")}}
-
-
-	
 
 	<div class="col-xs-12">
       
@@ -47,35 +43,25 @@ use Phalcon\Forms\Element\Select ?>
 		</div>
         
         <div class="table-header">
-            Embargos al Trabajador: <?php echo $nombre1."  ".$apellido1 ?> Cédula Identidad: <?php echo "  ".$nu_cedula ?>
+            Beneficiarios del Embargo al Trabajador: <?php echo $nombre1."  ".$apellido1 ?> Cédula Identidad: <?php echo "  ".$nu_cedula ?>
         </div>
 
         	{{ content() }}
 
         	{{ hidden_field("ncedula", "class":"form-control") }}
 
+        	{{ hidden_field("idbeneficiado", "class":"form-control") }}
+
         	{{ hidden_field("idembargo", "class":"form-control") }}
 
-        	{{ text_field("Tribunal", "class":"form-control", "required":"required", "placeholder":"Tribunal" )}}
+        	{{ text_field("cibene", "class":"form-control", "required":"required", "placeholder":"Cédula Beneficiado" )}}
 
-        	{{ text_field("nexp", "class":"form-control", "required":"required", "placeholder":"Número Expediente")}}
+        	{{ text_field("apellidos", "class":"form-control", "required":"required", "placeholder":"Apellidos")}}
 
-        	{{ text_field("fdictamen", "type":"date", "class":"form-control date-picker", "data-date-format":"yyyy-mm-dd", "required":"required", "placeholder":"Fecha Dictamen") }}<i class="fa fa-calendar bigger-110"></i>
+        	{{ text_field("nombres", "class":"form-control", "required":"required", "placeholder":"Nombres")}}
 
-        	{{ text_field("porcentaje", "class":"form-control", "required":"required", "placeholder":"Porcentaje Descuento" )}}
+        	{{ text_field("fnac", "type":"date", "class":"form-control date-picker", "data-date-format":"yyyy-mm-dd", "required":"required", "placeholder":"Fecha Nacimiento") }}<i class="fa fa-calendar bigger-110"></i>
 
-			<?php
-				echo $this->tag->select(array(
-   				'concepto',
-   				FondoDesc::find(array('order' => 'id_fondo ASC')),
-   				'using' => array('id_fondo', "fondo"),
-   				'useEmpty' => true,
-   				'emptyText' => 'Seleccione Concepto de Embargo...',
-   				"class" => "form-control",
-   				"required" => "required"
-   				))
-   			?>
-        	
 
         	{{ submit_button("Guardar", "class":"btn btn-primary") }}
         	{{ endForm() }}
@@ -87,11 +73,10 @@ use Phalcon\Forms\Element\Select ?>
                                                 <th class="center">
                                                 N°
                                                 </th>
-                                                <th>Tribunal</th>
-												<th>N° Expediente</th>
-												<th>Fecha Dictamen</th>
-												<th>Porcentaje a Descontar</th>
-												<th>Concepto Descuento</th>
+                                                <th>Cédula Beneficiario</th>
+												<th>Apellidos</th>
+												<th>Nombres</th>
+												<th>Fecha Nacimiento</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
@@ -99,7 +84,7 @@ use Phalcon\Forms\Element\Select ?>
                                         <tbody>
                                             <?php
                                             $numerito=1;
-                                            foreach($embargos as $row) {
+                                            foreach($beneficiados as $row) {
                                             ?>
                                             <tr>
                                                 <td class="center">
@@ -112,16 +97,15 @@ use Phalcon\Forms\Element\Select ?>
                                                     </label>
                                                 </td>
 
-												<td><span><?php echo $row->tribunal ?></span></td>
-												<td><span><?php echo $row->num_exp ?></span></td>
-												<td><span><?php echo $row->f_emb ?></span></td>
-												<td><span><?php echo $row->porcentaje_emb ?></span></td>
-												<td><span><?php echo $row->fondo ?></span></td>
-
+												<td><span><?php echo $row->ci_beneficiado ?></span></td>
+												<td><span><?php echo $row->apellidos ?></span></td>
+												<td><span><?php echo $row->nombres ?></span></td>
+												<td><span><?php echo $row->f_nacimiento ?></span></td>
+												
                                                 <td>
                                                     <div class="hidden-sm hidden-xs action-buttons">
-                                                        <?php echo $this->tag->linkTo(array("trabajadores/embargos/editar/".$row->id_embargo, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>")) ?> 
-                                                        <?php echo $this->tag->linkTo(array("beneficiados/index/".$row->nu_cedula, "<i class='ace icon fa fa-coffee'></i>")) ?>
+                                                        <?php echo $this->tag->linkTo(array("beneficiados/editar/".$row->id_beneficiado, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>")) ?> 
+                                                        <!--<?php echo $this->tag->linkTo(array("trabajadores/ficha1/".$row->nu_cedula, "<i class='ace icon fa fa-coffee'></i>")) ?>-->
                                                     </div>
                                                 </td>
                                             </tr>
