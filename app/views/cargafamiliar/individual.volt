@@ -1,7 +1,7 @@
 <div id="page-wrapper">
 
 <?php echo $this->flashSession->output(); ?>
-<?php echo $this->tag->linkTo(array('trabajadores/carga-familiar/nueva-carga/'.$trabaja->nu_cedula,"<i class='ace-icon fa fa-users bigger-160'></i>Nueva",'class'=>'btn btn-app btn-primary btn-xs')) ?>
+<?php echo $this->tag->linkTo(array("trabajadores/ver/".$trabaja->nu_cedula."/carga-familiar/nueva-carga/".$trabaja->nu_cedula,"<i class='ace-icon fa fa-users bigger-160'></i>Nueva",'class'=>'btn btn-app btn-primary btn-xs')) ?>
 
 <!-- <a href="http://190.202.129.59/sistenomialc/cargafamiliar/nuevo/<?php echo $trabaja->nu_cedula;?>" title="Agregar Carga Familiar" class="btn btn-app btn-primary btn-xs">
 <i class="ace-icon fa fa-users bigger-160"></i>
@@ -41,7 +41,7 @@ Nuevo
 					<td><?php echo $row->genero; ?></td>
 					<td><?php echo $row->parent; ?></td>
 					<td>
-					<?php echo $this->tag->linkTo("trabajadores/carga-familiar/detalle/".$row->id_carga,"Detalles") ?>  
+					<?php echo $this->tag->linkTo("trabajadores/ver/".$trabaja->nu_cedula."/carga-familiar/detalle/".$row->id_carga,"Detalles") ?>  
 					<!-- <a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/trabajadores/carga-familiar/detalle/<?php echo $row->id_carga; ?>">Detalles</a></td> -->
 					</tr>
 					 <?php

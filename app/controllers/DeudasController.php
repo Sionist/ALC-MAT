@@ -8,7 +8,7 @@ class DeudasController extends \Phalcon\Mvc\Controller
 
     public function indexAction($cedula){
 
-        if($cedula){
+         if($cedula){
             $dt = $this->modelsManager->createBuilder()
                 ->from("Datospersonales")
                 ->columns("nombre1,apellido1, nu_cedula")
@@ -72,9 +72,8 @@ class DeudasController extends \Phalcon\Mvc\Controller
                     $this->flash->error($message);
                 }
             }else{
-                $this->flashSession->error("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Guardado con Exito</strong></p></div>");
-
-                $this->response->redirect("deudas/index/$cedula");
+                $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Guardado con Exito</strong></p></div>");
+                $this->response->redirect("trabajadores/ver/$cedula/deudas");
                 $this->view->disable();
             }
         }

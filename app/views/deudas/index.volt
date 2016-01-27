@@ -1,6 +1,6 @@
 <div class="col-xs-12">
 <div class="row">	
-	<?php echo $this->tag->linkTo(array("deudas/nueva/".$cedula, "class" => "btn btn-primary", 
+	<?php echo $this->tag->linkTo(array("trabajadores/ver/".$cedula."/deudas/nueva/".$cedula, "class" => "btn btn-primary", 
 	"<i class='glyphicon glyphicon-usd'></i>&nbsp;Nueva Deuda</div>"))
 	?>	
 	<hr>

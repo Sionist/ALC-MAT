@@ -102,13 +102,15 @@ public function guardanuevoAction()
                 foreach ($cargafam->getMessages() as $message) {
                     $this->flashSession->error($message);
                 }
-            $this->response->redirect("trabajadores/carga-familiar/nueva-carga/$cedula");
-            $this->tag->setDefault("nu_cedula",$cedula);
-            $this->view->disable();
-            }
-        $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha guardado exitosamente</strong></p></div>");
-        $this->response->redirect("trabajadores/carga-familiar/$cedula");
-        $this->view->disable();
+                $this->response->redirect("trabajadores/ver/$cedula/carga-familiar/nueva-carga/$cedula");
+                $this->tag->setDefault("nu_cedula",$cedula);
+                $this->view->disable();
+            }else{
+                $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha guardado exitosamente</strong></p></div>");
+                $this->response->redirect("trabajadores/ver/$cedula/carga-familiar");
+                $this->view->disable();
+        }
+
     }
 }
 

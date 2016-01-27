@@ -200,7 +200,7 @@ if(!$this->session->has("username"))
 						
 					<!--breadcrumb aqui	-->
 					
-					{% include "partials/breadcrumb.volt" %}
+					{% include "partials/breadcrumb.php" %}
 					
 					<!--breadcrumb aqui fin	-->
 					</div>

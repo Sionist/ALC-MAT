@@ -38,7 +38,7 @@
         <td>
           <p align="left"><h4 class="widget-title lighter">Trabajadores - Ficha de Trabajador</h4></td>
             <td align="right"><a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/trabajadores" title="Volver">
-              <img src="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/img/btn-volver.png"></a>&nbsp;</td>
+              <!-- <img src="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/img/btn-volver.png"></a>&nbsp;</td> -->
             </tr>
           </table>
         </div>
@@ -65,25 +65,25 @@
                 <div id="user-profile-2" class="user-profile">
 
                   <div class="center"> 
-                    <?= $this->tag->linkTo("trabajadores/deudas/".$dtrabajador->nu_cedula, "<span class='btn btn-app btn-sm btn-pink no-hover'>
+                    <?= $this->tag->linkTo("trabajadores/ver/".$dtrabajador->nu_cedula."/deudas", "<span class='btn btn-app btn-sm btn-pink no-hover'>
                       <span class='line-height-1 bigger-170'> -<i class='glyphicon glyphicon-usd'></i> </span>
                       <br />
                       <span class='line-height-1 smaller-90'> Deudas </span>
                     </span>") ?>
 
-                    <?= $this->tag->linkTo("trabajadores/vacaciones/".$dtrabajador->nu_cedula, "<span class='btn btn-app btn-sm btn-warning no-hover'>
+                    <?= $this->tag->linkTo("trabajadores/ver/".$dtrabajador->nu_cedula."/vacaciones", "<span class='btn btn-app btn-sm btn-warning no-hover'>
                       <span class='line-height-1 bigger-170'><i class='ace-icon fa fa-fighter-jet'></i> </span>
                       <br />
                       <span class='line-height-1 smaller-90'> Vacaciones </span>
                     </span>") ?>
 
-                    <?= $this->tag->linkTo("trabajadores/carga-familiar/".$dtrabajador->nu_cedula, "<span class='btn btn-app btn-sm btn-purple no-hover'>
+                    <?= $this->tag->linkTo("trabajadores/ver/".$dtrabajador->nu_cedula."/carga-familiar", "<span class='btn btn-app btn-sm btn-purple no-hover'>
                       <span class='line-height-1 bigger-170'> Carga </span>
                       <br />
                       <span class='line-height-1 smaller-90'>Familiar </span>
                     </span>") ?>
 
-                    <?= $this->tag->linkTo("trabajadores/reposos/".$dtrabajador->nu_cedula, "<span class='btn btn-app btn-sm btn-success no-hover'>
+                    <?= $this->tag->linkTo("trabajadores/ver/".$dtrabajador->nu_cedula."/reposos", "<span class='btn btn-app btn-sm btn-success no-hover'>
                       <span class='line-height-1 bigger-170'> 
                         <i class='ace-icon fa fa-heart'></i> </span>
 
@@ -91,7 +91,7 @@
                         <span class='line-height-1 smaller-90'>Reposos </span>
                       </span>") ?>
 
-                    <?= $this->tag->linkTo("trabajadores/embargos/".$dtrabajador->nu_cedula, "<span class='btn btn-app btn-sm btn-danger no-hover'>
+                    <?= $this->tag->linkTo("trabajadores/ver/".$dtrabajador->nu_cedula."/embargos", "<span class='btn btn-app btn-sm btn-danger no-hover'>
                       <span class='line-height-1 bigger-170'> 
                         <i class='ace-icon fa fa-gavel'></i> </span>
 
@@ -99,7 +99,7 @@
                         <span class='line-height-1 smaller-90'>Embargos </span>
                       </span>") ?>
 
-                    <?= $this->tag->linkTo("trabajadores/asignaciones-deducciones/".$dtrabajador->nu_cedula, "<span class='btn btn-app btn-sm btn-primary no-hover'>
+                    <?= $this->tag->linkTo("trabajadores/ver/".$dtrabajador->nu_cedula."/asignaciones-deducciones/".$dtrabajador->nu_cedula, "<span class='btn btn-app btn-sm btn-primary no-hover'>
                       <span class='line-height-1 bigger-170'><i class='ace-icon fa fa-money '></i> </span>
                       <br />
                       <span class='line-height-1 smaller-90'> Asig./Ded. </span>
@@ -119,7 +119,7 @@
                            }
                            else{
                              ?>
-                             <img id="avatar" class="editable img-responsive" title="<?php echo $dtrabajador->nombre1." ".$dtrabajador->apellido1; ?>" src="../public/empleados/fotos/<?php echo $dtrabajador->foto_p; ?>" />
+                             <img id="avatar" class="editable img-responsive" title="<?php echo $dtrabajador->nombre1." ".$dtrabajador->apellido1; ?>" src="../../public/empleados/fotos/<?php echo $dtrabajador->foto_p; ?>" />
 
                              <?php
                            }
@@ -142,8 +142,10 @@
 
                             <span class="label label-purple arrowed-in-right">
                               <i class="ace-icon fa fa-circle smaller-80 align-middle"></i>
-                              <?php echo $estatus1->estatus;?>
+                              <?php echo $estatus1->estatus;?> 
                             </span>
+                            <button class="btn btn-white btn-purple btn-sm" style="position: relative;  float: right; right: 10px"><span class="ace-icon fa fa-pencil-square-o"></span></button>
+
                           </h4>
 
                           <div class="profile-user-info">
@@ -309,6 +311,8 @@
                                       <i class="ace-icon fa fa-book bigger-110"></i>
                                       Contratación
                                     </h4>
+                                    <button class="btn btn-white btn-purple btn-sm" style="position: relative;  float: right;"><span class="ace-icon fa fa-pencil-square-o"></span></button>
+
                                   </div>
 
                                   <div class="widget-body">
@@ -398,6 +402,8 @@
                                       <i class="ace-icon fa fa-graduation-cap bigger-120"></i>
                                       Profesión
                                     </h4>
+                                    <button class="btn btn-white btn-purple btn-sm" style="position: relative;  float: right"><span class="ace-icon fa fa-pencil-square-o"></span></button>
+
                                   </div>
 
                                   <div class="widget-body">
@@ -483,6 +489,20 @@
               </div>
             </div>
           </div>
+          <div id="d_personales" class="hide center">
+            {{ text_field("nombre1", "class" : "form-control center", "required":"required") }}
+            {{ text_field("nombre2", "class" : "form-control center", "required":"required") }}
+            {{ text_field("apellido1", "class" : "form-control center", "required":"required") }}
+            {{ text_field("apellido2", "class" : "form-control center", "required":"required") }}
+            {{ text_field("genero", "class" : "form-control center", "required":"required") }}
+            {{ text_field("lugar_nac", "class" : "form-control center", "required":"required") }}
+            {{ text_field("f_nac", "class" : "form-control center", "required":"required") }}
+            {{ text_field("nombre1", "class" : "form-control center", "required":"required") }}
+            {{ text_field("estado_civil", "class" : "form-control center", "required":"required") }}
+            {{ text_field("discapacidad", "class" : "form-control center", "required":"required") }}
+            {{ hidden_field("cedula") }}
+            <span id="dMsj"></span>
+        </div>
 
 
           <script type="text/javascript">

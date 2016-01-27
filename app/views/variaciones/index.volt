@@ -417,10 +417,10 @@
                         $("#ttcedula").val(asigs.trabajador[0].nu_cedula);
 
                         if(foto !=null){
-                            $("#foto").attr("src","../public/empleados/fotos/"+foto)
+                            $("#foto").attr("src","./public/empleados/fotos/"+foto)
                             $("#foto").attr("title",nombre);
                         }else{
-                            $("#foto").attr("src","../public/img/interrogante.png")
+                            $("#foto").attr("src","./public/img/interrogante.png")
                         }
 
                         var tr = "";
@@ -537,10 +537,10 @@
 
                         //si el trabajador no tiene foto, se mostrara un imagen generica
                         if(foto !=null){
-                            $("#foto").attr("src","../public/empleados/fotos/"+foto)
+                            $("#foto").attr("src","./public/empleados/fotos/"+foto)
                             $("#foto").attr("title",nombre);
                         }else{
-                            $("#foto").attr("src","../public/img/interrogante.png")
+                            $("#foto").attr("src","./public/img/interrogante.png")
                         }
 
                         $("#dt").removeClass("hidden");
@@ -888,7 +888,7 @@ $("#msj_error").addClass("hidden");
                         for (datos in res.msj_error){
                             tr+= "<tr><td>"+res.msj_error[datos].asignacion+"</td><td>"+res.msj_error[datos].formula+"</td></tr>"
                             cont++;
-                            alert(res.msj_error);
+                            //alert(res.msj_error);
                         }
 
                         $("#msj_error").removeClass("hidden");

@@ -248,55 +248,52 @@ $router->addPost("/tipos-nominas/guardar","tiposnominas::guardar");
 /*
  *rutas para deudas
  */
-$router->add("/trabajadores/deudas/{cedula:[0-9]+}","deudas::index");
+$router->add("/trabajadores/ver/{cedula:[0-9]+}/deudas","deudas::index");
+$router->add("/trabajadores/ver/{cedula:[0-9]+}/deudas/nueva/{cedula:[0-9]+}","deudas::nueva");
+$router->addPost("/deudas/guardar","deudas::guardar");
 
 
 /*
  * rutas para asigsdeducstrabajador
  */
-$router->add("/trabajadores/asignaciones-deducciones/{cedula:[0-9]+}","asigsdeducstrabajador::cargar");
+$router->add("/trabajadores/ver/{cedula:[0-9]+}/asignaciones-deducciones/{cedula:[0-9]+}","asigsdeducstrabajador::cargar");
 $router->addPost("/asignaciones-deducciones/guardarmodificar","asigsdeducstrabajador::guardarmodificar");
 
 
 /*
  * rutas para cargafamiliar
  */
-$router->add("/trabajadores/carga-familiar/{cedula:[0-9]+}","cargafamiliar::individual");
-$router->add("/trabajadores/carga-familiar/nueva-carga/{cedula:[0-9]+}","cargafamiliar::nuevo");
-$router->addPost("/trabajadores/carga-familiar/guardar-nuevo","cargafamiliar::guardanuevo");
-$router->add("/trabajadores/carga-familiar/detalle/{id:[0-9]+}","cargafamiliar::detalle");
+$router->add("/trabajadores/ver/{cedula:[0-9]+}/carga-familiar","cargafamiliar::individual");
+$router->add("/trabajadores/ver/{cedula:[0-9]+}/carga-familiar/nueva-carga/{cedula:[0-9]+}","cargafamiliar::nuevo");
+$router->addPost("/carga-familiar/guardar-nuevo","cargafamiliar::guardanuevo");
+$router->add("/trabajadores/ver/{cedula:[0-9]+}/carga-familiar/detalle/{id:[0-9]+}","cargafamiliar::detalle");
 
 /*
  * rutas para reposos
  */
-$router->add("/trabajadores/reposos/{cedula:[0-9]+}","reposos::index");
+$router->add("/trabajadores/ver/{cedula:[0-9]+}/reposos","reposos::index");
 $router->addPost("/reposos/guardar","reposos::guardar");
-$router->add("/reposos/editar/{id:[0-9]+}","reposos::editar");
+$router->add("/trabajadores/ver/{cedula:[0-9]+}/reposos/editar/{id:[0-9]+}","reposos::editar");
 $router->addPost("/reposos/editado","reposos::editado");
-
-/*
- * rutas para embargos
- */
-$router->add("/trabajadores/embargos/{cedula:[0-9]+}","embargos::index");
 
 /*
  * rutas para movimientos-variaciones
  */
-$router->add("/nomina/variaciones-movimientos","variaciones::index");
-$router->addPost("/nomina/variaciones/buscar","variaciones::buscar");
-$router->addPost("/nomina/variaciones/nomina","variaciones::nomina");
-$router->addPost("/nomina/variaciones/procesar","variaciones::procesar");
-$router->addPost("/nomina/movimientos/buscar","movimientos::buscar");
-$router->addPost("/nomina/movimientos/eliminar","movimientos::eliminar");
-$router->addPost("/nomina/movimientos/modificar","movimientos::modificar");
+$router->add("/variaciones-movimientos","variaciones::index");
+$router->addPost("/variaciones/buscar","variaciones::buscar");
+$router->addPost("/variaciones/nomina","variaciones::nomina");
+$router->addPost("/variaciones/procesar","variaciones::procesar");
+$router->addPost("/movimientos/buscar","movimientos::buscar");
+$router->addPost("/movimientos/eliminar","movimientos::eliminar");
+$router->addPost("/movimientos/modificar","movimientos::modificar");
 
 /*
  * rutas para embargos
  */
-$router->add("/trabajadores/embargos/{cedula:[0-9]+}","embargos::index");
+$router->add("/trabajadores/ver/{cedula:[0-9]+}/embargos","embargos::index");
 $router->addPost("/embargos/guardar","embargos::guardar");
 $router->addPost("/embargos/editado","embargos::editado");
-$router->add("/trabajadores/embargos/editar/{cedula:[0-9]+}","embargos::editar");
+$router->add("/trabajadores/ver/{cedula:[0-9]+}/embargos/editar/{cedula:[0-9]+}","embargos::editar");
 
 
 

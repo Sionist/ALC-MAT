@@ -56,47 +56,47 @@ class RepososController extends \Phalcon\Mvc\Controller
                 foreach ($reposo->getMessages() as $message) {
                     $this->flashSession->error($message);
                 }
-                $this->response->redirect("trabajadores/resposos/$ncedula");
+                $this->response->redirect("trabajadores/ver/$ncedula/reposos");
                 $this->view->disable();
             }
         }
 
         $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha guardado exitosamente</strong></p></div>");
-        $this->response->redirect("trabajadores/reposos/$ncedula");
+        $this->response->redirect("trabajadores/ver/$ncedula/reposos");
         $this->view->disable();
     }
 
 
-    public function editarAction($idreposo)
+    public function editarAction()
     {
-    	if (!$this->request->isPost())
-    	{
-    	   	$reposo = NbReposo::findFirstByIdReposo($idreposo);
+        $idreposo =  $this->dispatcher->getParam("id");
 
-    	   	$ncedula = $reposo->nu_cedula;
-			$dtrab = Datospersonales::findFirstByNuCedula($ncedula);     		
+    	if (!$this->request->isPost()) {
+            $reposo = NbReposo::findFirstByIdReposo($idreposo);
 
-    		if (!$reposo)
-    		{
-				$this->flashSession->error("Reposo NO Encontrado");
-                $this->response->redirect("trabajadores/reposos/$ncedula");
+            $ncedula = $reposo->nu_cedula;
+            $dtrab = Datospersonales::findFirstByNuCedula($ncedula);
+
+            if (!$reposo) {
+                $this->flashSession->error("Reposo NO Encontrado");
+                $this->response->redirect("trabajadores/ver/$ncedula/reposos/");
                 $this->view->disable();
             }
+
+            $this->view->nombre1 = $dtrab->nombre1;
+            $this->view->apellido1 = $dtrab->apellido1;
+
+            $this->view->idreposo = $reposo->id_reposo;
+            $this->view->ncedula = $reposo->nu_cedula;
+
+            $this->tag->setDefault("idreposo", $reposo->getIdReposo());
+            $this->tag->setDefault("ncedula", $reposo->getNuCedula());
+            $f_ini = date('d-m-Y', strtotime($reposo->getFInicio()));
+            $this->tag->setDefault("finicio", $f_ini);
+            $f_fin = date('d-m-Y', strtotime($reposo->getFFinal()));
+            $this->tag->setDefault("ffinal", $f_fin);
+            $this->tag->setDefault("diagnostico", $reposo->getDiagnostico());
         }
-
-        $this->view->nombre1 = $dtrab->nombre1;
-        $this->view->apellido1 = $dtrab->apellido1;
-
-        $this->view->idreposo = $reposo->id_reposo;
-        $this->view->ncedula = $reposo->nu_cedula;
-
-        $this->tag->setDefault("idreposo",$reposo->getIdReposo());
-        $this->tag->setDefault("ncedula",$reposo->getNuCedula());
-        $f_ini = date('d-m-Y', strtotime($reposo->getFInicio()));
-        $this->tag->setDefault("finicio",$f_ini);
-        $f_fin = date('d-m-Y', strtotime($reposo->getFFinal()));
-        $this->tag->setDefault("ffinal",$f_fin);
-        $this->tag->setDefault("diagnostico",$reposo->getDiagnostico())	;
     }
 
 
@@ -107,12 +107,12 @@ class RepososController extends \Phalcon\Mvc\Controller
     		$idreposo = $this->request->getPost("idreposo");
     		$ncedula = $this->request->getPost("ncedula");
 
-    		$reposo = Nbreposo::findFirstByIdReposo($idreposo);
+    		$reposo = NbReposo::findFirstByIdReposo($idreposo);
 
     		if (!$reposo)
     		{
     			$this->flashSession->error("Reposo NO Encontrado");
-                $this->response->redirect("trabajadores/reposos/$ncedula");
+                $this->response->redirect("trabajadores/ver/$ncedula/reposos");
                 $this->view->disable();
             }
     		}
@@ -128,12 +128,12 @@ class RepososController extends \Phalcon\Mvc\Controller
     			foreach ($reposo->getMessages() as $message) {
                     $this->flashSession->error($message);
                 }
-                $this->response->redirect("trabajadores/reposos/$ncedula");
+                $this->response->redirect("trabajadores/ver/$ncedula/reposos");
                 $this->view->disable();
     		}
 
     		$this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha modificado exitosamente</strong></p></div>");
-            $this->response->redirect("trabajadores/reposos/$ncedula");
+            $this->response->redirect("trabajadores/ver/$ncedula/reposos");
             $this->view->disable();
 
     	}

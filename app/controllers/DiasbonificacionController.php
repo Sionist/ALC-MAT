@@ -13,8 +13,8 @@ class DiasbonificacionController extends \Phalcon\Mvc\Controller
 		
 		$diasb = Diasbonificacion::find();
 		
-		$this->view->setParamToView("desde",$diasb);
-		$this->view->setParamToView("hasta",$diasb);
+		//$this->view->setParamToView("desde",$diasb);
+		//$this->view->setParamToView("hasta",$diasb);
 		$this->view->setParamToView("diasb",$diasb);
 		
 	}
@@ -108,7 +108,6 @@ class DiasbonificacionController extends \Phalcon\Mvc\Controller
 			}
 		}
 	}
-	
 }
 
 
