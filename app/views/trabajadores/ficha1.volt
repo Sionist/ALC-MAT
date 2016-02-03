@@ -1,6 +1,3 @@
-
-
-
 {{ stylesheet_link("css/select2.css") }}
 {{ stylesheet_link("css/jquery-ui.css") }}
 {{ stylesheet_link("css/bootstrap-editable.css") }}
@@ -29,6 +26,8 @@
 {{ javascript_include("js/date-time/moment.js") }}
 {{ javascript_include("js/date-time/daterangepicker.js") }}
 {{ javascript_include("js/date-time/bootstrap-datetimepicker.js") }}
+{{ javascript_include("js/ficha1.js") }}
+
 
 <div id="row">
   <div class="widget-box">
@@ -144,7 +143,7 @@
                               <i class="ace-icon fa fa-circle smaller-80 align-middle"></i>
                               <?php echo $estatus1->estatus;?> 
                             </span>
-                            <button class="btn btn-white btn-purple btn-sm" style="position: relative;  float: right; right: 10px"><span class="ace-icon fa fa-pencil-square-o"></span></button>
+                            <button id="d_pBtn" class="btn btn-white btn-purple btn-sm" style="position: relative;  float: right; right: 10px"><span class="ace-icon fa fa-pencil-square-o"></span></button>
 
                           </h4>
 
@@ -241,7 +240,7 @@
                                     <div class="profile-info-name"> Estado Civil </div>
 
                                     <div class="profile-info-value">
-                                      <span><?php echo $dtrabajador->edo_civil;?></span>
+                                      <span><?php echo $edo_civil->estado_civil;?></span>
                                     </div>
                                   </div>
 
@@ -311,7 +310,7 @@
                                       <i class="ace-icon fa fa-book bigger-110"></i>
                                       Contratación
                                     </h4>
-                                    <button class="btn btn-white btn-purple btn-sm" style="position: relative;  float: right;"><span class="ace-icon fa fa-pencil-square-o"></span></button>
+                                    <button class="btn btn-white btn-purple btn-sm" id="d_cBtn" style="position: relative;  float: right;"><span class="ace-icon fa fa-pencil-square-o"></span></button>
 
                                   </div>
 
@@ -354,7 +353,7 @@
                                           <div class="profile-info-name"> Pago Liquidación </div>
 
                                           <div class="profile-info-value">
-                                            <span  id="login"><?php //echo $dcontra->f_pago_liq;  ?></span>
+                                            <span  id="login"><?php echo date("d-m-Y", strtotime($dcontra->f_pago_liq)); ?></span>
                                           </div>
                                         </div>
 
@@ -402,7 +401,7 @@
                                       <i class="ace-icon fa fa-graduation-cap bigger-120"></i>
                                       Profesión
                                     </h4>
-                                    <button class="btn btn-white btn-purple btn-sm" style="position: relative;  float: right"><span class="ace-icon fa fa-pencil-square-o"></span></button>
+                                    <button class="btn btn-white btn-purple btn-sm" id="d_pfBtn" style="position: relative;  float: right"><span class="ace-icon fa fa-pencil-square-o"></span></button>
 
                                   </div>
 
@@ -433,6 +432,7 @@
                                         <i class="ace-icon fa fa-money bigger-110"></i>
                                         Datos Financieros
                                       </h4>
+                                      <button class="btn btn-white btn-purple btn-sm" id="d_fBtn" style="position: relative;  float: right"><span class="ace-icon fa fa-pencil-square-o"></span></button>
                                     </div>
 
                                     <div class="widget-body">
@@ -447,7 +447,7 @@
                                           </div>
 
                                           <div class="profile-info-row">
-                                            <div class="profile-info-name"> N de Cuenta </div>
+                                            <div class="profile-info-name"> N° de Cuenta </div>
 
                                             <div class="profile-info-value">
                                               <?php echo $dfinanc->n_cuenta;  ?>
@@ -461,8 +461,6 @@
                                               <span class="editable" id="age"><?php echo $tipocuen1->tipo_cuenta;  ?></span>
                                             </div>
                                           </div>
-
-
                                         </div>
                                       </div>
                                     </div>
@@ -489,24 +487,441 @@
               </div>
             </div>
           </div>
-          <div id="d_personales" class="hide center">
-            {{ text_field("nombre1", "class" : "form-control center", "required":"required") }}
-            {{ text_field("nombre2", "class" : "form-control center", "required":"required") }}
-            {{ text_field("apellido1", "class" : "form-control center", "required":"required") }}
-            {{ text_field("apellido2", "class" : "form-control center", "required":"required") }}
-            {{ text_field("genero", "class" : "form-control center", "required":"required") }}
-            {{ text_field("lugar_nac", "class" : "form-control center", "required":"required") }}
-            {{ text_field("f_nac", "class" : "form-control center", "required":"required") }}
-            {{ text_field("nombre1", "class" : "form-control center", "required":"required") }}
-            {{ text_field("estado_civil", "class" : "form-control center", "required":"required") }}
-            {{ text_field("discapacidad", "class" : "form-control center", "required":"required") }}
-            {{ hidden_field("cedula") }}
-            <span id="dMsj"></span>
-        </div>
+          <div id="d_personales" class="hide">
+            <div class="row">
+              <div class="col-sm-4"><label>Rif:</label> </div>
+              <div class="col-sm-6"><input type="text" name="rif" id="rif" class="input-large" required value="<?php echo $dtrabajador->rif;?>">
+              </div> 
+            </div>
+            <div class="row">
+              <div class="col-sm-4"><label>Primer Nombre:</label> </div>
+              <div class="col-sm-6"><input type="text" name="nombre1" id="nombre1" class="input-large" required value="<?php echo $dtrabajador->nombre1;?>"></div> 
+            </div>
+            <div class="row">
+              <div class="col-sm-4"><label>Segundo Nombre:</label> </div>
+              <div class="col-sm-6"><input type="text" name="nombre2" id="nombre2" class="input-large" required value="<?php echo $dtrabajador->nombre2;?>"></div> 
+            </div>
+            <div class="row">
+              <div class="col-sm-4"><label>Primer Apellido:</label> </div>
+              <div class="col-sm-6"><input type="text" name="apellido1" id="apellido1" class="input-large" required value="<?php echo $dtrabajador->apellido1;?>"></div> 
+            </div>
+            <div class="row">
+              <div class="col-sm-4"><label>Segundo Apellido:</label> </div>
+              <div class="col-sm-6"><input type="text" name="apellido2" id="apellido2" class="input-large" required value="<?php echo $dtrabajador->apellido2;?>"></div> 
+            </div>
+            <div class="row" style="margin-top: 4px">
+              <div class="col-sm-4"><label>Genero:</label> </div>
+              <div class="col-sm-6" style="margin: 5px 0 4px 0">
+                <?php if($dtrabajador->genero == 1) { ?>
+                <label class="line-height-1 blue">
+
+                  {{ radio_field("genero", "id" : "m", "size" : 30, "placeholder":"Genero", "value":"1", "class":"ace" ,'checked' : 'checked') }}
+                  <span class="lbl"> Hombre</span>
+                </label>
+                <label class="line-height-1 blue">
+
+                  {{ radio_field("genero", "id" : "f", "size" : 30, "placeholder":"Genero", "value":"2", "class":"ace") }}
+                  <span class="lbl"> Mujer</span>
+
+                </label>
+
+                <?php } else { ?>
+                <label class="line-height-1 blue">
+
+                  {{ radio_field("genero", "id" : "m", "size" : 30, "placeholder":"Genero", "value":"1", "class":"ace" ) }}
+                  <span class="lbl"> Hombre</span>
+                </label>
+                <label class="line-height-1 blue">
+
+                  {{ radio_field("genero", "id" : "f", "size" : 30, "placeholder":"Genero", "value":"2", "class":"ace" ,'checked' : 'checked') }}
+                  <span class="lbl"> Mujer</span>
+
+                </label>
+                
+                <?php } ?>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-4"><label>Lugar Nacimiento:</label> </div>
+              <div class="col-sm-6" ><?php
+
+                echo Phalcon\Tag::Select(array(
+                  'lugar_nac', 
+                  Ciudades::find(array("order" => "ciudad ASC")),
+                  'using' => array('id_ciudad', 'ciudad'),
+                  'useEmpty' => true,
+                  'emptyText' => 'Seleccione',
+                  'class' => 'select2',
+                  'style'=> "width: 210px",
+                  "id" => "lugar_nac"
+                  ));
+                  ?>
+                </div> 
+
+              </div>
+              <div class="row">
+                <div class="col-sm-4"><label>Fecha Nacimiento:</label> </div>
+                <div class="col-sm-6"><input type="text" name="f_nac" id="f_nac" class="form-control date-picker" style = "width: 210px" data-date-format="dd-mm-yyyy" required value="<?php echo date('d-m-Y',strtotime($dtrabajador->f_nac));?>"></div>
+              </div>
+              <div class="row">
+                <div class="col-sm-4"><label>telf. Habitación:</label> </div>
+                <div class="col-sm-6"><input type="text" name="telf_hab" id="telf_hab" class="input-large" required value="<?php echo $dtrabajador->telf_hab;?>"></div> 
+              </div>
+              <div class="row">
+                <div class="col-sm-4"><label>telf. Celular:</label> </div>
+                <div class="col-sm-6"><input type="text" name="telf_cel" id="telf_cel" class="input-large" required value="<?php echo $dtrabajador->telf_cel;?>"></div> 
+              </div>
+              <div class="row">
+                <div class="col-sm-4"><label>Dirección Habitación:</label> </div>
+                <div class="col-sm-6"><input type="text" name="dir_hab" id="dir_hab" class="input-large" required value="<?php echo $dtrabajador->dir_hab;?>"></div> 
+              </div>
+              <div class="row">
+                <div class="col-sm-4"><label>Correo:</label> </div>
+                <div class="col-sm-6"><input type="text" name="correo" id="correo" class="input-large" required value="<?php echo $dtrabajador->correo_e;?>"></div> 
+              </div>
+              <div class="row">
+                <div class="col-sm-4"><label for="estado_civil">Estado Civil:</label></div>
+                <div class="col-sm-6"><!-- <select class="select2" name="ed" size="1" name="edo_civil" , id = "estado_civil" value="<?php echo $dtrabajador->edo_civil;?>"> -->
+
+                  <?php
+
+                  echo Phalcon\Tag::Select(array(
+                    'edo_civil', 
+                    EstadoCivil::find(array("order" => "id ASC")),
+                    'using' => array('id', 'estado_civil'),
+                    'useEmpty' => true,
+                    'emptyText' => 'Seleccione',
+                    'class' => 'select2',
+                    'id' => 'estado_civil'
+                    ));
+                    ?>           </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-4"><label><Correo>Estatus</Correo>:</label> </div>
+                    <div class="col-sm-6">
+                      <?php
+
+                      echo Phalcon\Tag::Select(array(
+                        'estatus', 
+                        EstatusT::find(array("order" => "estatus ASC")),
+                        'using' => array('id_estat', 'estatus'),
+                        'useEmpty' => true,
+                        'emptyText' => 'Ingrese un valor',
+                        'emptyValue' => '',
+                        'class' => 'select2',
+                        'id' => 'estatus'
+                        ));
+                        ?> 
+                      </div> 
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-4"><label for="discapacidad">Discapacidad:</label></div>
+                      <div class="col-sm-6">
+                        <?php
+                        echo Phalcon\Tag::Select(array(
+                          'discapacidad', 
+                          Discapacidad::find(array("order" => "id_discapacid ASC")),
+                          'using' => array('id_discapacid', 'discapacidad'),
+                          'useEmpty' => true,
+                          'emptyText' => 'Ingrese un valor',
+                          'emptyValue' => '',
+                          'class' => 'select2',
+                          'style'=> "width: 210px",
+                          "id" => "discapacidad"
+                          ));
+                          ?>
+                        </div> 
+                      </div>
+
+                      {{ hidden_field("cedula") }}
+                      {{ hidden_field("nacionalidad") }}
+
+                      <span id="dMsj"></span>
+                    </div>
+
+                    <div id="d_contratacion" class="hide">
+                      <div class="row">
+                        <div class="col-sm-4"><label>Fecha de Ingreso:</label> </div>
+                        <div class="col-sm-6"><input type="text" name="f_ingre" id="f_ingre" class="form-control date-picker" style = "width: 210px" data-date-format="dd-mm-yyyy" required value="<?php echo date('d-m-Y',strtotime($dcontra->f_ing));?>"></div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-4"><label>Fecha de Egreso:</label> </div>
+                        <div class="col-sm-6"><input type="text" name="f_egre" id="f_egre" class="form-control date-picker" style = "width: 210px" data-date-format="dd-mm-yyyy" required value="<?php echo date('d-m-Y',strtotime($dcontra->f_egre));?>"></div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-4"><label>Tipo de nomina:</label> </div>
+                        <div class="col-sm-6">
+                          <?php
+                          echo Phalcon\Tag::Select(array(
+                            'tipo_nomina', 
+                            tiponomi::find(array("order" => "id_nomina ASC")),
+                            'using' => array('id_nomina', 'nomina'),
+                            'useEmpty' => true,
+                            'emptyText' => 'Seleccione',
+                            'emptyValue' => '',
+                            'class' => 'select2',
+                            'style'=> "width: 210px",
+                            "id" => "tipo_nomina"
+                            ));
+                            ?>
+                          </div> 
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-4"><label>Liquidación:</label> </div>
+                          <div class="col-sm-6"><input type="text" name="liquidacion" id="liquidacion" class="input-large" required value="<?php echo $dcontra->liquidac;?>"></div> 
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-4"><label>Pago Liquidación:</label> </div>
+                          <div class="col-sm-6"><input type="text" name="pag_liquid" id="pag_liquid" class="form-control date-picker" style = "width: 210px" data-date-format="dd-mm-yyyy" required value="<?php echo date("d-m-Y", strtotime($dcontra->f_pago_liq)); ?>"></div> 
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-4"><label>Cargo:</label> </div>
+                          <?php
+                          echo Phalcon\Tag::Select(array(
+                            'cargos', 
+                            cargos::find(array("order" => "id_cargo ASC")),
+                            'using' => array('id_cargo', 'cargo'),
+                            'useEmpty' => true,
+                            'emptyText' => 'Seleccione',
+                            'emptyValue' => '',
+                            'class' => 'select2',
+                            'style'=> "width: 210px; margin-left: 12px",
+                            "id" => "cargos"
+                            ));
+                            ?>
+                          </div>
+                          <div class="row">
+                            <div class="col-sm-4"><label>Tipo de Contrato:</label> </div>
+                            <div class="col-sm-6">
+                              <?php
+                              echo Phalcon\Tag::Select(array(
+                                'tipo_contrat', 
+                                tipocontrat::find(array("order" => "id_contrato ASC")),
+                                'using' => array('id_contrato', 'contrato'),
+                                'useEmpty' => true,
+                                'emptyText' => 'Seleccione',
+                                'emptyValue' => '',
+                                'class' => 'select2',
+                                'style'=> "width: 210px",
+                                "id" => "tipo_contrat"
+                                ));
+                                ?>
+                              </div> 
+                            </div>
+                            <div class="row">
+                              <div class="col-sm-4"><label>Ubicacion Funcional:</label> </div>
+                              <?php
+                              echo Phalcon\Tag::Select(array(
+                                'ubi_fun', 
+                                NbDireciones::find(array("order" => "id_direcciones ASC")),
+                                'using' => array('id_direcciones', 'denominacion'),
+                                'useEmpty' => true,
+                                'emptyText' => 'Seleccione',
+                                'emptyValue' => '',
+                                'class' => 'select2',
+                                'style'=> "width: 210px; margin-left: 12px",
+                                "id" => "ubi_fun"
+                                ));
+                                ?>
+                              </div>
+                              <div class="row">
+                                <div class="col-sm-4"><label>Ubicacion Nominal:</label> </div>
+                                <?php
+                                echo Phalcon\Tag::Select(array(
+                                  'ubi_nom', 
+                                  NbDireciones::find(array("order" => "id_direcciones ASC")),
+                                  'using' => array('id_direcciones', 'denominacion'),
+                                  'useEmpty' => true,
+                                  'emptyText' => 'Seleccione',
+                                  'emptyValue' => '',
+                                  'class' => 'select2',
+                                  'style'=> "width: 210px; margin-left: 12px",
+                                  "id" => "ubi_nom"
+                                  ));
+                                  ?>
+                                </div>
 
 
-          <script type="text/javascript">
-            jQuery(function($) {
+                                <span id="dMsj"></span>
+                              </div>
+                              <div id="d_profesionales" class="hide">
+                                <div class="row">
+                                  <div class="col-sm-4"><label>Profesión:</label> </div>
+                                  <?php
+                                  echo Phalcon\Tag::Select(array(
+                                    'profesion', 
+                                    Profesiones::find(array("order" => "id_profesion ASC")),
+                                    'using' => array('id_profesion', 'profesion'),
+                                    'useEmpty' => true,
+                                    'emptyText' => 'Seleccione',
+                                    'emptyValue' => '',
+                                    'class' => 'select2',
+                                    'style'=> "width: 210px; margin-left: 12px",
+                                    "id" => "profesion"
+                                    ));
+                                    ?>                                
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-sm-4"><label>Nivel de Instrucción:</label> </div>
+                                    <?php
+                                    echo Phalcon\Tag::Select(array(
+                                      'nivel_instruc', 
+                                      NivelInstruc::find(array("order" => "id_niveldinst ASC")),
+                                      'using' => array('id_niveldinst', 'nivel_instruc'),
+                                      'useEmpty' => true,
+                                      'emptyText' => 'Seleccione',
+                                      'emptyValue' => '',
+                                      'class' => 'select2',
+                                      'style'=> "width: 210px; margin-left: 12px",
+                                      "id" => "nivel_instruc"
+                                      ));
+                                      ?>                                
+                                    </div>
+                                  </div>
+
+                                  <div id="d_financieros" class="hide">
+                                  <div class="row">
+                                    <div class="col-sm-4"><label>Banco:</label> </div>
+                                    <div class="col-sm-6">
+                                      <?php
+                                      echo Phalcon\Tag::Select(array(
+                                        'nb_bancos', 
+                                        NbBancos::find(array("order" => "id_bancos ASC")),
+                                        'using' => array('id_bancos', 'nb_bancos'),
+                                        'useEmpty' => true,
+                                        'emptyText' => 'Seleccione',
+                                        'emptyValue' => '',
+                                        'class' => 'select2',
+                                        'style'=> "width: 210px",
+                                        "id" => "nb_bancos"
+                                        ));
+                                        ?>
+                                      </div> 
+                                    </div>
+                                    <div class="row">
+                                      <div class="col-sm-4"><label>N° de Cuenta:</label> </div>
+                                      <div class="col-sm-6"><input type="text" name="cta_nro" id="cta_nro" class="form-control cta_nro" style = "width: 210px" required value="<?php echo $dfinanc->n_cuenta; ?>"></div>
+                                    </div>
+                                    <div class="row">
+                                      <div class="col-sm-4"><label>Tipo de Cuenta:</label> </div>
+                                      <div class="col-sm-6">
+                                        <?php
+                                        echo Phalcon\Tag::Select(array(
+                                          'tipo_cuenta', 
+                                          TipoCuent::find(array("order" => "id_tipocuent ASC")),
+                                          'using' => array('id_tipocuent', 'tipo_cuenta'),
+                                          'useEmpty' => true,
+                                          'emptyText' => 'Seleccione',
+                                          'emptyValue' => '',
+                                          'class' => 'select2',
+                                          'style'=> "width: 210px",
+                                          "id" => "tipo_cuenta"
+                                          ));
+                                          ?>
+                                        </div> 
+                                      </div>
+                                    </div>
+
+                                    <script type="text/javascript">
+                                     jQuery(function($) {
+                                       $('.date-picker').datepicker({
+                                        changeMonth: true,
+                                        changeYear: true
+                                      })
+                //show datepicker when clicking on the icon
+                .next().on(ace.click_event, function(){
+                 $(this).prev().focus();
+               });
+
+// ------------------FORMATO DE TELEFONOS --------------------
+
+$.mask.definitions['~']='[+-]';
+$('#telf_hab').mask('(9999) 999-9999');
+$.mask.definitions['~']='[+-]';
+$('#telf_cel').mask('(9999) 999-9999');
+$('#cta_nro').mask('99999999999999999999');
+
+
+
+
+jQuery.validator.addMethod("phone", function (value, element) {
+  return this.optional(element) || /^\(\d{4}\) \d{3}\-\d{4}( x\d{1,6})?$/.test(value);
+}, "Enter a valid phone number.");
+
+
+            // ------------------FORMATO DE RIF --------------------
+            $.mask.definitions['~']='[vVjJgG]';
+            $('#rif').mask('~-99999999-9', {autoclear : false, placeholder : " "});
+
+            
+
+        // ------------------VALIDACION DEL FORMULARIO --------------------
+        $("#validation-form").validate({
+          errorElement: 'div',
+          errorClass: 'help-block',
+          focusInvalid: false,
+          ignore: "",
+
+          rules: {
+            nombre1: {
+              required: true
+            },
+            apellido1: {
+              required: true
+            },
+            genero: {
+              required: true
+            },
+            f_nac: {
+              required: true
+            },
+            lugar_nac: {
+              required: true
+            },
+            dir_hab: {
+              required: true
+            },
+            edo_civil: {
+              required: true
+            },
+            discapacidad: {
+              required: true
+            },
+            estatus: {
+              required: true
+            },
+            rif: {
+              required: true
+            }
+          },
+
+          messages: {
+            correo_e: {
+              required: "Ingrese un email valido.",
+              email: "Ingrese un email valido."
+            },
+            rif: {
+              required: "Ingrese un rif valido.",
+              email: "Ingrese un email valido."
+            }
+
+          },
+
+
+          highlight: function (e) {
+            $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+          },
+          success: function (e) {
+                        $(e).closest('.form-group').removeClass('has-error');//.addClass('has-info');
+                        $(e).remove();
+                      }
+                    });
+
+
+
+
 
                 //editables on first profile page
                 $.fn.editable.defaults.mode = 'inline';
@@ -614,6 +1029,7 @@
                           success: function(response, newValue) {
                           }
                         })
+
 }catch(e) {}
 
                 /**
@@ -631,7 +1047,7 @@
                 */
 
                 //another option is using modals
-                $('#avatar2').on('click', function(){
+                /*$('#avatar2').on('click', function(){
                   var modal = 
                   '<div class="modal fade">\
                   <div class="modal-dialog">\
@@ -654,7 +1070,7 @@
                   </form>\
                 </div>\
               </div>\
-            </div>';
+            </div>';*/
 
 
             var modal = $(modal);
@@ -804,7 +1220,7 @@
                     } catch(e) {}
                     $('[class*=select2]').remove();
                   });
-              });
-</script>
+
+              </script>
 
 

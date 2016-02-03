@@ -8,7 +8,7 @@ class TrabajadoresController extends \Phalcon\Mvc\Controller
         $this->view->setTemplateAfter('blank');    
     }
 
-    public function indexAction()
+    public function indexAction($cedula)
     {
         $trabajador = $this->modelsManager->createBuilder()
             ->from("Datospersonales")
@@ -29,6 +29,13 @@ class TrabajadoresController extends \Phalcon\Mvc\Controller
     public function ficha1Action($cedula)
     {
         //buscar todos los registro por numero de cedula
+        /*$dtrabajador= $this->modelsManager->createBuilder()
+            ->from("Datospersonales")
+            ->join("EstadoCivil","Datospersonales.edo_civil = EstadoCivil.id")
+            ->columns("Datospersonales.nu_cedula,Datospersonales.rif,Datospersonales.nombre1,Datospersonales.nombre2,Datospersonales.apellido1,Datospersonales.apellido2,Datospersonales.genero,Datospersonales.f_nac,Datospersonales.nacionalidad,Datospersonales.lugar_nac,Datospersonales.telf_hab,Datospersonales.telf_cel,Datospersonales.dir_hab,EstadoCivil.estado_civil,Datospersonales.correo_e,Datospersonales.foto_p,Datospersonales.id_discapacidad,Datospersonales.estatus")
+            ->getQuery()
+            ->execute();*/
+
         $dtrabajador = Datospersonales::findFirstByNuCedula($cedula);
         $dcontra = Datoscontratacion::findFirstByNuCedula($cedula);
         $dfinanc = Datosfinancieros::findFirstByNuCedula($cedula);
@@ -61,6 +68,7 @@ class TrabajadoresController extends \Phalcon\Mvc\Controller
         $tipocontr1 = TipoContrat::findFirstByIdContrato($ide_tipocont);
         $ubinom1 = NbDireciones::findFirstByIdDirecciones($ide_ubinom);
         $ubifun1 = NbDireciones::findFirstByIdDirecciones($ide_ubifun);
+        $edo_civil = EstadoCivil::findFirstById($dtrabajador->edo_civil);
 
         //Envio de los view
         $this->view->setVar("dtrabajador",$dtrabajador);
@@ -81,6 +89,24 @@ class TrabajadoresController extends \Phalcon\Mvc\Controller
         $this->view->setVar("tipocontr1",$tipocontr1);
         $this->view->setVar("ubinom1",$ubinom1);
         $this->view->setVar("ubifun1",$ubifun1);
+        $this->view->setVar("edo_civil",$edo_civil);
+
+        $this->tag->setDefault("edo_civil", $dtrabajador->getEdoCivil());
+        $this->tag->setDefault("estatus", $dtrabajador->getEstatus());
+        $this->tag->setDefault("discapacidad", $dtrabajador->getIdDiscapacidad());
+        $this->tag->setDefault("cedula", $cedula);
+        $this->tag->setDefault("lugar_nac", $dtrabajador->getLugarNac());
+        $this->tag->setDefault("nacionalidad", $dtrabajador->getNacionalidad());
+        $this->tag->setDefault("cargos", $cargo1->getIdCargo());
+        $this->tag->setDefault("ubi_fun", $ubifun1->getIdDirecciones());
+        $this->tag->setDefault("ubi_nom", $ubinom1->getIdDirecciones());
+        $this->tag->setDefault("tipo_contrat", $tipocontr1->getIdContrato());
+        $this->tag->setDefault("tipo_nomina", $tiponomi1->getIdNomina());
+        $this->tag->setDefault("profesion", $profesion1->getIdProfesion());
+        $this->tag->setDefault("nivel_instruc", $nivelintru1->getIdNiveldinst());
+        $this->tag->setDefault("nb_bancos", $bancos1->getIdBancos());
+        $this->tag->setDefault("tipo_cuenta", $tipocuen1->getIdTipocuent());
+
     }
 
     public function datospersonalesAction()
@@ -229,7 +255,7 @@ class TrabajadoresController extends \Phalcon\Mvc\Controller
             $this->response->redirect("trabajadores/nuevo-trabajador/datos-profesionales/$cedula");
             $this->view->disable();
             }
-        $this->response->redirect("trabajadores/$cedula");
+        $this->response->redirect("trabajadores/ver/$cedula");
         $this->view->disable();
         
     }

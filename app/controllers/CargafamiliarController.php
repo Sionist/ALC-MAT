@@ -34,8 +34,9 @@ class CargafamiliarController extends \Phalcon\Mvc\Controller
 	$this->view->setParamToView("trabaja", $dtrabajador);
     }
 	
-    public function detalleAction($idcarga)
+    public function detalleAction()
     {
+        $idcarga = $this->dispatcher->getParam("id");
 	//$ciudades = Ciudades::find();
    // $query = new Phalcon\Mvc\Model\Query("SELECT Datospersonales.nu_cedula as tra_cedula, Datospersonales.nombre1 as nombret, Datospersonales.apellido1 as apellidot, Cargafamiliar.ci_carga, Cargafamiliar.nombre1, Cargafamiliar.apellido1, Cargafamiliar.f_nac, Cargafamiliar.ocupacion, Cargafamiliar.genero, Cargafamiliar.id_parentesco, Parentesco.parentesco as parent FROM Cargafamiliar INNER JOIN Datospersonales ON Datospersonales.nu_cedula=Cargafamiliar.nu_cedula INNER JOIN Parentesco ON Cargafamiliar.id_parentesco=Parentesco.id_parentesco WHERE Cargafamiliar.id_carga=$idcarga", $this->getDI()); 
 	

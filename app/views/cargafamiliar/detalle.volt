@@ -1,236 +1,234 @@
 <div id="page-wrapper">
 
-{{ content() }}
+    {{ content() }}
+
+    <div class="row">
+       <div class="col-xs-12">
 
 
 
-<div class="row">
-	<div class="col-xs-12">
-										
-	
-		
 
-				<table class="table table-striped table-bordered table-hover">
-				<tr>
-				<td>
-				
-	<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/cargafamiliar/individual/<?php echo $carga->nu_cedula;?>"><- Volver</a>
-				
-	
-				</td>
-				</tr>
-				</table>
-				
-				
-				
-				
-				
-				
-<div class="tab-content no-border padding-24">
-                                                <div id="home" class="tab-pane in active">
-                                                    <div class="row">
-                                                        <div class="col-xs-12 col-sm-3 center">
-                                                            <span class="profile-picture">
-                                                            
-                                                           
-                                                            <img id="avatar" class="editable img-responsive" title="<?php echo $carga->nombre1." ".$carga->apellido1; ?>" src="../../cargafamiliar/fotos/<?php echo $carga->foto_carga; ?>" />
-                                                           <!--  {{ image("cargafamiliar/fotos/<?php echo $carga->foto_carga;?>", "id": "avatar", "class": "editable img-responsive") }} --><a href="http://<?php echo $_SERVER['HTTP_HOST']; echo dirname($_SERVER['PHP_SELF']);?>/cargafamiliar/subir_foto.php?idcarga=<?php echo $carga->id_carga; ?>" target="popup" onClick="window.open(this.href, this.target, 'width=500,height=400'); return false;">Cambiar/Actualizar Foto</a>
-                                                            </span>
+        <table class="table table-striped table-bordered table-hover">
+            <tr>
+                <td>
 
-                                                        </div><!-- /.col -->
+                   <a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/cargafamiliar/individual/<?php echo $carga->nu_cedula;?>"><- Volver</a>
 
-                                                        <div class="col-xs-12 col-sm-9">
-                                                            <h4 class="blue">
-                                                                <span class="middle"><?php echo $carga->nombre1;
-                                                                                    echo "&nbsp";
-                                                                                    echo $carga->nombre2;
-                                                                                    echo "&nbsp";
-                                                                                    echo $carga->apellido1;
-                                                                                    echo "&nbsp";
-                                                                                    echo $carga->apellido2; ?></span>
 
-                                                                <span class="label label-purple arrowed-in-right">
-                                                                    <i class="ace-icon fa fa-eye smaller-80 align-middle"></i>
-                                                                    <?php 
-																	
-																	
-																	
-																	echo $parentesco->parentesco;
-																	
-																	
-																	?>
-                                                                </span>
-                                                            </h4>
-
-                                                            <div class="profile-user-info">
-
-                                                               <div class="profile-info-row">
-                                                                    <div class="profile-info-name"> C&eacute;dula </div>
-
-                                                                    <div class="profile-info-value">
-                                                                        <span><?php echo $carga->ci_carga;?></span>
-                                                                    </div>
-                                                                </div>
+               </td>
+           </tr>
+       </table>
 
 
 
-                                                                <div class="profile-info-row">
-                                                                    <div class="profile-info-name"> Genero </div>
-
-                                                                    <div class="profile-info-value">
-                                                                        <span><?php 
-			
-			if ($carga->genero=='M') {echo "Masculino";}
-			
-			if ($carga->genero=='F') {echo "Femenino";}
-			?></span>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="profile-info-row">
-                                                                    <div class="profile-info-name"> Fecha de Nacimiento </div>
-
-                                                                    <div class="profile-info-value">
-                                                                        <span><?php echo date('d-m-Y',strtotime($carga->f_nac));?></span>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="profile-info-row">
-                                                                    <div class="profile-info-name"> Edad </div>
-
-                                                                    <div class="profile-info-value">
-                                                                        <span>
-
-																		
-																		
-																		<?php
 
 
-$dia=date(j);
-$mes=date(n);
-$ano=date(Y);
 
-$dianaz=date('d',strtotime($carga->f_nac));
-$mesnaz=date('m',strtotime($carga->f_nac));
-$anonaz=date('Y',strtotime($carga->f_nac));
- 
+       <div class="tab-content no-border padding-24">
+        <div id="home" class="tab-pane in active">
+            <div class="row">
+                <div class="col-xs-12 col-sm-3 center">
+                    <span class="profile-picture">
+
+
+                        <img id="avatar" class="editable img-responsive" title="<?php echo $carga->nombre1." ".$carga->apellido1; ?>" src="../../cargafamiliar/fotos/<?php echo $carga->foto_carga; ?>" />
+                        <!--  {{ image("cargafamiliar/fotos/<?php echo $carga->foto_carga;?>", "id": "avatar", "class": "editable img-responsive") }} --><a href="http://<?php echo $_SERVER['HTTP_HOST']; echo dirname($_SERVER['PHP_SELF']);?>/cargafamiliar/subir_foto.php?idcarga=<?php echo $carga->id_carga; ?>" target="popup" onClick="window.open(this.href, this.target, 'width=500,height=400'); return false;">Cambiar/Actualizar Foto</a>
+                    </span>
+
+                </div><!-- /.col -->
+
+                <div class="col-xs-12 col-sm-9">
+                    <h4 class="blue">
+                        <span class="middle"><?php echo $carga->nombre1;
+                            echo "&nbsp";
+                            echo $carga->nombre2;
+                            echo "&nbsp";
+                            echo $carga->apellido1;
+                            echo "&nbsp";
+                            echo $carga->apellido2; ?></span>
+
+                            <span class="label label-purple arrowed-in-right">
+                                <i class="ace-icon fa fa-eye smaller-80 align-middle"></i>
+                                <?php 
+
+
+
+                                echo $parentesco->parentesco;
+
+
+                                ?>
+                            </span>
+                        </h4>
+
+                        <div class="profile-user-info">
+
+                         <div class="profile-info-row">
+                            <div class="profile-info-name"> C&eacute;dula </div>
+
+                            <div class="profile-info-value">
+                                <span><?php echo $carga->ci_carga;?></span>
+                            </div>
+                        </div>
+
+
+
+                        <div class="profile-info-row">
+                            <div class="profile-info-name"> Genero </div>
+
+                            <div class="profile-info-value">
+                                <span><?php 
+
+                                 if ($carga->genero=='M') {echo "Masculino";}
+
+                                 if ($carga->genero=='F') {echo "Femenino";}
+                                 ?></span>
+                             </div>
+                         </div>
+
+                         <div class="profile-info-row">
+                            <div class="profile-info-name"> Fecha de Nacimiento </div>
+
+                            <div class="profile-info-value">
+                                <span><?php echo date('d-m-Y',strtotime($carga->f_nac));?></span>
+                            </div>
+                        </div>
+
+                        <div class="profile-info-row">
+                            <div class="profile-info-name"> Edad </div>
+
+                            <div class="profile-info-value">
+                                <span>
+
+
+
+                                  <?php
+
+
+                                  $dia=date(j);
+                                  $mes=date(n);
+                                  $ano=date(Y);
+
+                                  $dianaz=date('d',strtotime($carga->f_nac));
+                                  $mesnaz=date('m',strtotime($carga->f_nac));
+                                  $anonaz=date('Y',strtotime($carga->f_nac));
+
 //si el mes es el mismo pero el día inferior aun no ha cumplido años, le quitaremos un año al actual
- 
-if (($mesnaz == $mes) && ($dianaz > $dia)) {
-$ano=($ano-1); }
- 
+
+                                  if (($mesnaz == $mes) && ($dianaz > $dia)) {
+                                    $ano=($ano-1); }
+
 //si el mes es superior al actual tampoco habrá cumplido años, por eso le quitamos un año al actual
- 
-if ($mesnaz > $mes) {
-$ano=($ano-1);}
- 
+
+                                    if ($mesnaz > $mes) {
+                                        $ano=($ano-1);}
+
 //ya no habría mas condiciones, ahora simplemente restamos los años y mostramos el resultado como su edad
- 
-$edad=($ano-$anonaz);
+
+                                        $edad=($ano-$anonaz);
 
 
-echo $edad; 
+                                        echo $edad; 
 
 
 
-?>
-																		
-																		</span>
-                                                                    </div>
-                                                                </div>
+                                        ?>
 
-                                                                <div class="profile-info-row">
-                                                                    <div class="profile-info-name"> Ocupación </div>
+                                    </span>
+                                </div>
+                            </div>
 
-                                                                    <div class="profile-info-value">
-                                                                        <span><?php echo $carga->ocupacion;?></span>
-                                                                    </div>
-                                                                </div>
+                            <div class="profile-info-row">
+                                <div class="profile-info-name"> Ocupación </div>
 
-                                                                <div class="profile-info-row">
-                                                                    <div class="profile-info-name"> Discapacidad </div>
+                                <div class="profile-info-value">
+                                    <span><?php echo $carga->ocupacion;?></span>
+                                </div>
+                            </div>
 
-                                                                    <div class="profile-info-value">
-                                                                        <span><?php echo $carga->id_discapacidad;?></span>
-                                                                    </div>
-                                                                </div>
+                            <div class="profile-info-row">
+                                <div class="profile-info-name"> Discapacidad </div>
+
+                                <div class="profile-info-value">
+                                    <span><?php echo $carga->id_discapacidad;?></span>
+                                </div>
+                            </div>
 
 
-                                                            </div>
+                        </div>
 
-                                                            
-                                                               
-                                                                
-                                                            </div>
-                                                        </div><!-- /.col -->
-                                                    </div><!-- /.row -->
 
-                                                    
 
-                                              
-                                                            </div>
-                                                        </div>
 
-                                                       
+                    </div>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
 
-                                                
-                                            </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
 
-                                                    </div>
-                                                </div><!-- /#home -->
 
-                                            </div>				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+
+        </div>
+    </div>
+
+
+
+
 </div>
-	</div>
 </div>
-		 
-		{{ javascript_include("js/bootstrap.js") }}
-		 {{ javascript_include("js/dataTables/jquery.dataTables.js") }}
-		{{ javascript_include("js/dataTables/jquery.dataTables.bootstrap.js") }}
-		{{ javascript_include("js/dataTables/extensions/TableTools/js/dataTables.tableTools.js") }}
-		{{ javascript_include("js/dataTables/extensions/ColVis/js/dataTables.colVis.js") }}
+</div>
+</div>
+</div>
+
+</div>
+</div><!-- /#home -->
+
+</div>				
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</div>
+</div>
+
+{{ javascript_include("js/bootstrap.js") }}
+{{ javascript_include("js/dataTables/jquery.dataTables.js") }}
+{{ javascript_include("js/dataTables/jquery.dataTables.bootstrap.js") }}
+{{ javascript_include("js/dataTables/extensions/TableTools/js/dataTables.tableTools.js") }}
+{{ javascript_include("js/dataTables/extensions/ColVis/js/dataTables.colVis.js") }}
 
 <script type="text/javascript">
-            jQuery(function($) {
+    jQuery(function($) {
 
                 // ------------------CALENDARIO PARA FECHAS --------------------
 
                 //datepicker plugin
                 //link
                 $('.date-picker').datepicker({
-                    changeMonth: true,
-                    changeYear: true
+                    changeMonth: false,
+                    changeYear: false
                 })
                 //show datepicker when clicking on the icon
                 .next().on(ace.click_event, function(){
                     $(this).prev().focus();
                 });
-            
+
                 //or change it into a date range picker
                 $('.input-daterange').datepicker({autoclose:true});
-            
-            
+
+
                 //to translate the daterange picker, please copy the "examples/daterange-fr.js" contents here before initialization
                 $('input[name=date-range-picker]').daterangepicker({
                     'applyClass' : 'btn-sm btn-success',
@@ -243,8 +241,8 @@ echo $edad;
                 .prev().on(ace.click_event, function(){
                     $(this).next().focus();
                 });
-            
-            
+
+
                 $('#timepicker1').timepicker({
                     minuteStep: 1,
                     showSeconds: true,
@@ -260,7 +258,7 @@ echo $edad;
 
                  // ------------------ESTILO PARA CARGA DE ARCHIVO/IMAGENES --------------------
 
-                $('#id-input-file-1 , #foto_p').ace_file_input({
+                 $('#id-input-file-1 , #foto_p').ace_file_input({
                     no_file:'Vacio ...',
                     btn_choose:'Elije',
                     btn_change:'Cambia',
@@ -274,8 +272,8 @@ echo $edad;
                 });
                 //pre-show a file name, for example a previously selected file
                 //$('#id-input-file-1').ace_file_input('show_file_list', ['myfile.txt'])
-            
-            
+
+
                 $('#id-input-file-3').ace_file_input({
                     style:'well',
                     btn_choose:'Seleccione la imagen aqui',
@@ -301,7 +299,7 @@ echo $edad;
                         //3 = 'THUMBNAIL_FAILED'
                         //alert(error_code);
                     }
-            
+
                 }).on('change', function(){
                     //console.log($(this).data('ace_input_files'));
                     //console.log($(this).data('ace_input_method'));
@@ -313,10 +311,10 @@ echo $edad;
                     //{type: 'image', name: 'name of image', path: 'http://path/to/image/for/preview'},
                     //{type: 'file', name: 'hello.txt'}
                 //]);
-            
-                
-                
-            
+
+
+
+
                 //dynamically change allowed formats by changing allowExt && allowMime function
                 $('#id-file-format').removeAttr('checked').on('change', function() {
                     var whitelist_ext, whitelist_mime;
@@ -325,7 +323,7 @@ echo $edad;
                     if(this.checked) {
                         btn_choose = "Seleccione la imagen";
                         no_icon = "ace-icon fa fa-picture-o";
-            
+
                         whitelist_ext = ["jpeg", "jpg", "png", "gif" , "bmp"];
                         whitelist_mime = ["image/jpg", "image/jpeg", "image/png", "image/gif", "image/bmp"];
                     }
@@ -378,117 +376,116 @@ echo $edad;
                         //on any case you still should check files with your server side script
                         //because any arbitrary file can be uploaded by user and it's not safe to rely on browser-side measures
                     });
-                
-                });
-            
+
+});
+
 
              // -----------------ESTILOS DE TOOLTIP Y DE SELECT BOX --------------------
-                $('[data-rel=tooltip]').tooltip();
-            
-                $(".select2").css('width','200px').select2({allowClear:true})
-                .on('change', function(){
-                    $(this).closest('form').validate().element($(this));
-                }); 
-            
+             $('[data-rel=tooltip]').tooltip();
+
+             $(".select2").css('width','200px').select2({allowClear:true})
+             .on('change', function(){
+                $(this).closest('form').validate().element($(this));
+            }); 
+
              // ------------------FORMATO DE TELEFONOS --------------------
-               
-                $.mask.definitions['~']='[+-]';
-                $('#telf_hab').mask('(9999) 999-9999');
-                $.mask.definitions['~']='[+-]';
-                $('#telf_cel').mask('(9999) 999-9999');
-                $('#nu_cedula').mask('99999999');
 
-          
-                jQuery.validator.addMethod("phone", function (value, element) {
-                    return this.optional(element) || /^\(\d{4}\) \d{3}\-\d{4}( x\d{1,6})?$/.test(value);
-                }, "Enter a valid phone number.");
-            
+             $.mask.definitions['~']='[+-]';
+             $('#telf_hab').mask('(9999) 999-9999');
+             $.mask.definitions['~']='[+-]';
+             $('#telf_cel').mask('(9999) 999-9999');
+             $('#nu_cedula').mask('99999999');
+
+
+             jQuery.validator.addMethod("phone", function (value, element) {
+                return this.optional(element) || /^\(\d{4}\) \d{3}\-\d{4}( x\d{1,6})?$/.test(value);
+            }, "Enter a valid phone number.");
+
         // ------------------VALIDACION DEL FORMULARIO --------------------
-                $("#validation-form").validate({
-                    errorElement: 'div',
-                    errorClass: 'help-block',
-                    focusInvalid: false,
-                    ignore: "",
-                    
-                rules: {
+        $("#validation-form").validate({
+            errorElement: 'div',
+            errorClass: 'help-block',
+            focusInvalid: false,
+            ignore: "",
 
-                    nu_cedula: {
+            rules: {
+
+                nu_cedula: {
                     remote: {
-                    url : "/sistenomialc/cargafamiliar/getCedula1",
-                    type : "get"
+                        url : "/sistenomialc/cargafamiliar/getCedula1",
+                        type : "get"
                     }
                     
-                    },
-                    nu_cedula: {
-                        required: true,
-                    },
-                    correo_e: {
-                        required: true,
-                        email:true
-                    },
-                    nombre1: {
-                        required: true
-                    },
-                    apellido1: {
-                        required: true
-                    },
-                    genero: {
-                        required: true
-                    },
-                    f_nac: {
-                        required: true
-                    },
-                    lugar_nac: {
-                        required: true
-                    },
-                    telf_cel: {
-                        required: true,
-                        phone: 'required'
-                    },
-                    dir_hab: {
-                        required: true
-                    },
-                    edo_civil: {
-                        required: true
-                    },
-                    id_discapacidad: {
-                        required: true
-                    },
-                    estatus: {
-                        required: true
-                    }
                 },
-                
-                messages: {
-                        correo_e: {
-                            required: "Ingrese un email valido.",
-                            email: "Ingrese un email valido."
-                        }
-                        
-                    },
+                nu_cedula: {
+                    required: true,
+                },
+                correo_e: {
+                    required: true,
+                    email:true
+                },
+                nombre1: {
+                    required: true
+                },
+                apellido1: {
+                    required: true
+                },
+                genero: {
+                    required: true
+                },
+                f_nac: {
+                    required: true
+                },
+                lugar_nac: {
+                    required: true
+                },
+                telf_cel: {
+                    required: true,
+                    phone: 'required'
+                },
+                dir_hab: {
+                    required: true
+                },
+                edo_civil: {
+                    required: true
+                },
+                id_discapacidad: {
+                    required: true
+                },
+                estatus: {
+                    required: true
+                }
+            },
+
+            messages: {
+                correo_e: {
+                    required: "Ingrese un email valido.",
+                    email: "Ingrese un email valido."
+                }
+
+            },
             
             
-                    highlight: function (e) {
-                        $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
-                    },
-                    success: function (e) {
+            highlight: function (e) {
+                $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+            },
+            success: function (e) {
                         $(e).closest('.form-group').removeClass('has-error');//.addClass('has-info');
                         $(e).remove();
                     }
-            });
-                
-                
-                           
+                });
+
+
+
               // ------------------NO ESTOY SEGURA CREO QUE ES ALGO DEL SELECT BOX --------------------   
-                          
-                
-                $(document).one('ajaxloadstart.page', function(e) {
+
+
+              $(document).one('ajaxloadstart.page', function(e) {
                     //in ajax mode, remove remaining elements before leaving page
                     $('[class*=select2]').remove();
                 });
-            })
+          })
 </script>
-		
-	
-		
-		
+
+
+

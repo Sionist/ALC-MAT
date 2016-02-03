@@ -512,7 +512,7 @@
                     $("#nomi").val($("#nomina").val());
 
                     var movi = JSON.parse(data);
-
+                    
                     //si el trabajador existe, se cargaran su datos sino, se mostrara msj de error
                     if(movi.datosT.length > 0){
 

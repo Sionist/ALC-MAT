@@ -162,7 +162,7 @@
 
         <div><label class="line-height-1 blue">
 
-            {{ radio_field("genero", "size" : 30, "placeholder":"Genero", "value":"1", "class":"ace") }}
+            {{ radio_field("genero", "size" : 30, "placeholder":"Genero", "value":"1", "class":"ace" }}
             <span class="lbl"> Hombre</span>
         </label></div>
 
@@ -296,8 +296,6 @@
             <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="id_discapacidad">Discapacidad</label>
             <div class="col-xs-12 col-sm-9"> <div class="clearfix">
 
-
-
                 <?php
 
                 echo Phalcon\Tag::Select(array(
@@ -318,9 +316,6 @@
         <div class="form-group">
             <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="estatus">Estatus</label>
             <div class="col-xs-12 col-sm-9"> <div class="clearfix">
-
-
-
 
                 <?php
 
