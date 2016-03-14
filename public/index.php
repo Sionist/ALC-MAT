@@ -16,10 +16,21 @@ try {
      */
     include APP_PATH . "/app/config/loader.php";
 
+
+
     /**
      * Read services
      */
     include APP_PATH . "/app/config/services.php";
+
+
+    /**
+     * Verificacion de permisos de usuario
+     */
+    include APP_PATH . "/app/lib/VerificarPermisos.php";
+
+
+    //include APP_PATH . "/app/config/verificacion.php";
 
     /**
      * Handle the request

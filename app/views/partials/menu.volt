@@ -28,11 +28,7 @@
 			<ul class="submenu">
 
 				<li class="">
-					<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/trabajadores">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Listar Trabajadores
-					</a>
-
+						<?php echo $this->tag->linkTo("trabajadores","<i class='menu-icon fa fa-caret-right'></i>Listar Trabajadores") ?>
 					<b class="arrow"></b>
 				</li>
 
@@ -224,7 +220,7 @@
 					<b class="arrow"></b>
 				</li>
 				<li class="">
-				<?php echo $this->tag->linkTo("tipos-nominas","<i class='menu-icon fa fa-caret-right'></i>Tipos de Nominas") ?>
+					<?php echo $this->tag->linkTo("tipos-nominas","<i class='menu-icon fa fa-caret-right'></i>Tipos de Nominas") ?>
 
 					<b class="arrow"></b>
 				</li>

@@ -19,8 +19,6 @@
 
 	
 		<div class="col-sm-3">
-				<td align="right"><a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/trabajadores/embargos/<?php echo $ncedula; ?>" title="Volver">
-				<img src="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/img/btn-volver.png"></a>&nbsp;</td>			
 		</div>
 
 		<div class="col-sm-6">

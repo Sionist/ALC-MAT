@@ -158,6 +158,28 @@
                             </div>
 
                             <div class="profile-info-row">
+                              <div class="profile-info-name"> Rif: </div>
+
+                              <div class="profile-info-value">
+                                <?php echo $dtrabajador->rif;?>
+                              </div>
+                            </div>
+
+                            <div class="profile-info-row">
+                              <div class="profile-info-name"> Nacionalidad: </div>
+
+                              <div class="profile-info-value">
+                                <?php 
+                                if($dtrabajador->nacionalidad == "v" || $dtrabajador->nacionalidad == "V"){
+                                  echo "Venezolana";
+                                }else {
+                                  echo "Extranjera";
+                                } 
+                                ?>
+                              </div>
+                            </div>
+
+                            <div class="profile-info-row">
                               <div class="profile-info-name"> Genero </div>
 
                               <div class="profile-info-value">
@@ -469,19 +491,12 @@
 
                               </div>
                             </div><!-- /#home -->
-
                           </div>
-
                         </div>
-
-
                         <!-- PAGE CONTENT ENDS -->
                       </div><!-- /.col -->
                     </div><!-- /.row -->
                   </div><!-- /.page-content -->
-
-
-
 
                 </div>
               </div>
@@ -490,28 +505,28 @@
           <div id="d_personales" class="hide">
             <div class="row">
               <div class="col-sm-4"><label>Rif:</label> </div>
-              <div class="col-sm-6"><input type="text" name="rif" id="rif" class="input-large" required value="<?php echo $dtrabajador->rif;?>">
+              <div class="col-sm-8"><input type="text" name="rif" id="rif" class="input-large d_p" required placeholder="Ejem: v(o V) 12345678 9" value="<?php echo $dtrabajador->rif;?>"><span class="dp_er hidden" style="color: red; font-size: 0.8em"> < REQUERIDO</span>
               </div> 
             </div>
             <div class="row">
               <div class="col-sm-4"><label>Primer Nombre:</label> </div>
-              <div class="col-sm-6"><input type="text" name="nombre1" id="nombre1" class="input-large" required value="<?php echo $dtrabajador->nombre1;?>"></div> 
+              <div class="col-sm-8"><input type="text" name="nombre1" id="nombre1" class="input-large d_p" required value="<?php echo $dtrabajador->nombre1;?>"><span class="dp_er hidden" style="color: red; font-size: 0.8em"> < REQUERIDO</span></div> 
             </div>
             <div class="row">
               <div class="col-sm-4"><label>Segundo Nombre:</label> </div>
-              <div class="col-sm-6"><input type="text" name="nombre2" id="nombre2" class="input-large" required value="<?php echo $dtrabajador->nombre2;?>"></div> 
+              <div class="col-sm-8"><input type="text" name="nombre2" id="nombre2" class="input-large" required value="<?php echo $dtrabajador->nombre2;?>"></div> 
             </div>
             <div class="row">
               <div class="col-sm-4"><label>Primer Apellido:</label> </div>
-              <div class="col-sm-6"><input type="text" name="apellido1" id="apellido1" class="input-large" required value="<?php echo $dtrabajador->apellido1;?>"></div> 
+              <div class="col-sm-8"><input type="text" name="apellido1" id="apellido1" class="input-large d_p" required value="<?php echo $dtrabajador->apellido1;?>"><span class="dp_er hidden" style="color: red; font-size: 0.8em"> < REQUERIDO</span></div> 
             </div>
             <div class="row">
               <div class="col-sm-4"><label>Segundo Apellido:</label> </div>
-              <div class="col-sm-6"><input type="text" name="apellido2" id="apellido2" class="input-large" required value="<?php echo $dtrabajador->apellido2;?>"></div> 
+              <div class="col-sm-8"><input type="text" name="apellido2" id="apellido2" class="input-large" required value="<?php echo $dtrabajador->apellido2;?>"></div> 
             </div>
             <div class="row" style="margin-top: 4px">
               <div class="col-sm-4"><label>Genero:</label> </div>
-              <div class="col-sm-6" style="margin: 5px 0 4px 0">
+              <div class="col-sm-8" style="margin: 5px 0 4px 0">
                 <?php if($dtrabajador->genero == 1) { ?>
                 <label class="line-height-1 blue">
 
@@ -537,13 +552,13 @@
                   <span class="lbl"> Mujer</span>
 
                 </label>
-                
+
                 <?php } ?>
               </div>
             </div>
             <div class="row">
               <div class="col-sm-4"><label>Lugar Nacimiento:</label> </div>
-              <div class="col-sm-6" ><?php
+              <div class="col-sm-8" ><?php
 
                 echo Phalcon\Tag::Select(array(
                   'lugar_nac', 
@@ -551,37 +566,38 @@
                   'using' => array('id_ciudad', 'ciudad'),
                   'useEmpty' => true,
                   'emptyText' => 'Seleccione',
-                  'class' => 'select2',
+                  'class' => 'select2 d_p',
                   'style'=> "width: 210px",
                   "id" => "lugar_nac"
                   ));
                   ?>
+                  <span class="dp_er hidden" style="color: red; font-size: 0.8em"> < REQUERIDO</span>
                 </div> 
 
               </div>
               <div class="row">
                 <div class="col-sm-4"><label>Fecha Nacimiento:</label> </div>
-                <div class="col-sm-6"><input type="text" name="f_nac" id="f_nac" class="form-control date-picker" style = "width: 210px" data-date-format="dd-mm-yyyy" required value="<?php echo date('d-m-Y',strtotime($dtrabajador->f_nac));?>"></div>
+                <div class="col-sm-8"><input type="text" name="f_nac" id="f_nac" class="d_p date-picker" style = "width: 210px" data-date-format="dd-mm-yyyy" required value="<?php echo date('d-m-Y',strtotime($dtrabajador->f_nac));?>"><span class="dp_er hidden" style="color: red; font-size: 0.8em"> < REQUERIDO</span></div>
               </div>
               <div class="row">
                 <div class="col-sm-4"><label>telf. Habitación:</label> </div>
-                <div class="col-sm-6"><input type="text" name="telf_hab" id="telf_hab" class="input-large" required value="<?php echo $dtrabajador->telf_hab;?>"></div> 
+                <div class="col-sm-8"><input type="text" name="telf_hab" id="telf_hab" class="input-large" required value="<?php echo $dtrabajador->telf_hab;?>"></div> 
               </div>
               <div class="row">
                 <div class="col-sm-4"><label>telf. Celular:</label> </div>
-                <div class="col-sm-6"><input type="text" name="telf_cel" id="telf_cel" class="input-large" required value="<?php echo $dtrabajador->telf_cel;?>"></div> 
+                <div class="col-sm-8"><input type="text" name="telf_cel" id="telf_cel" class="input-large" required value="<?php echo $dtrabajador->telf_cel;?>"></div> 
               </div>
               <div class="row">
                 <div class="col-sm-4"><label>Dirección Habitación:</label> </div>
-                <div class="col-sm-6"><input type="text" name="dir_hab" id="dir_hab" class="input-large" required value="<?php echo $dtrabajador->dir_hab;?>"></div> 
+                <div class="col-sm-8"><input type="text" name="dir_hab" id="dir_hab" class="input-large d_p" required value="<?php echo $dtrabajador->dir_hab;?>"><span class="dp_er hidden" style="color: red; font-size: 0.8em"> < REQUERIDO</span></div> 
               </div>
               <div class="row">
                 <div class="col-sm-4"><label>Correo:</label> </div>
-                <div class="col-sm-6"><input type="text" name="correo" id="correo" class="input-large" required value="<?php echo $dtrabajador->correo_e;?>"></div> 
+                <div class="col-sm-8"><input type="text" name="correo" id="correo" class="input-large" required value="<?php echo $dtrabajador->correo_e;?>"></div> 
               </div>
               <div class="row">
                 <div class="col-sm-4"><label for="estado_civil">Estado Civil:</label></div>
-                <div class="col-sm-6"><!-- <select class="select2" name="ed" size="1" name="edo_civil" , id = "estado_civil" value="<?php echo $dtrabajador->edo_civil;?>"> -->
+                <div class="col-sm-8"><!-- <select class="select2" name="ed" size="1" name="edo_civil" , id = "estado_civil" value="<?php echo $dtrabajador->edo_civil;?>"> -->
 
                   <?php
 
@@ -591,93 +607,99 @@
                     'using' => array('id', 'estado_civil'),
                     'useEmpty' => true,
                     'emptyText' => 'Seleccione',
-                    'class' => 'select2',
+                    'class' => 'select2 d_p',
                     'id' => 'estado_civil'
                     ));
-                    ?>           </div>
+                    ?>  
+                    <span class="dp_er hidden" style="color: red; font-size: 0.8em"> < REQUERIDO</span>         
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-4"><label><Correo>Estatus</Correo>:</label> </div>
+                  <div class="col-sm-8">
+                    <?php
+
+                    echo Phalcon\Tag::Select(array(
+                      'estatus', 
+                      EstatusT::find(array("order" => "estatus ASC")),
+                      'using' => array('id_estat', 'estatus'),
+                      'useEmpty' => true,
+                      'emptyText' => 'Ingrese un valor',
+                      'emptyValue' => '',
+                      'class' => 'select2 d_p',
+                      'id' => 'estatus'
+                      ));
+                      ?> 
+                      <span class="dp_er hidden" style="color: red; font-size: 0.8em"> < REQUERIDO</span>
+                    </div> 
                   </div>
 
                   <div class="row">
-                    <div class="col-sm-4"><label><Correo>Estatus</Correo>:</label> </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-4"><label for="discapacidad">Discapacidad:</label></div>
+                    <div class="col-sm-8">
                       <?php
-
                       echo Phalcon\Tag::Select(array(
-                        'estatus', 
-                        EstatusT::find(array("order" => "estatus ASC")),
-                        'using' => array('id_estat', 'estatus'),
+                        'discapacidad', 
+                        Discapacidad::find(array("order" => "id_discapacid ASC")),
+                        'using' => array('id_discapacid', 'discapacidad'),
                         'useEmpty' => true,
                         'emptyText' => 'Ingrese un valor',
                         'emptyValue' => '',
-                        'class' => 'select2',
-                        'id' => 'estatus'
+                        'class' => 'select2 d_p',
+                        'style'=> "width: 210px",
+                        "id" => "discapacidad"
                         ));
-                        ?> 
+                        ?>
+                        <span class="dp_er hidden" style="color: red; font-size: 0.8em"> < REQUERIDO</span>
                       </div> 
                     </div>
 
+                    {{ hidden_field("cedula") }}
+                    {{ hidden_field("nacionalidad") }}
+                    <br />
+                    <div id="dpMsj" class="alert alert-success hidden"><i class="ace-icon fa fa-check"></i>&nbsp;Se ha modificado exitosamente.</div>
+                  </div>
+
+                  <div id="d_contratacion" class="hide">
                     <div class="row">
-                      <div class="col-sm-4"><label for="discapacidad">Discapacidad:</label></div>
-                      <div class="col-sm-6">
+                      <div class="col-sm-4"><label>Fecha de Ingreso:</label></div>
+                      <div class="col-sm-8"><input type="text" name="f_ingre" id="f_ingre" class="d_c date-picker" style = "width: 210px" data-date-format="dd-mm-yyyy" required value="<?php echo date('d-m-Y',strtotime($dcontra->f_ing));?>"><span class="dc_er hidden" style="color: red; font-size: 0.8em"> < REQUERIDO</span> </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-4"><label>Fecha de Egreso:</label> </div>
+                      <div class="col-sm-8"><input type="text" name="f_egre" id="f_egre" class="d_c date-picker" style = "width: 210px" data-date-format="dd-mm-yyyy" required value="<?php echo date('d-m-Y',strtotime($dcontra->f_egre));?>"><span class="dc_er hidden" style="color: red; font-size: 0.8em"> < REQUERIDO</span> </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-4"><label>Tipo de nomina:</label> </div>
+                      <div class="col-sm-8">
                         <?php
                         echo Phalcon\Tag::Select(array(
-                          'discapacidad', 
-                          Discapacidad::find(array("order" => "id_discapacid ASC")),
-                          'using' => array('id_discapacid', 'discapacidad'),
+                          'tipo_nomina', 
+                          tiponomi::find(array("order" => "id_nomina ASC")),
+                          'using' => array('id_nomina', 'nomina'),
                           'useEmpty' => true,
-                          'emptyText' => 'Ingrese un valor',
+                          'emptyText' => 'Seleccione',
                           'emptyValue' => '',
-                          'class' => 'select2',
+                          'class' => 'select2 d_c',
                           'style'=> "width: 210px",
-                          "id" => "discapacidad"
+                          "id" => "tipo_nomina"
                           ));
                           ?>
+                          <span class="dc_er hidden" style="color: red; font-size: 0.8em"> < REQUERIDO</span> 
                         </div> 
                       </div>
-
-                      {{ hidden_field("cedula") }}
-                      {{ hidden_field("nacionalidad") }}
-
-                      <span id="dMsj"></span>
-                    </div>
-
-                    <div id="d_contratacion" class="hide">
                       <div class="row">
-                        <div class="col-sm-4"><label>Fecha de Ingreso:</label> </div>
-                        <div class="col-sm-6"><input type="text" name="f_ingre" id="f_ingre" class="form-control date-picker" style = "width: 210px" data-date-format="dd-mm-yyyy" required value="<?php echo date('d-m-Y',strtotime($dcontra->f_ing));?>"></div>
+                        <div class="col-sm-4"><label>Liquidación:</label> </div>
+                        <div class="col-sm-8"><input type="text" name="liquidacion" id="liquidacion" class="input-large" required value="<?php echo $dcontra->liquidac;?>"></div> 
                       </div>
                       <div class="row">
-                        <div class="col-sm-4"><label>Fecha de Egreso:</label> </div>
-                        <div class="col-sm-6"><input type="text" name="f_egre" id="f_egre" class="form-control date-picker" style = "width: 210px" data-date-format="dd-mm-yyyy" required value="<?php echo date('d-m-Y',strtotime($dcontra->f_egre));?>"></div>
+                        <div class="col-sm-4"><label>Pago Liquidación:</label> </div>
+                        <div class="col-sm-8"><input type="text" name="pag_liquid" id="pag_liquid" class="form-control date-picker" style = "width: 210px" data-date-format="dd-mm-yyyy" required value="<?php echo date("d-m-Y", strtotime($dcontra->f_pago_liq)); ?>"></div> 
                       </div>
                       <div class="row">
-                        <div class="col-sm-4"><label>Tipo de nomina:</label> </div>
-                        <div class="col-sm-6">
-                          <?php
-                          echo Phalcon\Tag::Select(array(
-                            'tipo_nomina', 
-                            tiponomi::find(array("order" => "id_nomina ASC")),
-                            'using' => array('id_nomina', 'nomina'),
-                            'useEmpty' => true,
-                            'emptyText' => 'Seleccione',
-                            'emptyValue' => '',
-                            'class' => 'select2',
-                            'style'=> "width: 210px",
-                            "id" => "tipo_nomina"
-                            ));
-                            ?>
-                          </div> 
-                        </div>
-                        <div class="row">
-                          <div class="col-sm-4"><label>Liquidación:</label> </div>
-                          <div class="col-sm-6"><input type="text" name="liquidacion" id="liquidacion" class="input-large" required value="<?php echo $dcontra->liquidac;?>"></div> 
-                        </div>
-                        <div class="row">
-                          <div class="col-sm-4"><label>Pago Liquidación:</label> </div>
-                          <div class="col-sm-6"><input type="text" name="pag_liquid" id="pag_liquid" class="form-control date-picker" style = "width: 210px" data-date-format="dd-mm-yyyy" required value="<?php echo date("d-m-Y", strtotime($dcontra->f_pago_liq)); ?>"></div> 
-                        </div>
-                        <div class="row">
-                          <div class="col-sm-4"><label>Cargo:</label> </div>
+                        <div class="col-sm-4"><label>Cargo:</label> </div>
+                        <div class="col-sm-8">
                           <?php
                           echo Phalcon\Tag::Select(array(
                             'cargos', 
@@ -686,32 +708,36 @@
                             'useEmpty' => true,
                             'emptyText' => 'Seleccione',
                             'emptyValue' => '',
-                            'class' => 'select2',
-                            'style'=> "width: 210px; margin-left: 12px",
+                            'class' => 'select2 d_c',
+                            'style'=> "width: 210px;",
                             "id" => "cargos"
                             ));
                             ?>
+                            <span class="dc_er hidden" style="color: red; font-size: 0.8em"> < REQUERIDO</span>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-4"><label>Tipo de Contrato:</label> </div>
+                          <div class="col-sm-8">
+                            <?php
+                            echo Phalcon\Tag::Select(array(
+                              'tipo_contrat', 
+                              tipocontrat::find(array("order" => "id_contrato ASC")),
+                              'using' => array('id_contrato', 'contrato'),
+                              'useEmpty' => true,
+                              'emptyText' => 'Seleccione',
+                              'emptyValue' => '',
+                              'class' => 'select2 d_c',
+                              'style'=> "width: 210px",
+                              "id" => "tipo_contrat"
+                              ));
+                              ?>
+                              <span class="dc_er hidden" style="color: red; font-size: 0.8em"> < REQUERIDO</span>
+                            </div> 
                           </div>
                           <div class="row">
-                            <div class="col-sm-4"><label>Tipo de Contrato:</label> </div>
-                            <div class="col-sm-6">
-                              <?php
-                              echo Phalcon\Tag::Select(array(
-                                'tipo_contrat', 
-                                tipocontrat::find(array("order" => "id_contrato ASC")),
-                                'using' => array('id_contrato', 'contrato'),
-                                'useEmpty' => true,
-                                'emptyText' => 'Seleccione',
-                                'emptyValue' => '',
-                                'class' => 'select2',
-                                'style'=> "width: 210px",
-                                "id" => "tipo_contrat"
-                                ));
-                                ?>
-                              </div> 
-                            </div>
-                            <div class="row">
-                              <div class="col-sm-4"><label>Ubicacion Funcional:</label> </div>
+                            <div class="col-sm-4"><label>Ubicacion Funcional:</label> </div>
+                            <div class="col-sm-8">
                               <?php
                               echo Phalcon\Tag::Select(array(
                                 'ubi_fun', 
@@ -720,14 +746,17 @@
                                 'useEmpty' => true,
                                 'emptyText' => 'Seleccione',
                                 'emptyValue' => '',
-                                'class' => 'select2',
-                                'style'=> "width: 210px; margin-left: 12px",
+                                'class' => 'select2 d_c',
+                                'style'=> "width: 210px;",
                                 "id" => "ubi_fun"
                                 ));
                                 ?>
+                                <span class="dc_er hidden" style="color: red; font-size: 0.8em"> < REQUERIDO</span>
                               </div>
-                              <div class="row">
-                                <div class="col-sm-4"><label>Ubicacion Nominal:</label> </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-sm-4"><label>Ubicacion Nominal:</label> </div>
+                              <div class="col-sm-8">
                                 <?php
                                 echo Phalcon\Tag::Select(array(
                                   'ubi_nom', 
@@ -736,19 +765,22 @@
                                   'useEmpty' => true,
                                   'emptyText' => 'Seleccione',
                                   'emptyValue' => '',
-                                  'class' => 'select2',
-                                  'style'=> "width: 210px; margin-left: 12px",
+                                  'class' => 'select2 d_c',
+                                  'style'=> "width: 210px;",
                                   "id" => "ubi_nom"
                                   ));
                                   ?>
+                                  <span class="dc_er hidden" style="color: red; font-size: 0.8em"> < REQUERIDO</span>
                                 </div>
-
-
-                                <span id="dMsj"></span>
                               </div>
-                              <div id="d_profesionales" class="hide">
-                                <div class="row">
-                                  <div class="col-sm-4"><label>Profesión:</label> </div>
+                              <br />
+                              <div id="dcMsj" class="alert alert-success hidden"><i class="ace-icon fa fa-check"></i>&nbsp;Se ha modificado exitosamente.</div>
+                            </div>
+
+                            <div id="d_profesionales" class="hide">
+                              <div class="row">
+                                <div class="col-sm-4"><label>Profesión:</label> </div>
+                                <div class="col-sm-8">
                                   <?php
                                   echo Phalcon\Tag::Select(array(
                                     'profesion', 
@@ -757,14 +789,17 @@
                                     'useEmpty' => true,
                                     'emptyText' => 'Seleccione',
                                     'emptyValue' => '',
-                                    'class' => 'select2',
-                                    'style'=> "width: 210px; margin-left: 12px",
+                                    'class' => 'select2 d_pf',
+                                    'style'=> "width: 210px;",
                                     "id" => "profesion"
                                     ));
-                                    ?>                                
-                                  </div>
-                                  <div class="row">
-                                    <div class="col-sm-4"><label>Nivel de Instrucción:</label> </div>
+                                    ?>   
+                                    <span class="dc_er hidden" style="color: red; font-size: 0.8em"> < REQUERIDO</span>        
+                                  </div>                      
+                                </div>
+                                <div class="row">
+                                  <div class="col-sm-4"><label>Nivel de Instrucción:</label> </div>
+                                  <div class="col-sm-8">
                                     <?php
                                     echo Phalcon\Tag::Select(array(
                                       'nivel_instruc', 
@@ -773,18 +808,22 @@
                                       'useEmpty' => true,
                                       'emptyText' => 'Seleccione',
                                       'emptyValue' => '',
-                                      'class' => 'select2',
-                                      'style'=> "width: 210px; margin-left: 12px",
+                                      'class' => 'select2 d_pf',
+                                      'style'=> "width: 210px;",
                                       "id" => "nivel_instruc"
                                       ));
-                                      ?>                                
-                                    </div>
+                                      ?>  
+                                      <span class="dc_er hidden" style="color: red; font-size: 0.8em"> < REQUERIDO</span>
+                                    </div>                              
                                   </div>
+                                  <br />
+                                  <div id="dpfMsj" class="alert alert-success hidden"><i class="ace-icon fa fa-check"></i>&nbsp;Se ha modificado exitosamente.</div>
+                                </div>
 
-                                  <div id="d_financieros" class="hide">
+                                <div id="d_financieros" class="hide">
                                   <div class="row">
                                     <div class="col-sm-4"><label>Banco:</label> </div>
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-8">
                                       <?php
                                       echo Phalcon\Tag::Select(array(
                                         'nb_bancos', 
@@ -793,20 +832,21 @@
                                         'useEmpty' => true,
                                         'emptyText' => 'Seleccione',
                                         'emptyValue' => '',
-                                        'class' => 'select2',
+                                        'class' => 'select2 d_f',
                                         'style'=> "width: 210px",
                                         "id" => "nb_bancos"
                                         ));
                                         ?>
+                                        <span class="df_er hidden" style="color: red; font-size: 0.8em"> < REQUERIDO</span>
                                       </div> 
                                     </div>
                                     <div class="row">
                                       <div class="col-sm-4"><label>N° de Cuenta:</label> </div>
-                                      <div class="col-sm-6"><input type="text" name="cta_nro" id="cta_nro" class="form-control cta_nro" style = "width: 210px" required value="<?php echo $dfinanc->n_cuenta; ?>"></div>
+                                      <div class="col-sm-8"><input type="text" name="cta_nro" id="cta_nro" class=" d_f cta_nro" style = "width: 210px" placeholder="N° de 20 digitos" required value="<?php echo $dfinanc->n_cuenta; ?>"><span class="df_er hidden" style="color: red; font-size: 0.8em"> < REQUERIDO</span></div>
                                     </div>
                                     <div class="row">
                                       <div class="col-sm-4"><label>Tipo de Cuenta:</label> </div>
-                                      <div class="col-sm-6">
+                                      <div class="col-sm-8">
                                         <?php
                                         echo Phalcon\Tag::Select(array(
                                           'tipo_cuenta', 
@@ -815,13 +855,16 @@
                                           'useEmpty' => true,
                                           'emptyText' => 'Seleccione',
                                           'emptyValue' => '',
-                                          'class' => 'select2',
+                                          'class' => 'select2 d_f',
                                           'style'=> "width: 210px",
                                           "id" => "tipo_cuenta"
                                           ));
                                           ?>
+                                          <span class="df_er hidden" style="color: red; font-size: 0.8em"> < REQUERIDO</span>
                                         </div> 
                                       </div>
+                                      <br />
+                                      <div id="dfMsj" class="alert alert-success hidden"><i class="ace-icon fa fa-check"></i>&nbsp;Se ha modificado exitosamente.</div>
                                     </div>
 
                                     <script type="text/javascript">
@@ -841,7 +884,7 @@ $.mask.definitions['~']='[+-]';
 $('#telf_hab').mask('(9999) 999-9999');
 $.mask.definitions['~']='[+-]';
 $('#telf_cel').mask('(9999) 999-9999');
-$('#cta_nro').mask('99999999999999999999');
+$('#cta_nro').mask('99999999999999999999', {placeholder : " " });
 
 
 
@@ -852,8 +895,8 @@ jQuery.validator.addMethod("phone", function (value, element) {
 
 
             // ------------------FORMATO DE RIF --------------------
-            $.mask.definitions['~']='[vVjJgG]';
-            $('#rif').mask('~-99999999-9', {autoclear : false, placeholder : " "});
+            $.mask.definitions['~']='[vV]';
+            $('#rif').mask('~ 99999999 9', {autoclear : false, placeholder : ""});
 
             
 

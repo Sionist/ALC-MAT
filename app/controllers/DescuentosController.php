@@ -8,7 +8,6 @@ class DescuentosController extends \Phalcon\Mvc\Controller
         $this->view->setTemplateAfter('blank');
     }
 
-
     public function indexAction()
     {
         $descuento = Descuentos::Find();

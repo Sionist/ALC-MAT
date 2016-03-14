@@ -17,8 +17,8 @@ use Phalcon\Forms\Element\Select ?>
 	<tr>
 		<td>
 		<p align="left"><h4 class="widget-title lighter">Listado de Trabajadores</h4></td>
-		<td align="right"><a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/trabajadores/nuevo-trabajador" title="Agregar Nuevo Trabajador">
-		<img src="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/img/btn-nuevo-trabajador.png"></a>&nbsp;</td>
+		<td align="right"><?php echo $this->tag->linkTo("trabajadores/nuevo-trabajador","<img src='/sistenomialc/img/btn-nuevo-trabajador.png'>") ?>
+		&nbsp;</td>
 	</tr>
 </table>
 		
@@ -76,8 +76,8 @@ use Phalcon\Forms\Element\Select ?>
                                                 <td><span style="text-transform: capitalize;"><?php echo $row->nomina; ?></span></td>
                                                         
                                                 <td>
-                                                    <div class="hidden-sm hidden-xs action-buttons">
-                                                    <?php echo $this->tag->linkTo(array("trabajadores/editar/".$row->nu_cedula, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"))  ?> <?php echo $this->tag->linkTo(array("trabajadores/ver/".$row->nu_cedula, "<i class='ace-icon fa fa-search-plus bigger-130'></i>"))  ?>
+                                                    <div class="hidden-sm hidden-xs action-buttons center">
+							<?php echo $this->tag->linkTo(array("trabajadores/ver/".$row->nu_cedula, "<i class='ace-icon fa fa-search-plus bigger-130'></i>"))  ?>
                                                     </div>
                                                 </td>
                                             </tr>

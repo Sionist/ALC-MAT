@@ -1,3 +1,4 @@
+{{ javascript_include("js/bootstrap.js") }}
 <div class="col-sm-4">
 </div>
 <div class="col-sm-4">

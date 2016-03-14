@@ -21,6 +21,11 @@ use Phalcon\Mvc\Router as router;
 $di = new FactoryDefault();
 
 /**
+ * Agrego archivo config a inyector de dependencia para accederlo desde cualquier parte
+ */
+$di->set('config', $config, true);
+
+/**
  * The URL component is used to generate all kind of urls in the application
  */
 $di->set('url', function () use ($config) {
@@ -35,26 +40,27 @@ $di->set('url', function () use ($config) {
  */
 $di->setShared('view', function () use ($config) {
 
-    $view = new View();
+        $view = new View();
 
-    $view->setViewsDir($config->application->viewsDir);
+        $view->setViewsDir($config->application->viewsDir);
 
-    $view->registerEngines(array(
-        '.volt' => function ($view, $di) use ($config) {
+        $view->registerEngines(array(
+            '.volt' => function ($view, $di) use ($config) {
 
-            $volt = new VoltEngine($view, $di);
+                $volt = new VoltEngine($view, $di);
 
-            $volt->setOptions(array(
-                'compiledPath' => $config->application->cacheDir,
-                'compiledSeparator' => '_'
-            ));
+                $volt->setOptions(array(
+                    'compiledPath' => $config->application->cacheDir,
+                    'compiledSeparator' => '_'
+                ));
 
-            return $volt;
-        },
-        '.phtml' => 'Phalcon\Mvc\View\Engine\Php'
-    ));
+                return $volt;
+            },
+            '.phtml' => 'Phalcon\Mvc\View\Engine\Php'
+        ));
 
-    return $view;
+        return $view;
+
 });
 
 /**
@@ -82,8 +88,8 @@ $di->setShared('session', function () {
         )
     );
     $session->start();
-
     return $session;
+
 });
 
 /*
@@ -101,8 +107,10 @@ $di->set('security', function(){
 $di->set(
     'router',
     function () {
-        $router = new Router();
+        $router = new Router(false);
         require __DIR__.'/routes.php';
         return $router;
     }
 );
+
+$di->set('verificarPermisos','VerificarPermisos');

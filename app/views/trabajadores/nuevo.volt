@@ -30,253 +30,240 @@
   <div id="row">
     <div class="widget-box">
      <div class="widget-header widget-header-blue widget-header-flat">
-      <table border="0" width="100%" cellspacing="3" cellpadding="0">
-         <tr>
-          <td>
-              <p align="left"><h4 class="widget-title lighter">Trabajadores - Ingresar Nuevo Trabajador</h4></td>
-                  <td align="right"><a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/trabajadores" title="Volver">
-                      <img src="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/img/btn-volver.png"></a>&nbsp;</td>
-                  </tr>
-              </table>
+     </div>
 
+     <div class="widget-body">
+      <div class="widget-main">
+        <div id="fuelux-wizard-container">
 
+          <ul class="steps">
+            <li data-step="1" class="active">
+              <span class="step">1</span>
+              <span class="title">Datos Personales</span>
+            </li>
 
+            <li data-step="2">
+              <span class="step">2</span>
+              <span class="title">Contratación</span>
+            </li>
 
-          </div>
+            <li data-step="3">
+              <span class="step">3</span>
+              <span class="title">Datos Financieros</span>
+            </li>
 
-          <div class="widget-body">
-            <div class="widget-main">
-                <div id="fuelux-wizard-container">
+            <li data-step="4">
+              <span class="step">4</span>
+              <span class="title">Datos Profesionales</span>
+            </li>
+          </ul>
+          <hr>
 
-                    <ul class="steps">
-                        <li data-step="1" class="active">
-                            <span class="step">1</span>
-                            <span class="title">Datos Personales</span>
-                        </li>
+          <div class="step-content pos-rel">
+           {{ form("trabajadores/nuevo-trabajador/datos-personales", "method":"post", "class":"form-horizontal", "id":"validation-form", "enctype":"multipart/form-data" ) }}
+           <div class="step-pane active" data-step="1">
 
-                        <li data-step="2">
-                            <span class="step">2</span>
-                            <span class="title">Contratación</span>
-                        </li>
+             <h3 class="lighter block green">Datos Personales</h3>
 
-                        <li data-step="3">
-                            <span class="step">3</span>
-                            <span class="title">Datos Financieros</span>
-                        </li>
+             <?php $this->flashSession->output(); ?>
 
-                        <li data-step="4">
-                            <span class="step">4</span>
-                            <span class="title">Datos Profesionales</span>
-                        </li>
-                    </ul>
-                    <hr>
+             <div class="form-group">
 
-                    <div class="step-content pos-rel">
-                     {{ form("trabajadores/nuevo-trabajador/datos-personales", "method":"post", "class":"form-horizontal", "id":"validation-form", "enctype":"multipart/form-data" ) }}
-                     <div class="step-pane active" data-step="1">
+              <label class="control-label col-xs-12 col-sm-3 no-padding-right"  for="nu_cedula">Número Cedula</label>
 
-                       <h3 class="lighter block green">Datos Personales</h3>
+              <div class="col-xs-12 col-sm-9">
+               <div class="clearfix">
+                <select class="select1" size="1" name="nacionalidad">
+                  <option value="V">V</option>
+                  <option value="E">E</option>
+                </select>
 
-
-                       <?php $this->flashSession->output(); ?>
-
-
-
-
-                       <div class="form-group">
-
-                        <label class="control-label col-xs-12 col-sm-3 no-padding-right"  for="nu_cedula">Número Cedula</label>
-
-                        <div class="col-xs-12 col-sm-9">
-                           <div class="clearfix">
-                            <select class="select1" size="1" name="nacionalidad">
-                              <option value="V">V</option>
-                              <option value="E">E</option>
-                          </select>
-
-                          {{ text_field("nu_cedula", "id":"nu_cedula", "placeholder":"Cedula") }}
-                      </div>
-
-                  </div>
+                {{ text_field("nu_cedula", "id":"nu_cedula", "placeholder":"Cedula") }}
               </div>
 
-              <div class="form-group">
-
-                <label class="control-label col-xs-12 col-sm-3 no-padding-right"  for="rif">Rif</label>
-                <div class="col-xs-12 col-sm-9"> <div class="clearfix">
-
-                    {{ text_field("rif", "size" : 30, "placeholder":"RIF") }}
-                    <div id="rif-er" class="help-block hidden" style="color: #d16e6c">Debe introducir un Rif valido</div>
-                </div>
             </div>
+          </div>
+
+          <div class="form-group">
+
+            <label class="control-label col-xs-12 col-sm-3 no-padding-right"  for="rif">Rif</label>
+            <div class="col-xs-12 col-sm-9"> <div class="clearfix">
+
+              {{ text_field("rif", "size" : 30, "placeholder":"RIF") }}
+              <div id="rif-er" class="help-block hidden" style="color: #d16e6c">Debe introducir un Rif valido</div>
+            </div>
+          </div>
         </div>
 
 
         <div class="form-group">
-            <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="nombre1">Primer Nombre</label>
-            <div class="col-xs-12 col-sm-9"> <div class="clearfix">
+          <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="nombre1">Primer Nombre</label>
+          <div class="col-xs-12 col-sm-9"> <div class="clearfix">
 
 
-                {{ text_field("nombre1", "size" : 30, "placeholder":"Primer Nombre") }}
-            </div>
+            {{ text_field("nombre1", "size" : 30, "placeholder":"Primer Nombre") }}
+          </div>
         </div>
-    </div>
+      </div>
 
 
-    <div class="form-group">
+      <div class="form-group">
         <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="nombre2">Segundo Nombre</label>
         <div class="col-xs-12 col-sm-9"> <div class="clearfix">
 
 
-            {{ text_field("nombre2", "size" : 30, "placeholder":"Segundo Nombre") }}
+          {{ text_field("nombre2", "size" : 30, "placeholder":"Segundo Nombre") }}
         </div>
-    </div>
-</div>    
+      </div>
+    </div>    
 
 
-<div class="form-group">
-    <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="apellido1">Primer Apellido</label>
-    <div class="col-xs-12 col-sm-9"> <div class="clearfix">
+    <div class="form-group">
+      <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="apellido1">Primer Apellido</label>
+      <div class="col-xs-12 col-sm-9"> <div class="clearfix">
 
 
         {{ text_field("apellido1", "size" : 30, "placeholder":"Primer Apellido") }}
+      </div>
     </div>
-</div>
-</div>  
+  </div>  
 
 
-<div class="form-group">
+  <div class="form-group">
     <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="apellido2">Segundo Apellido</label>
     <div class="col-xs-12 col-sm-9"> <div class="clearfix">
 
 
-        {{ text_field("apellido2", "size" : 30, "placeholder":"Segundo Apellido") }}
+      {{ text_field("apellido2", "size" : 30, "placeholder":"Segundo Apellido") }}
     </div>
-</div>
+  </div>
 </div>    
 <div class="space-2"></div>
 
 <div class="form-group">
-    <label class="control-label col-xs-12 col-sm-3 no-padding-right">Genero</label>
-    <div class="col-xs-12 col-sm-9"> 
+  <label class="control-label col-xs-12 col-sm-3 no-padding-right">Genero</label>
+  <div class="col-xs-12 col-sm-9"> 
 
-        <div><label class="line-height-1 blue">
+    <div><label class="line-height-1 blue">
 
-            {{ radio_field("genero", "size" : 30, "placeholder":"Genero", "value":"1", "class":"ace" }}
-            <span class="lbl"> Hombre</span>
-        </label></div>
+      {{ radio_field("genero", "size" : 30, "placeholder":"Genero", "value":"1", "class":"ace") }}
+      <span class="lbl"> Hombre</span>
+    </label></div>
 
 
-        <div> <label class="line-height-1 blue">
+    <div> <label class="line-height-1 blue">
 
-            {{ radio_field("genero", "size" : 30, "placeholder":"Genero", "value":"2", "class":"ace") }}
-            <span class="lbl"> Mujer</span>
-        </label></div>
-    </div>
+      {{ radio_field("genero", "size" : 30, "placeholder":"Genero", "value":"2", "class":"ace") }}
+      <span class="lbl"> Mujer</span>
+    </label></div>
+  </div>
 </div>
 
 
 <div class="form-group">
-    <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="f_nac">Fecha de Nacimiento</label>
-    <div class="col-xs-3"> <div class="input-group">
+  <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="f_nac">Fecha de Nacimiento</label>
+  <div class="col-xs-3"> <div class="input-group">
 
 
-        {{ text_field("f_nac", "type" : "date", "class":"form-control date-picker", "data-date-format":"dd-mm-yyyy") }}
-        <span class="input-group-addon">
-            <i class="fa fa-calendar bigger-110"></i>
-        </span>
-    </div>
+    {{ text_field("f_nac", "type" : "date", "class":"form-control date-picker", "data-date-format":"dd-mm-yyyy") }}
+    <span class="input-group-addon">
+      <i class="fa fa-calendar bigger-110"></i>
+    </span>
+  </div>
 
 </div>
 </div>    
 
 
 <div class="form-group">
-    <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="lugar_nac">Lugar de Nacimiento</label>
-    <div class="col-xs-12 col-sm-9"> <div class="clearfix">
+  <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="lugar_nac">Lugar de Nacimiento</label>
+  <div class="col-xs-12 col-sm-9"> <div class="clearfix">
 
-        <?php
+    <?php
 
-        echo Phalcon\Tag::Select(array(
-            'lugar_nac', 
-            Ciudades::find(array("order" => "ciudad ASC")),
-            'using' => array('id_ciudad', 'ciudad'),
-            'useEmpty' => true,
-            'emptyText' => 'Ingrese un valor',
-            'class' => 'select2'
-            ));
-            ?>
-        </div>
+    echo Phalcon\Tag::Select(array(
+      'lugar_nac', 
+      Ciudades::find(array("order" => "ciudad ASC")),
+      'using' => array('id_ciudad', 'ciudad'),
+      'useEmpty' => true,
+      'emptyText' => 'Ingrese un valor',
+      'class' => 'select2'
+      ));
+      ?>
     </div>
+  </div>
 </div>    
 
 
 <div class="form-group">
-    <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="telf_hab">Telefono de Habitación</label>
-    <div class="col-xs-12 col-sm-9"> <div class="clearfix">
-        <div class="input-group">
-            <span class="input-group-addon"> <i class="ace-icon fa fa-phone"></i></span>
-            
-            {{ text_field("telf_hab", "size" : 30, "type":"tel") }}
-        </div>
+  <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="telf_hab">Telefono de Habitación</label>
+  <div class="col-xs-12 col-sm-9"> <div class="clearfix">
+    <div class="input-group">
+      <span class="input-group-addon"> <i class="ace-icon fa fa-phone"></i></span>
+
+      {{ text_field("telf_hab", "size" : 30, "type":"tel") }}
     </div>
+  </div>
 </div>
 </div>     
 
 <div class="space-2"></div>
 <div class="form-group">
-    <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="telf_cel">Telfono de Celular</label>
-    <div class="col-xs-12 col-sm-9"> 
-        <div class="input-group">
-            <span class="input-group-addon"> <i class="ace-icon fa fa-phone"></i></span>
-            
-            {{ text_field("telf_cel",  "type":"tel") }}
+  <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="telf_cel">Telfono de Celular</label>
+  <div class="col-xs-12 col-sm-9"> 
+    <div class="input-group">
+      <span class="input-group-addon"> <i class="ace-icon fa fa-phone"></i></span>
 
-        </div>
+      {{ text_field("telf_cel",  "type":"tel") }}
+
     </div>
+  </div>
 </div>    
 <div class="space-2"></div>
 <div class="form-group">
-    <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="dir_hab">Dirección de Habitación</label>
-    <div class="col-xs-12 col-sm-9"> <div class="clearfix">
+  <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="dir_hab">Dirección de Habitación</label>
+  <div class="col-xs-12 col-sm-9"> <div class="clearfix">
 
 
-        {{ text_field("dir_hab", "size" : 60, "placeholder":"Dirección de Habitación") }}
-        
-    </div>
+    {{ text_field("dir_hab", "size" : 60, "placeholder":"Dirección de Habitación") }}
+
+  </div>
 </div>
 </div>   
 
 <div class="form-group">
-    <label class="control-label col-xs-12 col-sm-3 no-padding-right " for="edo_civil">Estado Civil</label>
-    <div class="col-xs-12 col-sm-9"> <div class="clearfix">
+  <label class="control-label col-xs-12 col-sm-3 no-padding-right " for="edo_civil">Estado Civil</label>
+  <div class="col-xs-12 col-sm-9"> <div class="clearfix">
 
 
-     <!-- {{ text_field("edo_civil", "size" : 30, "placeholder":"Estado Civil") }} -->
+   <!-- {{ text_field("edo_civil", "size" : 30, "placeholder":"Estado Civil") }} -->
 
 
 
-     <select class="select2" size="1" name="edo_civil">
-       <option value="SOLTER@">SOLTER@</option>
-       <option value="CASAD@">CASAD@</option>
-       <option value="DIVORCIAD@">DIVORCIAD@</option>
-       <option value="VIUD@">VIUD@</option>
-       <option value="CONCUBINATO">CONCUBINATO</option>
-   </select>
+   <?php
+   echo Phalcon\Tag::Select(array(
+    'edo_civil', 
+    EstadoCivil::find(array("order" => "id ASC")),
+    'using' => array('id', 'estado_civil'),
+    'useEmpty' => true,
+    'emptyText' => 'Seleccione',
+    'class' => 'select2'
+    ));
+    ?>
 
 
-</div>
+  </div>
 </div>
 </div>   
 
 <div class="form-group">
-    <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="correo_e">Correo</label>
-    <div class="col-xs-12 col-sm-9"> <div class="clearfix">
+  <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="correo_e">Correo</label>
+  <div class="col-xs-12 col-sm-9"> <div class="clearfix">
 
 
-        {{ text_field("correo_e", "type":"email", "size" : 30, "placeholder":"correo@gmail.com") }}
-        
-    </div>
+    {{ text_field("correo_e", "type":"email", "size" : 30, "placeholder":"correo@gmail.com") }}
+
+  </div>
 </div>
 </div>   
 
@@ -289,58 +276,59 @@
                
             
              </div>
-         </div>-->   
-         
-         
-         <div class="form-group">
+           </div>-->   
+
+
+           <div class="form-group">
             <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="id_discapacidad">Discapacidad</label>
             <div class="col-xs-12 col-sm-9"> <div class="clearfix">
 
-                <?php
+              <?php
 
-                echo Phalcon\Tag::Select(array(
-                    'id_discapacidad', 
-                    Discapacidad::find(array("order" => "id_discapacid ASC")),
-                    'using' => array('id_discapacid', 'discapacidad'),
-                    'useEmpty' => true,
-                    'emptyText' => 'Ingrese un valor',
-                    'emptyValue' => '',
-                    'class' => 'select2'
-                    ));
-                    ?>
-                    
-                </div>
+              echo Phalcon\Tag::Select(array(
+                'id_discapacidad', 
+                Discapacidad::find(array("order" => "id_discapacid ASC")),
+                'using' => array('id_discapacid', 'discapacidad'),
+                'useEmpty' => true,
+                'emptyText' => 'Ingrese un valor',
+                'emptyValue' => '',
+                'class' => 'select2'
+                ));
+                ?>
+
+              </div>
             </div>    
-        </div>
-        
-        <div class="form-group">
+          </div>
+
+          <div class="form-group">
             <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="estatus">Estatus</label>
             <div class="col-xs-12 col-sm-9"> <div class="clearfix">
 
-                <?php
+              <?php
 
-                echo Phalcon\Tag::Select(array(
-                    'estatus', 
-                    EstatusT::find(array("order" => "estatus ASC")),
-                    'using' => array('id_estat', 'estatus'),
-                    'useEmpty' => true,
-                    'emptyText' => 'Ingrese un valor',
-                    'emptyValue' => '',
-                    'class' => 'select2'
-                    ));
-                    ?>
-                </div>
+              echo Phalcon\Tag::Select(array(
+                'estatus', 
+                EstatusT::find(array("order" => "estatus ASC")),
+                'using' => array('id_estat', 'estatus'),
+                'useEmpty' => true,
+                'emptyText' => 'Ingrese un valor',
+                'emptyValue' => '',
+                'class' => 'select2'
+                ));
+                ?>
+              </div>
             </div>
-        </div>    
-        <div style="text-align:right"><a class="btn" href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/trabajadores">Cancelar</a>&nbsp;&nbsp;&nbsp; <button id="guardar" class="btn btn-primary"><i class="ace-icon fa fa-floppy-o align-top bigger-125"></i>Guardar Datos</button></div>
-    </form>
-</div>
-</div>  
+          </div>   
+           
+          <div style="text-align:right"><?php echo $this->tag->linkTo(array("trabajadores","class"=>"btn","Cancelar")) ?>&nbsp;&nbsp;&nbsp; <button id="guardar" class="btn btn-primary"><i class="ace-icon fa fa-floppy-o align-top bigger-125"></i>Guardar Datos</button></div>
+        </form>
+      </div>
+    </div>  
 
 
 
 
-</div>
+  </div>
 </div>
 
 
@@ -351,19 +339,19 @@
 
 
 <script type="text/javascript">
-    jQuery(function($) {
+  jQuery(function($) {
 
                 // ------------------CALENDARIO PARA FECHAS --------------------
 
                 //datepicker plugin
                 //link
                 $('.date-picker').datepicker({
-                    changeMonth: true,
-                    changeYear: true
+                  changeMonth: true,
+                  changeYear: true
                 })
                 //show datepicker when clicking on the icon
                 .next().on(ace.click_event, function(){
-                    $(this).prev().focus();
+                  $(this).prev().focus();
                 });
                 
                 //or change it into a date range picker
@@ -372,81 +360,81 @@
                 
                 //to translate the daterange picker, please copy the "examples/daterange-fr.js" contents here before initialization
                 $('input[name=date-range-picker]').daterangepicker({
-                    'applyClass' : 'btn-sm btn-success',
-                    'cancelClass' : 'btn-sm btn-default',
-                    locale: {
-                        applyLabel: 'Apply',
-                        cancelLabel: 'Cancel',
-                    }
+                  'applyClass' : 'btn-sm btn-success',
+                  'cancelClass' : 'btn-sm btn-default',
+                  locale: {
+                    applyLabel: 'Apply',
+                    cancelLabel: 'Cancel',
+                  }
                 })
                 .prev().on(ace.click_event, function(){
-                    $(this).next().focus();
+                  $(this).next().focus();
                 });
                 
                 
                 $('#timepicker1').timepicker({
-                    minuteStep: 1,
-                    showSeconds: true,
-                    showMeridian: false
+                  minuteStep: 1,
+                  showSeconds: true,
+                  showMeridian: false
                 }).next().on(ace.click_event, function(){
-                    $(this).prev().focus();
+                  $(this).prev().focus();
                 });
                 
                 $('#date-timepicker1').datetimepicker().next().on(ace.click_event, function(){
-                    $(this).prev().focus();
+                  $(this).prev().focus();
                 });
 
 
                  // ------------------ESTILO PARA CARGA DE ARCHIVO/IMAGENES --------------------
 
                  $('#id-input-file-1 , #foto_p').ace_file_input({
-                    no_file:'Vacio ...',
-                    btn_choose:'Elije',
-                    btn_change:'Cambia',
-                    droppable:false,
-                    onchange:null,
+                  no_file:'Vacio ...',
+                  btn_choose:'Elije',
+                  btn_change:'Cambia',
+                  droppable:false,
+                  onchange:null,
                     thumbnail:false //| true | large
                     //whitelist:'gif|png|jpg|jpeg'
                     //blacklist:'exe|php'
                     //onchange:''
                     //
-                });
+                  });
                 //pre-show a file name, for example a previously selected file
                 //$('#id-input-file-1').ace_file_input('show_file_list', ['myfile.txt'])
                 
                 
                 $('#id-input-file-3').ace_file_input({
-                    style:'well',
-                    btn_choose:'Seleccione la imagen aqui',
-                    btn_change:null,
-                    no_icon:'ace-icon fa fa-cloud-upload',
-                    droppable:true,
+                  style:'well',
+                  btn_choose:'Seleccione la imagen aqui',
+                  btn_change:null,
+                  no_icon:'ace-icon fa fa-cloud-upload',
+                  droppable:true,
                     thumbnail:'small'//large | fit
                     //,icon_remove:null//set null, to hide remove/reset button
                     /**,before_change:function(files, dropped) {
                         //Check an example below
                         //or examples/file-upload.html
                         return true;
-                    }*/
+                      }*/
                     /**,before_remove : function() {
                         return true;
-                    }*/
-                    ,
-                    preview_error : function(filename, error_code) {
+                      }*/
+                      ,
+                      preview_error : function(filename, error_code) {
                         //name of the file that failed
                         //error_code values
                         //1 = 'FILE_LOAD_FAILED',
                         //2 = 'IMAGE_LOAD_FAILED',
                         //3 = 'THUMBNAIL_FAILED'
                         //alert(error_code);
-                    }
-                    
-                }).on('change', function(){
+                      }
+
+                    }).on('change', function(){
                     //console.log($(this).data('ace_input_files'));
                     //console.log($(this).data('ace_input_method'));
-                });
-                
-                
+                  });
+
+
                 //$('#id-input-file-3')
                 //.ace_file_input('show_file_list', [
                     //{type: 'image', name: 'name of image', path: 'http://path/to/image/for/preview'},
@@ -458,37 +446,37 @@
   
                 //dynamically change allowed formats by changing allowExt && allowMime function
                 $('#id-file-format').removeAttr('checked').on('change', function() {
-                    var whitelist_ext, whitelist_mime;
-                    var btn_choose
-                    var no_icon
-                    if(this.checked) {
-                        btn_choose = "Seleccione la imagen";
-                        no_icon = "ace-icon fa fa-picture-o";
-                        
-                        whitelist_ext = ["jpeg", "jpg", "png", "gif" , "bmp"];
-                        whitelist_mime = ["image/jpg", "image/jpeg", "image/png", "image/gif", "image/bmp"];
-                    }
-                    else {
-                        btn_choose = "Drop files here or click to choose";
-                        no_icon = "ace-icon fa fa-cloud-upload";
-                        
+                  var whitelist_ext, whitelist_mime;
+                  var btn_choose
+                  var no_icon
+                  if(this.checked) {
+                    btn_choose = "Seleccione la imagen";
+                    no_icon = "ace-icon fa fa-picture-o";
+
+                    whitelist_ext = ["jpeg", "jpg", "png", "gif" , "bmp"];
+                    whitelist_mime = ["image/jpg", "image/jpeg", "image/png", "image/gif", "image/bmp"];
+                  }
+                  else {
+                    btn_choose = "Drop files here or click to choose";
+                    no_icon = "ace-icon fa fa-cloud-upload";
+
                         whitelist_ext = null;//all extensions are acceptable
                         whitelist_mime = null;//all mimes are acceptable
-                    }
-                    var file_input = $('#id-input-file-3');
-                    file_input
-                    .ace_file_input('update_settings',
-                    {
+                      }
+                      var file_input = $('#id-input-file-3');
+                      file_input
+                      .ace_file_input('update_settings',
+                      {
                         'btn_choose': btn_choose,
                         'no_icon': no_icon,
                         'allowExt': whitelist_ext,
                         'allowMime': whitelist_mime
-                    })
-                    file_input.ace_file_input('reset_input');
-                    
-                    file_input
-                    .off('file.error.ace')
-                    .on('file.error.ace', function(e, info) {
+                      })
+                      file_input.ace_file_input('reset_input');
+
+                      file_input
+                      .off('file.error.ace')
+                      .on('file.error.ace', function(e, info) {
                         //console.log(info.file_count);//number of selected files
                         //console.log(info.invalid_count);//number of invalid files
                         //console.log(info.error_list);//a list of errors in the following format
@@ -516,7 +504,7 @@
                         //we can only reset file field to become empty again
                         //on any case you still should check files with your server side script
                         //because any arbitrary file can be uploaded by user and it's not safe to rely on browser-side measures
-                    });
+                      });
   
 });
   
@@ -526,7 +514,7 @@
              
              $(".select2").css('width','200px').select2({allowClear:true})
              .on('change', function(){
-                $(this).closest('form').validate().element($(this));
+              $(this).closest('form').validate().element($(this));
             }); 
              
              // ------------------FORMATO DE TELEFONOS --------------------
@@ -539,7 +527,7 @@
 
              
              jQuery.validator.addMethod("phone", function (value, element) {
-                return this.optional(element) || /^\(\d{4}\) \d{3}\-\d{4}( x\d{1,6})?$/.test(value);
+              return this.optional(element) || /^\(\d{4}\) \d{3}\-\d{4}( x\d{1,6})?$/.test(value);
             }, "Enter a valid phone number.");
 
 
@@ -551,76 +539,76 @@
 
         // ------------------VALIDACION DEL FORMULARIO --------------------
         $("#validation-form").validate({
-            errorElement: 'div',
-            errorClass: 'help-block',
-            focusInvalid: false,
-            ignore: "",
-            
-            rules: {
+          errorElement: 'div',
+          errorClass: 'help-block',
+          focusInvalid: false,
+          ignore: "",
 
-                nu_cedula: {
-                    remote: {
-                        url : "/sistenomialc/trabajadores/getCedula1",
-                        type : "get"
-                    }
-                    
-                },
-                nu_cedula: {
-                    required: true,
-                },
-                nombre1: {
-                    required: true
-                },
-                apellido1: {
-                    required: true
-                },
-                genero: {
-                    required: true
-                },
-                f_nac: {
-                    required: true
-                },
-                lugar_nac: {
-                    required: true
-                },
-                dir_hab: {
-                    required: true
-                },
-                edo_civil: {
-                    required: true
-                },
-                id_discapacidad: {
-                    required: true
-                },
-                estatus: {
-                    required: true
-                },
-                rif: {
-                    required: true
-                }
+          rules: {
+
+            nu_cedula: {
+              remote: {
+                url : "/sistenomialc/trabajadores/getCedula1",
+                type : "get"
+              }
+
             },
-            
-            messages: {
-                correo_e: {
-                    required: "Ingrese un email valido.",
-                    email: "Ingrese un email valido."
-                },
-                  rif: {
-                    required: "Ingrese un rif valido.",
-                    email: "Ingrese un email valido."
-                }
-                
+            nu_cedula: {
+              required: true,
             },
-            
-            
-            highlight: function (e) {
-                $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+            nombre1: {
+              required: true
             },
-            success: function (e) {
+            apellido1: {
+              required: true
+            },
+            genero: {
+              required: true
+            },
+            f_nac: {
+              required: true
+            },
+            lugar_nac: {
+              required: true
+            },
+            dir_hab: {
+              required: true
+            },
+            edo_civil: {
+              required: true
+            },
+            id_discapacidad: {
+              required: true
+            },
+            estatus: {
+              required: true
+            },
+            rif: {
+              required: true
+            }
+          },
+
+          messages: {
+            correo_e: {
+              required: "Ingrese un email valido.",
+              email: "Ingrese un email valido."
+            },
+            rif: {
+              required: "Ingrese un rif valido.",
+              email: "Ingrese un email valido."
+            }
+
+          },
+
+
+          highlight: function (e) {
+            $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+          },
+          success: function (e) {
                         $(e).closest('.form-group').removeClass('has-error');//.addClass('has-info');
                         $(e).remove();
-                    }
-                });
+                      }
+                    });
   
   
   
@@ -630,7 +618,7 @@
               $(document).one('ajaxloadstart.page', function(e) {
                     //in ajax mode, remove remaining elements before leaving page
                     $('[class*=select2]').remove();
-                });
+                  });
 
-          })
+            })
 </script>

@@ -1,5 +1,6 @@
 <?php
 
+
 class AsignacionesController extends \Phalcon\Mvc\Controller
 {
     //metodo que llama a la plantilla principal "blank"
@@ -10,20 +11,25 @@ class AsignacionesController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
-        //recupera todos los regitros
-        $asignaciones = $this->modelsManager->createBuilder()
-            ->from("NbAsignaciones")
-            ->join("TipoNomi")
-            ->join("AsigsTipo")
-            ->columns("NbAsignaciones.id_asignac, NbAsignaciones.asignacion, TipoNomi.nomina, AsigsTipo.descripcion")
-            ->getQuery()
-            ->execute();
+        $this->verificarPermisos->verificar();
 
-        //envia el arreglo con los datos a la vista
-        $this->view->setParamToView('asignaciones', $asignaciones);
+            //recupera todos los regitros
+            $asignaciones = $this->modelsManager->createBuilder()
+                ->from("NbAsignaciones")
+                ->join("TipoNomi")
+                ->join("AsigsTipo")
+                ->columns("NbAsignaciones.id_asignac, NbAsignaciones.asignacion, TipoNomi.nomina, AsigsTipo.descripcion")
+                ->getQuery()
+                ->execute();
+
+            //envia el arreglo con los datos a la vista
+            $this->view->setParamToView('asignaciones', $asignaciones);
+
     }
 
     public function nuevaAction(){
+        $this->verificarPermisos->verificar();
+
         //llamara a la vista para crear nueva asignacion
     }
 
@@ -62,7 +68,9 @@ class AsignacionesController extends \Phalcon\Mvc\Controller
      */
     public function editarAction($id)
     {
-        if (!$this->request->isPost()) {
+       $this->verificarPermisos->verificar();
+
+        if(!$this->request->isPost()) {
             $asignacion = NbAsignaciones::findFirstByIdAsignac($id);
             if (!$asignacion) {
                 $this->flashSession->error("Asignaci�n No Encontrada");

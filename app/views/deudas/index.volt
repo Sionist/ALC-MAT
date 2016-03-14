@@ -1,3 +1,4 @@
+{{ javascript_include("js/bootstrap.js") }}
 <div class="col-xs-12">
 <div class="row">	
 	<?php echo $this->tag->linkTo(array("trabajadores/ver/".$cedula."/deudas/nueva/".$cedula, "class" => "btn btn-primary", 

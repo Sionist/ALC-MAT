@@ -1,4 +1,4 @@
-
+{{ javascript_include("js/bootstrap.js") }}
   
 <div id="page-wrapper">
 

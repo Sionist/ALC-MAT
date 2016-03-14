@@ -10,20 +10,18 @@ class DiasbonificacionController extends \Phalcon\Mvc\Controller
 	
 	public function indexAction()
 	{
-		
-		$diasb = Diasbonificacion::find();
+		$diasb = DiasBonificacion::find();
 		
 		//$this->view->setParamToView("desde",$diasb);
 		//$this->view->setParamToView("hasta",$diasb);
 		$this->view->setParamToView("diasb",$diasb);
-		
 	}
 	
 	public function guardarAction()
 	{
 		if ($this->request->isPost())
 		{
-			$diasb = new Diasbonificacion();
+			$diasb = new DiasBonificacion();
 			
 			$diasb->setMesDesde($this->request->getPost("desde"));
 			$diasb->setMesHasta($this->request->getPost("hasta"));
@@ -51,7 +49,7 @@ class DiasbonificacionController extends \Phalcon\Mvc\Controller
 		if (!$this->request->isPost())
 		{	
 			
-			$diasb = Diasbonificacion::findFirstByIdDiasbonificacion($id);
+			$diasb = DiasBonificacion::findFirstByIdDiasbonificacion($id);
 			
 			if (!$diasb)
 			{
@@ -78,7 +76,7 @@ class DiasbonificacionController extends \Phalcon\Mvc\Controller
 		{
 			$id = $this->request->getPost("id");
 
-			$diasb = Diasbonificacion::findFirstByIdDiasbonificacion($id);
+			$diasb = DiasBonificacion::findFirstByIdDiasbonificacion($id);
 			
 			if (!$diasb)
 			{

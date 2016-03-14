@@ -1,3 +1,4 @@
+{{ javascript_include("js/bootstrap.js") }}
 <div id="page-wrapper">
 
     {{ content() }}
@@ -50,7 +51,6 @@
                             <span class="label label-purple arrowed-in-right">
                                 <i class="ace-icon fa fa-eye smaller-80 align-middle"></i>
                                 <?php 
-
 
 
                                 echo $parentesco->parentesco;
@@ -211,7 +211,6 @@
 
 <script type="text/javascript">
     jQuery(function($) {
-
                 // ------------------CALENDARIO PARA FECHAS --------------------
 
                 //datepicker plugin

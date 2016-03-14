@@ -1,5 +1,5 @@
 {{ javascript_include("js/jquery.maskedinput.js") }}	
-
+{{ javascript_include("js/bootstrap.js") }}
 <div class="col-sm-3">
 </div>
 <div class="col-sm-6">

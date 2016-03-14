@@ -1,6 +1,6 @@
 <?php
 
-use Phalcon\Mvc\Model\Validator\Email;
+use Phalcon\Mvc\Model\Validator\Email as Email;
 
 class Users extends \Phalcon\Mvc\Model
 {
@@ -27,7 +27,7 @@ class Users extends \Phalcon\Mvc\Model
      *
      * @var string
      */
-    protected $name;
+    protected $nombre;
 
     /**
      *
@@ -45,7 +45,7 @@ class Users extends \Phalcon\Mvc\Model
      *
      * @var string
      */
-    protected $active;
+    protected $estatus;
 
     /**
      * Method to set the value of field id
@@ -87,14 +87,14 @@ class Users extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Method to set the value of field name
+     * Method to set the value of field nombre
      *
-     * @param string $name
+     * @param string $nombre
      * @return $this
      */
-    public function setName($name)
+    public function setNombre($nombre)
     {
-        $this->name = $name;
+        $this->nombre = $nombre;
 
         return $this;
     }
@@ -126,14 +126,14 @@ class Users extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Method to set the value of field active
+     * Method to set the value of field estatus
      *
-     * @param string $active
+     * @param string $estatus
      * @return $this
      */
-    public function setActive($active)
+    public function setEstatus($estatus)
     {
-        $this->active = $active;
+        $this->estatus = $estatus;
 
         return $this;
     }
@@ -169,13 +169,13 @@ class Users extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Returns the value of field name
+     * Returns the value of field nombre
      *
      * @return string
      */
-    public function getName()
+    public function getNombre()
     {
-        return $this->name;
+        return $this->nombre;
     }
 
     /**
@@ -199,22 +199,15 @@ class Users extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Returns the value of field active
+     * Returns the value of field estatus
      *
      * @return string
      */
-    public function getActive()
+    public function getEstatus()
     {
-        return $this->active;
+        return $this->estatus;
     }
 
-	
-	
-	public function beforeCreate()
-   {
-       // Set the creation date
-       $this->created_at = date('Y-m-d H:i:s');
-   }
     /**
      * Validations and business logic
      *
@@ -236,6 +229,15 @@ class Users extends \Phalcon\Mvc\Model
         }
 
         return true;
+    }
+
+    /**
+     * Initialize method for model.
+     */
+    public function initialize()
+    {
+        $this->hasMany('id', 'User-nomina', 'user_id', array('alias' => 'User-nomina'));
+        $this->hasMany('id', 'Usuarios-permisos', 'user_id', array('alias' => 'Usuarios-permisos'));
     }
 
     /**

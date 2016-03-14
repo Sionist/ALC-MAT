@@ -1,3 +1,4 @@
+{{ javascript_include("js/bootstrap.js") }}
 <?php 
 use Phalcon\Mvc\View;
 use Phalcon\Tag; 

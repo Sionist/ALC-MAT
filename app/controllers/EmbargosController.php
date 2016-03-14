@@ -11,7 +11,7 @@ class EmbargosController extends \Phalcon\Mvc\Controller
 
     public function indexAction($ncedula)
     {
-    	$dtrab     = DatosPersonales::findFirstByNuCedula($ncedula);
+    	$dtrab     = Datospersonales::findFirstByNuCedula($ncedula);
     	$nombre1   = $dtrab->nombre1;
     	$apellido1 = $dtrab->apellido1;
 
@@ -125,7 +125,6 @@ class EmbargosController extends \Phalcon\Mvc\Controller
     {
     	if ($this->request->isPost())
     	{
-
     		$idembargo = $this->request->getPost("idembargo");
     		$ncedula = $this->request->getPost("ncedula");
 
@@ -150,18 +149,15 @@ class EmbargosController extends \Phalcon\Mvc\Controller
     		if (!$embargo->save())
     		{
     			foreach ($embargo->getMessages() as $message) {
-                    $this->flash->error($message);
-                }	
-
-                return $this->dispatcher->forward(array("controller" => "embargos",
-                    "action" => "index",
-                    "params" => array($ncedula)
-                 ));
+                    $this->flashSession->error($message);
+                }
+				$this->response->redirect("trabajadores/ver/$$ncedula/embargos");
+                $this->view->disable();
     		}
 
-    		$this->flash->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Modificación Exitosa</strong></p></div>");
-    		return $this->dispatcher->forward(array("controller" => "embargos", "action" => "index", "params" => array($ncedula)));
-
+    		$this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Modificación Exitosa</strong></p></div>");
+			$this->response->redirect("trabajadores/ver/$$ncedula/embargos");
+			$this->view->disable();
     	}
     }
 
@@ -180,11 +176,6 @@ class EmbargosController extends \Phalcon\Mvc\Controller
     	{
     		echo "alguna de las dos condiciones no se cumplio";
     	}
-
-
-
-
-
     }    
 
 }

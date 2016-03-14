@@ -64,8 +64,8 @@ class LoginController extends \Phalcon\Mvc\Controller
 	
   public function salirAction()
   {
-   $this->session->remove('auth-identity');
-	return $this->response->redirect('login/index');  
+	   	$this->session->remove('auth-identity');
+	  	return $this->response->redirect('login/index');
   }
 
 	

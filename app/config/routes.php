@@ -163,7 +163,7 @@ $router->addPost("/niveles-cargos/editado","nivelcargo::editado");
 $router->addPost("/niveles-cargos/guardar","nivelcargo::guardar");
 
 /*
- * rutas para nivel-intruccion
+ * rutas para nivel-instruccion
  */
 $router->add("/nivel-instruccion","nivelinstruccion::index");
 $router->add("/nivel-instruccion/editar/{id:[0-9]+}","nivelinstruccion::editar");
@@ -294,6 +294,44 @@ $router->add("/trabajadores/ver/{cedula:[0-9]+}/embargos","embargos::index");
 $router->addPost("/embargos/guardar","embargos::guardar");
 $router->addPost("/embargos/editado","embargos::editado");
 $router->add("/trabajadores/ver/{cedula:[0-9]+}/embargos/editar/{cedula:[0-9]+}","embargos::editar");
+
+/*
+ * rutas para users
+ */
+$router->add("/userrss","users::index");
+$router->add("/userrss/nuevo","users::nuevo");
+$router->addPost("/userrss/crear","users::crear");
+$router->add("/userrss/editar/{id:[0-9]+}","users::editar");
+$router->addPost("/userrss/editado","users::editado");
+$router->add("/userrss/usuario-permisos/{id:[0-9]+}","users::userpermisos");
+$router->add("/cambiar-clave","users::cambiarClave");
+$router->addPost("/clave-cambiada","users::claveCambiada");
+$router->addPost("/userrss/asignar-permisos","users::asignarPermisos");
+
+
+/**
+ * rutas para permisos
+ */
+$router->add("/permisos","permisos::index");
+$router->add("/permisos/nuevo","permisos::nuevo");
+$router->addPost("/permisos/crear","permisos::crear");
+$router->add("/permisos/editar/{id:[0-9]+}","permisos::editar");
+$router->addPost("/permisos/editado","permisos::editado");
+
+/**
+ * rutas para grupos
+ */
+$router->add("/grupos","grupos::index");
+$router->add("/grupos/nuevo","grupos::nuevo");
+$router->addPost("/grupos/crear","grupos::crear");
+$router->add("/grupos/{id:[0-9]+}/editar","grupos::editar");
+
+/**
+ * ruta para acceso denegado
+ */
+$router->add("/acceso-denegado","Accesodenegado::index");
+
+
 
 
 

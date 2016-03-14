@@ -1,5 +1,5 @@
 	{{ javascript_include("js/jquery.maskMoney.js") }}
-	
+	{{ javascript_include("js/bootstrap.js") }}
 		<div class="col-sm-4">
 	</div>
 		<div class="col-sm-4">

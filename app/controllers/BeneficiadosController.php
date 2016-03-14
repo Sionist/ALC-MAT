@@ -8,14 +8,19 @@ class BeneficiadosController extends \Phalcon\Mvc\Controller
 		$this->view->setTemplateAfter('blank');
 	}
 
-    public function indexAction($ncedula)
+    public function indexAction($idembargo)
     {
-		
+		$this->verificarPermisos->verificar();
+
+		$dembargo = NbEmbargos::findFirstByIdEmbargo($idembargo);
+        $ncedula  = $dembargo->nu_cedula;
+
 		$dtrab     = DatosPersonales::findFirstByNuCedula($ncedula);
     	$nombre1   = $dtrab->nombre1;
     	$apellido1 = $dtrab->apellido1;
 
     	$this->tag->setDefault("ncedula",$ncedula);
+        $this->tag->setDefault("idembargo",$idembargo);
 
     	$this->view->nombre1   = $nombre1;
     	$this->view->apellido1 = $apellido1;
@@ -50,6 +55,7 @@ class BeneficiadosController extends \Phalcon\Mvc\Controller
     		$beneficiado->setApellidos($this->request->getPost("apellidos"));
     		$beneficiado->setNombres($this->request->getPost("nombres"));
     		$beneficiado->setFNacimiento($this->request->getPost("fnac"));
+            $beneficiado->setIdEmbargo($this->request->getPost("idembargo"));
 
     	}
 
@@ -76,7 +82,9 @@ class BeneficiadosController extends \Phalcon\Mvc\Controller
 
     public function editarAction($idembargo)
     {
-    	if (!$this->request->isPost())
+		$this->verificarPermisos->verificar();
+
+		if (!$this->request->isPost())
     	{
     		
     		$embargo = NbEmbargos::findFirstByIdEmbargo($idembargo);

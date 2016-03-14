@@ -3,7 +3,7 @@
         {{ stylesheet_link("css/daterangepicker.css") }}
         {{ stylesheet_link("css/bootstrap-datetimepicker.css") }}
         {{ stylesheet_link("css/colorpicker.css") }}
-
+        {{ javascript_include("js/bootstrap.js") }}
         {{ javascript_include("js/date-time/bootstrap-datepicker.js") }}
         {{ javascript_include("js/date-time/bootstrap-timepicker.js") }}
         {{ javascript_include("js/date-time/moment.js") }}

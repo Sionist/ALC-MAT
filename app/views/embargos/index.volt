@@ -25,11 +25,6 @@ use Phalcon\Forms\Element\Select ?>
 
 <div id="page-wrapper">
 
-		<div class="col-sm-3">
-				<td align="right"><a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/trabajadores/ficha1/index/<?php echo $ncedula; ?>" title="Volver">
-				<img src="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/img/btn-volver.png"></a>&nbsp;</td>			
-		</div>
- 
 <div class="row">
 
 
@@ -120,8 +115,8 @@ use Phalcon\Forms\Element\Select ?>
 
                                                 <td>
                                                     <div class="hidden-sm hidden-xs action-buttons">
-                                                        <?php echo $this->tag->linkTo(array("/embargos/editar/".$row->id_embargo, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>")) ?> 
-                                                        <?php echo $this->tag->linkTo(array("beneficiados/index/".$row->id_embargo.$row->nu_cedula, "<i class='ace icon fa fa-coffee'></i>")) ?>
+                                                        <?php echo $this->tag->linkTo(array("trabajadores/ver/".$row->nu_cedula."/embargos/editar/".$row->id_embargo, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>")) ?> 
+                                                        <?php echo $this->tag->linkTo(array("beneficiados/index/".$row->id_embargo, "<i class='ace icon fa fa-coffee'></i>")) ?>
                                                     </div>
                                                 </td>
                                             </tr>

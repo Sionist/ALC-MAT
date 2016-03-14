@@ -1,5 +1,5 @@
 {{ javascript_include("js/jquery.maskedinput.js") }}
-
+{{ javascript_include("js/bootstrap.js") }}
 <div id="page-wrapper">
 	{{ form("estados/guardar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
 	{{ content() }}

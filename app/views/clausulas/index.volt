@@ -1,4 +1,4 @@
-
+{{ javascript_include("js/bootstrap.js") }}
   
 <div id="page-wrapper">
 {{ form("clausulas/guardar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}

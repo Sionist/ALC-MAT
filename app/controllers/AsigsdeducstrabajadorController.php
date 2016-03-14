@@ -15,6 +15,8 @@ class AsigsdeducstrabajadorController extends \Phalcon\Mvc\Controller
      */
     public function cargarAction($cedula)
     {
+        $this->verificarPermisos->verificar();
+
         $query = new Phalcon\Mvc\Model\Query("SELECT Datospersonales.nombre1, Datospersonales.apellido1, Datospersonales.nu_cedula FROM Datospersonales where Datospersonales.nu_cedula = $cedula", $this->getDI());
 
         $nominaT = $this->modelsManager->createBuilder()
