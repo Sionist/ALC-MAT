@@ -11,6 +11,8 @@ class DocumentosbeneficiosController extends \Phalcon\Mvc\Controller
 	
     public function indexAction()
     {
+		$this->verificarPermisos->verificar();
+
 		$query = new Phalcon\Mvc\Model\Query("SELECT tiposbeneficios.id_tipobeneficio,tiposbeneficios.beneficios,documentosbeneficios.id_documentosbene,documentosbeneficios.documentos,documentosbeneficios.id_tipobeneficio as idtipobeneficio FROM tiposbeneficios,documentosbeneficios WHERE tiposbeneficios.id_tipobeneficio=documentosbeneficios.id_tipobeneficio ORDER BY tiposbeneficios.id_tipobeneficio ASC", $this->getDI()); 
 	
 		$documentos = $query->execute();
@@ -79,7 +81,8 @@ class DocumentosbeneficiosController extends \Phalcon\Mvc\Controller
 	
 	public function editarAction($id)
 	{
-		
+		$this->verificarPermisos->verificar();
+
 		if (!$this->request->isPost())
 		{
 			$documento = Documentosbeneficios::findFirstByIdDocumentosbene($id);

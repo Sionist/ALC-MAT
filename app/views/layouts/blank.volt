@@ -156,19 +156,40 @@ if(!$this->session->has("username"))
 										Configuraciones
 									</a>
 								</li> -->
-	
+
 								<li><!-- <?php /*$id = Users::findFirstByUsername($this->session->get("username")); */?> -->
 
-									<?php echo $this->tag->linkTo("cambiar-clave","<i class='ace-icon fa fa-key'></i>Cambiar Clave"); 
-									 ?>
+									<?php echo $this->tag->linkTo("cambiar-clave","<i class='ace-icon fa fa-user'></i>Cambiar Clave"); 
+									?>
+								</li>
+								<li><!-- <?php /*$id = Users::findFirstByUsername($this->session->get("username")); */?> -->
+									<?php
+									if($this->session->get("admin") == 1){ 
+										echo $this->tag->linkTo("userrss","<i class='ace-icon fa fa-users'></i>Gestionar Usuarios"); 
+									}
+									?>
 								</li>
 
-								<li>
+								<li><!-- <?php /*$id = Users::findFirstByUsername($this->session->get("username")); */?> -->
+									<?php
+									if($this->session->get("admin") == 1){ 
+										echo $this->tag->linkTo("permisos","<i class='ace-icon fa fa-key'></i>Gestionar Permisos"); 
+									}
+									?>
+								</li>
+								<li><!-- <?php /*$id = Users::findFirstByUsername($this->session->get("username")); */?> -->
+									<?php
+									if($this->session->get("admin") == 1){ 
+										echo $this->tag->linkTo("grupos","<i class='ace-icon glyphicon glyphicon-th'></i>Gestionar Grupos"); 
+									}
+									?>
+								</li>
+								<!-- <li>
 									<a href="profile.html">
 										<i class="ace-icon fa fa-user"></i>
 										Perfil de Usuairo
 									</a>
-								</li>
+								</li> -->
 
 								<li class="divider"></li>
 

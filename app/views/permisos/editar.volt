@@ -38,9 +38,26 @@
 								'useEmpty' => true,
 								'emptyText' => "Seleccione...",
 								'class' => 'select2',
-								'style' => 'width: 159px'
+								'style' => 'width: 159px',
+								'required' => 'required'
 								));
 								?></td>
+							</tr>
+							<tr>
+								<td>Nivel</td>
+								<td>
+									<select name="nivel" required="required">
+										<?php if($nivel =="normal") { ?>
+											<option value="">Seleccione...</option>
+											<option value="normal" selected="selected">Normal</option>
+											<option value="administrativo">Administrativo</option>
+										<?php } else { ?>
+											<option value="">Seleccione...</option>
+											<option value="normal">Normal</option>
+											<option value="administrativo" selected="selected">Administrativo</option>
+										<?php } ?>
+									</select>
+								</td>
 							</tr>
 
 						</table>

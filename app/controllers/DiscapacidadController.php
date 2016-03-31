@@ -10,7 +10,9 @@ class DiscapacidadController extends \Phalcon\Mvc\Controller
     }
     public function indexAction()
     {
-		// Aqui muestra todos los registros de la tabla discapacidad
+        $this->verificarPermisos->verificar();
+
+        // Aqui muestra todos los registros de la tabla discapacidad
 		$discapacidad = Discapacidad::find();
         $this->view->setParamToView("discapacidad", $discapacidad);
 
@@ -38,6 +40,8 @@ class DiscapacidadController extends \Phalcon\Mvc\Controller
     }
 	
 	public function editarAction($id) {
+
+        $this->verificarPermisos->verificar();
 
         $discapacidad = Discapacidad::findFirstByIdDiscapacid($id);
 

@@ -10,7 +10,9 @@ class TipotallasController extends \Phalcon\Mvc\Controller
     }
     public function indexAction()
     {
-		// Aqui muestra todos los registros de la tabla discapacidad
+        $this->verificarPermisos->verificar();
+
+        // Aqui muestra todos los registros de la tabla discapacidad
 		$tipotalla = TipoTallas::find();
         $this->view->setParamToView("tipotalla", $tipotalla);
 
@@ -37,6 +39,8 @@ class TipotallasController extends \Phalcon\Mvc\Controller
     }
 	
 	public function editarAction($id) {
+        $this->verificarPermisos->verificar();
+
         if (!$this->request->isPost()) {
 
             $tipotalla = TipoTallas::findFirstByIdTipotalla($id);

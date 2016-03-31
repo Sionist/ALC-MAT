@@ -8,7 +8,7 @@ class TrabajadoresController extends \Phalcon\Mvc\Controller
         $this->view->setTemplateAfter('blank');    
     }
 
-    public function indexAction($cedula)
+    public function indexAction()
     {
         $trabajador = $this->modelsManager->createBuilder()
             ->from("Datospersonales")
@@ -23,11 +23,13 @@ class TrabajadoresController extends \Phalcon\Mvc\Controller
 
     public function nuevoAction()
     {
-
+        $this->verificarPermisos->verificar();
     }
 
     public function ficha1Action($cedula)
     {
+        $this->verificarPermisos->verificar();
+
         //buscar todos los registro por numero de cedula
         /*$dtrabajador= $this->modelsManager->createBuilder()
             ->from("Datospersonales")

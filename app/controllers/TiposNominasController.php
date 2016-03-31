@@ -11,8 +11,9 @@ class TiposNominasController extends \Phalcon\Mvc\Controller
 
 	public function indexAction()
 	{
-		
-		$query = new Phalcon\Mvc\Model\Query("SELECT Frecuencia.frecuencia as frecuenc, TipoNomi.nomina, TipoNomi.id_nomina, TipoNomi.frecuencia  FROM Frecuencia INNER JOIN TipoNomi where Frecuencia.id_frecuencia=TipoNomi.frecuencia", $this->getDI());
+        $this->verificarPermisos->verificar();
+
+        $query = new Phalcon\Mvc\Model\Query("SELECT Frecuencia.frecuencia as frecuenc, TipoNomi.nomina, TipoNomi.id_nomina, TipoNomi.frecuencia  FROM Frecuencia INNER JOIN TipoNomi where Frecuencia.id_frecuencia=TipoNomi.frecuencia", $this->getDI());
 		$query2 = new Phalcon\Mvc\Model\Query("SELECT * FROM Frecuencia", $this->getDI());
 
 		//echo var_dump($query);
@@ -48,6 +49,8 @@ class TiposNominasController extends \Phalcon\Mvc\Controller
 	}	
 
     public function editarAction($id) {
+        $this->verificarPermisos->verificar();
+
         if (!$this->request->isPost()) {
             $tiponomi = TipoNomi::findFirstByIdNomina($id);
             if (!$tiponomi) {

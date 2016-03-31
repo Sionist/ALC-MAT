@@ -8,10 +8,14 @@ class DeduccionesController extends \Phalcon\Mvc\Controller
     }
     public function indexAction()
     {
+        $this->verificarPermisos->verificar();
+
         $deducciones = NbDeducciones::find();
         $this->view->setParamToView('deducciones',$deducciones);
     }
     public function nuevaAction(){
+        $this->verificarPermisos->verificar();
+
         //llamara a la vista para crear nueva deduccion
     }
 
@@ -39,6 +43,7 @@ class DeduccionesController extends \Phalcon\Mvc\Controller
     }
 
     public function editarAction($id){
+        $this->verificarPermisos->verificar();
 
         if($this->request->isGet()){
             $deduccion = NbDeducciones::findFirst($id);

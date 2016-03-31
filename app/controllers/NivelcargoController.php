@@ -10,7 +10,9 @@ class NivelcargoController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
-		$nivel=NivelCargo::Find();
+        $this->verificarPermisos->verificar();
+
+        $nivel=NivelCargo::Find();
 		$this->view->SetParamToView("nivel",$nivel);
     }
 
@@ -36,6 +38,8 @@ class NivelcargoController extends \Phalcon\Mvc\Controller
 	}
 
 	public function editarAction($id) {
+        $this->verificarPermisos->verificar();
+
         if (!$this->request->isPost()) {
 
             $nivel = NivelCargo::findFirstByIdNivelcargo($id);

@@ -41,7 +41,7 @@ class LoginController extends \Phalcon\Mvc\Controller
 					}
 				
 				} else {
-			
+
 					$this->flash->error("Error de Incio de Sesion");
 					return $this->dispatcher->forward(array(
 					"controler" => "login",
@@ -50,12 +50,12 @@ class LoginController extends \Phalcon\Mvc\Controller
 				}
 				
 		} else {
-			
+
 		$this->flash->error("Usuario o Password Invalidos");
 			return $this->dispatcher->forward(array(
 				"controler" => "login",
 				"action" => "index"
-				));	
+				));
 		}
 			
 		}

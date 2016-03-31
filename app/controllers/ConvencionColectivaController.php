@@ -10,6 +10,8 @@ class ConvencionColectivaController extends \Phalcon\Mvc\Controller
 	
 	public function indexAction()
 	{
+		$this->verificarPermisos->verificar();
+
 		$con = Convenciones::Find();
 		$this->view->setParamToView("con",$con);
 	}
@@ -44,6 +46,8 @@ class ConvencionColectivaController extends \Phalcon\Mvc\Controller
 	
 	public function editarAction($id)
 	{
+		$this->verificarPermisos->verificar();
+
 		if (!$this->request->isPost())
 		{	
 			

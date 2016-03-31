@@ -11,6 +11,8 @@ class ClausulasController extends \Phalcon\Mvc\Controller
 	
     public function indexAction()
     {
+		$this->verificarPermisos->verificar();
+
 		$query = new Phalcon\Mvc\Model\Query("SELECT convenciones.id_convencion,convenciones.descripcion,clausulas.id_clausula,clausulas.nclausula,clausulas.id_convension,clausulas.clausula,clausulas.activa,clausulas.observacion FROM convenciones,clausulas WHERE convenciones.id_convencion=clausulas.id_convension ORDER BY convenciones.id_convencion ASC", $this->getDI()); 
 	
 		$clausulas = $query->execute();
@@ -82,7 +84,8 @@ class ClausulasController extends \Phalcon\Mvc\Controller
 	
 	public function editarAction($id)
 	{
-		
+		$this->verificarPermisos->verificar();
+
 		if (!$this->request->isPost())
 		{
 			$clausula = Clausulas::findFirstByIdClausula($id);

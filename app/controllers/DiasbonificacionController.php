@@ -10,6 +10,8 @@ class DiasbonificacionController extends \Phalcon\Mvc\Controller
 	
 	public function indexAction()
 	{
+		$this->verificarPermisos->verificar();
+
 		$diasb = DiasBonificacion::find();
 		
 		//$this->view->setParamToView("desde",$diasb);
@@ -46,6 +48,8 @@ class DiasbonificacionController extends \Phalcon\Mvc\Controller
 	
 	public function editarAction($id)
 	{
+		$this->verificarPermisos->verificar();
+
 		if (!$this->request->isPost())
 		{	
 			

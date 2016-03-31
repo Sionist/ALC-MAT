@@ -11,7 +11,9 @@ class EmbargosController extends \Phalcon\Mvc\Controller
 
     public function indexAction($ncedula)
     {
-    	$dtrab     = Datospersonales::findFirstByNuCedula($ncedula);
+		$this->verificarPermisos->verificar();
+
+		$dtrab     = Datospersonales::findFirstByNuCedula($ncedula);
     	$nombre1   = $dtrab->nombre1;
     	$apellido1 = $dtrab->apellido1;
 
@@ -77,7 +79,9 @@ class EmbargosController extends \Phalcon\Mvc\Controller
 
     public function editarAction($idembargo)
     {
-    	if (!$this->request->isPost())
+		$this->verificarPermisos->verificar();
+
+		if (!$this->request->isPost())
     	{
     		
     		$embargo = NbEmbargos::findFirstByIdEmbargo($idembargo);

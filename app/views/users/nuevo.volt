@@ -7,7 +7,7 @@
 		</div>
 		{{ form("userrss/crear", "method" : "post", "class" : "inline-form", "autocomplete" : "off")}}
 		<div class="col-sm-offset-2">
-		<?php echo $this->flashSession->output(); ?>
+			<?php echo $this->flashSession->output(); ?>
 			<div class="row form-group">
 				<label class="col-sm-3 control-label no-padding-right">Usuario:</label>
 				<div class="col-sm-4">{{ text_field("usuario", "class" : "input-sm", "required":"required") }}</div>
@@ -33,11 +33,18 @@
 					</select>
 				</div>
 			</div>
+			<hr>
+			<div class="row form-group checkbox">
+				<label>
+					<input name="admin" class="ace ace-checkbox-2" type="checkbox">
+					<span class="lbl">&nbsp;&nbsp;Administrador</span>
+				</label>
+			</div>
 		</div>
 		<hr>
 		<div class="row form-group">
-		<div class="col-sm-3 col-sm-offset-5">{{ submit_button("Crear", "name" : "crear","class" : "btn btn-primary") }}</div>
-	</div>
+			<div class="col-sm-3 col-sm-offset-5">{{ submit_button("Crear", "name" : "crear","class" : "btn btn-primary") }}</div>
+		</div>
 	</div>
 	
 	

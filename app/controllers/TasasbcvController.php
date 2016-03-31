@@ -11,7 +11,9 @@ class TasasbcvController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
-		$tasa=TasasBcv::Find();
+        $this->verificarPermisos->verificar();
+
+        $tasa=TasasBcv::Find();
 		$this->view->SetParamToView("tasa",$tasa);
 		$this->view->SetParamToView("mes",$tasa);
 		$this->view->SetParamToView("yeartasa",$tasa);
@@ -42,6 +44,8 @@ class TasasbcvController extends \Phalcon\Mvc\Controller
 
 
 	public function editarAction($id) {
+        $this->verificarPermisos->verificar();
+
         if (!$this->request->isPost()) {
 
             $tasa = TasasBcv::findFirstByIdTasa($id);

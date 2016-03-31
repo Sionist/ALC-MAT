@@ -13,7 +13,6 @@ class LoginController extends \Phalcon\Mvc\Controller
 	
 	public function ingresoAction()
 	{
-	
 		if($this->request->isPost()) {
 		
 		$username = $this->request->getPost('login' , 'string');
@@ -26,7 +25,7 @@ class LoginController extends \Phalcon\Mvc\Controller
 				//'usu-username' => $user->username));
 	
 				$this->session->set("username",$user->username);
-                          
+				$this->session->set("admin",$user->admin);
 
 				if($user->username == $username)
 					{
@@ -35,30 +34,21 @@ class LoginController extends \Phalcon\Mvc\Controller
 					}
 				
 				} else {
-			
-					$this->flash->error("Error de Incio de Sesion");
-					return $this->dispatcher->forward(array(
-					"controler" => "login",
-					"action" => "index"
-					));
+					$this->flashSession->error("Error de Incio de Sesion");
+					$this->response->redirect("login");
+					$this->view->disable();
 				}
 				
 		} else {
-			
-		$this->flash->error("Usuario o Password Invalidos");
-			return $this->dispatcher->forward(array(
-				"controler" => "login",
-				"action" => "index"
-				));	
+			$this->flashSession->error("Usuario o Password Invalidos");
+			$this->response->redirect("login");
+			$this->view->disable();
 		}
 			
 		}
-		
-	$this->flash->error("Debe ingresar un Usuario y Password validos");
-			return $this->dispatcher->forward(array(
-			"controler" => "login",
-			"action" => "index"
-			));	
+		$this->flashSession->error("Debe ingresar un Usuario y Password validos");
+		$this->response->redirect("login");
+		$this->view->disable();
 	
 	}
 	

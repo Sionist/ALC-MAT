@@ -7,8 +7,9 @@ class DeudasController extends \Phalcon\Mvc\Controller
     }
 
     public function indexAction($cedula){
+        $this->verificarPermisos->verificar();
 
-         if($cedula){
+        if($cedula){
             $dt = $this->modelsManager->createBuilder()
                 ->from("Datospersonales")
                 ->columns("nombre1,apellido1, nu_cedula")
@@ -33,6 +34,7 @@ class DeudasController extends \Phalcon\Mvc\Controller
     }
 
     public function nuevaAction($cedula){
+        $this->verificarPermisos->verificar();
 
         $dt = $this->modelsManager->createBuilder()
             ->from("Datospersonales")

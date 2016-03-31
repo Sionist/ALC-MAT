@@ -11,7 +11,8 @@ class ClasificacionesController extends \Phalcon\Mvc\Controller
 	
     public function indexAction()
     {
-	    
+		$this->verificarPermisos->verificar();
+
 		$query2 = new Phalcon\Mvc\Model\Query("SELECT Convenciones.*,Clausulas.*,Clasificaciones.* FROM Convenciones,Clausulas,Clasificaciones WHERE Convenciones.id_convencion=Clausulas.id_convension and Clausulas.id_clausula=Clasificaciones.id_clausula", $this->getDI());
 
 		$clasificaciones = $query2->execute();
@@ -120,7 +121,8 @@ class ClasificacionesController extends \Phalcon\Mvc\Controller
 	
 	public function editarAction($id)
 	{
-		
+		$this->verificarPermisos->verificar();
+
 		if (!$this->request->isPost())
 		{
 			$clasificaciones = Clasificaciones::findFirstByIdClasi($id);

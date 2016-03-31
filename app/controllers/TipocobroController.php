@@ -10,7 +10,9 @@ class TipocobroController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
-		$cobro=TipoCobro::Find();
+        $this->verificarPermisos->verificar();
+
+        $cobro=TipoCobro::Find();
 		$this->view->SetParamToView("cobro",$cobro);
     }
 
@@ -37,6 +39,8 @@ class TipocobroController extends \Phalcon\Mvc\Controller
 
 
 	public function editarAction($id) {
+        $this->verificarPermisos->verificar();
+
         if (!$this->request->isPost()) {
 
             $cobro = TipoCobro::findFirstByIdCobro($id);

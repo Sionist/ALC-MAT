@@ -27,10 +27,7 @@ try {
     /**
      * Verificacion de permisos de usuario
      */
-    include APP_PATH . "/app/lib/VerificarPermisos.php";
-
-
-    //include APP_PATH . "/app/config/verificacion.php";
+    include APP_PATH . "/app/config/VerificarPermisos.php";
 
     /**
      * Handle the request

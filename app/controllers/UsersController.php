@@ -16,6 +16,8 @@ class UsersController extends ControllerBase
      */
     public function indexAction()
     {
+        $this->verificarPermisos->verificar();
+
         $users = Users::find();
         $this->view->setVar("users",$users);
     }
@@ -64,7 +66,7 @@ class UsersController extends ControllerBase
      */
     public function nuevoAction()
     {
-
+        $this->verificarPermisos->verificar();
     }
 
     /**
@@ -74,6 +76,8 @@ class UsersController extends ControllerBase
      */
     public function editarAction()
     {
+        $this->verificarPermisos->verificar();
+
         $id = $this->dispatcher->getParam("id");
         if (!$this->request->isPost()) {
 
@@ -96,6 +100,9 @@ class UsersController extends ControllerBase
             //$this->tag->setDefault("estatus", );
 
             $this->view->setVar("estatus",$user->getEstatus());
+            if($user->getAdmin() == 1){
+                $this->view->setVar("adm", 1);
+            }
         }
     }
 
@@ -104,7 +111,6 @@ class UsersController extends ControllerBase
      */
     public function crearAction()
     {
-
         if (!$this->request->isPost()) {
             return $this->dispatcher->forward(array(
                 "controller" => "users",
@@ -114,13 +120,15 @@ class UsersController extends ControllerBase
 
         $user = new Users();
 
-        $user->setUsuario($this->request->getPost("username"));
-        $user->setClave($this->security->hash($this->request->getPost("password")));
+        $user->setUsername($this->request->getPost("usuario"));
+        $user->setPassword($this->security->hash($this->request->getPost("clave")));
         $user->setNombre($this->request->getPost("nombre"));
         $user->setEmail($this->request->getPost("email"));
-        //$user->setCreatedAt($this->request->getPost("created_at"));
         $user->setEstatus($this->request->getPost("estatus"));
-        
+
+        if($this->request->getPost("admin") == "on") {
+            $user->setAdmin("1");
+        }
 
         if (!$user->save()) {
             foreach ($user->getMessages() as $message) {
@@ -131,9 +139,47 @@ class UsersController extends ControllerBase
             $this->view->disable();
         }
 
+        if($this->request->getPost("admin") == "on") {
+            $this->todosPermisos($this->request->getPost("usuario"));
+        }
         $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Usuario creado exitosamente</strong></p></div>");
         $this->response->redirect("userrss");
         $this->view->disable();
+    }
+
+    /**
+     * Metodo que asigna todos los permisos a usuario administrador
+     * @param $username
+     */
+    private function todosPermisos($username){
+        $user_id = $this->modelsManager->createBuilder()
+            ->from("Users")
+            ->columns("id")
+            ->where("username = :un:", array("un" => $username))
+            ->getQuery()
+            ->execute();
+
+        $uId = "";
+
+        foreach($user_id as $u) {
+            $uId = $u->id;
+        }
+
+        $permisos = $this->modelsManager->createBuilder()
+            ->from("Permisos")
+            ->columns("id")
+            ->getQuery()
+            ->execute();
+
+        if ($permisos) {
+
+            foreach ($permisos as $p) {
+                $user_permisos = new UsuariosPermisos();
+                $user_permisos->setUserId($uId);
+                $user_permisos->setPermisoId($p->id);
+                $user_permisos->save();
+            }
+        }
     }
 
     /**
@@ -158,11 +204,24 @@ class UsersController extends ControllerBase
         }
 
         $user->username = $this->request->getPost("usuario");
-        $user->password = $this->security->Hash($this->request->getPost("clave"));
+        if($this->request->getPost("clave") != ""):
+             $user->password = $this->security->Hash($this->request->getPost("clave"));
+        endif;
         $user->nombre = $this->request->getPost("nombre");
         $user->email = $this->request->getPost("email", "email");
-        //$user->created_at = $this->request->getPost("created_at");
         $user->estatus = $this->request->getPost("estatus");
+
+        if($this->request->getPost("admin") == "on"){
+            $this->db->delete("usuarios-permisos", "user_id = $id");
+            $this->todosPermisos($this->request->getPost("usuario"));
+            $user->setAdmin(1);
+        }else{
+            $permisosAsignados = UsuariosPermisos::find($id);
+            if(!$permisosAsignados) {
+                $this->db->delete("usuarios-permisos", "user_id = $id");
+            }
+            $user->setAdmin(0);
+        }
 
         if (!$user->save()) {
 
@@ -259,6 +318,11 @@ class UsersController extends ControllerBase
             }
         }
     public function userpermisosAction(){
+        $user_id = $this->dispatcher->getParam("id");
+
+        $userDatos = Users::findFirstById($user_id);
+
+        $this->verificarPermisos->verificar();
 
         $grupos = $this->modelsManager->createBuilder()
             ->from("GrupoPermisos")
@@ -276,7 +340,7 @@ class UsersController extends ControllerBase
                 ->from("Permisos")
                 ->join("GrupoPermisos")
                 ->columns("Permisos.id,Permisos.nombre,GrupoPermisos.id as gpid,GrupoPermisos.nombre as gpn")
-                ->where("Permisos.grupo_id = :id:", array("id" => $g->id))
+                ->where("Permisos.grupo_id = :id: and Permisos.nivel != :nivel:", array("id" => $g->id, "nivel" => "administrativo"))
                 ->getQuery()
                 ->execute();
 
@@ -286,18 +350,20 @@ class UsersController extends ControllerBase
 
             $cont++;
         }
-
+        $permisosU = UsuariosPermisos::find($user_id);
         $this->view->setVar("permisos", $g_permisos);
+        $this->view->setVar("permisosU", $permisosU);
         $this->tag->setDefault("id",$this->dispatcher->getParam("id"));
+        $this->view->setVar("user",$userDatos);
     }
 
     public function asignarPermisosAction(){
-
         $userId = $this->request->getPost("id");
-
+        $this->db->delete("usuarios-permisos", "user_id = $userId");
         $permisos = array();
 
         $permisos = $this->request->getPost("permisos");
+        $permisosTodos = Permisos::find()->toArray();
 
         $user = Users::findFirstById($userId);
 
@@ -309,6 +375,16 @@ class UsersController extends ControllerBase
                 $user_permisos->setPermisoId($p);
                 $user_permisos->save();
             }
+            if(count($permisos) != count($permisosTodos)){
+                $user->setAdmin(0);
+                $user->save();
+            }else{
+                $user->setAdmin(1);
+                $user->save();
+            }
+            $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Permisos asignados exitosamente</strong></p></div>");
+            $this->response->redirect("userrss");
+            $this->view->disable();
         } else {
             $this->flashSession->error("El usuario no existe.");
             $this->response->redirect("userrss");

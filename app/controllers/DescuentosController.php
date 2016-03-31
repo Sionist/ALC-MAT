@@ -10,6 +10,8 @@ class DescuentosController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
+        $this->verificarPermisos->verificar();
+
         $descuento = Descuentos::Find();
         $this->view->SetParamToView("descuento", $descuento);
         $this->view->SetParamToView("rif", $descuento);
@@ -41,6 +43,8 @@ class DescuentosController extends \Phalcon\Mvc\Controller
 
     public function editarAction($id)
     {
+        $this->verificarPermisos->verificar();
+
         if (!$this->request->isPost()) {
 
             $descuento = Descuentos::findFirstByIdDescuent($id);

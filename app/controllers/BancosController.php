@@ -11,7 +11,9 @@ class BancosController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
-		$banco = NbBancos::Find();
+        $this->verificarPermisos->verificar();
+
+        $banco = NbBancos::Find();
 		$this->view->SetParamToView("banco",$banco);
     }
 
@@ -40,6 +42,8 @@ class BancosController extends \Phalcon\Mvc\Controller
 
 
 	public function editarAction($id) {
+        $this->verificarPermisos->verificar();
+
         if (!$this->request->isPost()) {
 
             $banco = NbBancos::findFirstByIdBancos($id);

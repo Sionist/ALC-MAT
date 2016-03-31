@@ -10,7 +10,9 @@ class TipocontratoController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
-		$tipo=TipoContrat::Find();
+        $this->verificarPermisos->verificar();
+
+        $tipo=TipoContrat::Find();
 		$this->view->SetParamToView("tipo",$tipo);
     }
 
@@ -37,6 +39,8 @@ class TipocontratoController extends \Phalcon\Mvc\Controller
 
 
 	public function editarAction($id) {
+        $this->verificarPermisos->verificar();
+
         if (!$this->request->isPost()) {
 
             $tipo = TipoContrat::findFirstByIdContrato($id);

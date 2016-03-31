@@ -11,7 +11,9 @@ class EstadosController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
-	// Aqui muestra todos los registros de la tabla discapacidad
+        $this->verificarPermisos->verificar();
+
+        // Aqui muestra todos los registros de la tabla discapacidad
 		$estado = Estados::find();
         $this->view->setParamToView("estado", $estado);
 
@@ -22,6 +24,8 @@ class EstadosController extends \Phalcon\Mvc\Controller
      */
     public function editarAction($id)
     {
+        $this->verificarPermisos->verificar();
+
         if (!$this->request->isPost()) {
 
             //se llama al metodo de consulta por id de estado

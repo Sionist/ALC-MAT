@@ -9,6 +9,8 @@ class AccesodenegadoController extends \Phalcon\Mvc\Controller
     {
         //carga vista
     }
-
+    public function noExistePermisoAction(){
+        //cargar vista
+    }
 }
 

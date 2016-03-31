@@ -10,7 +10,9 @@ class RepososController extends \Phalcon\Mvc\Controller
 
     public function indexAction($nu_cedula)
 	{
-		$dtrab = Datospersonales::findFirstByNuCedula($nu_cedula);
+        $this->verificarPermisos->verificar();
+
+        $dtrab = Datospersonales::findFirstByNuCedula($nu_cedula);
 
 		$nombre1 = $dtrab->nombre1;
 		$apellido1 = $dtrab->apellido1;
@@ -69,6 +71,8 @@ class RepososController extends \Phalcon\Mvc\Controller
 
     public function editarAction()
     {
+        $this->verificarPermisos->verificar();
+
         $idreposo =  $this->dispatcher->getParam("id");
 
     	if (!$this->request->isPost()) {

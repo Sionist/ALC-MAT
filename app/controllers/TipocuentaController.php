@@ -10,7 +10,9 @@ class TipocuentaController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
-		$cuenta=TipoCuent::Find();
+        $this->verificarPermisos->verificar();
+
+        $cuenta=TipoCuent::Find();
 		$this->view->SetParamToView("cuenta",$cuenta);
     }
 
@@ -37,6 +39,8 @@ class TipocuentaController extends \Phalcon\Mvc\Controller
 
 
 	public function editarAction($id) {
+        $this->verificarPermisos->verificar();
+
         if (!$this->request->isPost()) {
 
             $cuenta = TipoCuent::findFirstByIdTipocuent($id);

@@ -24,7 +24,7 @@
 											<div class="space-6"></div>
                                              
 											 {{ form('login/ingreso', 'method': 'post', 'autocomplete': 'off') }}
-                                              {{ get_content() }}
+                                              <?php echo $this->flashSession->Output(); ?>
                                              <input type="hidden" name="{{ security.getTokenKey() }}" value="{{ security.getToken() }}"/>
 											 
 											 							

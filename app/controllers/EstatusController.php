@@ -10,7 +10,9 @@ class EstatusController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
-		$estatus=EstatusT::Find();
+        $this->verificarPermisos->verificar();
+
+        $estatus=EstatusT::Find();
 		$this->view->SetParamToView("estatus",$estatus);
     }
 
@@ -39,6 +41,8 @@ class EstatusController extends \Phalcon\Mvc\Controller
 
 
 	public function editarAction($id) {
+        $this->verificarPermisos->verificar();
+
         if (!$this->request->isPost()) {
 
             $estatus = EstatusT::findFirstByIdEstat($id);

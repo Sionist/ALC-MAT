@@ -28,6 +28,12 @@ class Permisos extends \Phalcon\Mvc\Model
     protected $url;
 
     /**
+     *
+     * @var string
+     */
+    protected $nivel;
+
+    /**
      * Method to set the value of field id
      *
      * @param integer $id
@@ -80,6 +86,19 @@ class Permisos extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Method to set the value of field nivel
+     *
+     * @param string $nivel
+     * @return $this
+     */
+    public function setNivel($nivel)
+    {
+        $this->nivel = $nivel;
+
+        return $this;
+    }
+
+    /**
      * Returns the value of field id
      *
      * @return integer
@@ -117,6 +136,16 @@ class Permisos extends \Phalcon\Mvc\Model
     public function getUrl()
     {
         return $this->url;
+    }
+
+    /**
+     * Returns the value of field nivel
+     *
+     * @return string
+     */
+    public function getNivel()
+    {
+        return $this->nivel;
     }
 
     /**

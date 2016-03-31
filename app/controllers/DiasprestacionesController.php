@@ -10,6 +10,8 @@ class DiasprestacionesController extends \Phalcon\Mvc\Controller
 	
 	public function indexAction()
     {
+		$this->verificarPermisos->verificar();
+
 		$dias = DiasPrestaciones::find();
 		$this->view->setParamToView("concepto",$dias);
 		$this->view->setParamToView("dias",$dias);
@@ -47,7 +49,9 @@ class DiasprestacionesController extends \Phalcon\Mvc\Controller
 	
 	public function editarAction($id)
 	{
-			$diaspres = DiasPrestaciones::findFirstByIdDiaspres($id);
+		$this->verificarPermisos->verificar();
+
+		$diaspres = DiasPrestaciones::findFirstByIdDiaspres($id);
 			if (!$diaspres)
 			{
 				$this->flashSession->error("Registro No Encontrado");

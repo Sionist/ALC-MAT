@@ -76,9 +76,6 @@
 <!-- modal -->
 <!--<div id="dialog-message" class="hide"></div>-->
 
-
-
-
 <script type="text/javascript">
 
     jQuery(function($) {

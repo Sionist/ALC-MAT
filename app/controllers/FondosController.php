@@ -10,7 +10,9 @@ class FondosController extends \Phalcon\Mvc\Controller
     }
     public function indexAction()
     {
-		// Aqui muestra todos los registros de la tabla discapacidad
+        $this->verificarPermisos->verificar();
+
+        // Aqui muestra todos los registros de la tabla discapacidad
 		$fondo = FondoDesc::find();
         $this->view->setParamToView("fondo", $fondo);
 
@@ -39,6 +41,8 @@ class FondosController extends \Phalcon\Mvc\Controller
     }
 	
 	public function editarAction($id) {
+        $this->verificarPermisos->verificar();
+
         if (!$this->request->isPost()) {
 
             $fondo = FondoDesc::findFirstByIdFondo($id);

@@ -29,25 +29,37 @@
 				<label class=" col-sm-3 control-label no-padding-right">Estatus:</label>
 				<div class="col-sm-6">
 					<select name="estatus">
-					<?php if($estatus == "activo"){ ?>
+						<?php if($estatus == "activo"){ ?>
 						<option value="activo" <?php echo "selected='selected'"; ?> >Activo</option>
 						<option value="inactivo">Inactivo</option>
-					<?php } else{ ?>
+						<?php } else{ ?>
 						<option value="activo">Activo</option>
 						<option value="inactivo" <?php echo "selected='selected'"; ?> >Inactivo</option>
-					<?php } ?>
-				</select>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+			<hr>
+			<div class="row form-group checkbox">
+				<label>
+				<?php if(isset($adm) && $adm == 1) { ?>
+					<input name="admin" class="ace ace-checkbox-2" type="checkbox" <?php echo "checked='checked'"; ?> >
+					<span class="lbl">&nbsp;&nbsp;Administrador</span> 
+				<?php } else { ?> 
+					<input name="admin" class="ace ace-checkbox-2" type="checkbox">
+					<span class="lbl">&nbsp;&nbsp;Administrador</span> 
+				<?php } ?>
+				</label>
 			</div>
 		</div>
+		<hr>
+		<div class="row form-group">
+			<div class="col-sm-3 col-sm-offset-5">{{ submit_button("Modificar", "name" : "modificar","class" : "btn btn-primary") }}</div>
+		</div>
+		<div class="row form-group">
+			<label class="col-sm-12 center"><strong style="color: red">** Deje este campo vacio si no desea cambiar la clave.</strong></label>
+		</div>
 	</div>
-	<hr>
-	<div class="row form-group">
-		<div class="col-sm-3 col-sm-offset-5">{{ submit_button("Modificar", "name" : "modificar","class" : "btn btn-primary") }}</div>
-	</div>
-	<div class="row form-group">
-		<label class="col-sm-12 center"><strong style="color: red">** Deje este campo vacio si no desea cambiar la clave.</strong></label>
-	</div>
-</div>
 
 
 </div>

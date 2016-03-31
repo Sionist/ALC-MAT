@@ -11,7 +11,9 @@ class NivelinstruccionController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
-		$nivel=NivelInstruc::Find();
+        $this->verificarPermisos->verificar();
+
+        $nivel=NivelInstruc::Find();
 		$this->view->SetParamToView("nivel",$nivel);
     }
 
@@ -40,6 +42,8 @@ class NivelinstruccionController extends \Phalcon\Mvc\Controller
 
 
 	public function editarAction($id) {
+        $this->verificarPermisos->verificar();
+
         if (!$this->request->isPost()) {
 
             $nivel = NivelInstruc::findFirstByIdNiveldinst($id);

@@ -10,7 +10,9 @@ class DireccionesAlcaldiaController extends \Phalcon\Mvc\Controller
     }
     public function indexAction()
     {
-		$direcciones = NbDireciones::find();
+        $this->verificarPermisos->verificar();
+
+        $direcciones = NbDireciones::find();
         $this->view->setParamToView("sector", $direcciones);
 		$this->view->setParamToView("direccion", $direcciones);
 
@@ -39,6 +41,8 @@ class DireccionesAlcaldiaController extends \Phalcon\Mvc\Controller
     }
 	
 	public function editarAction($id){
+        $this->verificarPermisos->verificar();
+
         $direccion = NbDireciones::findFirstByIdDirecciones($id);
 
         if (!$direccion) {

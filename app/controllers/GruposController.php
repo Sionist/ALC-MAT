@@ -8,12 +8,16 @@ class GruposController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
+        $this->verificarPermisos->verificar();
+
         $grupos = GrupoPermisos::find();
 
         $this->view->setVar("grupos",$grupos);
     }
 
     public function nuevoAction(){
+        $this->verificarPermisos->verificar();
+
         //llama a la vista de nuevo permiso
     }
 
@@ -41,6 +45,8 @@ class GruposController extends \Phalcon\Mvc\Controller
     }
 
     public function editarAction(){
+        $this->verificarPermisos->verificar();
+
         $grupo_id = $this->dispatcher->getParam("id");
         $id = GrupoPermisos::findFirstById($grupo_id);
 

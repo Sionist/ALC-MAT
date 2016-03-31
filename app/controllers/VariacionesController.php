@@ -9,6 +9,7 @@ class VariacionesController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
+        $this->verificarPermisos->verificar();
         //solo llama a la vista index
     }
 

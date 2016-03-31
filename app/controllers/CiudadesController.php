@@ -10,13 +10,15 @@ class CiudadesController extends \Phalcon\Mvc\Controller
 	
     public function indexAction()
     {
-	//$ciudades = Ciudades::find();
-    $query = new Phalcon\Mvc\Model\Query("SELECT estados.estado, ciudades.ciudad FROM estados INNER JOIN ciudades WHERE estados.id_estado=ciudades.id_estado ORDER BY estados.estado ASC", $this->getDI()); 
-	
-	$ciudades = $query->execute();
-		
-		
-    $this->view->setParamToView("ciudad", $ciudades);
+		$this->verificarPermisos->verificar();
+
+			//$ciudades = Ciudades::find();
+		$query = new Phalcon\Mvc\Model\Query("SELECT estados.estado, ciudades.ciudad FROM estados INNER JOIN ciudades WHERE estados.id_estado=ciudades.id_estado ORDER BY estados.estado ASC", $this->getDI());
+
+		$ciudades = $query->execute();
+
+
+		$this->view->setParamToView("ciudad", $ciudades);
     }
 
 	
@@ -50,6 +52,8 @@ class CiudadesController extends \Phalcon\Mvc\Controller
 
 	public function editarAction($ciudad)
 	{
+		$this->verificarPermisos->verificar();
+
 		if (!$this->request->isPost()) {
 
             $ciudad = Ciudades::findFirstByCiudad($ciudad);

@@ -11,7 +11,9 @@ class FrecuenciaController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
-		$frecuencia=Frecuencia::Find();
+        $this->verificarPermisos->verificar();
+
+        $frecuencia=Frecuencia::Find();
 		$this->view->SetParamToView("frecuencia",$frecuencia);
     }
 
@@ -40,6 +42,8 @@ class FrecuenciaController extends \Phalcon\Mvc\Controller
 
 
 	public function editarAction($id) {
+        $this->verificarPermisos->verificar();
+
         if (!$this->request->isPost()) {
 
             $frecuencia = Frecuencia::findFirstByIdFrecuencia($id);

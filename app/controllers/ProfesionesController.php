@@ -11,7 +11,9 @@ class ProfesionesController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
-		$profesion=Profesiones::Find();
+        $this->verificarPermisos->verificar();
+
+        $profesion=Profesiones::Find();
 		$this->view->SetParamToView("profesion",$profesion);
     }
 
@@ -38,6 +40,8 @@ class ProfesionesController extends \Phalcon\Mvc\Controller
 
 
 	public function editarAction($id) {
+        $this->verificarPermisos->verificar();
+
         if (!$this->request->isPost()) {
             $profesion = Profesiones::findFirstByIdProfesion($id);
             if (!$profesion) {

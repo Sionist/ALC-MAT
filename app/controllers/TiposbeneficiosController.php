@@ -12,8 +12,9 @@ class TiposbeneficiosController extends \Phalcon\Mvc\Controller
 	
 	public function indexAction()
     {
-		
-		$beneficio= Tiposbeneficios::find();
+        $this->verificarPermisos->verificar();
+
+        $beneficio= Tiposbeneficios::find();
 		
 		$this->view->setParamToView("beneficio",$beneficio);
     }
@@ -43,7 +44,9 @@ class TiposbeneficiosController extends \Phalcon\Mvc\Controller
 	
 	public function editarAction($id)
 	{
-		if (!$this->request->isPost())
+        $this->verificarPermisos->verificar();
+
+        if (!$this->request->isPost())
 		{
 			$beneficio = Tiposbeneficios::findFirstByIdTipobeneficio($id);
 			

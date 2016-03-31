@@ -8,6 +8,8 @@ class PermisosController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
+        $this->verificarPermisos->verificar();
+
         $permisos = $this->modelsManager->createBuilder()
             ->from("Permisos")
             ->join("GrupoPermisos")
@@ -19,6 +21,8 @@ class PermisosController extends \Phalcon\Mvc\Controller
     }
 
     public function nuevoAction(){
+        $this->verificarPermisos->verificar();
+
         //llama a la vista de nuevo permiso
     }
 
@@ -27,12 +31,14 @@ class PermisosController extends \Phalcon\Mvc\Controller
             $nombre = $this->request->getPost("nombre");
             $url = $this->request->getPost("url");
             $grupo = $this->request->getPost("grupo");
+            $nivel = $this->request->getPost("nivel");
 
             $permiso = new Permisos();
 
             $permiso->setNombre($nombre);
             $permiso->setUrl($url);
             $permiso->setGrupoId($grupo);
+            $permiso->setNivel($nivel);
 
             if(!$permiso->save()){
                 foreach ($permiso->getMessages() as $message) {
@@ -50,6 +56,8 @@ class PermisosController extends \Phalcon\Mvc\Controller
     }
 
     public function editarAction(){
+        $this->verificarPermisos->verificar();
+
         $permiso_id = $this->dispatcher->getParam("id");
         $id = Permisos::findFirstById($permiso_id);
 
@@ -58,6 +66,7 @@ class PermisosController extends \Phalcon\Mvc\Controller
             $this->tag->setDefault("nombre",$id->getNombre());
             $this->tag->setDefault("url",$id->getUrl());
             $this->tag->setDefault("grupo",$id->getGrupoId());
+            $this->view->setVar("nivel", $id->getNivel());
         }else{
             $this->flashSession->success("<div class='alert alert-block alert-danger'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>El permiso que intenta modificar no existe</strong></p></div>");
             $this->response->redirect("permisos");
@@ -72,12 +81,14 @@ class PermisosController extends \Phalcon\Mvc\Controller
             $nombre = $this->request->getPost("nombre");
             $url = $this->request->getPost("url");
             $grupo = $this->request->getPost("grupo");
+            $nivel = $this->request->getPost("nivel");
 
             $permiso = Permisos::findFirstById($id);
 
             $permiso->setNombre($nombre);
             $permiso->setUrl($url);
             $permiso->setGrupoId($grupo);
+            $permiso->setNivel($nivel);
 
             if(!$permiso->save()){
                 foreach ($permiso->getMessages() as $message) {

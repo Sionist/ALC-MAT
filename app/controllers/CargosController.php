@@ -12,8 +12,9 @@ class CargosController extends \Phalcon\Mvc\Controller
     
 	public function indexAction()
 	{
-		
-		$query = new Phalcon\Mvc\Model\Query("SELECT NivelCargo.nivel_cargo, Cargos.cargo,Cargos.sueldo,Cargos.id_cargo FROM NivelCargo,Cargos where NivelCargo.id_nivelcargo=Cargos.nivel", $this->getDI());
+        $this->verificarPermisos->verificar();
+
+        $query = new Phalcon\Mvc\Model\Query("SELECT NivelCargo.nivel_cargo, Cargos.cargo,Cargos.sueldo,Cargos.id_cargo FROM NivelCargo,Cargos where NivelCargo.id_nivelcargo=Cargos.nivel", $this->getDI());
 		$query2 = new Phalcon\Mvc\Model\Query("SELECT * FROM NivelCargo", $this->getDI());
 		
 		//echo var_dump($query);
@@ -52,7 +53,9 @@ class CargosController extends \Phalcon\Mvc\Controller
 	}	
 
 		public function editarAction($id) {
-        if (!$this->request->isPost()) {
+            $this->verificarPermisos->verificar();
+
+            if (!$this->request->isPost()) {
 
             $cargo = Cargos::findFirstByIdCargo($id);
             if (!$cargo) {

@@ -7,6 +7,7 @@
             <?php echo $this->tag->linkTo(array("userrss/nuevo","class"=>"btn btn-app btn-primary btn-xs","<i class='ace-icon glyphicon glyphicon-user'></i>Nuevo")) ?>
         </div>
     </div>
+
     <?php  echo $this->flashSession->output(); ?>
     <!-- fin  Formulario para agregar estatus -->
 
@@ -34,6 +35,7 @@
                         <th>Email</th>
                         <th>Creado</th>
                         <th>Estatus</th>
+                        <th>Alcance</th>
                         <th class="center">Acciones</th>
                     </tr>
                 </thead>
@@ -67,10 +69,18 @@
                             <td>
                                 <span style="text-transform: capitalize;"><?php echo $row->estatus; ?></span>
                             </td>
+                            <td><?php if($row->admin == 1) { ?>
+                                <span style="text-transform: capitalize;">Administrador</span>
+                                <?php } else { ?>
+                                <span style="text-transform: capitalize;">Limitado</span>
+                                <?php  } ?>
+                            </td>
 
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons center">
-                                <?php echo $this->tag->linkTo(array("userrss/usuario-permisos/".$row->id, "<i class='ace-icon fa fa-key'></i>"))  ?>
+                                <?php if($row->admin != 1){ echo $this->tag->linkTo(array("userrss/usuario-permisos/".$row->id, "<i class='ace-icon fa fa-key'></i>"));  
+                                }
+                                ?>
                                     <?php echo $this->tag->linkTo(array("userrss/editar/".$row->id, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"))  ?>
                                 </div>
                             </td>

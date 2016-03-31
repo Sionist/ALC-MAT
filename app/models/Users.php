@@ -48,6 +48,12 @@ class Users extends \Phalcon\Mvc\Model
     protected $estatus;
 
     /**
+     *
+     * @var integer
+     */
+    protected $admin;
+
+    /**
      * Method to set the value of field id
      *
      * @param integer $id
@@ -139,6 +145,19 @@ class Users extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Method to set the value of field admin
+     *
+     * @param integer $admin
+     * @return $this
+     */
+    public function setAdmin($admin)
+    {
+        $this->admin = $admin;
+
+        return $this;
+    }
+
+    /**
      * Returns the value of field id
      *
      * @return integer
@@ -206,6 +225,16 @@ class Users extends \Phalcon\Mvc\Model
     public function getEstatus()
     {
         return $this->estatus;
+    }
+
+    /**
+     * Returns the value of field admin
+     *
+     * @return integer
+     */
+    public function getAdmin()
+    {
+        return $this->admin;
     }
 
     /**

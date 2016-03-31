@@ -8,6 +8,8 @@ class MovimientosController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
+        $this->verificarPermisos->verificar();
+
         //llama la vista index
     }
 

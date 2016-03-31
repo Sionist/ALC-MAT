@@ -10,7 +10,9 @@ class ParentescoController extends \Phalcon\Mvc\Controller
     }
     public function indexAction()
     {
-		// Aqui muestra todos los registros de la tabla discapacidad
+        $this->verificarPermisos->verificar();
+
+        // Aqui muestra todos los registros de la tabla discapacidad
 		$parentesco = Parentesco::find();
         $this->view->setParamToView("parentesco", $parentesco);
 
@@ -37,6 +39,8 @@ class ParentescoController extends \Phalcon\Mvc\Controller
     }
 	
 	public function editarAction($id) {
+        $this->verificarPermisos->verificar();
+
         if (!$this->request->isPost()) {
 
             $parentesco = Parentesco::findFirstByIdParentesco($id);
