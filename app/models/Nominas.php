@@ -7,174 +7,232 @@ class Nominas extends \Phalcon\Mvc\Model
      *
      * @var integer
      */
-    protected $id_regnomina;
+    protected $id;
 
     /**
      *
      * @var integer
      */
-    protected $id_nomina;
+    protected $sqm;
 
     /**
      *
      * @var integer
      */
-    protected $numero;
+    protected $tipo_nomi;
 
     /**
      *
      * @var string
      */
-    protected $fecha_nomina;
+    protected $fecha;
 
     /**
      *
      * @var string
      */
-    protected $fecha_desde;
+    protected $f_inicio;
 
     /**
      *
      * @var string
      */
-    protected $fecha_hasta;
+    protected $f_final;
 
     /**
-     * Method to set the value of field id_regnomina
      *
-     * @param integer $id_regnomina
+     * @var integer
+     */
+    protected $estatus;
+
+    /**
+     *
+     * @var string
+     */
+    protected $deducs;
+
+    /**
+     * Method to set the value of field id
+     *
+     * @param integer $id
      * @return $this
      */
-    public function setIdRegnomina($id_regnomina)
+    public function setId($id)
     {
-        $this->id_regnomina = $id_regnomina;
+        $this->id = $id;
 
         return $this;
     }
 
     /**
-     * Method to set the value of field id_nomina
+     * Method to set the value of field sqm
      *
-     * @param integer $id_nomina
+     * @param integer $sqm
      * @return $this
      */
-    public function setIdNomina($id_nomina)
+    public function setSqm($sqm)
     {
-        $this->id_nomina = $id_nomina;
+        $this->sqm = $sqm;
 
         return $this;
     }
 
     /**
-     * Method to set the value of field numero
+     * Method to set the value of field tipo_nomi
      *
-     * @param integer $numero
+     * @param integer $tipo_nomi
      * @return $this
      */
-    public function setNumero($numero)
+    public function setTipoNomi($tipo_nomi)
     {
-        $this->numero = $numero;
+        $this->tipo_nomi = $tipo_nomi;
 
         return $this;
     }
 
     /**
-     * Method to set the value of field fecha_nomina
+     * Method to set the value of field fecha
      *
-     * @param string $fecha_nomina
+     * @param string $fecha
      * @return $this
      */
-    public function setFechaNomina($fecha_nomina)
+    public function setFecha($fecha)
     {
-        $this->fecha_nomina = $fecha_nomina;
+        $this->fecha = $fecha;
 
         return $this;
     }
 
     /**
-     * Method to set the value of field fecha_desde
+     * Method to set the value of field f_inicio
      *
-     * @param string $fecha_desde
+     * @param string $f_inicio
      * @return $this
      */
-    public function setFechaDesde($fecha_desde)
+    public function setFInicio($f_inicio)
     {
-        $this->fecha_desde = $fecha_desde;
+        $this->f_inicio = $f_inicio;
 
         return $this;
     }
 
     /**
-     * Method to set the value of field fecha_hasta
+     * Method to set the value of field f_final
      *
-     * @param string $fecha_hasta
+     * @param string $f_final
      * @return $this
      */
-    public function setFechaHasta($fecha_hasta)
+    public function setFFinal($f_final)
     {
-        $this->fecha_hasta = $fecha_hasta;
+        $this->f_final = $f_final;
 
         return $this;
     }
 
     /**
-     * Returns the value of field id_regnomina
+     * Method to set the value of field estatus
+     *
+     * @param integer $estatus
+     * @return $this
+     */
+    public function setEstatus($estatus)
+    {
+        $this->estatus = $estatus;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field deducs
+     *
+     * @param string $deducs
+     * @return $this
+     */
+    public function setDeducs($deducs)
+    {
+        $this->deducs = $deducs;
+
+        return $this;
+    }
+
+    /**
+     * Returns the value of field id
      *
      * @return integer
      */
-    public function getIdRegnomina()
+    public function getId()
     {
-        return $this->id_regnomina;
+        return $this->id;
     }
 
     /**
-     * Returns the value of field id_nomina
+     * Returns the value of field sqm
      *
      * @return integer
      */
-    public function getIdNomina()
+    public function getSqm()
     {
-        return $this->id_nomina;
+        return $this->sqm;
     }
 
     /**
-     * Returns the value of field numero
+     * Returns the value of field tipo_nomi
      *
      * @return integer
      */
-    public function getNumero()
+    public function getTipoNomi()
     {
-        return $this->numero;
+        return $this->tipo_nomi;
     }
 
     /**
-     * Returns the value of field fecha_nomina
+     * Returns the value of field fecha
      *
      * @return string
      */
-    public function getFechaNomina()
+    public function getFecha()
     {
-        return $this->fecha_nomina;
+        return $this->fecha;
     }
 
     /**
-     * Returns the value of field fecha_desde
+     * Returns the value of field f_inicio
      *
      * @return string
      */
-    public function getFechaDesde()
+    public function getFInicio()
     {
-        return $this->fecha_desde;
+        return $this->f_inicio;
     }
 
     /**
-     * Returns the value of field fecha_hasta
+     * Returns the value of field f_final
      *
      * @return string
      */
-    public function getFechaHasta()
+    public function getFFinal()
     {
-        return $this->fecha_hasta;
+        return $this->f_final;
+    }
+
+    /**
+     * Returns the value of field estatus
+     *
+     * @return integer
+     */
+    public function getEstatus()
+    {
+        return $this->estatus;
+    }
+
+    /**
+     * Returns the value of field deducs
+     *
+     * @return string
+     */
+    public function getDeducs()
+    {
+        return $this->deducs;
     }
 
     /**
@@ -182,8 +240,8 @@ class Nominas extends \Phalcon\Mvc\Model
      */
     public function initialize()
     {
-        $this->hasMany('id_regnomina', 'Nominafide', 'id_regnomina', array('alias' => 'Nominafide'));
-        $this->hasMany('id_regnomina', 'Nominafide', 'id_regnomina', NULL);
+        $this->belongsTo('estatus', 'EstatusNom', 'id', array('alias' => 'EstatusNom'));
+        $this->belongsTo('tipo_nomi', 'TipoNomi', 'id_nomina', array('alias' => 'TipoNomi'));
     }
 
     /**

@@ -331,6 +331,13 @@ $router->add("/grupos/{id:[0-9]+}/editar","grupos::editar");
  */
 $router->add("/acceso-denegado","Accesodenegado::index");
 
+/**
+ * rutas para nominas
+ */
+$router->add("/nominas","Nominas::index");
+$router->add("/nominas/nueva","Nominas::nueva");
+$router->addPost("/nominas/crear","Nominas::crear");
+
 
 
 

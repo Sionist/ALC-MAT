@@ -45,6 +45,10 @@
 
 			<b class="arrow"></b>
 			<ul class="submenu">
+			<li class="">
+					<?php echo $this->tag->linkTo("nominas","<i class='menu-icon fa fa-caret-right'></i>Nominas") ?>
+					<b class="arrow"></b>
+				</li>
 				<li class="">
 					<?php echo $this->tag->linkTo("variaciones-movimientos","<i class='menu-icon fa fa-caret-right'></i>Variaciones - Movimientos") ?>
 					<b class="arrow"></b>
