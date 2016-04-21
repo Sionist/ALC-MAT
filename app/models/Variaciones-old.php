@@ -19,13 +19,7 @@ class Variaciones extends \Phalcon\Mvc\Model
      *
      * @var integer
      */
-    protected $nomina;
-
-    /**
-     *
-     * @var string
-     */
-    protected $fecha;
+    protected $id_asignac;
 
     /**
      *
@@ -35,15 +29,33 @@ class Variaciones extends \Phalcon\Mvc\Model
 
     /**
      *
+     * @var string
+     */
+    protected $ano;
+
+    /**
+     *
+     * @var string
+     */
+    protected $sqm;
+
+    /**
+     *
      * @var integer
      */
-    protected $id_asignac;
+    protected $nomina;
 
     /**
      *
      * @var double
      */
     protected $monto;
+
+    /**
+     *
+     * @var string
+     */
+    protected $fecha;
 
     /**
      * Method to set the value of field id_variacion
@@ -72,27 +84,14 @@ class Variaciones extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Method to set the value of field nomina
+     * Method to set the value of field id_asignac
      *
-     * @param integer $nomina
+     * @param integer $id_asignac
      * @return $this
      */
-    public function setNomina($nomina)
+    public function setIdAsignac($id_asignac)
     {
-        $this->nomina = $nomina;
-
-        return $this;
-    }
-
-    /**
-     * Method to set the value of field fecha
-     *
-     * @param string $fecha
-     * @return $this
-     */
-    public function setFecha($fecha)
-    {
-        $this->fecha = $fecha;
+        $this->id_asignac = $id_asignac;
 
         return $this;
     }
@@ -111,14 +110,40 @@ class Variaciones extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Method to set the value of field id_asignac
+     * Method to set the value of field ano
      *
-     * @param integer $id_asignac
+     * @param string $ano
      * @return $this
      */
-    public function setIdAsignac($id_asignac)
+    public function setAno($ano)
     {
-        $this->id_asignac = $id_asignac;
+        $this->ano = $ano;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field sqm
+     *
+     * @param string $sqm
+     * @return $this
+     */
+    public function setSqm($sqm)
+    {
+        $this->sqm = $sqm;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field nomina
+     *
+     * @param integer $nomina
+     * @return $this
+     */
+    public function setNomina($nomina)
+    {
+        $this->nomina = $nomina;
 
         return $this;
     }
@@ -132,6 +157,19 @@ class Variaciones extends \Phalcon\Mvc\Model
     public function setMonto($monto)
     {
         $this->monto = $monto;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field fecha
+     *
+     * @param string $fecha
+     * @return $this
+     */
+    public function setFecha($fecha)
+    {
+        $this->fecha = $fecha;
 
         return $this;
     }
@@ -157,23 +195,13 @@ class Variaciones extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Returns the value of field nomina
+     * Returns the value of field id_asignac
      *
      * @return integer
      */
-    public function getNomina()
+    public function getIdAsignac()
     {
-        return $this->nomina;
-    }
-
-    /**
-     * Returns the value of field fecha
-     *
-     * @return string
-     */
-    public function getFecha()
-    {
-        return $this->fecha;
+        return $this->id_asignac;
     }
 
     /**
@@ -187,13 +215,33 @@ class Variaciones extends \Phalcon\Mvc\Model
     }
 
     /**
-     * Returns the value of field id_asignac
+     * Returns the value of field ano
+     *
+     * @return string
+     */
+    public function getAno()
+    {
+        return $this->ano;
+    }
+
+    /**
+     * Returns the value of field sqm
+     *
+     * @return string
+     */
+    public function getSqm()
+    {
+        return $this->sqm;
+    }
+
+    /**
+     * Returns the value of field nomina
      *
      * @return integer
      */
-    public function getIdAsignac()
+    public function getNomina()
     {
-        return $this->id_asignac;
+        return $this->nomina;
     }
 
     /**
@@ -207,13 +255,22 @@ class Variaciones extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Returns the value of field fecha
+     *
+     * @return string
+     */
+    public function getFecha()
+    {
+        return $this->fecha;
+    }
+
+    /**
      * Initialize method for model.
      */
     public function initialize()
     {
         $this->belongsTo('id_asignac', 'NbAsignaciones', 'id_asignac', array('alias' => 'NbAsignaciones'));
         $this->belongsTo('nu_cedula', 'Datospersonales', 'nu_cedula', array('alias' => 'Datospersonales'));
-        $this->belongsTo('nomina', 'Nominas', 'id', array('alias' => 'Nominas'));
     }
 
     /**

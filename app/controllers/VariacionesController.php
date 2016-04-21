@@ -10,7 +10,15 @@ class VariacionesController extends \Phalcon\Mvc\Controller
     public function indexAction()
     {
         $this->verificarPermisos->verificar();
-        //solo llama a la vista index
+
+        $nominas = $this->modelsManager->createBuilder()
+            ->from("Nominas")
+            ->join("TipoNomi")
+            ->columns("Nominas.id, TipoNomi.nomina")
+            ->getQuery()
+            ->execute();
+
+        $this->view->setVar("nominas", $nominas);
     }
 
     public function buscarAction()
@@ -18,6 +26,15 @@ class VariacionesController extends \Phalcon\Mvc\Controller
         $cedula = $this->request->getPost("cedula");
         $nomina = $this->request->getPost("nomina");
 
+        $tipoNomi = $this->modelsManager->createBuilder()
+            ->from("Nominas")
+            ->columns("Nominas.tipo_nomi")
+            ->where("Nominas.id = :id:", array("id" => $nomina))
+            ->getQuery()
+            ->execute()
+            ->ToArray();
+
+        $nomi = $tipoNomi[0]['tipo_nomi'];
         if ($cedula && is_numeric($cedula)) {
 
             $Tcedula = new Phalcon\Mvc\Model\Query("SELECT
@@ -33,7 +50,7 @@ class VariacionesController extends \Phalcon\Mvc\Controller
                                                         INNER JOIN Cargos ON Datoscontratacion.t_cargo = Cargos.id_cargo
                                                         INNER JOIN NbDireciones ON Datoscontratacion.ubi_nom = NbDireciones.id_direcciones AND Datoscontratacion.ubi_fun = NbDireciones.id_direcciones
                                                         WHERE
-                                                        Datospersonales.nu_cedula = $cedula AND Datoscontratacion.tipo_nom = $nomina", $this->getDI());
+                                                        Datospersonales.nu_cedula = $cedula AND Datoscontratacion.tipo_nom = $nomi", $this->getDI());
 
             $trabajador = $Tcedula->execute()->toArray();
 
@@ -65,8 +82,6 @@ class VariacionesController extends \Phalcon\Mvc\Controller
             if ($f_rep > $f_actual) {
                 $enReposo = true;
             }
-
-
 
                 $SD = $this->modelsManager->createBuilder()
                     ->from("Datoscontratacion")
@@ -173,12 +188,8 @@ class VariacionesController extends \Phalcon\Mvc\Controller
                 $variacion->setIdAsignac($k);
                 $variacion->setHorasDias(trim($v));
                 $variacion->setNomina($nomina);
-                $variacion->setSqm($sqm);
-                $variacion->setAno($ano);
-                
 
                 $variacion->setFecha(date("y/m/d"));
-
 
                 $monto = $this->calcular($param, $formula);
 
@@ -278,20 +289,26 @@ class VariacionesController extends \Phalcon\Mvc\Controller
             $nomi = $this->request->getPost("nomina");
 
             $query = $this->modelsManager->createBuilder()
-                ->from("TipoNomi")
-                ->join("Frecuencia")
-                ->columns("Frecuencia.frecuencia as f")
-                ->where("TipoNomi.id_nomina = :nomi:", array("nomi"=>$nomi))
+                ->from("Nominas")
+                ->join("TipoNomi")
+                ->columns("Nominas.sqm, Nominas.fecha, Nominas.f_inicio, Nominas.f_final, Nominas.deducs, TipoNomi.nomina")
+                ->where("Nominas.id = :nomi:", array("nomi"=>$nomi))
                 ->getQuery()
                 ->execute()
                 ->toArray();
 
             if(count($query) > 0){
+                $fecha = date("d-m-Y", strtotime($query[0]["fecha"]));
+                $f_ini = date("d-m-Y", strtotime($query[0]["f_inicio"]));
+                $f_fin = date("d-m-Y", strtotime($query[0]["f_final"]));
                 //deshabilita la vista para enviar JSON limpio
                 $this->view->disable();
                 //envia un JSON con los datos de las consultas en forma de array
                 $this->response->setJsonContent(array(
-                    "tipoNomi" => $query
+                    "tipoNomi" => $query,
+                    "f_ini" => $f_ini,
+                    "f_fin" => $f_fin,
+                    "fecha" => $fecha
                 ));
 
                 $this->response->setStatusCode(200, "OK");

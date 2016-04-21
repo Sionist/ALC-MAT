@@ -19,11 +19,20 @@ class MovimientosController extends \Phalcon\Mvc\Controller
     public function buscarAction()
     {
         $cedula = $this->request->getPost("cedula");
-        $nomina = $this->request->getPost("nomina");
-        $sqm = $this->request->getPost("sqm");
-        $ano = $this->request->getPost("ano");
+        $nomina_ejec = $this->request->getPost("nomina");
 
         if ($cedula) {
+
+            $tipo_nomi = $this->modelsManager->createBuilder()
+                ->from("Nominas")
+                ->join("TipoNomi")
+                ->where("Nominas.id = :id:", array("id" => $nomina_ejec))
+                ->columns("TipoNomi.id_nomina")
+                ->getQuery()
+                ->execute()
+                ->toArray();
+
+            $nomina = $tipo_nomi[0]["id_nomina"];
 
             $dt = $this->modelsManager->createBuilder()
                 ->from("Datoscontratacion")
@@ -39,8 +48,8 @@ class MovimientosController extends \Phalcon\Mvc\Controller
             $variaciones = $this->modelsManager->createBuilder()
                 ->from("Variaciones")
                 ->join("NbAsignaciones")
-                ->columns("NbAsignaciones.asignacion, Variaciones.horas_dias, Variaciones.ano, Variaciones.sqm, DATE_FORMAT(Variaciones.fecha, '%d-%m-%y') as fecha, Variaciones.id_variacion, Variaciones.monto")
-                ->where("Variaciones.nu_cedula = :cedula: and Variaciones.sqm = :sqm: and Variaciones.ano = :ano:", array("cedula" => $cedula, "sqm" => $sqm, "ano" => $ano))
+                ->columns("NbAsignaciones.asignacion, DATE_FORMAT(Variaciones.fecha, '%d-%m-%y') as fecha, Variaciones.horas_dias, Variaciones.id_variacion, Variaciones.monto")
+                ->where("Variaciones.nu_cedula = :cedula: and Variaciones.nomina = :nomina:", array("cedula" => $cedula,"nomina" => $nomina_ejec))
                 ->getQuery()
                 ->execute()
                 ->toArray();
