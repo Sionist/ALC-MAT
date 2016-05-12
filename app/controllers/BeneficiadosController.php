@@ -8,30 +8,43 @@ class BeneficiadosController extends \Phalcon\Mvc\Controller
 		$this->view->setTemplateAfter('blank');
 	}
 
-    public function indexAction($idembargo)
+    public function indexAction()
     {
-		$this->verificarPermisos->verificar();
 
-		$dembargo = NbEmbargos::findFirstByIdEmbargo($idembargo);
-        $ncedula  = $dembargo->nu_cedula;
+        $this->verificarPermisos->verificar();
 
-		$dtrab     = DatosPersonales::findFirstByNuCedula($ncedula);
+        $id = $this->dispatcher->getParam("id");
+        $cedula = $this->dispatcher->getParam("cedula");
+
+		
+
+		$idembargo = NbEmbargos::findFirstByIdEmbargo($id);
+        $tribunal = $idembargo->tribunal;
+        $nexpediente = $idembargo->num_exp;
+        $this->view->tribunal = $tribunal;
+        $this->view->nexpediente = $nexpediente;
+
+
+        //$ncedula  = $idembargo->nu_cedula;
+
+		$dtrab     = DatosPersonales::findFirstByNuCedula($cedula);
     	$nombre1   = $dtrab->nombre1;
     	$apellido1 = $dtrab->apellido1;
 
-    	$this->tag->setDefault("ncedula",$ncedula);
-        $this->tag->setDefault("idembargo",$idembargo);
+    	$this->tag->setDefault("ncedula",$cedula);
+        $this->tag->setDefault("idembargo",$id);
 
     	$this->view->nombre1   = $nombre1;
     	$this->view->apellido1 = $apellido1;
-    	$this->view->nu_cedula = $ncedula;
+    	$this->view->nu_cedula = $cedula;
 
     	$consulta = $this->modelsManager->createBuilder()
     	->from("Beneficiados")
     	->join("NbEmbargos")
     	->columns("NbEmbargos.id_embargo,NbEmbargos.nu_cedula,Beneficiados.id_beneficiado,Beneficiados.nu_cedula,Beneficiados.ci_beneficiado,Beneficiados.apellidos,Beneficiados.nombres,
-    		Beneficiados.f_nacimiento,Beneficiados.id_embargo,NbEmbargos.nu_cedula")
-    	->where("Beneficiados.id_embargo = :idemb:",array("idemb"=>$ncedula))
+    		Beneficiados.f_nacimiento,Beneficiados.id_embargo")
+    	->where("Beneficiados.id_embargo = :idemb:",array("idemb"=>$cedula))
+        //->where("Beneficiados.id_embargo = ".$id.)
     	->getQuery()
     	->execute();
 
@@ -48,6 +61,9 @@ class BeneficiadosController extends \Phalcon\Mvc\Controller
     {
     	if ($this->request->isPost())
     	{
+            $ncedula = $this->request->getPost("ncedula");
+            $idembargo = $this->request->getPost("idembargo");
+
     		$beneficiado = new Beneficiados();	
 
     		$beneficiado->setNuCedula($this->request->getPost("ncedula"));
@@ -63,19 +79,15 @@ class BeneficiadosController extends \Phalcon\Mvc\Controller
                 foreach ($beneficiado->getMessages() as $message) {
                     $this->flash->error($message);
                 }
-                return $this->dispatcher->forward(array(
-                    "controller" => "beneficiados",
-                    "action" => "index"
-                ));
+
+                $this->response->redirect("/trabajadores/ver/$ncedula/embargos/$idembargo/beneficiados");
+                $this->view->disable();
             }
         
-        $ncedula = $this->request->getPost("ncedula");
-        $this->flash->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Guardado con Exito</strong></p></div>");
-        return $this->dispatcher->forward(array(
-            "controller" => "beneficiados",
-            "action" => "index",
-            "params" => array($ncedula)
-        ));
+        
+        $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Guardado con Exito</strong></p></div>");
+        $this->response->redirect("trabajadores/ver/$ncedula/embargos/$idembargo/beneficiados");
+        $this->view->disable();
 
 
     }

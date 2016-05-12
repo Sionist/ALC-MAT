@@ -70,35 +70,60 @@
         </div>
     </div>
 </div>
-</div>
 <!-- fin tabla para mostrar todos los registros de la tabla-->
 
 <!-- modal -->
 <!--<div id="dialog-message" class="hide"></div>-->
-
+{{ javascript_include("js/bootstrap.js") }}
+{{ javascript_include("js/dataTables/jquery.dataTables.js") }}
+{{ javascript_include("js/dataTables/jquery.dataTables.bootstrap.js") }}
 <script type="text/javascript">
 
     jQuery(function($) {
 
-        /*  jquery del modal de edicion */
-        $( ".id-btn-dialog1" ).on('click', function(e) {
-            e.preventDefault();
-            
-            var dialog = $( "#dialog-message" ).removeClass('hide').dialog({
-                modal: true,
-                title: "Editar ",
-                title_html: true,
-                buttons: [ 
-                {
-                    text: "OK",
-                    "class" : "btn btn-primary btn-minier",
-                    click: function() {
-                        $( this ).dialog( "close" ); 
-                    } 
-                }
-                ]
-            });
-        });
+        var oTable1 = 
+        $('#dynamic-table')
+                //.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+                .dataTable( {
+                    bAutoWidth: false,
+                    "aoColumns": [
+                    { "bSortable": false },
+                    null, null, null,
+                    { "bSortable": false }
+                    ],
+                    "aaSorting": [],
 
-    })
+                    //,
+                    //"sScrollY": "200px",
+                    //"bPaginate": false,
+
+                    //"sScrollX": "100%",
+                    //"sScrollXInner": "120%",
+                    //"bScrollCollapse": true,
+                    //Note: if you are applying horizontal scrolling (sScrollX) on a ".table-bordered"
+                    //you may want to wrap the table inside a "div.dataTables_borderWrap" element
+
+                    //"iDisplayLength": 50
+                } );
+                /*  jquery del modal de edicion */
+                $( ".id-btn-dialog1" ).on('click', function(e) {
+                    e.preventDefault();
+
+                    var dialog = $( "#dialog-message" ).removeClass('hide').dialog({
+                        modal: true,
+                        title: "Editar ",
+                        title_html: true,
+                        buttons: [ 
+                        {
+                            text: "OK",
+                            "class" : "btn btn-primary btn-minier",
+                            click: function() {
+                                $( this ).dialog( "close" ); 
+                            } 
+                        }
+                        ]
+                    });
+                });
+
+            })
 </script>

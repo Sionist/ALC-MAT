@@ -75,7 +75,7 @@ class CargafamiliarController extends \Phalcon\Mvc\Controller
         // $cargafamiliar = $query->execute();
 
         $dtrabajador = Datospersonales::findFirstByNuCedula($cedula);
-        $cedutra=$dtrabajador->nu_cedula;
+        $this->tag->setDefault("nu_cedula",$dtrabajador->nu_cedula);
         $nombre=$dtrabajador->nu_cedula;
 
        // $this->view->setParamToView("carga", $cargafamiliar);

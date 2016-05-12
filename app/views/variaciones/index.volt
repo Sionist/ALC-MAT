@@ -5,264 +5,271 @@
 <!--{{ javascript_include("js/dataTables/jquery.dataTables.bootstrap.js") }}-->
 <div id="page-wrapper" >
     <!-- Formulario para agregar  (insertar) -->
-    {{ form("", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
-    <div class="page-header">
-        <div class="form-actions">
+    {{ form("", "method":"post", "autocomplete" : "off", "class":"form-inline", "role" : "form") }}
+    <div class="row">
+
+        <div class="form-actions col-lg-5">
             <div class="form-group">
-                <label for="nomina" class=""><span>Nomina: &nbsp;</span> </label>
-                <select class="select" id="nomina"> 
-                    <option value="">Seleccione...</option>   
-                    <?php foreach($nominas as $n) { ?>
-                    <option value="<?php echo $n->id; ?>"><?php echo $n->nomina; ?></option>
-                    <?php }   ?>
-                </select>
-            </div>
-            &nbsp; Operación: &nbsp;
-            <div class="form-group">
-                <select id="operacion">
-                    <option>Variaciones</option>
-                    <option>Movimientos</option>
-                </select>
-            </div>
-            &nbsp; <button id="aceptar" class="btn btn-sm btn-primary" disabled>Aceptar</button>
+               <label for="nomina" class=""><span>Nomina: &nbsp;</span> </label>
+               <select class="select" id="nomina"> 
+                <option value="">Seleccione...</option>   
+                <?php foreach($nominas as $n) { ?>
+                <option value="<?php echo $n->id; ?>"><?php echo $n->nomina; ?></option>
+                <?php }   ?>
+            </select>
         </div>
-        {{ endForm() }}
+        <!-- &nbsp; Operación: &nbsp; -->
+        <button id="aceptar" class="btn btn-sm btn-primary" disabled>Aceptar</button>
     </div>
-    <div class="row hidden page-header" id="datos_nom">
-        <div class="col-md-10 col-md-offset-1">
-            <h4 class="center">
-                Datos de la Nomina seleccionada
-            </h4>
-            <table class="table table-condensed">
-                <thead>
-                    <tr>
-                        <th class="center">
-                            S/Q/M
-                        </th>
-                        <th>Fecha de creacón</th>
-                        <th>Inicia</th>
-                        <th>Finaliza</th>
-                        <th>¿Deducciones?</th>
-                    </tr>
-                </thead>
-                <tbody id="d_n">
+    {{ endForm() }}
 
-                </tbody>
-            </table>
+
+    <div class="col-lg-7 hidden" id="datos_nom">
+        <h6 class="center">
+            <strong>Datos de la Nomina seleccionada</strong>
+        </h6>
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th class="center">
+                        S/Q/M
+                    </th>
+                    <th class="center">Fecha de creacón</th>
+                    <th class="center">Inicia</th>
+                    <th class="center">Finaliza</th>
+                    <th class="center">¿Deducciones?</th>
+                </tr>
+            </thead>
+            <tbody id="d_n">
+
+            </tbody>
+        </table>
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div id="div_buscar" class="page-header hidden col-lg-12" style="display: block">
+
+
+        {{ form("nomina/variaciones-movimientos/buscar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}{{ content() }}
+        <div class="form-group">
+            <label for="operacion">Operación</label>
+            <select id="operacion" class="select">
+                <option>Variaciones</option>
+                <option>Movimientos</option>
+            </select>
         </div>
-    </div>
-    
-    <div id="div_buscar" class="page-header hidden" style="display: block">
-        {{ form("nomina/variaciones-movimientos/buscar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
-
-        {{ content() }}
-
-        {{ text_field("cedula", "class":"form-control input-mask-cedula", "required":"required", "placeholder":"Cedula") }}
+        
+        <div class="form-group">
+            <label for="cedula">Cedula</label>
+            {{ text_field("cedula", "class":"form-control input-mask-cedula", "required":"required", "placeholder":"Cedula") }}
+        </div>
         {{ submit_button("Buscar","id":"buscar", "class":"btn btn-sm btn-primary") }}
         {{ endForm() }}
 
     </div>
-    <br />
+</div>
+<br />
 
-    {{ content() }}
+{{ content() }}
 
-    <!-- fin  Formulario para agregar estatus -->
-    <div class="row header smaller lighter blue hidden center" id="dt">
-        <!--        <div class="center"><strong>MOVIMIENTOS</strong></div>-->
-        <h4 class="">
-            Trabajador: <strong><span class="" id="nombre"></span></strong>&nbsp;&nbsp; Cedula: <strong><span class="" id="Tcedula"></span></strong>
-            &nbsp;&nbsp;Ubicación Funcional: <strong><span class="" id="ubi_f"></span></strong>  &nbsp;&nbsp;Cargo: <strong><span class="" id="cargo"></span></strong>
-        </h4>
+<!-- fin  Formulario para agregar estatus -->
+<div class="row header smaller lighter blue hidden center" id="dt">
+    <!--        <div class="center"><strong>MOVIMIENTOS</strong></div>-->
+    <h4 class="">
+        Trabajador: <strong><span class="" id="nombre"></span></strong>&nbsp;&nbsp; Cedula: <strong><span class="" id="Tcedula"></span></strong>
+        &nbsp;&nbsp;Ubicación Funcional: <strong><span class="" id="ubi_f"></span></strong>  &nbsp;&nbsp;Cargo: <strong><span class="" id="cargo"></span></strong>
+    </h4>
+</div>
+<br />
+<!-- tabla para mostrar todos los registros de la tabla-->
+<div id="msj">
+</div>
+<div id="row">
+    <div id="img" class="col-md-1 hidden" style=" width: 155px; height: auto">
+        <span class="profile-picture">
+
+            <img id="foto" class="" title="" src="" style="width: 120px; height: auto "></img>
+            <div class="center">FOTO</div>
+        </span>
     </div>
-    <br />
-    <!-- tabla para mostrar todos los registros de la tabla-->
-    <div id="msj">
-    </div>
-    <div id="row">
-        <div id="img" class="col-md-1 hidden" style=" width: 155px; height: auto">
-            <span class="profile-picture">
 
-                <img id="foto" class="" title="" src="" style="width: 120px; height: auto "></img>
-                <div class="center">FOTO</div>
-            </span>
-        </div>
+    <div class="col-md-5 hidden" id="tprins" >
 
-        <div class="col-md-5 hidden" id="tprins" >
+        <div class="">
+            <div id="msj"></div>
 
-            <div class="">
-                <div id="msj"></div>
+            <div class="table-header">
 
-                <div class="table-header">
+                Variaciones
 
-                    Variaciones
-
-                </div>
-
-                {{ form("nomina/variaciones-movimientos/procesar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
-                {{ hidden_field("ttcedula") }}
-                {{ hidden_field("sd") }}
-                {{ hidden_field("year") }}
-                {{ hidden_field("s-q-m") }}
-                {{ hidden_field("nomi") }}
-                {{ hidden_field("sb") }}
-                <table id="dynamic-table" class="table table-striped table-bordered">
-                    <thead id="thead">
-                        <th class="center">Asignación</th>
-                        <th class="center">Horas / Dias</th>
-                        <th class="center">¿Habilitar Todos?
-                            <label style="margin-top: 10px; display: block">
-                                <input id="t_enabled" name="switch-field-1" class="ace ace-switch ace-switch-4 btn-rotate" type="checkbox">
-                                <span class="lbl" data-lbl="SI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NO"></span>
-                            </label>
-                        </th>
-                    </thead>
-                    <tbody  id="asignacion">
-                    </tbody>
-                </table>
-                {{ submit_button("GUARDAR","id":"guardar", "class":"btn btn-primary btn-block" ,"disabled":"disabled") }}
-                {{ endForm() }}
             </div>
-            <br />
-            <br />
-        </div>
-    </div>
-    <div class="row">
-        <!-- columna de movimientos -->
-        <div id="movimientos" class="col-md-6 hidden">
-            <div class="table-header center">Movimientos</div>
-            <table class="table table-striped table-bordered">
-                <tbody id="t_movimiento">
 
+            {{ form("nomina/variaciones-movimientos/procesar", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
+            {{ hidden_field("ttcedula") }}
+            {{ hidden_field("sd") }}
+            {{ hidden_field("year") }}
+            {{ hidden_field("s-q-m") }}
+            {{ hidden_field("nomi") }}
+            {{ hidden_field("sb") }}
+            <table id="dynamic-table" class="table table-striped table-bordered">
+                <thead id="thead">
+                    <th class="center">Asignación</th>
+                    <th class="center">Horas / Dias</th>
+                    <th class="center">¿Habilitar Todos?
+                        <label style="margin-top: 10px; display: block">
+                            <input id="t_enabled" name="switch-field-1" class="ace ace-switch ace-switch-4 btn-rotate" type="checkbox">
+                            <span class="lbl" data-lbl="SI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NO"></span>
+                        </label>
+                    </th>
+                </thead>
+                <tbody  id="asignacion">
+                </tbody>
+            </table>
+            {{ submit_button("GUARDAR","id":"guardar", "class":"btn btn-primary btn-block" ,"disabled":"disabled") }}
+            {{ endForm() }}
+        </div>
+        <br />
+        <br />
+    </div>
+</div>
+<div class="row">
+    <!-- columna de movimientos -->
+    <div id="movimientos" class="col-md-5 hidden">
+        <div class="table-header center">Movimientos</div>
+        <table class="table table-striped table-bordered">
+            <tbody id="t_movimiento">
+
+            </tbody>
+        </table>
+    </div>
+    <!-- Fin columna movimientos-->
+
+
+    <div class="col-md-3">
+        <!--Deducciones-->
+        <div class="hidden"  id="deducciones">
+            <div class="table-header center">Deducciones</div>
+            <table class="table table-striped table-bordered">
+                <tbody id="t_deducciones">
                 </tbody>
             </table>
         </div>
-        <!-- Fin columna movimientos-->
+        <!--Fin Deducciones-->
 
-
-        <div class="col-md-3">
-            <!--Deducciones-->
-            <div class="hidden"  id="deducciones">
-                <div class="table-header center">Deducciones</div>
-                <table class="table table-striped table-bordered">
-                    <tbody id="t_deducciones">
-                    </tbody>
-                </table>
-            </div>
-            <!--Fin Deducciones-->
-
-            <!--Sueldo-->
-            <div class="hidden" id="sueldo">
-                <table class="table table-striped table-bordered">
-                    <tbody id="t_sueldo">
-                    </tbody>
-                </table>
-            </div>  
-            <!--Fin Sueldo-->
+        <!--Sueldo-->
+        <div class="hidden" id="sueldo">
+            <table class="table table-striped table-bordered">
+                <tbody id="t_sueldo">
+                </tbody>
+            </table>
         </div>  
+        <!--Fin Sueldo-->
+    </div>  
 
 
 
 
-        <!--TOTAL-->
-        <div class="center col-md-6" style="margin-left: 166px">
-            <table class="table table-striped table-bordered" id="t_total">
+    <!--TOTAL-->
+    <div class="center col-md-6" style="margin-left: 166px">
+        <table class="table table-striped table-bordered" id="t_total">
 
-            </table>
-            <br />
-            <br />
-        </div>
-        <!--TOTAL-->
-
+        </table>
+        <br />
+        <br />
     </div>
+    <!--TOTAL-->
 
-    <!-- fin tabla para mostrar todos los registros de la tabla-->
-    <br />
-    <div class="row">
-        <div id="msj_exito" class="alert alert-block alert-success hidden col-md-12"></div>
+</div>
+
+<!-- fin tabla para mostrar todos los registros de la tabla-->
+<br />
+<div class="row">
+    <div id="msj_exito" class="alert alert-block alert-success hidden col-md-12"></div>
+</div>
+<div class="row">
+    <div id="msj_error" class="hidden">
+        <div class="btn btn-danger btn-block col-xs-6">Las siguiente operaciones no fueron procesadas debido a problemas con la formula de las mismas:</div>
+        <table id="t_errors" class="table table-striped table-bordered col-md-6">
+            <thead id="thead">
+                <th class="center">Asignación Variable</th>
+                <th class="center">Formula</th>
+            </thead>
+            <tbody></tbody>
+        </table>
     </div>
-    <div class="row">
-        <div id="msj_error" class="hidden">
-            <div class="btn btn-danger btn-block col-xs-6">Las siguiente operaciones no fueron procesadas debido a problemas con la formula de las mismas:</div>
-            <table id="t_errors" class="table table-striped table-bordered col-md-6">
-                <thead id="thead">
-                    <th class="center">Asignación Variable</th>
-                    <th class="center">Formula</th>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-    </div>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <!-- modal confirmacion de guardado de variaciones -->
-    <div id="dialog-confirm" class="hide">
-        <p>
-            <h4>¿Esta seguro?</h4>
-        </p>
-    </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<!-- modal confirmacion de guardado de variaciones -->
+<div id="dialog-confirm" class="hide">
+    <p>
+        <h4>¿Esta seguro?</h4>
+    </p>
+</div>
 
-    <div id="eliminar" class="hide">
-        <p>
-            <h4>¿Esta seguro?</h4>
-        </p>
-    </div>
-    <div id="vacios" class="hide">
-        <p>
-            <h4>¡Debe llenar almenos un campo!</h4>
-        </p>
-    </div>
+<div id="eliminar" class="hide">
+    <p>
+        <h4>¿Esta seguro?</h4>
+    </p>
+</div>
+<div id="vacios" class="hide">
+    <p>
+        <h4>¡Debe llenar almenos un campo!</h4>
+    </p>
+</div>
 
-    <!-- modal modificacion de movimiento -->
-    <div id="modificar" class="hide center">
-        {{ numeric_field("movimiento", "class" : "form-control center", "required":"required") }}
-        {{ hidden_field("id_var") }}
-        <span id="dMsj"></span>
-    </div>
-    <!--<div id="dialog-message" class="hide"></div>-->
+<!-- modal modificacion de movimiento -->
+<div id="modificar" class="hide center">
+    {{ numeric_field("movimiento", "class" : "form-control center", "required":"required") }}
+    {{ hidden_field("id_var") }}
+    <span id="dMsj"></span>
+</div>
+<!--<div id="dialog-message" class="hide"></div>-->
 
-    <script type="text/javascript">
+<script type="text/javascript">
 
-        jQuery(function($){
+    jQuery(function($){
 
 
 
-            var nomina_opt = $("#nomina").children("option");
+        var nomina_opt = $("#nomina").children("option");
 
-            var nomina = $("#nomina").val()
-            if(nomina_opt.length > 0){
-                $("#aceptar").attr("disabled", false);
-            }
+        var nomina = $("#nomina").val()
+        if(nomina_opt.length > 0){
+            $("#aceptar").attr("disabled", false);
+        }
 
-            $("#aceptar").click(function(e){
-                e.preventDefault();
-                $("#div_buscar").removeClass("hidden");
-                $("#cedula").focus();
-            });       
+        $("#aceptar").click(function(e){
+            e.preventDefault();
+            $("#div_buscar").removeClass("hidden");
+            $("#cedula").focus();
+        });       
 
-            function nominas(nomi){
-                $.post("./variaciones/nomina", { "nomina" : nomi },function(data){
-                    var nomina = JSON.parse(data);
-                    var tr = "<tr><td>"+nomina.tipoNomi[0].sqm+"</td>"+
-                    "<td>"+nomina.tipoNomi[0].fecha+"</td>"+
-                    "<td>"+nomina.f_ini+"</td>"+
-                    "<td>"+nomina.f_fin+"</td>"+
-                    "<td>"+nomina.tipoNomi[0].deducs+"</td></tr>";
-                    $("#d_n").html(tr);
-                    $("#datos_nom").removeClass("hidden");   
-                });
-            }
-            
-            $("#nomina").change(function(){
-                var nom = $("#nomina").val();
-                if(nom != ""){
-                    nominas(nom);
-                }else{
-                    $("#datos_nom").addClass("hidden");
-                }
+        function nominas(nomi){
+            $.post("./variaciones/nomina", { "nomina" : nomi },function(data){
+                var nomina = JSON.parse(data);
+                var tr = "<tr><td class='center'>"+nomina.tipoNomi[0].sqm+"</td>"+
+                "<td class='center'>"+nomina.fecha+"</td>"+
+                "<td class='center'>"+nomina.f_ini+"</td>"+
+                "<td class='center'>"+nomina.f_fin+"</td>"+
+                "<td class='center'>"+nomina.tipoNomi[0].deducs+"</td></tr>";
+                $("#d_n").html(tr);
+                $("#datos_nom").removeClass("hidden");   
             });
+        }
+
+        $("#nomina").change(function(){
+            var nom = $("#nomina").val();
+            if(nom != ""){
+                nominas(nom);
+            }else{
+                $("#datos_nom").addClass("hidden");
+            }
+        });
         //funcion que carga las asignaciones variables con los campos de entrada
         function variaciones(cedu, nomi){
             $.post("variaciones/buscar", { "cedula" : cedu, "nomina" : nomi },function(data){
@@ -444,7 +451,7 @@
                             for(datos in movi.variaciones){
 
                                 tr+="<tr><td>"+movi.variaciones[datos].asignacion+"</td><td class='center'>"+movi.variaciones[datos].horas_dias+"</td>"+
-                                "<td class='center'>"+movi.variaciones[datos].fecha+"</td>"+"<td class='center'><div class='hidden-sm hidden-xs action-buttons'>"+
+                                "<td class='center'>"+movi.variaciones[datos].fecha+"</td>"+"<td class='center'><div class='action-buttons'>"+
                                 "<a href='#' class='modificar' id='"+movi.variaciones[datos].id_variacion+"'><i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"+
                                 "<a href='#' class='eliminar' id='"+movi.variaciones[datos].id_variacion+"'><i class='ace-icon glyphicon glyphicon-remove bigger-110'></i></div></td></tr>";
                             }
@@ -775,7 +782,7 @@
                 }
 
                 $("#t_errors tbody").html(tr);
-                $("#cedula").val("").focus();
+                $("#cedula").focus();
 
             });
 

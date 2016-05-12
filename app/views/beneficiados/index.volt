@@ -25,11 +25,6 @@ use Phalcon\Forms\Element\Select ?>
 
 <div id="page-wrapper">
 
-		<div class="col-sm-3">
-				<td align="right"><a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/embargos/index/<?php echo $ncedula; ?>" title="Volver">
-				<img src="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/img/btn-volver.png"></a>&nbsp;</td>			
-		</div>
- 
 <div class="row">
 
 
@@ -43,14 +38,14 @@ use Phalcon\Forms\Element\Select ?>
 		</div>
         
         <div class="table-header">
-            Beneficiarios del Embargo al Trabajador: <?php echo $nombre1."  ".$apellido1 ?> Cédula Identidad: <?php echo "  ".$nu_cedula ?>
+            Beneficiarios del Embargo al Trabajador: <?php echo $nombre1."  ".$apellido1 ?> Cédula Identidad: <?php echo "  ".$nu_cedula ?> Tribunal: <?php echo "  ".$tribunal ?> N° Expediente: <?php echo "  ".$nexpediente ?>
         </div>
 
-        	{{ content() }}
+        	<?php echo $this->flashSession->output(); ?>
 
         	{{ hidden_field("ncedula", "class":"form-control") }}
 
-        	{{ hidden_field("idbeneficiado", "class":"form-control") }}
+        	<!--{{ hidden_field("idbeneficiado", "class":"form-control") }}-->
 
         	{{ hidden_field("idembargo", "class":"form-control") }}
 
@@ -84,7 +79,7 @@ use Phalcon\Forms\Element\Select ?>
                                         <tbody>
                                             <?php
                                             $numerito=1;
-                                            foreach($beneficiados as $row) {
+                                            foreach($beneficiado as $row) {
                                             ?>
                                             <tr>
                                                 <td class="center">
@@ -104,8 +99,8 @@ use Phalcon\Forms\Element\Select ?>
 												
                                                 <td>
                                                     <div class="hidden-sm hidden-xs action-buttons">
-                                                        <?php echo $this->tag->linkTo(array("beneficiados/editar/".$row->id_beneficiado, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>")) ?> 
-                                                        <!--<?php echo $this->tag->linkTo(array("trabajadores/ficha1/".$row->nu_cedula, "<i class='ace icon fa fa-coffee'></i>")) ?>-->
+                                                        <?php echo $this->tag->linkTo(array("/trabajadores/ver/".$row->id_beneficiado."/embargos/beneficiados", "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>")) ?> 
+                                                        <?php echo $this->tag->linkTo(array("/trabajadores/ver/".$row->nu_cedula."/embargos/beneficiados", "<i class='ace icon fa fa-coffee'></i>")) ?>
                                                     </div>
                                                 </td>
                                             </tr>

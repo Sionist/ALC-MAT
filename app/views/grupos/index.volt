@@ -63,7 +63,7 @@
     </div>
 </div>
 </div>
-</div>
+
 <!-- fin tabla para mostrar todos los registros de la tabla-->
 
 <!-- modal -->

@@ -19,6 +19,7 @@ $router->add("/trabajadores/nuevo-trabajador/datos-profesionales/{cedula:[0-9]+}
 $router->addPost("/trabajadores/nuevo-trabajador/datos-profesionales","trabajadores::enviarprofesional");
 
 
+
 /* ******* CATALOGOS *** */
 
 /*
@@ -264,7 +265,7 @@ $router->addPost("/asignaciones-deducciones/guardarmodificar","asigsdeducstrabaj
  * rutas para cargafamiliar
  */
 $router->add("/trabajadores/ver/{cedula:[0-9]+}/carga-familiar","cargafamiliar::individual");
-$router->add("/trabajadores/ver/{cedula:[0-9]+}/carga-familiar/nueva-carga/{cedula:[0-9]+}","cargafamiliar::nuevo");
+$router->add("/trabajadores/ver/{cedula:[0-9]+}/carga-familiar/nueva-carga","cargafamiliar::nuevo");
 $router->addPost("/carga-familiar/guardar-nuevo","cargafamiliar::guardanuevo");
 $router->add("/trabajadores/ver/{cedula:[0-9]+}/carga-familiar/detalle/{id:[0-9]+}","cargafamiliar::detalle");
 
@@ -294,6 +295,13 @@ $router->add("/trabajadores/ver/{cedula:[0-9]+}/embargos","embargos::index");
 $router->addPost("/embargos/guardar","embargos::guardar");
 $router->addPost("/embargos/editado","embargos::editado");
 $router->add("/trabajadores/ver/{cedula:[0-9]+}/embargos/editar/{cedula:[0-9]+}","embargos::editar");
+
+/*
+ * rutas para beneficiados
+ */
+$router->add("/trabajadores/ver/{cedula:[0-9]+}/embargos/beneficiados/{id:[0-9]+}","Beneficiados::index");
+$router->addPost("/beneficiados/guardar", "Beneficiados::guardar");
+
 
 /*
  * rutas para users

@@ -1,12 +1,10 @@
+{{ stylesheet_link("css/datepicker.css") }}
 {{ javascript_include("js/bootstrap.js") }}
+{{ javascript_include("js/date-time/bootstrap-datepicker.js") }}
   
 <div id="page-wrapper">
 
 {{ content() }}
-
-
-
-
 
 <div class="row">
 	<div class="col-xs-12">

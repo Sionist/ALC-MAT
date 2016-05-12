@@ -97,14 +97,15 @@ use Phalcon\Forms\Element\Select ?>
 
         
  	{{ javascript_include("js/bootstrap.js") }}
-		 {{ javascript_include("js/dataTables/jquery.dataTables.js") }}
-		{{ javascript_include("js/dataTables/jquery.dataTables.bootstrap.js") }}
-		{{ javascript_include("js/dataTables/extensions/TableTools/js/dataTables.tableTools.js") }}
-		{{ javascript_include("js/dataTables/extensions/ColVis/js/dataTables.colVis.js") }}
+	{{ javascript_include("js/dataTables/jquery.dataTables.js") }}
+	{{ javascript_include("js/dataTables/jquery.dataTables.bootstrap.js") }}
+	{{ javascript_include("js/dataTables/extensions/TableTools/js/dataTables.tableTools.js") }}
+	{{ javascript_include("js/dataTables/extensions/ColVis/js/dataTables.colVis.js") }}
 		
 <script type="text/javascript">
 $(document).ready(function()
 {
+ 	$('#myTable').DataTable();
 
 	$(document).ready(function() {
         $('#stream_table').dataTable({
