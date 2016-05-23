@@ -12,18 +12,17 @@
         <div class="widget-header">
 
           <div class="center">
-            <h5>Trabajador:&nbsp;&nbsp;<b><?php echo $trabaja->nombre1;?>&nbsp;&nbsp;<?php echo $trabaja->apellido1;?></b>&nbsp;&nbsp;Cédula:&nbsp;&nbsp;<b><?php echo $trabaja->nu_cedula;?></b></h5>
+            <h5>Trabajador:&nbsp;&nbsp;<b><?php echo $dtrabajador->nombre1;?>&nbsp;&nbsp;<?php echo $dtrabajador->apellido1;?></b>&nbsp;&nbsp;Cédula:&nbsp;&nbsp;<b><?php echo $dtrabajador->nu_cedula;?></b></h5>
           </div>
         </div>
         <div class="widget-body">
           <div class="widget-main no-padding">
             <div class="dialogs clearfix">
-              {{ form("carga-familiar/guardar-nuevo", "method":"post", "class":"form-horizontal", "id":"validation-form", "enctype":"multipart/form-data" ) }}
+              {{ form("carga-familiar/editado", "method":"post", "class":"form-horizontal", "id":"validation-form", "enctype":"multipart/form-data" ) }}
               {{ hidden_field("nu_cedula") }}
-              <div class="center"><h5><strong>Datos de la carga familiar:</strong></h5></div>
-              <div class="col-md-2">
-              </div>
-              <div class="col-md-3">
+              {{ hidden_field("id_carga")}}
+                        <div class="center"><h5><strong>Editar datos de la carga familiar:</strong></h5></div>
+              <div class="col-md-3 col-md-offset-3">
                 <div class="form-group">
                   <label for="ci_carga">Cedula</label>
                   {{ text_field("ci_carga", "class" : "form-control", "size" : 30) }}
@@ -47,7 +46,7 @@
                 <div class="form-group">
                   <label for="f_nac">Fecha de Nacimiento:</label>
                   <div class="input-group">
-                    <input name="f_nac" class="form-control date-picker" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" required="required">
+                    <input name="f_nac" class="form-control date-picker" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" value="<?php echo $f_nac; ?>" required="required">
                     <span class="input-group-addon">
                       <i class="fa fa-calendar bigger-110"></i>
                     </span>
@@ -84,7 +83,7 @@
                     Parentesco::find(array("order" => "id_parentesco ASC")),
                     'using' => array('id_parentesco', 'parentesco'),
                     'useEmpty' => true,
-                    'emptyText' => 'Seleccione...',
+                    'emptyText' => 'Ingrese un valor',
                     'emptyValue' => '',
                     'class' => 'form-control select2'
                     ));
@@ -99,21 +98,21 @@
                       Discapacidad::find(array("order" => "id_discapacid ASC")),
                       'using' => array('id_discapacid', 'discapacidad'),
                       'useEmpty' => true,
-                      'emptyText' => 'Seleccione...',
+                      'emptyText' => 'Ingrese un valor',
                       'emptyValue' => '',
                       'class' => 'select2 form-control'
                       ));
                       ?>
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                     <label for="foto">Foto</label>
-                    <input type="hidden" name="MAX_FILE_SIZE" value="2048000" />
-                    <input name="imagen" id="imagen" type="file" />
-                    </div>
+                    <input type="hidden" name="MAX_FILE_SIZE" value="3072000" />
+                      <input id="foto" type="file"></input>
+                    </div> -->
                   </div>
                 </div>
                 <div class="form-actions center" style="margin-bottom: 0">
-                  <input type="submit" value="Guardar" class="btn btn-primary">
+                  <input type="submit" value="Modificar" class="btn btn-primary">
                 </div>
                 {{ endForm() }}
               </div>
@@ -122,6 +121,149 @@
         </div>
       </div>
     </div>
+
+
+    <div class="row hidden">
+     <div class="col-xs-12">
+
+
+       <div class="table-header">Carga Familiar Trabajador:<b><?php echo $trabaja->nombre1;?> <?php echo $trabaja->apellido1;?></b>  Cédula:<b><?php echo $trabaja->nu_cedula;?></b></div>
+
+
+       <table class="table table-striped table-bordered table-hover">
+        <tr>
+          <td>
+
+            {{ form("carga-familiar/guardar-nuevo", "method":"post", "class":"form-horizontal", "id":"validation-form", "enctype":"multipart/form-data" ) }}      
+
+            <input type="hidden" name="nu_cedula" value="<?php echo $trabaja->nu_cedula; ?>" /> 
+            <!-- {{ hidden_field("nu_cedula", "value":'<?php echo $trabaja->nu_cedula; ?>') }}  --> 
+
+            <div align="center">
+             <table border="0" width="700" cellspacing="5" cellpadding="0">
+              <tr>
+               <td colspan="2" bgcolor="#5CBECF" align="center">
+                 <p align="center"><h4>Datos de Carga Familiar</h4></td>
+                 </tr>
+                 <tr>
+                   <td width="50%">C&eacute;dula:</td>
+                   <td width="50%"></td>
+                 </tr>
+                 <tr>
+                   <td width="50%">{{ text_field("ci_carga", "size" : 30, "placeholder":"Cedula") }}</td>
+                   <td width="50%"></td>
+                 </tr>
+                 <tr>
+                   <td width="50%">Primer Nombre:</td>
+                   <td width="50%">Segundo Nombre:</td>
+                 </tr>
+                 <tr>
+                   <td width="50%">{{ text_field("nombre1", "size" : 30, "required":"required", "placeholder":"Primer Nombre") }}</td>
+                   <td width="50%">{{ text_field("nombre2", "size" : 30, "placeholder":"Segundo Nombre") }}</td>
+                 </tr>
+                 <tr>
+                   <td width="50%">Primer Apellido:</td>
+                   <td width="50%">Segundo Apellido:</td>
+                 </tr>
+                 <tr>
+                   <td width="50%">{{ text_field("apellido1", "size" : 30, "required":"required", "placeholder":"Primer Apellido") }}</td>
+                   <td width="50%">{{ text_field("apellido2", "size" : 30, "placeholder":"Segundo Apellido") }}</td>
+                 </tr>
+                 <tr>
+                   <td width="50%">Fecha de Nacimiento:</td>
+                   <td width="50%">Ocupación:</td>
+                 </tr>
+                 <tr>
+                   <td width="50%">
+                     <div class="col-xs-8"> <div class="input-group">
+
+
+                      {{ text_field("f_nac", "type" : "date", "required":"required", "class":"form-control date-picker", "data-date-format":"yyyy-mm-dd") }}
+                      <span class="input-group-addon">
+                        <i class="fa fa-calendar bigger-110"></i>
+                      </span>
+                    </div>
+
+                  </div>
+
+                </td>
+                <td width="50%">{{ text_field("ocupacion", "size" : 30, "placeholder":"Ocupación") }}</td>
+              </tr>
+              <tr>
+               <td width="50%">Género:</td>
+               <td width="50%">Parentesco:</td>
+             </tr>
+             <tr>
+               <td width="50%">
+                 <div class="col-xs-12 col-sm-9"> 
+
+                  <div><label class="line-height-1 blue">
+
+                    {{ radio_field("genero", "size" : 30, "placeholder":"Genero", "value":"M", "class":"ace") }}
+                    <span class="lbl"> Hombre</span>
+                  </label></div>
+
+
+                  <div> <label class="line-height-1 blue">
+
+                    {{ radio_field("genero", "size" : 30, "placeholder":"Genero", "value":"F", "class":"ace") }}
+                    <span class="lbl"> Mujer</span>
+                  </label></div>
+                </div>
+              </div>
+
+            </td>
+            <td width="50%">
+             <?php
+
+             echo Phalcon\Tag::Select(array(
+              'id_parentesco', 
+              Parentesco::find(array("order" => "id_parentesco ASC")),
+              'using' => array('id_parentesco', 'parentesco'),
+              'useEmpty' => true,
+              'emptyText' => 'Seleccione...',
+              'emptyValue' => '',
+              'class' => 'select2'
+              ));
+              ?>
+
+            </td>
+          </tr>
+          <tr>
+           <td width="50%"></td>
+           <td width="50%">Discapacidad:</td>
+         </tr>
+         <tr>
+           <td width="50%"><input type="hidden" name="foto_carga" value="1"></td>
+           <td width="50%">
+             <?php
+
+             echo Phalcon\Tag::Select(array(
+              'id_discapacidad', 
+              Discapacidad::find(array("order" => "id_discapacid ASC")),
+              'using' => array('id_discapacid', 'discapacidad'),
+              'useEmpty' => true,
+              'emptyText' => 'Seleccione...',
+              'emptyValue' => '',
+              'class' => 'select2'
+              ));
+              ?>
+
+            </td>
+          </tr>
+
+        </table>
+      </div>
+
+    </td>
+</tr>
+
+
+
+
+</table>
+</div>
+
 
 
 </table>

@@ -6,25 +6,6 @@
     <div class="row">
        <div class="col-xs-12">
 
-
-
-
-        <table class="table table-striped table-bordered table-hover">
-            <tr>
-                <td>
-
-                   <a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/cargafamiliar/individual/<?php echo $carga->nu_cedula;?>"><- Volver</a>
-
-
-               </td>
-           </tr>
-       </table>
-
-
-
-
-
-
        <div class="tab-content no-border padding-24">
         <div id="home" class="tab-pane in active">
             <div class="row">
@@ -32,15 +13,15 @@
                     <span class="profile-picture">
 
 
-                        <img id="avatar" class="editable img-responsive" title="<?php echo $carga->nombre1." ".$carga->apellido1; ?>" src="../../cargafamiliar/fotos/<?php echo $carga->foto_carga; ?>" />
-                        <!--  {{ image("cargafamiliar/fotos/<?php echo $carga->foto_carga;?>", "id": "avatar", "class": "editable img-responsive") }} --><a href="http://<?php echo $_SERVER['HTTP_HOST']; echo dirname($_SERVER['PHP_SELF']);?>/cargafamiliar/subir_foto.php?idcarga=<?php echo $carga->id_carga; ?>" target="popup" onClick="window.open(this.href, this.target, 'width=500,height=400'); return false;">Cambiar/Actualizar Foto</a>
+                        <img id="avatar" class="editable img-responsive" title="<?php echo $carga->nombre1." ".$carga->apellido1; ?>" src="http://localhost/sistenomialc/cargafamiliar/fotos/<?php echo $carga->foto_carga; ?>" />
+                        <!--  {{ image("cargafamiliar/fotos/<?php echo $carga->foto_carga;?>", "id": "avatar", "class": "editable img-responsive") }} --><a href="http://localhost/sistenomialc/cargafamiliar/subir_foto.php?idcarga=<?php echo $carga->id_carga; ?>" target="popup" onClick="window.open(this.href, this.target, 'width=500,height=400'); return false;">Cambiar/Actualizar Foto</a>
                     </span>
 
                 </div><!-- /.col -->
 
                 <div class="col-xs-12 col-sm-9">
                     <h4 class="blue">
-                        <span class="middle"><?php echo $carga->nombre1;
+                        <span class="middle" style="text-transform: capitalize;"><?php echo $carga->nombre1;
                             echo "&nbsp";
                             echo $carga->nombre2;
                             echo "&nbsp";
@@ -126,10 +107,7 @@
 
                                         $edad=($ano-$anonaz);
 
-
                                         echo $edad; 
-
-
 
                                         ?>
 
@@ -149,7 +127,7 @@
                                 <div class="profile-info-name"> Discapacidad </div>
 
                                 <div class="profile-info-value">
-                                    <span><?php echo $carga->id_discapacidad;?></span>
+                                    <span><?php echo $discapacidad[0]["discapacidad"]; ?></span>
                                 </div>
                             </div>
 
@@ -184,26 +162,10 @@
 </div>				
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </div>
 </div>
 </div>
 
-{{ javascript_include("js/bootstrap.js") }}
 {{ javascript_include("js/dataTables/jquery.dataTables.js") }}
 {{ javascript_include("js/dataTables/jquery.dataTables.bootstrap.js") }}
 {{ javascript_include("js/dataTables/extensions/TableTools/js/dataTables.tableTools.js") }}

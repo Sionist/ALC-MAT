@@ -2,11 +2,13 @@
  <div id="page-wrapper">
 
     <!-- Formulario para agregar  (insertar) -->
+    <div class="row">
+        <div class="col-xs-12">
+            <?php echo $this->tag->linkTo(array("permisos/nuevo","class"=>"btn btn-app btn-primary btn-xs","<i class='ace-icon fa fa-folder bigger-160'></i>Nuevo")) ?>
 
-    <?php echo $this->tag->linkTo(array("permisos/nuevo","class"=>"btn btn-app btn-primary btn-xs","<i class='ace-icon fa fa-folder bigger-160'></i>Nuevo")) ?>
-
-    <?php  echo $this->flashSession->output(); ?>
-
+            <?php  echo $this->flashSession->output(); ?>
+        </div>
+    </div>
     <!-- fin  Formulario para agregar estatus -->
 
     <!-- tabla para mostrar todos los registros de la tabla-->
@@ -74,7 +76,6 @@
 
 <!-- modal -->
 <!--<div id="dialog-message" class="hide"></div>-->
-{{ javascript_include("js/bootstrap.js") }}
 {{ javascript_include("js/dataTables/jquery.dataTables.js") }}
 {{ javascript_include("js/dataTables/jquery.dataTables.bootstrap.js") }}
 <script type="text/javascript">

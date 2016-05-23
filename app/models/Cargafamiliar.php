@@ -2,7 +2,6 @@
 
 class Cargafamiliar extends \Phalcon\Mvc\Model
 {
-
     /**
      *
      * @var integer
@@ -17,7 +16,7 @@ class Cargafamiliar extends \Phalcon\Mvc\Model
 
     /**
      *
-     * @var integer
+     * @var string
      */
     protected $ci_carga;
 

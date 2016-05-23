@@ -39,20 +39,22 @@ class BeneficiadosController extends \Phalcon\Mvc\Controller
     	$this->view->nu_cedula = $cedula;
 
     	$consulta = $this->modelsManager->createBuilder()
-    	->from("Beneficiados")
-    	->join("NbEmbargos")
-    	->columns("NbEmbargos.id_embargo,NbEmbargos.nu_cedula,Beneficiados.id_beneficiado,Beneficiados.nu_cedula,Beneficiados.ci_beneficiado,Beneficiados.apellidos,Beneficiados.nombres,
-    		Beneficiados.f_nacimiento,Beneficiados.id_embargo")
-    	->where("Beneficiados.id_embargo = :idemb:",array("idemb"=>$cedula))
+    	->from("NbEmbargos")
+    	->join("Beneficiados")
+    	->columns("NbEmbargos.id_embargo,Beneficiados.id_embargo,NbEmbargos.nu_cedula,Beneficiados.nu_cedula,Beneficiados.ci_beneficiado,Beneficiados.apellidos,
+    		Beneficiados.nombres,Beneficiados.f_nacimiento,Beneficiados.id_beneficiado")
+    	->where('NbEmbargos.id_embargo = :id_embargo:')
+    	//->where('NbEmbargos.id_embargo = :id:',array('id'=>$id))
         //->where("Beneficiados.id_embargo = ".$id.)
     	->getQuery()
-    	->execute();
+    	->execute(array('id_embargo' => $id));
+    	//->execute();
 
     	//$embargos = $consulta->execute();
 
     	//$embargos = NbEmbargos::find(array("nu_cedula = nu_cedula", "order" => "id_embargo"));
     	
-    	$this->view->SetParamToView("beneficiados",$consulta);
+    	$this->view->SetParamToView("beneficiado",$consulta);
 
     }
 
@@ -92,50 +94,58 @@ class BeneficiadosController extends \Phalcon\Mvc\Controller
 
     }
 
-    public function editarAction($idembargo)
+    public function editarAction()
     {
 		$this->verificarPermisos->verificar();
 
 		if (!$this->request->isPost())
     	{
     		
-    		$embargo = NbEmbargos::findFirstByIdEmbargo($idembargo);
+		    $id = $this->dispatcher->getParam("id");
+	        $cedula = $this->dispatcher->getParam("cedula");
 
-    		if (!$embargo)
+    		$beneficiado = Beneficiados::findFirstByIdBeneficiado($id);
+
+    		if (!$beneficiado)
     		{
-				$this->flash->error("Embargo NO Encontrado");
+				$this->flash->error("Beneficiado NO Encontrado");
 				
-				return $this->dispatcher->forward(array(
-					"controller" => "embargos",
-					"action" => "index",
-					"params" => array($ncedula)
-				));				    		
+				$this->response->redirect("trabajadores/ver/$cedula/embargos/beneficiados/editar/$id");
+
+				//return $this->dispatcher->forward(array(
+				//	"controller" => "embargos",
+				//	"action" => "index",
+				//	"params" => array($ncedula)
+				//));				    		
     		}    	   	
 
+    	   	$ncedula = $beneficiado->nu_cedula;
+    	   	$idembargo = $beneficiado->id_embargo;
 
 
-    	   	$ncedula = $embargo->nu_cedula;
 			$dtrab = Datospersonales::findFirstByNuCedula($ncedula);     		
     		$this->view->nombre1 = $dtrab->nombre1;
     		$this->view->apellido1 = $dtrab->apellido1;
+    		$this->view->ncedula = $ncedula;
 
+			$embargo = NbEmbargos::findFirstByIdEmbargo($idembargo);
+        	$tribunal = $embargo->tribunal;
+        	$nexpediente = $embargo->num_exp;
 
-			$idfondo = $embargo->id_fondo;
-			$fondo = FondoDesc::findFirstByIdFondo($idfondo);
-			//$this->view->fondo = $fondo->fondo;
+        	$this->view->tribunal = $tribunal;
+        	$this->view->nexpediente = $nexpediente;
+    		
+    	//	$this->view->idembargo = $embargo->id_embargo;
+    	//	
 
+    		$this->tag->setDefault("idbeneficiado",$beneficiado->getIdBeneficiado());
+    		//$this->tag->setDefault("ncedula",$beneficiado->getNuCedula());
+    		$this->tag->setDefault("cibene",$beneficiado->getCiBeneficiado());
+    	//	$this->tag->setDefault("nexpediente",$embargo->getNumExp());
+    	//	$this->tag->setDefault("fdictamen",$embargo->getFEmb());
+    	//	$this->tag->setDefault("porcentaje",$embargo->getPorcentajeEmb());
 
-    		$this->view->idembargo = $embargo->id_embargo;
-    		$this->view->ncedula = $embargo->nu_cedula;
-
-    		$this->tag->setDefault("idembargo",$embargo->getIdEmbargo());
-    		$this->tag->setDefault("ncedula",$embargo->getNuCedula());
-    		$this->tag->setDefault("tribunal",$embargo->getTribunal());
-    		$this->tag->setDefault("nexpediente",$embargo->getNumExp());
-    		$this->tag->setDefault("fdictamen",$embargo->getFEmb());
-    		$this->tag->setDefault("porcentaje",$embargo->getPorcentajeEmb());
-
-    		$this->tag->setDefault("concepto",$embargo->getIdFondo());
+    	//	$this->tag->setDefault("concepto",$embargo->getIdFondo());
     	}	
     }
 

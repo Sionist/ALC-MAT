@@ -18,15 +18,15 @@
         {{ javascript_include("js/date-time/bootstrap-datetimepicker.js") }}
 
 	
-		<div class="col-sm-3">
-				<td align="right"><a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/beneficiados/index/<?php echo $ncedula; ?>" title="Volver">
-				<img src="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/img/btn-volver.png"></a>&nbsp;</td>			
-		</div>
+		<!--<div class="col-sm-3">-->
+		<!--		<td align="right"><a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/beneficiados/index/<?php echo $ncedula; ?>" title="Volver">-->
+		<!--		<img src="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/img/btn-volver.png"></a>&nbsp;</td>			
+		    </div>-->
 
 		<div class="col-sm-6">
 			<div class="widget-box">
 				<div class="widget-header">
-					<h4 class="widget-title">Editar Beneficiarios de Embargo a <?php echo $nombre1." ".$apellido1." " ?>Cédula:<?php echo " ".$ncedula ?></h4>
+					<h4 class="widget-title">Editar Beneficiarios de Embargo a <?php echo $nombre1." ".$apellido1." " ?>Cédula:<?php echo " ".$ncedula ?>Tribunal: <?php echo "  ".$tribunal ?>N° Expediente: <?php echo "  ".$nexpediente ?></h4>
 				</div>
 
 					<div class="widget-body">
@@ -51,13 +51,13 @@
 								</td>
 								
 								<td>
-									{{ text_field("", "class":"form-control", "required":"required", "style":"text-transform:capitalize") }}
+									{{ text_field("cibene", "class":"form-control", "required":"required", "style":"text-transform:capitalize") }}
 								</td>								
 							</tr>
 							
 							<tr>
 								<td>
-									<th>N° Expediente</th>
+									<th>Apellidos</th>
 								</td>
 								
 								<td>
@@ -65,13 +65,13 @@
 								</td>
 								
 								<td>	
-									{{ text_field("nexpediente", "class":"form-control", "required":"required", "style":"text-transform:capitalize") }}
+									{{ text_field("apellidos", "class":"form-control", "required":"required", "style":"text-transform:capitalize") }}
 								</td>									
 							</tr>
 								
 							<tr>
 								<td>
-									<th>Fecha Dictamen</th>
+									<th>Nombres</th>
 								</td>
 								
 								<td>
@@ -79,13 +79,13 @@
 								</td>
 								
 								<td>	
-									{{ text_field("fdictamen", "type":"date", "class":"form-control date-picker", "data-date-format":"yyyy-mm-dd", "required":"required", "style":"text-transform:capitalize") }}<i class="fa fa-calendar bigger-110"></i>
+									{{ text_field("nombres", "type":"date", "class":"form-control date-picker", "data-date-format":"yyyy-mm-dd", "required":"required", "style":"text-transform:capitalize") }}<i class="fa fa-calendar bigger-110"></i>
 								</td>									
 							</tr>
 
 							<tr>	
 								<td>
-									<th>Porcentaje a Descontar</th>
+									<th>Fecha Nacimiento</th>
 								</td>
 
 								<td>
@@ -93,35 +93,12 @@
 								</td>
 								
 								<td>	
-									{{ text_field("porcentaje", "class":"form-control", "style":"text-transform:capitalize") }}
+									{{ text_field("fnac", "class":"form-control", "style":"text-transform:capitalize") }}
 								</td>	
 
 							</tr>
 					
-							<tr>	
-								<td>
-									<th>Concepto Descuento</th>
-								</td>
 
-								<td>
-
-								</td>
-								
-								<td>	
-
-									<?php
-										echo $this->tag->select(array(
-   										'concepto',
-   										FondoDesc::find(array('order' => 'id_fondo ASC')),
-   										'using' => array('id_fondo', "fondo"),
-   										'useEmpty' => true,
-   										'emptyText' => "Seleccione Concepto de Embargo",
-   										"class" => "form-control",
-   										"required" => "required"
-   										))
-   									?>	
-									
-								</td>	
 
 							</tr>
 
@@ -159,8 +136,8 @@ $(document).ready(function()
        );
     });
 
-	$("#concepto").on("change", function()
-    {
+$("#concepto").on("change", function()
+   {
      var idfondo = $("#concepto option:selected").attr("value");
 	
 	 $.get("<?php echo $this->url->get('embargos/obtenerFondo') ?>", {"id":idfondo}, function(data)

@@ -268,6 +268,8 @@ $router->add("/trabajadores/ver/{cedula:[0-9]+}/carga-familiar","cargafamiliar::
 $router->add("/trabajadores/ver/{cedula:[0-9]+}/carga-familiar/nueva-carga","cargafamiliar::nuevo");
 $router->addPost("/carga-familiar/guardar-nuevo","cargafamiliar::guardanuevo");
 $router->add("/trabajadores/ver/{cedula:[0-9]+}/carga-familiar/detalle/{id:[0-9]+}","cargafamiliar::detalle");
+$router->add("/trabajadores/ver/{cedula:[0-9]+}/carga-familiar/editar/{id:[0-9]+}","cargafamiliar::editar");
+$router->addPost("/carga-familiar/editado","cargafamiliar::editado");
 
 /*
  * rutas para reposos
@@ -301,7 +303,8 @@ $router->add("/trabajadores/ver/{cedula:[0-9]+}/embargos/editar/{cedula:[0-9]+}"
  */
 $router->add("/trabajadores/ver/{cedula:[0-9]+}/embargos/beneficiados/{id:[0-9]+}","Beneficiados::index");
 $router->addPost("/beneficiados/guardar", "Beneficiados::guardar");
-
+$router->add("/trabajadores/ver/{cedula:[0-9]+}/embargos/beneficiados/editar/{id:[0-9]+}","Beneficiados::editar");
+$router->addPost("/beneficiados/editado", "Beneficiados::editado");
 
 /*
  * rutas para users

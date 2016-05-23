@@ -18,8 +18,8 @@ $cedula=mysql_result($sql, 0, nu_cedula).$idcarga;
 $foto_e=mysql_result($sql, 0, foto_carga);
 
 
-$web_image_folder = '../../public/empleados/fotos';
-$exts = 'JPG';
+//$web_image_folder = '../../public/empleados/fotos';
+//$exts = 'JPG';
 $image_name = $cedula;
 //echo $web_image_folder.'/'.$image_name.'.'.'JPG';
 
@@ -105,10 +105,6 @@ a.do-upload:hover{text-decoration:none}
 #captcha-code{width:80px;padding:6px 5px}
 .captcha{background-color:#FFF;border:1px solid #ccc;display:inline-block;vertical-align:middle;border-radius:5px;-webkit-border-radius:5px;text-align:center;}
 
-
-
-
-
 </style>
 <script type="text/javascript" src="tooltip.js"></script>
 <script type="text/javascript" language="Javascript">
@@ -179,7 +175,7 @@ function numeros(evt)
     </tr>
     <tr>
       <td colspan="2" align="center">
-<div align="center"><img  name="miImagen" src="../../public/cargafamiliar/fotos/<?php if($foto_e<>' '){echo "$foto_e";}else{echo "sinfoto.gif";}?>" width="128" height="118" id="miImagen"/></div>
+<div align="center"><img  name="miImagen" src="http://localhost/sistenomialc/public/cargafamiliar/fotos/<?php if($foto_e<>' '){echo "$foto_e";}else{echo "sinfoto.gif";}?>" width="128" height="118" id="miImagen"/></div>
 
 
 
@@ -235,7 +231,7 @@ function numeros(evt)
 
              ?>
                 
-                	<script type="text/javascript">
+  <script type="text/javascript">
 	  alert("Foto cargada con éxito!");
 	  location.href=subir_foto.php?idcarga=<?php echo $_POST[id]; ?>';
 	</script>

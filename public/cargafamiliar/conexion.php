@@ -5,7 +5,7 @@
      $host="localhost";
      $port="3306";
      $user_bd="root";
-     $pass_user="Maturinmysql2013";
+     $pass_user="1234";
      $db="db1_nomi";
      $conn=mysql_connect("$host","$user_bd", "$pass_user");
      mysql_query("SET NAMES 'utf8'");

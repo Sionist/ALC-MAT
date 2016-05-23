@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/sistenomialc.iml" filepath="$PROJECT_DIR$/.idea/sistenomialc.iml" />
-      <module fileurl="file://file:C:/xampp//C:/xampp/htdocs/sistenomialc/.idea/sistenomialc.iml" filepath="file:$PROJECT_DIR$/../..//C:/xampp/htdocs/sistenomialc/.idea/sistenomialc.iml" />
     </modules>
   </component>
 </project>
