@@ -17,7 +17,7 @@
             <div class="pull-right tableTools-container"></div>
         </div>
         <div class="table-header">
-            Resultados para "Permisos"
+            Resultados para "Grupos"
         </div>
 
 

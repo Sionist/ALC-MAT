@@ -302,34 +302,44 @@
 
           <div class="form-group">
             <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="estatus">Estatus</label>
-            <div class="col-xs-12 col-sm-9"> <div class="clearfix">
+            <div class="col-xs-12 col-sm-9"> 
+              <div class="clearfix">
 
-              <?php
+                <?php
 
-              echo Phalcon\Tag::Select(array(
-                'estatus', 
-                EstatusT::find(array("order" => "estatus ASC")),
-                'using' => array('id_estat', 'estatus'),
-                'useEmpty' => true,
-                'emptyText' => 'Ingrese un valor',
-                'emptyValue' => '',
-                'class' => 'select2'
-                ));
-                ?>
+                echo Phalcon\Tag::Select(array(
+                  'estatus', 
+                  EstatusT::find(array("order" => "estatus ASC")),
+                  'using' => array('id_estat', 'estatus'),
+                  'useEmpty' => true,
+                  'emptyText' => 'Ingrese un valor',
+                  'emptyValue' => '',
+                  'class' => 'select2'
+                  ));
+                  ?>
+                </div>
+              </div>
+            </div>   
+
+            <div class="form-group">
+              <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="foto">Foto</label>
+              <div class="col-xs-12 col-sm-9"> 
+              <div class="clearfix" style="margin-top: 8px">
+                  <input type="hidden" name="MAX_FILE_SIZE" value="2048000" />
+                  <input name="imagen" id="imagen" type="file" />
+                </div>
               </div>
             </div>
-          </div>   
-           
-          <div style="text-align:right"><?php echo $this->tag->linkTo(array("trabajadores","class"=>"btn","Cancelar")) ?>&nbsp;&nbsp;&nbsp; <button id="guardar" class="btn btn-primary"><i class="ace-icon fa fa-floppy-o align-top bigger-125"></i>Guardar Datos</button></div>
-        </form>
-      </div>
-    </div>  
+            <div style="text-align:right"><?php echo $this->tag->linkTo(array("trabajadores","class"=>"btn","Cancelar")) ?>&nbsp;&nbsp;&nbsp; <button id="guardar" class="btn btn-primary"><i class="ace-icon fa fa-floppy-o align-top bigger-125"></i>Guardar Datos</button></div>
+          </form>
+        </div>
+      </div>  
 
 
 
 
+    </div>
   </div>
-</div>
 
 
 </div>
@@ -440,10 +450,10 @@
                     //{type: 'image', name: 'name of image', path: 'http://path/to/image/for/preview'},
                     //{type: 'file', name: 'hello.txt'}
                 //]);
-  
-  
-  
-  
+
+
+
+
                 //dynamically change allowed formats by changing allowExt && allowMime function
                 $('#id-file-format').removeAttr('checked').on('change', function() {
                   var whitelist_ext, whitelist_mime;
@@ -505,9 +515,9 @@
                         //on any case you still should check files with your server side script
                         //because any arbitrary file can be uploaded by user and it's not safe to rely on browser-side measures
                       });
-  
-});
-  
+
+                    });
+
 
              // -----------------ESTILOS DE TOOLTIP Y DE SELECT BOX --------------------
              $('[data-rel=tooltip]').tooltip();
@@ -609,9 +619,9 @@
                         $(e).remove();
                       }
                     });
-  
-  
-  
+
+
+
               // ------------------NO ESTOY SEGURA CREO QUE ES ALGO DEL SELECT BOX --------------------   
               
               

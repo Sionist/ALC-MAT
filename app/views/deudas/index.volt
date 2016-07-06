@@ -27,6 +27,8 @@
 				<th class='center'>Frecuencia</th>
 				<th class='center'>Saldo</th>
 				<th class='center'>Fecha de Compromiso</th>
+				<th class='center'>Fecha Ultimo Pago</th>
+				<th class='center'>Monto Ultimo Pago</th>
 				<th class="center">Acción</th>
 			</thead>
 			<tbody>
@@ -43,12 +45,12 @@
 						$d->monto_inicial."</td><td class='center'>".
 						$d->cuotas."</td><td class='center'>".$d->frecuencia."</td><td  class='center'>".
 						$d->saldo."</td><td class='center'>".
-						$fecha->format("d-m-Y")."</td>"; 
+						$fecha->format("d-m-Y")."</td><td>".$d->f_ultimo_pago."</td><td>".$d->m_ultimo_pago."</td>"; 
 						$cont++;
 				?>
 			<td class='center'>
 				<div class="hidden-sm hidden-xs action-buttons center">
-                    <?php echo $this->tag->linkTo(array("deudas/editar/".$d->id_deuda, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"))  ?>
+                    <?php echo $this->tag->linkTo(array("trabajadores/ver/".$dtt->nu_cedula."/deudas/editar/".$d->id_deuda, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"))  ?>
                 </div>
             </td>
             <?php echo "</tr>"; } ?>

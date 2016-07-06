@@ -60,7 +60,7 @@
                   <label>Genero:</label>
                   <div>
                     <label class="line-height-1 blue">
-                      {{ radio_field("genero", "size" : 30, "placeholder":"Genero", "value":"M", "class":"ace") }}
+                      {{ radio_field("genero", "size" : 30, "placeholder":"Genero", "value":"M", "class":"ace", "checked" : "checked") }}
                       <span class="lbl"> Hombre</span>
                     </label>
                   </div>
@@ -86,6 +86,7 @@
                     'useEmpty' => true,
                     'emptyText' => 'Seleccione...',
                     'emptyValue' => '',
+                    'required' => 'required',
                     'class' => 'form-control select2'
                     ));
                     ?>
@@ -101,14 +102,15 @@
                       'useEmpty' => true,
                       'emptyText' => 'Seleccione...',
                       'emptyValue' => '',
+                      'required' => 'required',
                       'class' => 'select2 form-control'
                       ));
                       ?>
                     </div>
                     <div class="form-group">
-                    <label for="foto">Foto</label>
-                    <input type="hidden" name="MAX_FILE_SIZE" value="2048000" />
-                    <input name="imagen" id="imagen" type="file" />
+                      <label for="foto">Foto</label>
+                      <input type="hidden" name="MAX_FILE_SIZE" value="2048000" />
+                      <input name="imagen" id="imagen" type="file" />
                     </div>
                   </div>
                 </div>
@@ -124,7 +126,7 @@
     </div>
 
 
-</table>
+  </table>
 </div>
 </div>
 </div>

@@ -49,7 +49,7 @@
                 <div class="pull-right tableTools-container"></div>
             </div>
             <div class="table-header">
-                Resultados por "Convenciones Colectivas"
+                Resultados para "Convenciones Colectivas"
             </div>
 
 

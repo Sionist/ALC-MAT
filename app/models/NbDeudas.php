@@ -52,6 +52,18 @@ class NbDeudas extends \Phalcon\Mvc\Model
     protected $f_compromiso;
 
     /**
+     *
+     * @var string
+     */
+    protected $f_ultimo_pago;
+
+    /**
+     *
+     * @var double
+     */
+    protected $m_ultimo_pago;
+
+    /**
      * Method to set the value of field id_deuda
      *
      * @param integer $id_deuda
@@ -156,6 +168,32 @@ class NbDeudas extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Method to set the value of field f_ultimo_pago
+     *
+     * @param string $f_ultimo_pago
+     * @return $this
+     */
+    public function setFUltimoPago($f_ultimo_pago)
+    {
+        $this->f_ultimo_pago = $f_ultimo_pago;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field m_ultimo_pago
+     *
+     * @param double $m_ultimo_pago
+     * @return $this
+     */
+    public function setMUltimoPago($m_ultimo_pago)
+    {
+        $this->m_ultimo_pago = $m_ultimo_pago;
+
+        return $this;
+    }
+
+    /**
      * Returns the value of field id_deuda
      *
      * @return integer
@@ -233,6 +271,26 @@ class NbDeudas extends \Phalcon\Mvc\Model
     public function getFCompromiso()
     {
         return $this->f_compromiso;
+    }
+
+    /**
+     * Returns the value of field f_ultimo_pago
+     *
+     * @return string
+     */
+    public function getFUltimoPago()
+    {
+        return $this->f_ultimo_pago;
+    }
+
+    /**
+     * Returns the value of field m_ultimo_pago
+     *
+     * @return double
+     */
+    public function getMUltimoPago()
+    {
+        return $this->m_ultimo_pago;
     }
 
     /**

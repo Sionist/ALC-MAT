@@ -23,31 +23,47 @@
 		<!--		<img src="http://<?php echo $_SERVER['HTTP_HOST'];?>/sistenomialc/img/btn-volver.png"></a>&nbsp;</td>			
 		    </div>-->
 
-		<div class="col-sm-6">
-			<div class="widget-box">
-				<div class="widget-header">
-					<h4 class="widget-title">Editar Beneficiarios de Embargo a <?php echo $nombre1." ".$apellido1." " ?>Cédula:<?php echo " ".$ncedula ?>Tribunal: <?php echo "  ".$tribunal ?>N° Expediente: <?php echo "  ".$nexpediente ?></h4>
+		<div class="col-sm-8">
+			<div class="widget-box" align="center">
+				<div class="widget-header" align="center">
+					<h4 class="widget-title">Editar Beneficiarios de Embargo a <?php echo $nombre1." ".$apellido1." " ?>Cédula:<?php echo " ".$ncedula ?></h4>
 				</div>
 
-					<div class="widget-body">
-						<div class="widget-main no-padding">
+				<div class="widget-body">
+					<div class="widget-main no-padding">
 												
 						{{ form("beneficiados/editado", "method":"post", "autocomplete" : "off", "class":"form-inline") }}
 						<fieldset>
-						{{ content() }}
+						<?php echo $this->flashSession->output(); ?>
 						
 						{{ hidden_field("idbeneficiado") }}
 						{{ hidden_field("ncedula") }}
-						
+						{{ hidden_field("idembargo") }}
 						
 						<table align="center">
-						
+
 							<tr>
 								<td>
-									<th>Cédula del Beneficiario</th>
+									<b><h4>Tribunal: <?php echo "  ".$tribunal ?></b></h4>
 								</td>
-								
+
 								<td>
+
+								</td>
+
+								<td>
+									<b><h4>N° Expediente: <?php echo "  ".$nexpediente ?></b></h4>
+								</td>								
+							</tr>
+
+							<tr>
+								
+							</tr>
+						
+
+							<tr>
+								<td>
+									<th>Cédula del Beneficiario:</th>
 								</td>
 								
 								<td>
@@ -57,11 +73,7 @@
 							
 							<tr>
 								<td>
-									<th>Apellidos</th>
-								</td>
-								
-								<td>
-								
+									<th>Apellidos:</th>
 								</td>
 								
 								<td>	
@@ -71,37 +83,25 @@
 								
 							<tr>
 								<td>
-									<th>Nombres</th>
-								</td>
-								
-								<td>
-								
+									<th>Nombres:</th>
 								</td>
 								
 								<td>	
-									{{ text_field("nombres", "type":"date", "class":"form-control date-picker", "data-date-format":"yyyy-mm-dd", "required":"required", "style":"text-transform:capitalize") }}<i class="fa fa-calendar bigger-110"></i>
+									{{ text_field("nombres", "class":"form-control", "style":"text-transform:capitalize") }}
 								</td>									
 							</tr>
 
 							<tr>	
 								<td>
-									<th>Fecha Nacimiento</th>
+									<th>Fecha Nacimiento:</th>
 								</td>
 
-								<td>
-
-								</td>
-								
 								<td>	
-									{{ text_field("fnac", "class":"form-control", "style":"text-transform:capitalize") }}
+									{{ text_field("fnac", "type":"date", "class":"form-control date-picker", "data-date-format":"yyyy-mm-dd", "required":"required", "style":"text-transform:capitalize") }}<i class="fa fa-calendar bigger-110"></i>
 								</td>	
 
 							</tr>
 					
-
-
-							</tr>
-
 						</table>	
 						
 						</fieldset>

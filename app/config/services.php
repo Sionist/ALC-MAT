@@ -107,7 +107,7 @@ $di->set('security', function(){
 $di->set(
     'router',
     function () {
-        $router = new Router();
+        $router = new Router(false);
         require __DIR__.'/routes.php';
         return $router;
     }

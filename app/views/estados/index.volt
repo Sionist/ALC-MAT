@@ -11,7 +11,7 @@
 		<div class="pull-right tableTools-container"></div>
 	</div>
 	<div class="table-header">
-		Resultados por "Estados"
+		Resultados para "Estados"
 	</div>
 	<table class="table table-striped table-bordered table-hover">
 		<tr>

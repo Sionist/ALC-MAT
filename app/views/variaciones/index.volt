@@ -157,6 +157,26 @@
         </div>
         <!--Fin Deducciones-->
 
+        <!--Deducciones-->
+        <div class=""  id="deudas">
+            <div class="table-header center">Deducciones</div>
+            <table class="table table-striped table-bordered">
+                <tbody id="t_deducciones">
+                </tbody>
+            </table>
+        </div>
+        <!--Fin Deducciones-->
+
+        <!--Deducciones-->
+        <div class=""  id="embargos">
+            <div class="table-header center">Deducciones</div>
+            <table class="table table-striped table-bordered">
+                <tbody id="t_deducciones">
+                </tbody>
+            </table>
+        </div>
+        <!--Fin Deducciones-->
+
         <!--Sueldo-->
         <div class="hidden" id="sueldo">
             <table class="table table-striped table-bordered">

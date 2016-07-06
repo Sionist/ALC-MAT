@@ -47,7 +47,7 @@
 
             <div class="page-content">
 
-              {{ content() }}
+              <?php echo $this->flashSession->outPut(); ?>
               <!-- /section:settings.box -->
               <div class="page-header">
                 <h1>
@@ -113,18 +113,16 @@
 
                             if ($dtrabajador->foto_p == null) {
                              ?>
-                             <img id="avatar" class="editable img-responsive" title="No tiene Foto" src="../../public/img/sinfoto.png" />
+                             <img class="editable img-responsive" title="No tiene Foto" src="../../public/img/sinfoto.png" />
                              <?php														  
                            }
                            else{
                              ?>
-                             <img id="avatar" class="editable img-responsive" title="<?php echo $dtrabajador->nombre1." ".$dtrabajador->apellido1; ?>" src="../../public/empleados/fotos/<?php echo $dtrabajador->foto_p; ?>" />
+                             <img class="editable img-responsive" title="<?php echo $dtrabajador->nombre1." ".$dtrabajador->apellido1; ?>" src="../../public/empleados/fotos/<?php echo $dtrabajador->foto_p; ?>" />
 
                              <?php
                            }
                            ?>
-
-                           <a href="http://<?php echo $_SERVER['HTTP_HOST']; echo dirname($_SERVER['PHP_SELF']);?>/empleados/subir_foto.php?ced=<?php echo $dtrabajador->nu_cedula; ?>" target="popup" onClick="window.open(this.href, this.target, 'width=500,height=400'); return false;">Cambiar/Actualizar Foto</a>
                          </span>
 
                        </div><!-- /.col -->
@@ -143,7 +141,8 @@
                               <i class="ace-icon fa fa-circle smaller-80 align-middle"></i>
                               <?php echo $estatus1->estatus;?> 
                             </span>
-                            <button id="d_pBtn" class="btn btn-white btn-purple btn-sm" style="position: relative;  float: right; right: 10px"><span class="ace-icon fa fa-pencil-square-o"></span></button>
+                            <a href="../../trabajadores/ver/<?php echo $dtrabajador->nu_cedula ?>/editar-dp" class="smaller-70" style="position: relative;  float: right; right: 10px; top:10px">Editar</a>
+                            <!-- <button id="d_pBtn" class="btn btn-white btn-purple btn-sm btnEdit" style="position: relative;  float: right; right: 10px"><span class="ace-icon fa fa-pencil-square-o"></span></button> -->
 
                           </h4>
 
@@ -332,8 +331,10 @@
                                       <i class="ace-icon fa fa-book bigger-110"></i>
                                       Contratación
                                     </h4>
-                                    <button class="btn btn-white btn-purple btn-sm" id="d_cBtn" style="position: relative;  float: right;"><span class="ace-icon fa fa-pencil-square-o"></span></button>
 
+                                    <a href="../../trabajadores/ver/<?php echo $dtrabajador->nu_cedula ?>/editar-dc" style="position: relative;  float: right; right: 10px; top:10px">Editar</a>
+
+                                    <!-- <button class="btn btn-white btn-purple btn-sm btnEdit" id="d_cBtn" style="position: relative;  float: right;"><span class="ace-icon fa fa-pencil-square-o"></span></button>-->
                                   </div>
 
                                   <div class="widget-body">
@@ -423,7 +424,9 @@
                                       <i class="ace-icon fa fa-graduation-cap bigger-120"></i>
                                       Profesión
                                     </h4>
-                                    <button class="btn btn-white btn-purple btn-sm" id="d_pfBtn" style="position: relative;  float: right"><span class="ace-icon fa fa-pencil-square-o"></span></button>
+
+                                    <a href="../../trabajadores/ver/<?php echo $dtrabajador->nu_cedula ?>/editar-dpf" style="position: relative;  float: right; right: 10px; top:10px">Editar</a>
+                                    <!-- <button class="btn btn-white btn-purple btn-sm btnEdit" id="d_pfBtn" style="position: relative;  float: right"><span class="ace-icon fa fa-pencil-square-o"></span></button> -->
 
                                   </div>
 
@@ -454,7 +457,9 @@
                                         <i class="ace-icon fa fa-money bigger-110"></i>
                                         Datos Financieros
                                       </h4>
-                                      <button class="btn btn-white btn-purple btn-sm" id="d_fBtn" style="position: relative;  float: right"><span class="ace-icon fa fa-pencil-square-o"></span></button>
+                                      <a href="../../trabajadores/ver/<?php echo $dtrabajador->nu_cedula ?>/editar-df" style="position: relative;  float: right; right: 10px; top:10px">Editar</a>
+
+                                      <!-- <button class="btn btn-white btn-purple btn-sm btnEdit" id="d_fBtn" style="position: relative;  float: right"><span class="ace-icon fa fa-pencil-square-o"></span></button> -->
                                     </div>
 
                                     <div class="widget-body">
@@ -1073,7 +1078,7 @@ jQuery.validator.addMethod("phone", function (value, element) {
                           }
                         })
 
-}catch(e) {}
+                  }catch(e) {}
 
                 /**
                 //let's display edit mode by default?
@@ -1169,7 +1174,7 @@ jQuery.validator.addMethod("phone", function (value, element) {
               return false;
             });
 
-});
+          });
 
 
 
@@ -1264,6 +1269,6 @@ jQuery.validator.addMethod("phone", function (value, element) {
                     $('[class*=select2]').remove();
                   });
 
-              </script>
+                </script>
 
 

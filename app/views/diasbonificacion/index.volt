@@ -55,7 +55,7 @@
                                             <div class="pull-right tableTools-container"></div>
                                         </div>
                                         <div class="table-header">
-                                            Resultados por "Días de Bonificación"
+                                            Resultados para "Días de Bonificación de fin de año"
                                         </div>
 
                                         <!-- div.table-responsive -->

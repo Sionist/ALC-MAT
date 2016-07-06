@@ -113,7 +113,7 @@ class BeneficiadosController extends \Phalcon\Mvc\Controller
 				$this->response->redirect("trabajadores/ver/$cedula/embargos/beneficiados/editar/$id");
 
 				//return $this->dispatcher->forward(array(
-				//	"controller" => "embargos",
+	 			//	"controller" => "embargos",
 				//	"action" => "index",
 				//	"params" => array($ncedula)
 				//));				    		
@@ -121,31 +121,31 @@ class BeneficiadosController extends \Phalcon\Mvc\Controller
 
     	   	$ncedula = $beneficiado->nu_cedula;
     	   	$idembargo = $beneficiado->id_embargo;
+    	   	
 
-
-			$dtrab = Datospersonales::findFirstByNuCedula($ncedula);     		
+			$dtrab = Datospersonales::findFirstByNuCedula($cedula);     		
     		$this->view->nombre1 = $dtrab->nombre1;
     		$this->view->apellido1 = $dtrab->apellido1;
-    		$this->view->ncedula = $ncedula;
+    		$this->view->ncedula = $cedula;
 
 			$embargo = NbEmbargos::findFirstByIdEmbargo($idembargo);
-        	$tribunal = $embargo->tribunal;
+			$tribunal = $embargo->tribunal;
         	$nexpediente = $embargo->num_exp;
 
         	$this->view->tribunal = $tribunal;
         	$this->view->nexpediente = $nexpediente;
     		
-    	//	$this->view->idembargo = $embargo->id_embargo;
-    	//	
+    		$this->view->idembargo = $embargo->id_embargo;
+
 
     		$this->tag->setDefault("idbeneficiado",$beneficiado->getIdBeneficiado());
-    		//$this->tag->setDefault("ncedula",$beneficiado->getNuCedula());
+    		$this->tag->setDefault("idembargo",$beneficiado->getIdEmbargo());
+    		$this->tag->setDefault("ncedula",$beneficiado->getNuCedula());
     		$this->tag->setDefault("cibene",$beneficiado->getCiBeneficiado());
-    	//	$this->tag->setDefault("nexpediente",$embargo->getNumExp());
-    	//	$this->tag->setDefault("fdictamen",$embargo->getFEmb());
-    	//	$this->tag->setDefault("porcentaje",$embargo->getPorcentajeEmb());
-
-    	//	$this->tag->setDefault("concepto",$embargo->getIdFondo());
+    		$this->tag->setDefault("apellidos",$beneficiado->getApellidos());
+    		$this->tag->setDefault("nombres",$beneficiado->getNombres());
+    		$this->tag->setDefault("fnac",$beneficiado->getFNacimiento());
+    		
     	}	
     }
 
@@ -155,41 +155,41 @@ class BeneficiadosController extends \Phalcon\Mvc\Controller
     	if ($this->request->isPost())
     	{
 
-    		$idembargo = $this->request->getPost("idembargo");
+    		$idbeneficiado = $this->request->getPost("idbeneficiado");
     		$ncedula = $this->request->getPost("ncedula");
+    		$idembargo = $this->request->getPost("idembargo");
 
-    		$embargo = NbEmbargos::findFirstByIdEmbargo($idembargo);
+    		$beneficiado = Beneficiados::findFirstByIdBeneficiado($idbeneficiado);
 
-    		if (!$embargo)
+    		if (!$beneficiado)
     		{
-    			$this->flash->error("Embargo NO Encontrado");
-    			return $this->dispatcher->forward(array("controller" => "embargos",
-    				"action" => "index",
-    				"params" => array($ncedula)));
+    			$this->flashSession->error("Beneficiado NO Encontrado");
+    			$this->response->redirect("trabajadores/ver/$ncedula/embargos/$idembargo/beneficiados");
+    			//return $this->dispatcher->forward(array("controller" => "embargos",
+    			//	"action" => "index",
+    		   //   "params" => array($ncedula)));
     		}
 
-    		$embargo->setNuCedula($this->request->getPost("ncedula"));
-    		$embargo->setPorcentajeEmb($this->request->getPost("porcentaje"));
-    		$embargo->setNumExp($this->request->getPost("nexpediente"));
-    		$embargo->setFEmb($this->request->getPost("fdictamen"));
-    		$embargo->setIdFondo($this->request->getPost("concepto"));
-    		$embargo->setTribunal($this->request->getPost("tribunal"));
-    		
+    		$beneficiado->setNuCedula($this->request->getPost("ncedula"));
+    		$beneficiado->setCiBeneficiado($this->request->getPost("cibene"));
+    		$beneficiado->setApellidos($this->request->getPost("apellidos"));
+    		$beneficiado->setNombres($this->request->getPost("nombres"));
+    		$beneficiado->setFNacimiento($this->request->getPost("fnac"));
 
-    		if (!$embargo->save())
+    		if (!$beneficiado->save())
     		{
-    			foreach ($embargo->getMessages() as $message) {
-                    $this->flash->error($message);
+    			foreach ($beneficiado->getMessages() as $message) {
+                    $this->flashSession->error($message);
                 }	
 
-                return $this->dispatcher->forward(array("controller" => "embargos",
-                    "action" => "index",
-                    "params" => array($ncedula)
-                 ));
+                $this->response->redirect("trabajadores/ver/$ncedula/embargos/$idembargo/beneficiados");
+
     		}
 
-    		$this->flash->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Modificación Exitosa</strong></p></div>");
-    		return $this->dispatcher->forward(array("controller" => "embargos", "action" => "index", "params" => array($ncedula)));
+    		$this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Modificación Exitosa</strong></p></div>");
+
+    		$this->response->redirect("trabajadores/ver/$ncedula/embargos/beneficiados/$idembargo");
+    		$this->view->disable();
 
     	}
     }

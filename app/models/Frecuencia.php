@@ -7,13 +7,13 @@ class Frecuencia extends \Phalcon\Mvc\Model
      *
      * @var integer
      */
-    public $id_frecuencia;
+    protected $id_frecuencia;
 
     /**
      *
      * @var string
      */
-    public $frecuencia;
+    protected $frecuencia;
 
     /**
      * Method to set the value of field id_frecuencia
@@ -66,7 +66,9 @@ class Frecuencia extends \Phalcon\Mvc\Model
      */
     public function initialize()
     {
+        $this->hasMany('id_frecuencia', 'NbAsignaciones', 'frecuencia', array('alias' => 'NbAsignaciones'));
         $this->hasMany('id_frecuencia', 'NbDeducciones', 'id_frecuencia', array('alias' => 'NbDeducciones'));
+        $this->hasMany('id_frecuencia', 'NbDeudas', 'frecuencia', array('alias' => 'NbDeudas'));
         $this->hasMany('id_frecuencia', 'TipoNomi', 'frecuencia', array('alias' => 'TipoNomi'));
     }
 

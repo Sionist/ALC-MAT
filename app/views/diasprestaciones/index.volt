@@ -30,7 +30,7 @@
                                             <div class="pull-right tableTools-container"></div>
                                         </div>
                                         <div class="table-header">
-                                            Resultados por "Dias Prestaciones"
+                                            Resultados para "Dias Prestaciones"
                                         </div>
 
                                         <!-- div.table-responsive -->

@@ -28,7 +28,7 @@
 			<ul class="submenu">
 
 				<li class="">
-						<?php echo $this->tag->linkTo("trabajadores","<i class='menu-icon fa fa-caret-right'></i>Listar Trabajadores") ?>
+					<?php echo $this->tag->linkTo("trabajadores","<i class='menu-icon fa fa-caret-right'></i>Listar Trabajadores") ?>
 					<b class="arrow"></b>
 				</li>
 
@@ -45,7 +45,7 @@
 
 			<b class="arrow"></b>
 			<ul class="submenu">
-			<li class="">
+				<li class="">
 					<?php echo $this->tag->linkTo("nominas","<i class='menu-icon fa fa-caret-right'></i>Nominas") ?>
 					<b class="arrow"></b>
 				</li>
@@ -106,6 +106,11 @@
 
 					<b class="arrow"></b>
 				</li>
+				<li class="">
+					<?php echo $this->tag->linkTo("descuentos","<i class='menu-icon fa fa-caret-right'></i>Casas Comerciales") ?>
+
+					<b class="arrow"></b>
+				</li>
 
 				<li class="">
 					<?php echo $this->tag->linkTo("ciudades","<i class='menu-icon fa fa-caret-right'></i>Ciudades") ?>
@@ -126,11 +131,6 @@
 				</li>
 				<li class="">
 					<?php echo $this->tag->linkTo("deducciones","<i class='menu-icon fa fa-caret-right'></i>Deducciones") ?>
-
-					<b class="arrow"></b>
-				</li>
-				<li class="">
-					<?php echo $this->tag->linkTo("descuentos","<i class='menu-icon fa fa-caret-right'></i>Descuentos") ?>
 
 					<b class="arrow"></b>
 				</li>

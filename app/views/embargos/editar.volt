@@ -139,7 +139,7 @@
 	<div class="col-sm-4">
 	</div>
 		
-		{{ javascript_include("js/bootstrap.js") }}
+
 		{{ javascript_include("js/dataTables/jquery.dataTables.js") }}
 		{{ javascript_include("js/dataTables/jquery.dataTables.bootstrap.js") }}
 		{{ javascript_include("js/dataTables/extensions/TableTools/js/dataTables.tableTools.js") }}

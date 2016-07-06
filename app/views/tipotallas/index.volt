@@ -28,7 +28,7 @@
                                             <div class="pull-right tableTools-container"></div>
                                         </div>
                                         <div class="table-header">
-                                            Resultados por "Tipos de Talla"
+                                            Resultados para "Tipos de Talla"
                                         </div>
 
                                         <!-- div.table-responsive -->

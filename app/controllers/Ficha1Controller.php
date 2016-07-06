@@ -2,9 +2,44 @@
 
 class ficha1Controller extends \Phalcon\Mvc\Controller
 {
+    public function initialize(){
+        $this->view->setTemplateAfter('blank');
+    }
+
+    public function editarDPAction(){
+        $this->verificarPermisos->verificar();
+
+        $cedula = $this->dispatcher->getParam("cedula");
+        $this->tag->setDefault("nu_cedula",$cedula);
+        $dt = Datospersonales::findFirstByNuCedula($cedula);
+
+        $this->tag->setDefault("rif",$dt->getRif());
+        $nombre1 = $dt->getNombre1();
+        $this->tag->setDefault("nombre1",$nombre1);
+        $this->tag->setDefault("nombre2",$dt->getNombre2());
+        $this->tag->setDefault("apellido1",$dt->getApellido1());
+        $this->tag->setDefault("apellido2",$dt->getApellido2());
+
+        $genero = $dt->getGenero();
+        $this->view->setVar("genero",$genero);
+
+        $this->view->setVar("datos",$dt->toArray());
+
+        $this->tag->setDefault("lugar_nac",$dt->getLugarNac());
+        $this->tag->setDefault("f_nac",date("d-m-Y",strtotime($dt->getFNac())));
+        $this->tag->setDefault("telf_hab",$dt->getTelfHab());
+        $this->tag->setDefault("telf_cel",$dt->getTelfCel());
+        $this->tag->setDefault("dir_hab",$dt->getDirHab());
+        $this->tag->setDefault("edo_civil",$dt->getEdoCivil());
+        $this->tag->setDefault("correo",$dt->getCorreoE());
+        $this->tag->setDefault("estatus",$dt->getEstatus());
+        $this->tag->setDefault("apellido2",$dt->getApellido2());
+        $this->tag->setDefault("discapacidad",$dt->getIdDiscapacidad());
+    }
+
     public function editadoDPAction(){
         if($this->request->isPost()){
-            $cedula = $this->request->getPost("cedula");
+            $cedula = $this->request->getPost("nu_cedula");
             $nacionalidad = $this->request->getPost("nacionalidad");
             $rif = $this->request->getPost("rif");
             $nombre1 = $this->request->getPost("nombre1");
@@ -18,12 +53,11 @@ class ficha1Controller extends \Phalcon\Mvc\Controller
             $telf_cel = $this->request->getPost("telf_cel");
             $dir_hab = $this->request->getPost("dir_hab");
             $correo = $this->request->getPost("correo");
-            $estado_civil = $this->request->getPost("estado_civil");
+            $estado_civil = $this->request->getPost("edo_civil");
             $discapacidad = $this->request->getPost("discapacidad");
             $estatus = $this->request->getPost("estatus");
 
             $dp = Datospersonales::findFirstByNuCedula($cedula);
-            $msj = false;
 
             if($dp){
                 $dp->setRif($rif);
@@ -44,38 +78,87 @@ class ficha1Controller extends \Phalcon\Mvc\Controller
                 $dp->setIdDiscapacidad($discapacidad);
                 $dp->setEstatus($estatus);
 
-                $msj = false;
-                $this->view->disable();
+                if ($this->request->hasFiles() == true && $_FILES["imagen"]["size"] > 0) {
 
-                if($dp->save()){
-                    $msj = true;
+                    $foto = $cedula. '.';
+                    $directorio = "C:/xampp/htdocs/sistenomialc/public/empleados/fotos/" . $foto;
+
+                    foreach ($this->request->getUploadedFiles() as $file) {
+                        if ($file->getRealType() == "image/png" || $file->getRealType() == "image/jpg" || $file->getRealType() == "image/jpeg") {
+                            if ($file->getSize() <= 2048000) {
+                                $foto .= $file->getExtension();
+                                $directorio .= $file->getExtension();
+                                $file->moveTo($directorio);
+                                $dp->setFotoP($foto);
+
+                                if (!$dp->save()) {
+                                    foreach ($dp->getMessages() as $message) {
+                                        $this->flashSession->error($message);
+                                    }
+                                    $this->response->redirect("trabajadores/ver/$cedula");
+                                    $this->tag->setDefault("nu_cedula", $cedula);
+                                    $this->view->disable();
+                                } else {
+                                    $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha modificado exitosamente</strong></p></div>");
+                                    $this->response->redirect("trabajadores/ver/$cedula");
+                                    $this->view->disable();
+                                }
+                            }
+                        }
+                    }
+                }else{
+                    if (!$dp->save()) {
+                        foreach ($dp->getMessages() as $message) {
+                            $this->flashSession->error($message);
+                        }
+                        $this->response->redirect("trabajadores/ver/$cedula");
+                        $this->view->disable();
+                    } else {
+                        $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha modificado exitosamente</strong></p></div>");
+                        $this->response->redirect("trabajadores/ver/$cedula");
+                        $this->view->disable();
+                    }
                 }
-
-                $this->response->setJsonContent(array(
-                    "msj" => $msj
-                ));
-                $this->response->setStatusCode(200, "OK");
-                $this->response->send();
             }
         }
     }
 
+    public function editarDCAction(){
+        $this->verificarPermisos->verificar();
+
+        $cedula = $this->dispatcher->getParam("cedula");
+
+        $dc = Datoscontratacion::findFirstByNuCedula($cedula);
+        $dt = Datospersonales::findFirstByNuCedula($cedula);
+
+        $this->tag->setDefault("nu_cedula", $cedula);
+        $this->tag->setDefault("f_ing", date("d-m-Y",strtotime($dc->f_ing)));
+        $this->tag->setDefault("f_egre", date("d-m-Y",strtotime($dc->f_egre)));
+        $this->tag->setDefault("tipo_nom", $dc->tipo_nom);
+        $this->tag->setDefault("liquidac", $dc->liquidac);
+        $this->tag->setDefault("f_pago_liq", date("d-m-Y",strtotime($dc->f_pago_liq)));
+        $this->tag->setDefault("t_cargo", $dc->t_cargo);
+        $this->tag->setDefault("tipo_cont", $dc->tipo_cont);
+        $this->tag->setDefault("ubi_nom", $dc->ubi_nom);
+        $this->tag->setDefault("ubi_fun", $dc->ubi_fun);
+
+        $this->view->setVar("datos",$dt->toArray());
+    }
+
     public function editadoDCAction(){
         if($this->request->isPost()){
-            $cedula = $this->request->getPost("cedula");
-            $f_ingre = date("Y-m-d", strtotime($this->request->getPost("f_ingre")));
+            $cedula = $this->request->getPost("nu_cedula");
+            $f_ingre = date("Y-m-d", strtotime($this->request->getPost("f_ing")));
             $f_egre = date("Y-m-d",strtotime($this->request->getPost("f_egre")));
-            $tipo_nomina = $this->request->getPost("tipo_nomina");
-            $liquidacion = $this->request->getPost("liquidacion");
-            $f_liq_pago = date("Y-m-d",strtotime($this->request->getPost("pag_liquid")));
-            $cargo = $this->request->getPost("cargo");
-            $tipo_contrat = $this->request->getPost("tipo_contrat");
+            $tipo_nomina = $this->request->getPost("tipo_nom");
+            $liquidacion = $this->request->getPost("liquidac");
+            $f_liq_pago = date("Y-m-d",strtotime($this->request->getPost("f_pago_liq")));
+            $cargo = $this->request->getPost("t_cargo");
+            $tipo_contrat = $this->request->getPost("tipo_cont");
             $ubi_fun = $this->request->getPost("ubi_fun");
             $ubi_nom= $this->request->getPost("ubi_nom");
 
             $dc = Datoscontratacion::findFirstByNuCedula($cedula);
-
-            $msj = false;
 
             if($dc){
                 $dc->setFIng($f_ingre);
@@ -90,77 +173,101 @@ class ficha1Controller extends \Phalcon\Mvc\Controller
 
                 $this->view->disable();
 
-                if($dc->save()){
-                    $msj = true;
+                if (!$dc->save()) {
+                    foreach ($dc->getMessages() as $message) {
+                        $this->flashSession->error($message);
+                    }
+                    $this->response->redirect("trabajadores/ver/$cedula");
+                    $this->view->disable();
+                } else {
+                    $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha modificado exitosamente</strong></p></div>");
+                    $this->response->redirect("trabajadores/ver/$cedula");
+                    $this->view->disable();
                 }
-
-                $this->response->setJsonContent(array(
-                    "msj" => $msj
-                ));
-
-                $this->response->setStatusCode(200,"OK");
-                $this->response->send();
             }
         }
     }
+    public function editarDPFAction(){
+        $this->verificarPermisos->verificar();
+
+        $cedula = $this->dispatcher->getParam("cedula");
+
+        $nivel_inst = Datosprofesiona::findFirstByNuCedula($cedula);
+        $dt = Datospersonales::findFirstByNuCedula($cedula);
+
+        $this->tag->setDefault("nu_cedula",$cedula);
+        $this->tag->setDefault("nive_instr",$nivel_inst->nive_instr);
+        $this->tag->setDefault("profesion",$nivel_inst->id_profesion);
+        $this->view->setVar("datos",$dt->toArray());
+    }
+
     public function editadoDPFAction(){
         if($this->request->isPost()){
-            $cedula = $this->request->getPost("cedula");
+            $cedula = $this->request->getPost("nu_cedula");
             $profesion = $this->request->getPost("profesion");
-            $nivel_instruc = $this->request->getPost("nivel_instruc");
+            $nivel_instruc = $this->request->getPost("nive_instr");
 
             $dpf = Datosprofesiona::findFirstByNuCedula($cedula);
-
-            $msj = false;
 
             if($dpf){
                 $dpf->setIdProfesion($profesion);
                 $dpf->setNiveInstr($nivel_instruc);
 
-                $this->view->disable();
-
-                if($dpf->save()){
-                    $msj = true;
+                if (!$dpf->save()) {
+                    foreach ($dpf->getMessages() as $message) {
+                        $this->flashSession->error($message);
+                    }
+                    $this->response->redirect("trabajadores/ver/$cedula");
+                    $this->view->disable();
+                } else {
+                    $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha modificado exitosamente</strong></p></div>");
+                    $this->response->redirect("trabajadores/ver/$cedula");
+                    $this->view->disable();
                 }
-
-                $this->response->setJsonContent(array(
-                    "msj" => $msj
-                ));
-
-                $this->response->setStatusCode(200,"OK");
-                $this->response->send();
             }
         }
+    }
+    public function editarDFAction(){
+        $this->verificarPermisos->verificar();
+
+        $cedula = $this->dispatcher->getParam("cedula");
+
+        $df = Datosfinancieros::findFirstByNuCedula($cedula);
+        $dt = Datospersonales::findFirstByNuCedula($cedula);
+
+        $this->tag->setDefault("nu_cedula",$cedula);
+        $this->tag->setDefault("cod_banco",$df->cod_banco);
+        $this->tag->setDefault("num_cta",$df->n_cuenta);
+        $this->tag->setDefault("tipo_cuenta",$df->tipo_cuenta);
+        $this->view->setVar("datos",$dt->toArray());
+
     }
 
     public function editadoDFAction(){
         if($this->request->isPost()){
-            $cedula = $this->request->getPost("cedula");
-            $banco = $this->request->getPost("nb_bancos");
-            $nCta = $this->request->getPost("cta_nro");
+            $cedula = $this->request->getPost("nu_cedula");
+            $banco = $this->request->getPost("cod_banco");
+            $nCta = $this->request->getPost("num_cta");
             $tipoCuenta = $this->request->getPost("tipo_cuenta");
 
             $df = Datosfinancieros::findFirstByNuCedula($cedula);
-
-            $msj = false;
 
             if($df){
                 $df->setCodBanco($banco);
                 $df->setTipoCuenta($tipoCuenta);
                 $df->setNCuenta($nCta);
 
-                $this->view->disable();
-
-                if($df->save()){
-                    $msj = true;
+                if (!$df->save()) {
+                    foreach ($df->getMessages() as $message) {
+                        $this->flashSession->error($message);
+                    }
+                    $this->response->redirect("trabajadores/ver/$cedula");
+                    $this->view->disable();
+                } else {
+                    $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha modificado exitosamente</strong></p></div>");
+                    $this->response->redirect("trabajadores/ver/$cedula");
+                    $this->view->disable();
                 }
-
-                $this->response->setJsonContent(array(
-                    "msj" => $msj
-                ));
-
-                $this->response->setStatusCode(200,"OK");
-                $this->response->send();
             }
         }
     }

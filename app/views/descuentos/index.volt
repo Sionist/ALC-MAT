@@ -14,7 +14,7 @@
 
  <?php echo $this->flashSession->output(); ?>
  
-{{ text_field("descuento", "id":"desc", "class":"form-control", "required":"required", "placeholder":"Descuento") }}
+{{ text_field("descuento", "id":"desc", "class":"form-control", "required":"required", "size" : "40" ,"placeholder":"Nombre de Casa Comercial") }}
 {{ text_field("rif","id":"rif", "class":"form-control rif", "required":"required", "placeholder":"Rif") }}
 
 {{ submit_button("Guardar", "id":"guardar", "class":"btn btn-primary") }}
@@ -33,7 +33,7 @@
                                             <div class="pull-right tableTools-container"></div>
                                         </div>
                                         <div class="table-header">
-                                            Resultados para "Descuentos"
+                                            Resultados para "Casas Comerciales"
                                         </div>
 
                                       
@@ -43,7 +43,7 @@
                                                 <th class="center">
                                                 N°
                                                 </th>
-                                                <th>Tipo de Cobro</th>
+                                                <th>Nombre</th>
 												<th>Rif</th>
                                                 <th>Acciones</th>
                                             </tr>

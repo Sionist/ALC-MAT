@@ -136,16 +136,45 @@ class TrabajadoresController extends \Phalcon\Mvc\Controller
             $trabajador->setIdDiscapacidad($this->request->getPost("id_discapacidad"));
             $trabajador->setEstatus($this->request->getPost("estatus"));
 
-            if (!$trabajador->save()) {
-                foreach ($trabajador->getMessages() as $message) {
-                    $this->flashSession->error($message);
+            if ($this->request->hasFiles() == true && $_FILES["imagen"]["size"] > 0) {
+
+                $foto = $cedula. '.';
+                $directorio = "C:/xampp/htdocs/sistenomialc/public/empleados/fotos/" . $foto;
+
+                foreach ($this->request->getUploadedFiles() as $file) {
+                    if ($file->getRealType() == "image/png" || $file->getRealType() == "image/jpg" || $file->getRealType() == "image/jpeg") {
+                        if ($file->getSize() <= 2048000) {
+                            $foto .= $file->getExtension();
+                            $directorio .= $file->getExtension();
+                            $file->moveTo($directorio);
+                            $trabajador->setFotoP($foto);
+
+                            if (!$trabajador->save()) {
+                                foreach ($trabajador->getMessages() as $message) {
+                                    $this->flashSession->error($message);
+                                }
+                                $this->response->redirect("trabajadores/nuevo-trabajador");
+                                $this->view->disable();
+                            }else{
+                                $this->response->redirect("trabajadores/nuevo-trabajador/datos-contratacion/$cedula");
+                                $this->view->disable();
+                            }
+                        }
+                    }
                 }
-                $this->response->redirect("trabajadores/nuevo-trabajador");
-                $this->view->disable();
             }else{
-                $this->response->redirect("trabajadores/nuevo-trabajador/datos-contratacion/$cedula");
-                $this->view->disable();
+                if (!$trabajador->save()) {
+                    foreach ($trabajador->getMessages() as $message) {
+                        $this->flashSession->error($message);
+                    }
+                    $this->response->redirect("trabajadores/nuevo-trabajador");
+                    $this->view->disable();
+                }else{
+                    $this->response->redirect("trabajadores/nuevo-trabajador/datos-contratacion/$cedula");
+                    $this->view->disable();
+                }
             }
+
         }
     }
 

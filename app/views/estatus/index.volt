@@ -26,7 +26,7 @@
                                             <div class="pull-right tableTools-container"></div>
                                         </div>
                                         <div class="table-header">
-                                            Resultados por "Estatus"
+                                            Resultados para "Estatus"
                                         </div>
 
                                       

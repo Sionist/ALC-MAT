@@ -27,7 +27,7 @@
 		<div class="clearfix">
 			<div class="pull-right tableTools-container"></div>
 		</div>
-			<div class="table-header">Resultados por "Cargos"</div>
+			<div class="table-header">Resultados para "Cargos"</div>
 
 
 				<table id="dynamic-table" class="table table-striped table-bordered table-hover">

@@ -1,4 +1,3 @@
-
         {{ javascript_include("js/bootstrap.js") }}
         {{ javascript_include("js/dataTables/jquery.dataTables.js") }}
         {{ javascript_include("js/dataTables/jquery.dataTables.bootstrap.js") }}

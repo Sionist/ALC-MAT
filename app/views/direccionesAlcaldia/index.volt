@@ -29,7 +29,7 @@
                                             <div class="pull-right tableTools-container"></div>
                                         </div>
                                         <div class="table-header">
-                                            Resultados por "Centro Gestor"
+                                            Resultados para "Centro Gestor"
                                         </div>
 
                                         

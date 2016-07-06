@@ -1,4 +1,15 @@
 jQuery(function($) {
+
+
+  function edit_dp(){
+    var cedula = $("#cedula").val();
+    window.open("../../trabajadores/ver/"+cedula+"/editar_dp","editDP","width=800,height=800,resizable=NO,location=NO");
+  }
+
+  $("#d_pBtn").click(function(){
+    edit_dp();
+  });
+
   var cont = 0;
   
   $("body").on('click','#btnConfirmDP', function(){  

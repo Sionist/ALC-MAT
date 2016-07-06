@@ -28,7 +28,7 @@
                                             <div class="pull-right tableTools-container"></div>
                                         </div>
                                         <div class="table-header">
-                                            Resultados por "Parentescos"
+                                            Resultados para "Parentescos"
                                         </div>
 
                                         <!-- div.table-responsive -->

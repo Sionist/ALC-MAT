@@ -4,153 +4,158 @@
     {{ content() }}
 
     <div class="row">
-       <div class="col-xs-12">
+     <div class="col-xs-12">
 
-       <div class="tab-content no-border padding-24">
-        <div id="home" class="tab-pane in active">
-            <div class="row">
-                <div class="col-xs-12 col-sm-3 center">
-                    <span class="profile-picture">
+         <div class="tab-content no-border padding-24">
+            <div id="home" class="tab-pane in active">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-3 center">
+                        <span class="profile-picture">
+                            <img id="avatar" class="img-responsive" title="<?php echo $carga->nombre1." ".$carga->apellido1; ?>" src=
+                            <?php 
+                                if($carga->foto_carga){
+                                    echo "http://localhost/sistenomialc/cargafamiliar/fotos/".$carga->foto_carga; 
+                                } else { 
+                                    echo "http://localhost/sistenomialc/cargafamiliar/fotos/sinfoto.gif";
+                                } 
+                            ?> 
+                            />
+                        </span>
+
+                    </div><!-- /.col -->
+
+                    <div class="col-xs-12 col-sm-9">
+                        <h4 class="blue">
+                            <span class="middle" style="text-transform: capitalize;"><?php echo $carga->nombre1;
+                                echo "&nbsp";
+                                echo $carga->nombre2;
+                                echo "&nbsp";
+                                echo $carga->apellido1;
+                                echo "&nbsp";
+                                echo $carga->apellido2; ?></span>
+
+                                <span class="label label-purple arrowed-in-right">
+                                    <i class="ace-icon fa fa-eye smaller-80 align-middle"></i>
+                                    <?php 
 
 
-                        <img id="avatar" class="editable img-responsive" title="<?php echo $carga->nombre1." ".$carga->apellido1; ?>" src="http://localhost/sistenomialc/cargafamiliar/fotos/<?php echo $carga->foto_carga; ?>" />
-                        <!--  {{ image("cargafamiliar/fotos/<?php echo $carga->foto_carga;?>", "id": "avatar", "class": "editable img-responsive") }} --><a href="http://localhost/sistenomialc/cargafamiliar/subir_foto.php?idcarga=<?php echo $carga->id_carga; ?>" target="popup" onClick="window.open(this.href, this.target, 'width=500,height=400'); return false;">Cambiar/Actualizar Foto</a>
-                    </span>
-
-                </div><!-- /.col -->
-
-                <div class="col-xs-12 col-sm-9">
-                    <h4 class="blue">
-                        <span class="middle" style="text-transform: capitalize;"><?php echo $carga->nombre1;
-                            echo "&nbsp";
-                            echo $carga->nombre2;
-                            echo "&nbsp";
-                            echo $carga->apellido1;
-                            echo "&nbsp";
-                            echo $carga->apellido2; ?></span>
-
-                            <span class="label label-purple arrowed-in-right">
-                                <i class="ace-icon fa fa-eye smaller-80 align-middle"></i>
-                                <?php 
+                                    echo $parentesco->parentesco;
 
 
-                                echo $parentesco->parentesco;
+                                    ?>
+                                </span>
+                            </h4>
 
+                            <div class="profile-user-info">
 
-                                ?>
-                            </span>
-                        </h4>
+                               <div class="profile-info-row">
+                                <div class="profile-info-name"> C&eacute;dula </div>
 
-                        <div class="profile-user-info">
-
-                         <div class="profile-info-row">
-                            <div class="profile-info-name"> C&eacute;dula </div>
-
-                            <div class="profile-info-value">
-                                <span><?php echo $carga->ci_carga;?></span>
+                                <div class="profile-info-value">
+                                    <span><?php echo $carga->ci_carga;?></span>
+                                </div>
                             </div>
-                        </div>
 
 
 
-                        <div class="profile-info-row">
-                            <div class="profile-info-name"> Genero </div>
+                            <div class="profile-info-row">
+                                <div class="profile-info-name"> Genero </div>
 
-                            <div class="profile-info-value">
-                                <span><?php 
+                                <div class="profile-info-value">
+                                    <span><?php 
 
-                                 if ($carga->genero=='M') {echo "Masculino";}
+                                       if ($carga->genero=='M') {echo "Masculino";}
 
-                                 if ($carga->genero=='F') {echo "Femenino";}
-                                 ?></span>
-                             </div>
-                         </div>
+                                       if ($carga->genero=='F') {echo "Femenino";}
+                                       ?></span>
+                                   </div>
+                               </div>
 
-                         <div class="profile-info-row">
-                            <div class="profile-info-name"> Fecha de Nacimiento </div>
+                               <div class="profile-info-row">
+                                <div class="profile-info-name"> Fecha de Nacimiento </div>
 
-                            <div class="profile-info-value">
-                                <span><?php echo date('d-m-Y',strtotime($carga->f_nac));?></span>
+                                <div class="profile-info-value">
+                                    <span><?php echo date('d-m-Y',strtotime($carga->f_nac));?></span>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="profile-info-row">
-                            <div class="profile-info-name"> Edad </div>
+                            <div class="profile-info-row">
+                                <div class="profile-info-name"> Edad </div>
 
-                            <div class="profile-info-value">
-                                <span>
-
+                                <div class="profile-info-value">
+                                    <span>
 
 
-                                  <?php
+
+                                      <?php
 
 
-                                  $dia=date(j);
-                                  $mes=date(n);
-                                  $ano=date(Y);
+                                      $dia=date(j);
+                                      $mes=date(n);
+                                      $ano=date(Y);
 
-                                  $dianaz=date('d',strtotime($carga->f_nac));
-                                  $mesnaz=date('m',strtotime($carga->f_nac));
-                                  $anonaz=date('Y',strtotime($carga->f_nac));
+                                      $dianaz=date('d',strtotime($carga->f_nac));
+                                      $mesnaz=date('m',strtotime($carga->f_nac));
+                                      $anonaz=date('Y',strtotime($carga->f_nac));
 
 //si el mes es el mismo pero el día inferior aun no ha cumplido años, le quitaremos un año al actual
 
-                                  if (($mesnaz == $mes) && ($dianaz > $dia)) {
-                                    $ano=($ano-1); }
+                                      if (($mesnaz == $mes) && ($dianaz > $dia)) {
+                                        $ano=($ano-1); }
 
 //si el mes es superior al actual tampoco habrá cumplido años, por eso le quitamos un año al actual
 
-                                    if ($mesnaz > $mes) {
-                                        $ano=($ano-1);}
+                                        if ($mesnaz > $mes) {
+                                            $ano=($ano-1);}
 
 //ya no habría mas condiciones, ahora simplemente restamos los años y mostramos el resultado como su edad
 
-                                        $edad=($ano-$anonaz);
+                                            $edad=($ano-$anonaz);
 
-                                        echo $edad; 
+                                            echo $edad; 
 
-                                        ?>
+                                            ?>
 
-                                    </span>
+                                        </span>
+                                    </div>
                                 </div>
+
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> Ocupación </div>
+
+                                    <div class="profile-info-value">
+                                        <span><?php echo $carga->ocupacion;?></span>
+                                    </div>
+                                </div>
+
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name"> Discapacidad </div>
+
+                                    <div class="profile-info-value">
+                                        <span><?php echo $discapacidad[0]["discapacidad"]; ?></span>
+                                    </div>
+                                </div>
+
+
                             </div>
 
-                            <div class="profile-info-row">
-                                <div class="profile-info-name"> Ocupación </div>
 
-                                <div class="profile-info-value">
-                                    <span><?php echo $carga->ocupacion;?></span>
-                                </div>
-                            </div>
-
-                            <div class="profile-info-row">
-                                <div class="profile-info-name"> Discapacidad </div>
-
-                                <div class="profile-info-value">
-                                    <span><?php echo $discapacidad[0]["discapacidad"]; ?></span>
-                                </div>
-                            </div>
 
 
                         </div>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
 
 
 
 
-                    </div>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-
-
-
-
+            </div>
         </div>
+
+
+
+
     </div>
-
-
-
-
-</div>
 </div>
 </div>
 </div>
@@ -338,7 +343,7 @@
                         //because any arbitrary file can be uploaded by user and it's not safe to rely on browser-side measures
                     });
 
-});
+                });
 
 
              // -----------------ESTILOS DE TOOLTIP Y DE SELECT BOX --------------------
@@ -446,7 +451,7 @@
                     $('[class*=select2]').remove();
                 });
           })
-</script>
+      </script>
 
 
 

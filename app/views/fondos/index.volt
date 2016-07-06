@@ -25,7 +25,7 @@
                                             <div class="pull-right tableTools-container"></div>
                                         </div>
                                         <div class="table-header">
-                                            Resultados por "Fondos"
+                                            Resultados para "Fondos"
                                         </div>
                                         
                                         <table id="dynamic-table" class="table table-striped table-bordered table-hover">

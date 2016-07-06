@@ -28,7 +28,7 @@
                                             <div class="pull-right tableTools-container"></div>
                                         </div>
                                         <div class="table-header">
-                                            Resultados por "Discapacidad"
+                                            Resultados para "Discapacidad"
                                         </div>
 
                                         <!-- div.table-responsive -->

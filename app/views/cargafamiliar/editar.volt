@@ -83,8 +83,9 @@
                     Parentesco::find(array("order" => "id_parentesco ASC")),
                     'using' => array('id_parentesco', 'parentesco'),
                     'useEmpty' => true,
-                    'emptyText' => 'Ingrese un valor',
+                    'emptyText' => 'Seleccione..',
                     'emptyValue' => '',
+                    'required' => 'required',
                     'class' => 'form-control select2'
                     ));
                     ?>
@@ -100,15 +101,16 @@
                       'useEmpty' => true,
                       'emptyText' => 'Ingrese un valor',
                       'emptyValue' => '',
+                      'required' => 'required',
                       'class' => 'select2 form-control'
                       ));
                       ?>
                     </div>
-                    <!-- <div class="form-group">
-                    <label for="foto">Foto</label>
-                    <input type="hidden" name="MAX_FILE_SIZE" value="3072000" />
-                      <input id="foto" type="file"></input>
-                    </div> -->
+                     <div class="form-group">
+                      <label for="foto">Foto</label>
+                      <input type="hidden" name="MAX_FILE_SIZE" value="2048000" />
+                      <input name="imagen" id="imagen" type="file" />
+                    </div>
                   </div>
                 </div>
                 <div class="form-actions center" style="margin-bottom: 0">

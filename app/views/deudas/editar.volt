@@ -1,30 +1,29 @@
-{{ stylesheet_link("css/datepicker.css")}}
+{{ stylesheet_link("css/datepicker.css") }}
 {{ javascript_include("js/bootstrap.js") }}
 {{ javascript_include("js/date-time/bootstrap-datepicker.js") }}
 <div id="page-wrapper">
-
-    {{ content() }}
 
     <div class="row">
        <?php foreach ($datos as $k) { ?>
 
 
-       <h3 class="lighter blue center">Trabajador: <strong>"<?php echo $k->nombre1." ".$k->apellido1; ?>"</strong> Cedula: <strong>"<?php echo $k->nu_cedula; ?>"</strong></h3>
+       <h3 class="lighter blue center">Trabajador: <strong>"<?php echo $k->nombre1." ".$k->apellido1; ?>"</strong> Cedula: <strong>"<?php echo $k->nu_cedula; ?>"</strong></h2>
         <hr> 
-    </div>
-    <div class="row">
-        <div class="col-sm-4"></div>
-        <div class="col-sm-4">
-            <div class="widget-box">
-                <div class="widget-header"><h4 class="widget-title">Nueva Deuda</h4></div>
-                <div class="widget-body">
-                    <div class="widget-main">   
-                        <fieldset>
-                            {{ form("deudas/guardar", "method" : "post", "class" : "form-horizontal") }}
-                            <input type="hidden" id="cedula" name="cedula" value="<?php echo $k->nu_cedula; ?>">
-                            <?php
-                        }
-                        ?>
+        <?php
+    }
+    ?>
+</div>
+<div class="row">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4">
+        <div class="widget-box">
+            <div class="widget-header"><h4 class="widget-title">Editar Deuda</h4></div>
+            <div class="widget-body">
+                <div class="widget-main">   
+                    <fieldset>
+                        {{ form("deudas/editado", "method" : "post", "class" : "form-horizontal") }}
+                        {{ hidden_field("id") }}
+
 
                         <div class="form-group">
                             <label class="col-lg-4"for="descuento">Descuento:</label>
@@ -43,8 +42,8 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                            <label class="col-lg-4" for="monto">Monto:</label>
-                                <div class="col-lg-8">{{ text_field("monto", "class" : "form-control monto",'required' : 'required') }}</div>
+                                <label class="col-lg-4" for="monto">Monto:</label>
+                                <div class="col-lg-8">{{ text_field("monto", "class" : "form-control monto", "required" : "required") }}</div>
                             </div>
                             <div class="form-group">
                               <div class="col-lg-4"><label for="frecuencia">Frecuencia:</label></div>
@@ -64,10 +63,10 @@
                             </div>
 
                             <div class="form-group">
-                                <div class="col-lg-4"><label for="fCompromiso">Fecha Compromiso:</label></div>
+                            <div class="col-lg-4"><label for="fCompromiso">F. Compromiso:</label></div>
                                 <div class="col-lg-8">
                                     <div class="input-group">
-                                        <input name="fCompromiso" class="form-control date-picker" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy" required = 'required'>
+                                        {{ text_field("fCompromiso", "class" : "form-control date-picker", "data-date-format" : "dd-mm-yyyy", "required" : "required") }}
                                         <span class="input-group-addon">
                                             <i class="fa fa-calendar bigger-110"></i>
                                         </span>
@@ -76,12 +75,12 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-lg-4"><label for="cuotas">N°de Cuotas:</label></div>
-                                <div class="col-lg-8">{{ text_field("cuotas", "class" : "col-xs-3 center cuotas", "required" : "required" ) }}</div>      
+                                <div class="col-lg-8">{{ text_field("cuotas", "class" : "col-xs-3 center cuotas" , "required" : "required") }}</div>      
                             </div>
                         </fieldset>                
                     </div>
                     <div class="form-actions center" style="margin-bottom: 0">
-                        {{ submit_button("Guardar", "class" : "btn btn-primary") }}
+                        {{ submit_button("Modificar", "class" : "btn btn-primary") }}
                     </div>
                     {{ endForm() }}
                 </div>

@@ -21,7 +21,7 @@ class DeudasController extends \Phalcon\Mvc\Controller
                 ->from("NbDeudas")
                 ->join("Descuentos","Descuentos.id_descuent = NbDeudas.id_descuent")
                 ->join("Frecuencia","Frecuencia.id_frecuencia = NbDeudas.frecuencia")
-                ->columns("Descuentos.descuento,NbDeudas.id_deuda, NbDeudas.monto_inicial,NbDeudas.cuotas,Frecuencia.frecuencia,NbDeudas.saldo,NbDeudas.f_compromiso")
+                ->columns("Descuentos.descuento,NbDeudas.id_deuda, NbDeudas.monto_inicial,NbDeudas.cuotas,Frecuencia.frecuencia,NbDeudas.saldo,NbDeudas.f_compromiso,NbDeudas.f_ultimo_pago,NbDeudas.m_ultimo_pago")
                 ->where("NbDeudas.nu_cedula = :ci:", array("ci" => $cedula))
                 ->orderBy("NbDeudas.id_deuda")
                 ->getQuery()
@@ -81,6 +81,57 @@ class DeudasController extends \Phalcon\Mvc\Controller
         }
     }
 
+    public function editarAction(){
+        $this->verificarPermisos->verificar();
+
+        $cedula = $this->dispatcher->getParam("cedula");
+
+        $dt = $this->modelsManager->createBuilder()
+            ->from("Datospersonales")
+            ->columns("nombre1,apellido1, nu_cedula")
+            ->where("nu_cedula = :ci:", array("ci" => $cedula))
+            ->getQuery()
+            ->execute();
+
+        $deuda = NbDeudas::findFirstByIdDeuda($this->dispatcher->getParam("id"));
+
+        //se debio almacenar frecuencia ya que la consulta devuelve de forma embebida un objeto phalcon
+        //con todos los datos de dicha frecuencia desde la tabla frecuencia
+        $f = $deuda->frecuencia;
+
+        $this->tag->setDefault("descuento",$deuda->id_descuent);
+        $this->tag->setDefault("monto",$deuda->monto_inicial);
+        $this->tag->setDefault("frecuencia",$f->id_frecuencia);
+        $this->tag->setDefault("fCompromiso",date("d-m-Y",strtotime($deuda->f_compromiso)));
+        $this->tag->setDefault("cuotas",$deuda->cuotas);
+        $this->view->setVar("datos",$dt);
+
+        $this->tag->setDefault("id",$this->dispatcher->getParam("id"));
+    }
+
+    public function editadoAction(){
+        $id = $this->request->getPost("id");
+
+        if($id){
+            $deuda = NbDeudas::findFirstByIdDeuda($id);
+            $deuda->setIdDescuent($this->request->getPost("descuento"));
+            $deuda->setMontoInicial($this->request->getPost("monto"));
+            $deuda->setSaldo($this->request->getPost("monto"));
+            $deuda->setFrecuencia($this->request->getPost("frecuencia"));
+            $deuda->setFCompromiso(date("Y-m-d",strtotime($this->request->getPost("fCompromiso"))));
+            $deuda->setCuotas($this->request->getPost("cuotas"));
+
+            if(!$deuda->save()){
+                foreach ($deuda->getMessages() as $message) {
+                    $this->flash->error($message);
+                }
+            }else{
+                $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha modificado con Exito</strong></p></div>");
+                $this->response->redirect("trabajadores/ver/$deuda->nu_cedula/deudas");
+                $this->view->disable();
+            }
+        }
+    }
 
 
 }

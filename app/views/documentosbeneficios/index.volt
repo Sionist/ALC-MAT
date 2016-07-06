@@ -34,7 +34,7 @@
 		<div class="clearfix">
 			<div class="pull-right tableTools-container"></div>
 		</div>
-			<div class="table-header">Resultados por "Tipos Beneficios/Documentos Beneficios"</div>
+			<div class="table-header">Resultados para "Tipos Beneficios/Documentos Beneficios"</div>
 
 
 				<table id="dynamic-table" class="table table-striped table-bordered table-hover">
@@ -69,8 +69,6 @@
 </div>
 	</div>
 </div>
-		 
-		{{ javascript_include("js/bootstrap.js") }}
 		 {{ javascript_include("js/dataTables/jquery.dataTables.js") }}
 		{{ javascript_include("js/dataTables/jquery.dataTables.bootstrap.js") }}
 		{{ javascript_include("js/dataTables/extensions/TableTools/js/dataTables.tableTools.js") }}

@@ -30,7 +30,7 @@
 		<div class="clearfix">
 			<div class="pull-right tableTools-container"></div>
 		</div>
-			<div class="table-header">Resultados por "Tipos de Nómina"</div>
+			<div class="table-header">Resultados para "Tipos de Nómina"</div>
 
 
 				<table id="dynamic-table" class="table table-striped table-bordered table-hover">

@@ -11059,7 +11059,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sEmptyTable": "No hay dtos en la tabla",
+			"sEmptyTable": "No hay datos para mostrar",
 	
 	
 			/**

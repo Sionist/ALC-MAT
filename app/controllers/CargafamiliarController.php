@@ -86,10 +86,10 @@ class CargafamiliarController extends \Phalcon\Mvc\Controller
         $this->view->setParamToView("trabaja", $dtrabajador);
         /*$this->view->disable();*/
     }
-	
-	
 
     public function guardanuevoAction(){
+        $this->verificarPermisos->verificar();
+
         $cedula = $this->request->getPost("nu_cedula");
         $cargafam = new Cargafamiliar();
 
@@ -100,7 +100,7 @@ class CargafamiliarController extends \Phalcon\Mvc\Controller
         $cargafam->setApellido1($this->request->getPost("apellido1"));
         $cargafam->setApellido2($this->request->getPost("apellido2"));
 
-        $cargafam->setFNac($this->request->getPost("f_nac"));
+        $cargafam->setFNac(date("Y-m-d",strtotime($this->request->getPost("f_nac"))));
         $cargafam->setOcupacion($this->request->getPost("ocupacion"));
         $cargafam->setGenero($this->request->getPost("genero"));
         $cargafam->setIdParentesco($this->request->getPost("id_parentesco"));
@@ -147,7 +147,8 @@ class CargafamiliarController extends \Phalcon\Mvc\Controller
                         $this->view->disable();
                     }
                 }else{
-
+                    $this->response->redirect("trabajadores/ver/$cedula/carga-familiar");
+                    $this->view->disable();
                 }
             }
         }
@@ -182,7 +183,9 @@ class CargafamiliarController extends \Phalcon\Mvc\Controller
         $this->tag->setDefault("id_discapacidad", $carga->id_discapacidad);
     }
 
-    public function editadoAction(){
+    public function editadoAction()
+    {
+
         $cedula = $this->request->getPost("nu_cedula");
         $id_carga = $this->request->getPost("id_carga");
 
@@ -194,70 +197,85 @@ class CargafamiliarController extends \Phalcon\Mvc\Controller
         $cargafam->setApellido1($this->request->getPost("apellido1"));
         $cargafam->setApellido2($this->request->getPost("apellido2"));
 
-        $cargafam->setFNac(date("Y-m-d",strtotime($this->request->getPost("f_nac"))));
+        $cargafam->setFNac(date("Y-m-d", strtotime($this->request->getPost("f_nac"))));
         $cargafam->setOcupacion($this->request->getPost("ocupacion"));
         $cargafam->setGenero($this->request->getPost("genero"));
         $cargafam->setIdParentesco($this->request->getPost("id_parentesco"));
         $cargafam->setIdDiscapacidad($this->request->getPost("id_discapacidad"));
 
-        //$this->subir_foto($this->request->getPost('imagen'),$cedula,$id_carga);
+        if ($this->request->hasFiles() == true && $_FILES["imagen"]["size"] > 0) {
 
-        if (!$cargafam->save()) {
-            foreach ($cargafam->getMessages() as $message) {
-                $this->flashSession->error($message);
+            $foto = $cedula . $id_carga . '.';
+            $directorio = "C:/xampp/htdocs/sistenomialc/public/cargafamiliar/fotos/" . $foto;
+
+            foreach ($this->request->getUploadedFiles() as $file) {
+                if ($file->getRealType() == "image/png" || $file->getRealType() == "image/jpg" || $file->getRealType() == "image/jpeg") {
+                    if ($file->getSize() <= 2048000) {
+                        $foto .= $file->getExtension();
+                        $directorio .= $file->getExtension();
+                        $file->moveTo($directorio);
+                        $cargafam->setFotoCarga($foto);
+
+                        if (!$cargafam->save()) {
+                            foreach ($cargafam->getMessages() as $message) {
+                                $this->flashSession->error($message);
+                            }
+                            $this->response->redirect("trabajadores/ver/$cedula/carga-familiar/editar/$id_carga");
+                            $this->tag->setDefault("nu_cedula", $cedula);
+                            $this->view->disable();
+                        } else {
+                            $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha modificado exitosamente</strong></p></div>");
+                            $this->response->redirect("trabajadores/ver/$cedula/carga-familiar");
+                            $this->view->disable();
+                        }
+                    }
+                }
             }
-            $this->response->redirect("trabajadores/ver/$cedula/carga-familiar/editar/$id_carga");
-            $this->tag->setDefault("nu_cedula",$cedula);
-            $this->view->disable();
         }else{
-            $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha modificado exitosamente</strong></p></div>");
-            $this->response->redirect("trabajadores/ver/$cedula/carga-familiar");
-            $this->view->disable();
+            if (!$cargafam->save()) {
+                foreach ($cargafam->getMessages() as $message) {
+                    $this->flashSession->error($message);
+                }
+                $this->response->redirect("trabajadores/ver/$cedula/carga-familiar/editar/$id_carga");
+                $this->tag->setDefault("nu_cedula", $cedula);
+                $this->view->disable();
+            } else {
+                $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha modificado exitosamente</strong></p></div>");
+                $this->response->redirect("trabajadores/ver/$cedula/carga-familiar");
+                $this->view->disable();
+            }
         }
     }
+    public function eliminarAction(){
+        $this->verificarPermisos->verificar();
 
-    private function subir_fotos($imagen,$cedula, $id){
-        if(isset($imagen)) {
-            $size = $_FILES[$imagen]['size'];
-            $file_name = $_FILES[$imagen]['name'];
-            $jpg = $_FILES[$imagen]['type'];
-            $directorio = "../../public/cargafamiliar/fotos/";
-            $extension = "";
-            if ($size > 2048000) {
-                return "La imagen/foto no puede ser mayor a 2 MB.";
-            }
+        $cedula = $this->dispatcher->getParam("nu_cedula");
+        $id_carga = Cargafamiliar::findFirstByIdCarga($this->dispatcher->getParam("id"));
 
-            if (!$_FILES[$imagen]['type'] == "image/jpg") {
-                return "La imagen/foto debe estar en formato JPG o PNG.";
-            } else {
-                $extension = "jpg";
-            }
 
-            if (!$_FILES[$imagen]['type'] == "image/jpeg") {
-                return "La imagen/foto debe estar en formato JPG/JPEG o PNG.";
-            } else {
-                $extension = "jpeg";
-            }
 
-            if (!$_FILES[$imagen]['type'] == "image/png") {
-                return "La imagen/foto debe estar en formato JPG o PNG.";
-            } else {
-                $extension = "png";
-            }
+    }
 
-            $imagen_name = $cedula.$id;
-            $directorio = $imagen_name.'.'.$extension;
+    public function eliminadoAction(){
+        $cedula = $this->request->getPost("nu_cedula");
+        $id_carga = Cargafamiliar::findFirstByIdCarga($this->request->getPost("id"));
 
-            if (move_uploaded_file($_FILES[$imagen]['tmp_name'],$directorio)){
-                return $imagen_name;
+        if($id_carga){
+            if(!$id_carga->delete()){
+                foreach ($id_carga->getMessages() as $message) {
+                    $this->flashSession->error($message);
+                    $this->response->redirect("trabajadores/ver/$cedula/carga-familiar/editar/$id_carga");
+                    $this->tag->setDefault("nu_cedula", $cedula);
+                    $this->view->disable();
+                }
             }else{
-                return "";
+                $this->flashSession->success("<div class='alert alert-block alert-success'><button type='button' class='close' data-dismiss='alert'><i class='ace-icon fa fa-times'></i></button><p><strong><i class='ace-icon fa fa-check'></i>Se ha eliminado exitosamente</strong></p></div>");
+                $this->response->redirect("trabajadores/ver/$cedula/carga-familiar/editar/$id_carga");
+                $this->tag->setDefault("nu_cedula", $cedula);
+                $this->view->disable();
             }
         }
-
     }
 
 }
-
-
 
