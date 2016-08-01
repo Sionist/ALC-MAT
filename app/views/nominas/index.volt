@@ -37,6 +37,8 @@
                         <th>Finaliza</th>
                         <th>Estatus</th>
                         <th>¿Aplicar Deducs?</th>
+                        <th>¿Aplicar Deudas?</th>
+                        <th>¿Aplicar Embargos?</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -64,6 +66,8 @@
                             <td><span style="text-transform: capitalize;"><?php echo date("d-m-Y",strtotime($row->f_final)); ?></span></td>
                             <td><span style="text-transform: capitalize;"><?php echo $row->estatus; ?></span></td> 
                             <td><span style="text-transform: capitalize;"><?php echo $row->deducs; ?></span></td>
+                            <td><span style="text-transform: capitalize;"><?php echo $row->deudas; ?></span></td>
+                            <td><span style="text-transform: capitalize;"><?php echo $row->embargos; ?></span></td>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <?php echo $this->tag->linkTo(array("asignaciones/editar/".$row->id_asignac, "<i class='ace-icon fa fa-pencil-square-o bigger-110'></i>"))  ?>

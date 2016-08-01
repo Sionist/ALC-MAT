@@ -366,6 +366,7 @@ $router->add("/acceso-denegado","Accesodenegado::index");
 $router->add("/nominas","Nominas::index");
 $router->add("/nominas/nueva","Nominas::nueva");
 $router->addPost("/nominas/crear","Nominas::crear");
+$router->addPost("/nominas/getFrecuencia","Nominas::getFrecuencia");
 
 
 

@@ -291,7 +291,7 @@ class VariacionesController extends \Phalcon\Mvc\Controller
             $query = $this->modelsManager->createBuilder()
                 ->from("Nominas")
                 ->join("TipoNomi")
-                ->columns("Nominas.sqm, Nominas.fecha, Nominas.f_inicio, Nominas.f_final, Nominas.deducs, TipoNomi.nomina")
+                ->columns("Nominas.sqm, Nominas.fecha, Nominas.f_inicio, Nominas.f_final, Nominas.deducs,Nominas.deudas,Nominas.embargos, TipoNomi.nomina")
                 ->where("Nominas.id = :nomi:", array("nomi"=>$nomi))
                 ->getQuery()
                 ->execute()

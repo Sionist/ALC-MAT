@@ -93,6 +93,24 @@
 									</div>
 
 								</div>
+								<div class="form-group">
+									<label class="col-lg-4">¿Deudas CC?</label>
+
+									<div class="col-lg-7">
+										<input name="deudas" class="ace ace-checkbox-2" type="checkbox">
+										<span class="lbl"></span>
+									</div>
+
+								</div>
+								<div class="form-group">
+									<label class="col-lg-4">¿Embargos?</label>
+
+									<div class="col-lg-7">
+										<input name="embargos" class="ace ace-checkbox-2" type="checkbox">
+										<span class="lbl"></span>
+									</div>
+
+								</div>
 							</fieldset>
 							<div class="form-actions center">
 								{{ submit_button("Guardar", "class":"btn btn-primary") }}
@@ -116,11 +134,13 @@
 			$("#nomina").change(function(){
 				var nomina = $("#nomina").val();
 
-				$.post("../variaciones/nomina", { "nomina" : nomina },function(data){
+				$.post("../nominas/getFrecuencia", { "nomina" : nomina },function(data){
+					
+					
 					var nomina = JSON.parse(data);
-
+					
 	                //almacena la frecuencia del tipo de nomina
-	                var frecuencia = nomina.tipoNomi[0].f;
+	                var frecuencia = nomina["frecuencia"];
 
 	                if(frecuencia == "quincenal"){
 

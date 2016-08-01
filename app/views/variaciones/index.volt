@@ -11,8 +11,8 @@
         <div class="form-actions col-lg-5">
             <div class="form-group">
                <label for="nomina" class=""><span>Nomina: &nbsp;</span> </label>
-               <select class="select" id="nomina"> 
-                <option value="">Seleccione...</option>   
+               <select class="select" id="nomina">
+                <option value="">Seleccione...</option>
                 <?php foreach($nominas as $n) { ?>
                 <option value="<?php echo $n->id; ?>"><?php echo $n->nomina; ?></option>
                 <?php }   ?>
@@ -38,6 +38,8 @@
                     <th class="center">Inicia</th>
                     <th class="center">Finaliza</th>
                     <th class="center">¿Deducciones?</th>
+                    <th class="center">¿Deudas?</th>
+                    <th class="center">¿Embargos?</th>
                 </tr>
             </thead>
             <tbody id="d_n">
@@ -59,7 +61,7 @@
                 <option>Movimientos</option>
             </select>
         </div>
-        
+
         <div class="form-group">
             <label for="cedula">Cedula</label>
             {{ text_field("cedula", "class":"form-control input-mask-cedula", "required":"required", "placeholder":"Cedula") }}
@@ -149,7 +151,7 @@
     <div class="col-md-3">
         <!--Deducciones-->
         <div class="hidden"  id="deducciones">
-            <div class="table-header center">Deducciones</div>
+            <div class="table-header center" id="deducs_t">Deducciones</div>
             <table class="table table-striped table-bordered">
                 <tbody id="t_deducciones">
                 </tbody>
@@ -157,21 +159,21 @@
         </div>
         <!--Fin Deducciones-->
 
-        <!--Deducciones-->
-        <div class=""  id="deudas">
-            <div class="table-header center">Deducciones</div>
+        <!--Deudas-->
+        <div class="hidden"  id="deudas">
+            <div class="table-header center" id="deudas_t">Deudas</div>
             <table class="table table-striped table-bordered">
-                <tbody id="t_deducciones">
+                <tbody id="t_deudas">
                 </tbody>
             </table>
         </div>
         <!--Fin Deducciones-->
 
-        <!--Deducciones-->
-        <div class=""  id="embargos">
-            <div class="table-header center">Deducciones</div>
+        <!--Embargos-->
+        <div class="hidden"  id="embargos">
+            <div class="table-header center" id="embarg_t">Embargos</div>
             <table class="table table-striped table-bordered">
-                <tbody id="t_deducciones">
+                <tbody id="t_embargos">
                 </tbody>
             </table>
         </div>
@@ -183,9 +185,9 @@
                 <tbody id="t_sueldo">
                 </tbody>
             </table>
-        </div>  
+        </div>
         <!--Fin Sueldo-->
-    </div>  
+    </div>
 
 
 
@@ -267,7 +269,7 @@
             e.preventDefault();
             $("#div_buscar").removeClass("hidden");
             $("#cedula").focus();
-        });       
+        });
 
         function nominas(nomi){
             $.post("./variaciones/nomina", { "nomina" : nomi },function(data){
@@ -276,9 +278,11 @@
                 "<td class='center'>"+nomina.fecha+"</td>"+
                 "<td class='center'>"+nomina.f_ini+"</td>"+
                 "<td class='center'>"+nomina.f_fin+"</td>"+
-                "<td class='center'>"+nomina.tipoNomi[0].deducs+"</td></tr>";
+                "<td class='center'>"+nomina.tipoNomi[0].deducs+"</td>"+
+                "<td class='center'>"+nomina.tipoNomi[0].deudas+"</td>"+
+                "<td class='center'>"+nomina.tipoNomi[0].embargos+"</td></tr>";
                 $("#d_n").html(tr);
-                $("#datos_nom").removeClass("hidden");   
+                $("#datos_nom").removeClass("hidden");
             });
         }
 
@@ -337,7 +341,7 @@
 
                         var tr = "";
 
-                        //si la variable es true, no se mostraran los campos para cargar las variaciones 
+                        //si la variable es true, no se mostraran los campos para cargar las variaciones
                         //se mostrara mesj indicando que el trabajador esta en reposo
                         if(asigs.enReposo == true){
                             $("#msj").html("");
@@ -349,7 +353,7 @@
                             $("#tprins").slideDown(120).removeClass("hidden");
                             $("#dt").slideDown(120).removeClass("hidden");
                             $("#img").slideDown(120).removeClass("hidden");
-                        }else{                    
+                        }else{
 
                         //contador para diferenciar id´s de los checkbox
                         var cont = 1;
@@ -381,7 +385,7 @@
                             var hijo = $(this).attr("id");
                             var padre = $(this).parent().parent().parent().attr("id");
 
-                            
+
                             $('.input-mask-numeric').mask('9?9', {autoclear : false, placeholder : " "});
                             if($('#'+hijo).is(":checked")){
                                 $('#'+padre).find("input[type=text]").attr("disabled",false);
@@ -416,6 +420,8 @@
 
                     $("#movimientos").removeClass("hidden");
                     $("#deducciones").removeClass("hidden");
+                    $("#deudas").removeClass('hidden');
+                    $("#embargos").removeClass('hidden');
                     $("#sueldo").removeClass("hidden");
                     $("#t_total").removeClass("hidden");
 
@@ -423,7 +429,7 @@
                     $("#nomi").val($("#nomina").val());
 
                     var movi = JSON.parse(data);
-                    
+
                     //si el trabajador existe, se cargaran su datos sino, se mostrara msj de error
                     if(movi.datosT.length > 0){
 
@@ -486,7 +492,7 @@
                             $("#t_movimiento").html("<tr><td class='center'><h3><strong>NO HAY MOVIMIENTOS<strong></h3></td></tr>");
                         }
 
-                        //evalua si trabajador tiene deducciones 
+                        //evalua si trabajador tiene deducciones
                         if(movi.deducciones.length > 0){
 
                             mth = "<th class='center'>Concepto</th><th class='center'>Monto</th>";
@@ -504,7 +510,7 @@
 
                             mtr+="<tr><td class='success'><strong>TOTAL</strong>: </td><td class='warning'><strong><p class='bg-warning'><span class=''>"+ movi.dTotal.toFixed(2)+" Bs.</span></p></strong></td></tr>";
 
-                            sueldo+="<tr><td class='danger'><strong>SUELDO:</strong></td><td class='warning center'><strong>"+movi.sb.toFixed(2)+" Bs.</strong></td></tr>"; 
+                            sueldo+="<tr><td class='danger'><strong>SUELDO:</strong></td><td class='warning center'><strong>"+movi.sb.toFixed(2)+" Bs.</strong></td></tr>";
 
                             $("#t_deducciones").html(mth);
                             $("#t_deducciones").append(mtr);
@@ -519,6 +525,50 @@
                             $("#t_deducciones").html("<tr><td class='center'><h3><strong>NO HAY DEDUCCIONES<strong></h3></td></tr>");
                         }
 
+                        if(movi.deudas.length > 0){
+
+                            dth = "<th class='center'>Concepto</th><th class='center'>Monto</th>";
+                            var dtr = "";
+                            var dmtr = "";
+
+                            for(datos in movi.deudas){
+                                var dMonto = Number(movi.deudas[datos].monto);
+                                dtr+="<tr><td>"+movi.deudas[datos].nombre+"</td>"
+                                +"<td class=''>"+dMonto.toFixed(2)+" Bs.</td></tr>";
+                            }
+                            dmtr+="<tr><td class='success'><strong>TOTAL</strong>: </td><td class='warning'><strong><p class='bg-warning'><span class=''>"+ movi.deuTotal.toFixed(2)+" Bs.</span></p></strong></td></tr>";
+
+                            $("#t_deudas").html(dth);
+                            $("#t_deudas").append(dtr);
+                            $("#t_deudas").append(dmtr);
+                        }else {
+                          $("#t_deudas").html("");
+                          $("#t_deudas").html("");
+                          //msj si no hay deducciones
+                            $("#t_deudas  DEUDAS").html("<tr><td class='center'><h3><strong>NO HAY DEUDAS<strong></h3></td></tr>");
+                        }
+
+                        if(movi.embargos.length > 0){
+
+                            eth = "<th class='center'>Concepto</th><th class='center'>Monto</th>";
+                            var etr = "";
+                            var emtr = "";
+
+                            for(datos in movi.embargos){
+                                var eMonto = Number(movi.embargos[datos].monto);
+                                etr+="<tr><td>"+movi.embargos[datos].num_exp+"</td>"
+                                +"<td class=''>"+eMonto.toFixed(2)+" Bs.</td></tr>";
+                            }
+                            emtr+="<tr><td class='success'><strong>TOTAL</strong>: </td><td class='warning'><strong><p class='bg-warning'><span class=''>"+ movi.embTotal.toFixed(2)+" Bs.</span></p></strong></td></tr>";
+
+                            $("#t_embargos").html(eth);
+                            $("#t_embargos").append(etr);
+                            $("#t_embargos").append(emtr);
+                        }else {
+                          $("#t_embargos").html("");
+                          //msj si no hay deducciones
+                          $("#t_embargos").html("<tr><td class='center'><h3><strong>NO HAY EMBARGOS<strong></h3></td></tr>");
+                        }
                         var total = "<tr><td class='danger'><strong>TOTAL A PAGAR:</strong></td><td class='warning'><strong>"+movi.total.toFixed(2)+" Bs.</strong></td></tr>";
                         $("#t_total").html(total);
                     }
@@ -526,6 +576,9 @@
                     $("#tprins").addClass("hidden");
                     $("#movimientos").addClass("hidden");
                     $("#deducciones").addClass("hidden");
+                    $("#deudas").addClass("hidden");
+                    $("#embargos").addClass("hidden");
+
                     $("#sueldo").addClass("hidden");
                     $("#t_total").addClass("hidden");
                     $("#img").addClass("hidden");
@@ -555,6 +608,9 @@
                 if($("#operacion").val() == "Variaciones"){
                     $("#movimientos").addClass("hidden");
                     $("#deducciones").addClass("hidden");
+                    $("#deudas").addClass("hidden");
+                    $("#embargos").addClass("hidden");
+
                     $("#sueldo").addClass("hidden");
                     $("#t_total").addClass("hidden");
 
@@ -608,9 +664,9 @@
 
                     $("#asignacion").find("input[type=text]").each(function(){
 
-                        if( $(this).val() != ""){ 
-                            cont++; 
-                        }            
+                        if( $(this).val() != ""){
+                            cont++;
+                        }
                     });
 
                     if(cont > 0){
@@ -785,7 +841,7 @@
                     if(res.msj_exito != ""){
                         $("#msj_exito").html(msj_exito).removeClass("hidden");
                     }else{
-                        $("#msj_exito").html(msj_exito).addClass("hidden"); 
+                        $("#msj_exito").html(msj_exito).addClass("hidden");
                     }
                     if(res.msj_error.length > 0){
                         var cont = 0;

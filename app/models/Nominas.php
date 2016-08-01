@@ -52,6 +52,18 @@ class Nominas extends \Phalcon\Mvc\Model
     protected $deducs;
 
     /**
+     *
+     * @var string
+     */
+    protected $deudas;
+
+    /**
+     *
+     * @var string
+     */
+    protected $embargos;
+
+    /**
      * Method to set the value of field id
      *
      * @param integer $id
@@ -156,6 +168,32 @@ class Nominas extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Method to set the value of field deudas
+     *
+     * @param string $deudas
+     * @return $this
+     */
+    public function setDeudas($deudas)
+    {
+        $this->deudas = $deudas;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field embargos
+     *
+     * @param string $embargos
+     * @return $this
+     */
+    public function setEmbargos($embargos)
+    {
+        $this->embargos = $embargos;
+
+        return $this;
+    }
+
+    /**
      * Returns the value of field id
      *
      * @return integer
@@ -236,10 +274,31 @@ class Nominas extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Returns the value of field deudas
+     *
+     * @return string
+     */
+    public function getDeudas()
+    {
+        return $this->deudas;
+    }
+
+    /**
+     * Returns the value of field embargos
+     *
+     * @return string
+     */
+    public function getEmbargos()
+    {
+        return $this->embargos;
+    }
+
+    /**
      * Initialize method for model.
      */
     public function initialize()
     {
+        $this->hasMany('id', 'Variaciones', 'nomina', array('alias' => 'Variaciones'));
         $this->belongsTo('estatus', 'EstatusNom', 'id', array('alias' => 'EstatusNom'));
         $this->belongsTo('tipo_nomi', 'TipoNomi', 'id_nomina', array('alias' => 'TipoNomi'));
     }

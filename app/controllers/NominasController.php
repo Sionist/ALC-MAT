@@ -12,7 +12,7 @@ class NominasController extends \Phalcon\Mvc\Controller
             ->from("Nominas")
             ->join("TipoNomi","Nominas.tipo_nomi = TipoNomi.id_nomina")
             ->join("EstatusNom","EstatusNom.id = Nominas.estatus")
-            ->columns("TipoNomi.nomina,Nominas.sqm,Nominas.fecha,Nominas.f_inicio,Nominas.f_final,EstatusNom.estatus,Nominas.deducs")
+            ->columns("TipoNomi.nomina,Nominas.sqm,Nominas.fecha,Nominas.f_inicio,Nominas.f_final,EstatusNom.estatus,Nominas.deducs,Nominas.deudas,Nominas.embargos")
             ->where("EstatusNom.estatus = :s:", array("s" => "ACTIVA"))
             ->getQuery()
             ->execute();
@@ -55,6 +55,14 @@ class NominasController extends \Phalcon\Mvc\Controller
                 $nomina->setDeducs("si");
                 endif;
 
+            if($this->request->getPost("deudas") == 'on'):
+                $nomina->setDeudas("si");
+            endif;
+
+            if($this->request->getPost("embargos") == 'on'):
+                $nomina->setEmbargos("si");
+            endif;
+
             if (!$nomina->save()) {
                 foreach ($nomina->getMessages() as $message) {
                     $this->flashSession->error($message);
@@ -72,6 +80,30 @@ class NominasController extends \Phalcon\Mvc\Controller
             $this->view->disable();
         }
 
+    }
+
+    public function getFrecuenciaAction(){
+        $nomi = $this->request->getPost("nomina");
+
+        $frecuencia = $this->modelsManager->createBuilder()
+            ->from("TipoNomi")
+            ->join("Frecuencia")
+            ->columns("Frecuencia.frecuencia")
+            ->where("TipoNomi.id_nomina = :nomi:",array("nomi"=>$nomi))
+            ->getQuery()
+            ->execute()
+            ->toArray();
+
+        if($frecuencia){
+            //deshabilita la vista para enviar JSON limpio
+            $this->view->disable();
+            //envia un JSON con los datos de las consultas en forma de array
+            $this->response->setJsonContent(array(
+                "frecuencia" => $frecuencia[0]["frecuencia"]
+            ));
+            $this->response->setStatusCode(200, "OK");
+            $this->response->send();
+        }
     }
 }
 
