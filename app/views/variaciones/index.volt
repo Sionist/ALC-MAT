@@ -430,6 +430,28 @@
 
                     var movi = JSON.parse(data);
 
+                    //modifica titulo de deducciones
+                    if(movi.deducs_cob == "si"){
+                      $("#deducs_t").html('Deducciones - <span style="color: #2ef12e; font-weight: bold">SE COBRARAN</span>');
+                    }else {
+                      $("#deducs_t").html('Deducciones - <span style="color: #cc011b; font-weight: bold">NO SE COBRARAN</span>');
+                    }
+
+                    //modifica titulo de deudas
+                    if(movi.deudas_cob == "si"){
+                      $("#deudas_t").html('Deudas - <span style="color: #2ef12e; font-weight: bold">SE COBRARAN</span>');
+                    }else {
+                      $("#deudas_t").html('Deudas - <span style="color: #cc011b; font-weight: bold">NO SE COBRARAN</span>');
+                    }
+                    //modifica titulo de embargos
+                    if(movi.embargos_cob == "si"){
+                      $("#embarg_t").html('Embargos - <span style="color:#2ef12e; font-weight: bold">SE COBRARAN</span>');
+                    }else {
+                      $("#embarg_t").html('Embargos - <span style="color: #cc011b; font-weight: bold">NO SE COBRARAN</span>');
+                    }
+
+
+
                     //si el trabajador existe, se cargaran su datos sino, se mostrara msj de error
                     if(movi.datosT.length > 0){
 
